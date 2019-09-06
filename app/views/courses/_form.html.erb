@@ -1,0 +1,25 @@
+<%= simple_form_for(course) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="course-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= course.new_record? ? view_t('.new_x', x: view_t('.course')) : view_t('.edit_x', x: view_t('.course')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.input :name, wrapper_html: {class: 'flex-col-xs-8'}, input_html: {class: ''}%>
+        <% f.input :status, collection: Course.enums_map_t(:status), wrapper_html: {class: 'flex-col-xs-8'}, input_html: {class: ''} %>
+        <%= f.input :approval_amount, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :for_all, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: ''} %>
+        <%= f.association :obligated_functions, collection: Function.all.map_for_select, wrapper_html: {"data-on-check" => "#course_for_all,hide", class: 'flex-col-xs-6'}, input_html: {class: 'default-selectize'} %>
+        <%= f.association :optional_functions, collection: Function.all.map_for_select, wrapper_html: {"data-on-check" => "#course_for_all,hide", class: 'flex-col-xs-6'}, input_html: {class: 'default-selectize'} %>
+        <% f.input :description, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), course.cancel_url || courses_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

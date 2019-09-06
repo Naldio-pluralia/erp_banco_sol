@@ -1,0 +1,21 @@
+<%= index_bar(itens: {t('.messages') => nil}) do %>
+    <%= action_btn(content: t('add'), href: '#add-message', modal_trigger: true) %>
+<% end %>
+
+<%= l_table do %>
+    <%= t_header do %>
+        <%= h_cell(text: t('.title')) %>
+        <%= h_cell(text: t('.status')) %>
+        <%= h_cell(text: t('.signature')) %>
+    <% end %>
+
+    <%= t_body(elements: @messages) do |e| %>
+        <%= b_row(link_to: message_path(e)) do %>
+            <%= b_cell(element: e.title) %>
+            <%= b_cell(element: e.enum_t(:status)) %>
+            <%= b_cell(element: e.signature) %>
+        <% end %>
+    <% end %>
+<% end %>
+
+<%= render 'form', message: @message %>

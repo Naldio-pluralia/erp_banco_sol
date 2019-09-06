@@ -1,0 +1,40 @@
+<%= index_bar(itens: {view_t(".function_skills") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_function_skill_path) %>
+  <%= action_btn(content: view_t('add'), href: "#function_skill-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-function_skills-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".min") )%>
+    <%= h_cell(text: view_t(".recomended") )%>
+    <%= h_cell(text: view_t(".skill") )%>
+    <%= h_cell(text: view_t(".function") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @function_skills) do |e| %>
+    <%= b_row(link_to: function_skill_path(e)) do %>
+      <%= b_cell(element: e.min)%>
+      <%= b_cell(element: e.recomended)%>
+      <%= b_cell(element: e.skill)%>
+      <%= b_cell(element: e.function)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e if can?(:show, e) %> | 
+        <%= link_to t('edit'), edit_function_skill_path(e) if can?(:edit, e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(function_skills_url, "function_skills") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', function_skill: @function_skill %>

@@ -1,0 +1,11 @@
+<% @page_name = "Dashboard" %>
+<!-- Wide card with share menu button -->
+<% if (current.employee? && !current.has_team?) %>
+  <%= render "employee_dashboard" %>
+<% elsif current.is?(:manager) %>
+  <%= render "manager_dashboard" %>
+<% elsif current.is?(:hr) %>
+  <%= render "hr_dashboard" %>
+<% else %>
+  <%= render "admin_dashboard" %>
+<% end %>

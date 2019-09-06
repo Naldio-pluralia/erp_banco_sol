@@ -1,0 +1,58 @@
+<div class="flex-row">
+  <%if object.requires_dpe_approval%>
+    <div class="flex-col-xs-<%= object.requires_dpe_supervisor_approval ? '6' : '12'%>">
+      <%= box() do%>
+        <%= box_header(view_t('.dpe_employees')) do%>
+          <%= box_action(:plus, href: '#object_approver-dpe_employee-modal-form', modal_trigger: true, tooltip: view_t('.register_x', x: view_t('.approver'))) if can?(:create, ObjectApprover)%>
+        <%end%>
+        <%= l_table do %>
+          <%= t_header do %>
+            <%= h_cell(text: view_t(".employee") )%>
+            <%= h_cell(sortable: false) %>
+          <% end %>
+
+          <%= t_body(elements: object.object_approvers.select(&:dpe_employee?)) do |e| %>
+            <%= b_row() do %>
+              <%= b_cell(element: e.employee.name_and_number)%>
+              <%= b_cell() do %>
+                <%= link_to t('destroy'), absence_type_approver_url(object, e), method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <%end%>
+    </div>
+  <% end %>
+  <%if object.requires_dpe_supervisor_approval%>
+    <div class="flex-col-xs-<%= object.requires_dpe_approval  ? '6' : '12'%>">
+      <%= box() do%>
+        <%= box_header(view_t('.dpe_supervisors')) do%>
+          <%= box_action(:plus, href: '#object_approver-dpe_supervisor-modal-form', modal_trigger: true, tooltip: view_t('.register_x', x: view_t('.approver'))) if can?(:create, ObjectApprover)%>
+        <%end%>
+        <%= l_table do %>
+          <%= t_header do %>
+            <%= h_cell(text: view_t(".employee") )%>
+            <%= h_cell(sortable: false) %>
+          <% end %>
+
+          <%= t_body(elements: object.object_approvers.select(&:dpe_supervisor?)) do |e| %>
+            <%= b_row() do %>
+              <%= b_cell(element: e.employee.name_and_number)%>
+              <%= b_cell() do %>
+                <%= link_to t('destroy'), absence_type_approver_url(object, e), method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <%end%>
+    </div>
+  </div>
+<% end %>
+<% dpe_employee = ObjectApprover.new(kind: :dpe_employee) %>
+<% dpe_supervisor = ObjectApprover.new(kind: :dpe_supervisor) %>
+<% dpe_employee.object = object %>
+<% dpe_supervisor.object = object %>
+<% dpe_employee.cancel_url = dpe_employee.redirect_url = redirect_url %>
+<% dpe_supervisor.cancel_url = dpe_supervisor.redirect_url = redirect_url %>
+<%= render 'object_approvers/form', object_approver: dpe_employee  %>
+<%= render 'object_approvers/form', object_approver: dpe_supervisor %>

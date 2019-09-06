@@ -1,0 +1,8 @@
+<% @page_name = t('organization_chart') %>
+
+<% toolbar(itens_menu: {"#{'organization_chart'.ts}": organigram_url}, btn_export: {"Excel": organigram_url(format: "xls")}, bar_arguments: { add_modal: "#add-position_on_organization" }, if_can: {new: Position} ) %>
+
+<div id="orgchart" data-orgchart-type="1" data-orgchart-url="<%= organigram_url %>"></div>
+<%= render "create_position_form" %>
+
+<div class="form_edit_position"></div>

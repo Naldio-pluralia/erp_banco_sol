@@ -1,0 +1,8 @@
+pt:
+  activerecord:
+    errors:
+      models:
+        tax_type:
+          attributes:
+            value:
+              the_sum_of_employee_percentage_end_employer_percentage_must_be_x: 'A soma da percentagem do empregado e empregador deve ser igual a %{x}'

@@ -1,0 +1,2 @@
+module FunctionAutonomyLevelsHelper
+end

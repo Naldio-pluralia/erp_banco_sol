@@ -1,0 +1,8 @@
+
+en:
+  unauthorized:
+    manage:
+      all: "Não Podes %{action} %{subject}."
+      user: "O usuário não tem permissão"
+    update:
+      project: "Not allowed to update this project."

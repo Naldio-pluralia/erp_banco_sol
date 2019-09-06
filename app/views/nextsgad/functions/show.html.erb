@@ -1,0 +1,278 @@
+<% @page_name = @function.name %>
+
+<% toolbar(itens_menu: {"#{'functions'.ts}": functions_url, "#{@function.name}": @function}, bar_arguments: { edit_modal: "#add-function", delete: @function  } ) %>
+
+<%= tab do%>
+  <%= tab_header do%>
+    <%= tab_header_item(:tab_function, @function.name) %>
+    <%= tab_header_item(:tab_skills, t(".skills")) %>
+  <%end%>
+
+  <%= tab_body(:tab_function) do%>
+    <br>
+		<div class="flex-row flex-top">
+			<div class="flex-col-xs-6">
+			  <p class="table-title">Função</p>
+				<table>
+					<tbody>
+						<tr>
+							<td style="width: 90px;"><strong><%= t('.denomination') %></strong></td>
+							<td><%= n_editable(@function, :name, mode: :popup) %></td>
+						</tr>
+
+						<tr>
+							<td style="width: 90px;"><strong><%= t('.area') %></strong></td>
+							<td>
+								<div class="flex-row flex-top">
+									<% DirectorateArea.all.order(:name).each do |f| %>
+										<div class="flex-col-xs-4 align-right" style="padding-left: 0; ">
+											<%= content_tag(:div, 'link-t1000') do %>
+												<i class="material-icons" style="font-size: 18px;  vertical-align: middle;"><%= @function.directorate&.directorate_area_id.eql?(f.id) ? 'check_box' : 'check_box_outline_blank'%></i>
+												<span style=""><%= f.name %></span>
+											<%end%>
+										</div>
+									<%end%>
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td style="width: 90px;"><strong><%= t('.contract_type') %></strong></td>
+							<td>
+								<div class="flex-row flex-top">
+									<% FunctionContractType.all.each do |f| %>
+										<div class="flex-col-xs-4" style="padding-left: 0; ">
+											<%= link_to(function_toogle_contract_type_url(@function, function_contract_type_id: f.id), method: :patch, class: 'link-t1000') do %>
+												<i class="material-icons" style="font-size: 18px;  vertical-align: middle;"><%= @function.function_contract_type_id == f.id ? 'check_box' : 'check_box_outline_blank'%></i>
+												<span style=""><%= f.name %></span>
+											<%end%>
+										</div>
+									<%end%>
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td style="width: 90px;"><strong><%= t('.schedule') %></strong></td>
+							<td>
+								<%= @function.enters_at.present? ? l(@function.enters_at, format: '%H:%M') : 'N/D' %> - <%= @function.leaves_at.present? ? l(@function.leaves_at, format: '%H:%M') : 'N/D' %>
+							</td>
+						</tr>
+
+						<tr>
+							<td style="width: 90px;"><strong><%= t('.deslocation_regime') %></strong></td>
+							<td>
+								<%= n_editable(@function, :function_deslocation_regime_id, type: :select, source: FunctionDeslocationRegime.editable_map_for_select(:name), mode: :popup) %>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<hr>
+			  <p class="table-title">Hierarquia</p>
+				<table>
+					<tbody>
+						<tr>
+							<td style="width: 90px;"><strong>Unidade Orgânica</strong></td>
+							<td><%= @function.name_and_number%></td>
+						</tr>
+					</tbody>
+				</table>
+				<table>
+					<tbody>
+						<tr>
+							<td style="width: 90px;"><strong><%= t('.autonomy') %></strong></td>
+							<td>
+								<div class="flex-row flex-top">
+									<% FunctionAutonomyLevel.all.each do |f| %>
+										<div class="flex-col-xs-12" style="padding-left: 0; ">
+											<%= link_to(function_toogle_autonomy_url(@function, function_autonomy_level_id: f.id), method: :patch, class: 'link-t1000') do %>
+												<i class="material-icons" style="font-size: 18px;  vertical-align: middle;"><%= @function.function_autonomy_levels.ids.include?(f.id) ? 'check_box' : 'check_box_outline_blank'%></i>
+												<span style=""><%= f.name %></span>
+											<%end%>
+										</div>
+									<%end%>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<hr>
+			  <p class="table-title">Subsídios | Abonos</p>
+				<table>
+					<tbody>
+						<tr>
+							<td>
+								<div class="flex-row flex-top">
+									<% FunctionSubsidy.all.each do |f| %>
+										<div class="flex-col-xs-6" style="padding-left: 0; ">
+											<%= link_to(function_toogle_subsidy_url(@function, function_subsidy_id: f.id), method: :patch, class: 'link-t1000') do %>
+												<i class="material-icons" style="font-size: 18px;  vertical-align: middle;"><%= @function.function_subsidies.ids.include?(f.id) ? 'check_box' : 'check_box_outline_blank'%></i>
+												<span style=""><%= f.name %></span>
+											<%end%>
+										</div>
+									<%end%>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<hr>
+			</div>
+
+
+			<div class="flex-col-xs-6">
+			  <p class="table-title">Requisitos da Função</p>
+				<table>
+					<tbody>
+						<tr>
+							<td style="width: 170px;"><strong><%= t('.qualification_kind') %></strong></td>
+							<td>
+								<div class="flex-row flex-top">
+									<% Function.enums_map_t(:qualification_kind).each do |k, v| %>
+										<div class="flex-col-xs-4" style="padding-left: 0; ">
+											<%= link_to(function_toogle_qualification_kind_url(@function, qualification_kind: v), method: :patch, class: 'link-t1000') do %>
+												<i class="material-icons" style="font-size: 18px;  vertical-align: middle;"><%= v == @function.qualification_kind ? 'check_box' : 'check_box_outline_blank'%></i>
+												<span style=""><%= k %></span>
+											<%end%>
+										</div>
+									<%end%>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 170px;"><strong><%= t('.experience_kind') %></strong></td>
+							<td>
+								<div class="flex-row flex-top">
+									<div class="flex-col-xs-4" style="padding-left: 0; ">
+										<span>Nª de Anos: <%= n_editable(@function, :experience_years, type: :number, mode: :popup) %></span>
+									</div>
+									<% Function.enums_map_t(:experience_kind).each do |k, v| %>
+										<div class="flex-col-xs-4" style="padding-left: 0; ">
+											<%= link_to(function_toogle_experience_kind_url(@function, experience_kind: v), method: :patch, class: 'link-t1000') do %>
+												<i class="material-icons" style="font-size: 18px;  vertical-align: middle;"><%= v == @function.experience_kind ? 'check_box' : 'check_box_outline_blank'%></i>
+												<span style=""><%= k %></span>
+											<%end%>
+										</div>
+									<%end%>
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td style="width: 170px;"><strong><%= t('.other_requirements') %></strong></td>
+							<td>
+								<%= n_editable(@function, :other_requirements, type: :textarea, mode: :popup) %>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<hr>
+			  <p class="table-title">Objectivos da Função</p>
+				<table>
+					<tbody>
+						<tr>
+						  <td>
+								<%= n_editable(@function, :objectives, type: :textarea, mode: :popup) %>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<hr>
+			  <p class="table-title">Competências</p>
+				<div style="position: relative;">
+					<%= chart_export_btn('#function_skill_radar', 'Competências') %>
+					<%=
+						data = {
+							labels: @function.function_skills.map{|f| f.skill.name.truncate(20)},
+							datasets: [
+								{
+									label: 'Mínimo',
+									data: @function.function_skills.map(&:min),
+									borderWidth: 2,
+									backgroundColor: "rgba(220,220,99,0)",
+									borderColor: "rgba(220,220,99,1)",
+									fill: true,
+									pointBorderWidth: 0.05,
+									pointBackgroundColor: "rgba(220,220,99,0.3)",
+									pointBorderColor: "rgba(220,220,99,1)"
+								},
+								{
+									label: 'Recomendado',
+									data: @function.function_skills.map(&:recomended),
+									borderWidth: 2,
+									backgroundColor: "rgba(119,220,119,0)",
+									borderColor: "rgba(119,220,119,1)",
+									fill: true,
+									pointBorderWidth: 0.05,
+									pointBackgroundColor: "rgba(119,220,119,0.3)",
+									pointBorderColor: "rgba(119,220,119,1)"
+								}
+							]
+						}
+						options = {
+							id: 'function_skill_radar',
+							title: {display: true},
+							legend: false,
+							scale: {
+								ticks: {
+									display: true,
+									begin_at_zero: true,
+									min: 0,
+									max: 10,
+									step_size: 1
+								}
+							}
+						}
+						radar_chart data, options
+					%>
+				</div>
+			</div>
+		</div>
+		<%= render "form" %>
+  <%end%>
+
+  <%= tab_body(:tab_skills) do%>
+    <br>
+    <div class="flex-row" style="margin-top: 0px;">
+      <div class="flex-col-xs-12" style="padding-bottom: 15px;">
+        <%= box(size: '320px') do%>
+          <%= box_header(t('.skills')) do%>
+            <%= box_action(:plus, href: '#function_skill-modal-form', modal_trigger: true, tooltip: view_t('.register_x', x: t('.skill'))) if can?(:create, FunctionSkill)%>
+          <%end%>
+
+					<%= l_table do %>
+						<%= t_header do %>
+							<%= h_cell(text: t(".skill") )%>
+							<%= h_cell(text: t(".min") )%>
+							<%= h_cell(text: t(".recomended") )%>
+							<%= h_cell(sortable: false) %>
+						<% end %>
+
+						<%= t_body(elements: @function.function_skills) do |e| %>
+							<%= b_row() do %>
+								<%= b_cell(element: e.skill.name)%>
+								<%= b_cell(element: e.min.to_s)%>
+								<%= b_cell(element: e.recomended.to_s)%>
+								<%= b_cell(text: "") do %>
+                  <%= link_to t('show'), function_skill_url(e, redirect_url: edit_function_url(@function, active_tab: :tab_skills)) if can?(:update, e) %>
+									<%= link_to t('destroy'), function_skill_url(e, redirect_url: function_url(@function, active_tab: :tab_skills)), method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+								<% end %>
+							<% end %>
+						<% end %>
+					<% end %>
+
+					<%= render 'function_skills/form', function_skill: FunctionSkill.new(function_id: @function.id, cancel_url: function_url(@function, active_tab: :tab_skills), redirect_url: function_url(@function, active_tab: :tab_skills)) %>
+        <%end%>
+      </div>
+    </div>
+  <%end%>
+
+<%end%>
+<%= render 'form'%>
+<style>
+	.link-t1000{
+		display: inline-block;
+		width: 100%;
+	}
+</style>

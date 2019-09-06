@@ -1,0 +1,49 @@
+<%#= index_bar(itens: {view_t(".applications") => applications_url, view_t('.application') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_application_path(@application) ) if can?(:edit, @application) %>
+  <%#= action_btn(content: view_t('update'), href: "#application-modal-form", modal_trigger: true) if can?(:edit, @application) %>
+<%# end %>
+
+<div id="" class="open-by-default -modal modal-fixed-footer">
+  <div class="modal-content">
+    <h5>Enviar Candidatura</h5>
+    <%if @application.vacancy.present?%>
+      <h6>Vaga - <%= @application.vacancy.position %></h6>
+    <%end%>
+    <hr>
+    <div class="flex-row flex-top" style="margin:0;">
+      <div class="flex-col-xs-6" style="padding-left: 0;">
+        <%= next_editable(@application, :name, mode: :popup) %>
+      </div>
+      <div class="flex-col-xs-6" style="padding-left: 0;">
+        <%= next_editable(@application, :email, mode: :popup) %>
+      </div>
+      <div class="flex-col-xs-6" style="padding-left: 0;">
+        <%= next_editable(@application, :cellphone, mode: :popup) %>
+      </div>
+      <div class="flex-col-xs-6" style="padding-left: 0;">
+        <%= next_editable(@application, :birthdate, mode: :popup, type: :combodate) %>
+      </div>
+      <div class="flex-col-xs-6" style="padding-left: 0;">
+        <%= next_editable(@application, :civil_status, mode: :popup, type: :select, source: Application.editable_enums_map_t(:civil_status)) %>
+      </div>
+      <div class="flex-col-xs-6" style="padding-left: 0;">
+        <%= next_editable(@application, :dependents_number, mode: :popup) %>
+      </div>
+      <div class="flex-col-xs-6" style="padding-left: 0;">
+        <h5 class="h5-size" style="padding: 5px 5px;">Anexos</h5>
+        <%= render "object_attachments/object_attachments", object: @application %>
+      </div>
+      <div class="flex-col-xs-6" style="padding-left: 0;">      
+        <%= next_editable(@application, :note, mode: :popup, type: :textarea) %>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <%= link_to 'Enviar', vacancies_url(notice: 'Candidatura Enviada'), class: 'waves-effect waves-light btn btn-default btn-cancel-form' %>
+    <%= link_to t('cancel'), @application, method: :delete, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+  </div>
+</div>
+
+
+<%#= render 'form', application: @application %>

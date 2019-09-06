@@ -1,0 +1,30 @@
+<%= index_bar(itens: {t(".latest_vacation_subsidy") => nil}) do %>
+  <% action_btn(content: @vacation_subsidy.new_record? ? t('add') : t('update'), href: "#vacation_subsidy-modal-form", modal_trigger: true)  if can?(:create, VacationSubsidy)%>
+<% end %>
+
+<%if @vacation_subsidy.new_record?%>
+
+
+<%else%>
+  <p>
+    <strong><%= t(".name") %>:</strong>
+    <%= @vacation_subsidy.name %>
+  </p>
+
+  <p>
+    <strong><%= t(".abbr_name") %>:</strong>
+    <%= @vacation_subsidy.abbr_name %>
+  </p>
+
+  <p>
+    <strong><%= t(".percentage") %>:</strong>
+    <%= @vacation_subsidy.percentage_t(:percentage) %>
+  </p>
+
+  <p>
+    <strong><%= t(".status") %>:</strong>
+    <%= @vacation_subsidy.enum_t(:status) %>
+  </p>
+<%end%>
+
+<%= render 'form', vacation_subsidy: @vacation_subsidy || VacationSubsidy.new %>

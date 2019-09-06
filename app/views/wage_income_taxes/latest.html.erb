@@ -1,0 +1,51 @@
+<%= index_bar(itens: {t(".latest_wage_income_tax") => nil}) do %>
+  <%= action_btn(content: @wage_income_tax.new_record? ? t('add') : t('update'), href: "#wage_income_tax-modal-form", modal_trigger: true)  if can?(:create, WageIncomeTax)%>
+<% end %>
+
+<%if @wage_income_tax.new_record?%>
+
+
+<%else%>
+  <p>
+    <strong><%= t(".name") %>:</strong>
+    <%= @wage_income_tax.name %>
+  </p>
+
+  <p>
+    <strong><%= t(".abbr_name") %>:</strong>
+    <%= @wage_income_tax.abbr_name %>
+  </p>
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><%= t '.wage'%></th>
+        <th style='padding-right: 7%; text-align: right;'><%= t '.fixed_portion'%></th>
+        <th><%= t '.rate'%></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td><%= t '.up_to'%> <%= @wage_income_tax.kwanza_t(:exempt_up_to) %></td>
+        <td colspan='2' style='text-align: center;'><%= t '.exempt'%></td>
+      </tr>
+      <% @wage_income_tax.wage_income_tax_items.each do |f| %>
+        <tr>
+          <td><%= t '.from'%> <%= f.kwanza_t(:from) %> <%= t '.up_to'%> <%= f.kwanza_t(:to) %></td>
+          <td style='padding-right: 7%; text-align: right;'><%= f.kwanza_t(:fixed_portion) %></td>
+          <td><%= f.percentage_t(:percentage_over_the_excess) %> <%= t '.over_the_excess_of'%> <%= f.kwanza_t(:excess_of) %></td>
+        </tr>
+      <% end %>
+      <tr>
+        <td><%= t '.over'%> <%= @wage_income_tax.kwanza_t(:max_wage) %></td>
+        <td style='padding-right: 7%; text-align: right;'><%= @wage_income_tax.kwanza_t(:max_wage_fixed_portion) %></td>
+        <td><%= @wage_income_tax.percentage_t(:percentage_over_max_wage_excess) %> <%= t '.over_the_excess_of'%> <%= @wage_income_tax.kwanza_t(:max_wage_excess_of) %></td>
+      </tr>
+    </tbody>
+  </table>
+
+<%end%>
+
+<%= render 'form', wage_income_tax: @wage_income_tax || WageIncomeTax.new%>

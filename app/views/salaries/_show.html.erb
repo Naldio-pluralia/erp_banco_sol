@@ -1,0 +1,128 @@
+<%= index_bar(itens: {view_t(".salaries") => back_url.present? ? back_url : salaries_url, view_t('.salary') => nil}) do %>
+  <%taxes = salary.taxes_to_add%>
+  <%if taxes.exists? && can?(:add_tax, salary)%>
+    <%= action_btn_dropdown(content: view_t('.add_tax')) do %>
+      <%taxes.each do |tax_type|%>
+        <%= dropdown_item(item: tax_type.name, href: salary_add_tax_url(salary, tax_type, back_url: back_url, format: :js), method: :patch, remote: true)%>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%subsidies = salary.subsidies_to_add%>
+  <%if subsidies.exists? && can?(:add_subsidy, salary)%>
+    <%= action_btn_dropdown(content: view_t('.add_subsidy')) do %>
+      <%subsidies.each do |subsidy_type|%>
+        <%= dropdown_item(item: subsidy_type.name, href: salary_add_subsidy_url(salary, subsidy_type, back_url: back_url, format: :js), method: :patch, remote: true)%>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= action_btn(content: view_t('.pay'), href: salary_pay_url(salary, back_url: back_url, format: :js), remote: true, method: :patch) if can?(:pay, salary)%>
+  <%= action_btn(content: view_t('.activate'), href: salary_activate_url(salary, back_url: back_url, format: :js), remote: true, method: :patch) if can?(:activate, salary)%>
+  
+<% end %>
+
+<div class="flex-row" style="margin-top: 0px;">
+  <div class="flex-col-xs-12" style="padding-bottom: 15px;">
+    <%= box(size: '500px') do%>
+      <%= box_header(view_t('.salary')) do%>
+        <%#= box_action(:plus, 'data-fill': "#application_container", 'data-fill-with': new_paygrade_change_reason_url(layout_type: :partial_view_application)) if can?(:create, PaygradeChangeReason)%>
+      <%end%>
+
+      
+      <p>
+        <strong><%= view_t(".employee_paygrade") %>:</strong>
+        <%= salary.employee.name_and_number %>
+      </p>
+
+      <p class="hide">
+        <strong><%= view_t(".base_value") %>:</strong>
+        <%= salary.kwanza_t(:base_value) %>
+      </p>
+
+      <p class="hide">
+        <strong><%= view_t(".value") %>:</strong>
+        <%= salary.kwanza_t(:net_value) %>
+      </p>
+
+      <p>
+        <strong><%= view_t(".period") %>:</strong>
+        <%= l salary.period, format: :period%>
+      </p>
+
+      <p>
+        <strong><%= view_t(".status") %>:</strong>
+        <%= salary.enum_t(:status)%>
+      </p>
+
+      <%= l_table do %>
+        <thead>
+          <tr>
+            <%= h_cell(text: view_t(".wage_tax") )%>
+            <%= h_cell(sortable: false)%>
+            <%= h_cell(text: view_t(".gain") , align: :right)%>
+            <%= h_cell(text: view_t(".discount") , align: :right)%>
+          </tr>
+        </thead>
+
+        <tbody>
+          <%= b_row() do %>
+            <%= b_cell(element: view_t(".base_salary"))%>
+            <%= b_cell()%>
+            <%= b_cell(element: salary.kwanza_t(:base_value))%>
+            <%= b_cell(element: '-')%>
+          <% end %>
+          <% salary.subsidy_salaries.includes(:subsidy_type).each do |e|%>
+            <%= b_row() do %>
+              <%= b_cell(element: e.subsidy_type.name)%>
+              <%= b_cell() do%>
+                <%if can?(:remove_subsidy, salary)%>
+                  <%=link_to salary_remove_subsidy_url(salary, e.id, back_url: back_url, format: :js), method: :patch, remote: true, class: 'table_action danger' do%>
+                    <%=icon(faw: :times)%>
+                  <%end%>
+                <%end%>
+              <%end%>
+              <%= b_cell(element: to_kwanza(e.base_value), data: e.base_value)%>
+              <%= b_cell(element: e.taxed_value > 0 ? to_kwanza(e.taxed_value) : '-', data: e.base_value)%>
+            <% end %>
+          <%end%>
+
+          <% salary.tax_salaries.includes(:tax_type).each do |e|%>
+            <%= b_row() do %>
+              <%= b_cell(element: e.tax_type.name)%>
+              <%= b_cell() do%>
+                <%if can?(:remove_tax, salary)%>
+                  <%=link_to salary_remove_tax_url(salary, e.id, back_url: back_url, format: :js), method: :patch, remote: true, class: 'table_action danger' do%>
+                    <%=icon(faw: :times)%>
+                  <%end%>
+                <%end%>
+              <%end%>
+              <%= b_cell(element: '-', data: 0)%>
+              <%= b_cell(element: to_kwanza(e.value), data: e.value)%>
+            <% end %>
+          <%end%>
+          <%= b_row() do %>
+            <%= b_cell(element: view_t('.subtotal'))%>
+            <%= b_cell()%>
+            <%gains = salary.subsidy_salaries.sum(&:base_value) + salary.base_value%>
+            <%= b_cell(element: to_kwanza(gains), data: gains) %>
+            <%discounts = salary.tax_salaries.sum(&:value) + salary.subsidy_salaries.sum(&:taxed_value)%>
+            <%= b_cell(element: to_kwanza(discounts), data: discounts) %>
+          <% end %>
+          <%= b_row() do %>
+            <%= b_cell()%>
+            <%= b_cell()%>
+            <%= b_cell(element: view_t('.total')) %>
+            <%total = salary.net_value %>
+            <%= b_cell(element: to_kwanza(total), data: total) %>
+
+          <% end %>
+        </tbody>
+      <% end %>
+      <br>
+    <%end%>
+  </div>
+</div>
+
+
+<%#= render 'form', salary: salary %>

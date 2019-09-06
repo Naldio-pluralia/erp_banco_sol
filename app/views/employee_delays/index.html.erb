@@ -1,0 +1,42 @@
+<%= index_bar(itens: {view_t(".employee_delays") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_employee_delay_path) %>
+  <%= action_btn(content: view_t('add'), href: "#employee_delay-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-employee_delays-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".employee") )%>
+    <%= h_cell(text: view_t(".absence_type") )%>
+    <%= h_cell(text: view_t(".date") )%>
+    <%= h_cell(text: view_t(".arrived_at") )%>
+    <%= h_cell(text: view_t(".number_of_hours_late") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @employee_delays) do |e| %>
+    <%= b_row(link_to: employee_delay_path(e)) do %>
+      <%= b_cell(element: e.employee)%>
+      <%= b_cell(element: e.absence_type)%>
+      <%= b_cell(element: e.date)%>
+      <%= b_cell(element: e.arrived_at)%>
+      <%= b_cell(element: e.number_of_hours_late)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e if can?(:show, e) %> | 
+        <%= link_to t('edit'), edit_employee_delay_path(e) if can?(:edit, e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(employee_delays_url, "employee_delays") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', employee_delay: @employee_delay, employee: @employee %>

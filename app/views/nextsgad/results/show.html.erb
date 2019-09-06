@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Note:</strong>
+  <%= @result.note %>
+</p>
+
+<p>
+  <strong>Attachment:</strong>
+  <%= @result.attachment %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @result.state %>
+</p>
+
+<p>
+  <strong>Result type:</strong>
+  <%= @result.result_type %>
+</p>
+
+<%= link_to 'Edit', edit_result_path(@result) %> |
+<%= link_to 'Back', results_path %>

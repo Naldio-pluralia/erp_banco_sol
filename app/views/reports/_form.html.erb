@@ -1,0 +1,56 @@
+<%= simple_form_for(report) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="report-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= report.new_record? ? view_t('.new_x', x: view_t('.report')) : view_t('.edit_x', x: view_t('.report')) %> </span>
+      <hr>
+
+      <div class="row">
+        <div class="col s6">
+            <%= f.input :name, wrapper_html: {class: ''}, input_html: {class: ''} %>
+        </div>
+        <div class="col s6">
+          <%= f.input :is_anonymous, as: :bootstrap_switch, wrapper_html: {class: ''}, input_html: {class: '', onchange: "warning(this)"} %>
+          <span id="formatt-span-text">Ao marcar está denúncia como anónima a mesma não ficará associada a si, de qualquer maneira o que irá lhe remover a possibilidade de rever ou visializar a denúncia</span>
+            
+        </div>
+
+      </div>
+
+      <div class="flex-row flex-top">
+        <%#= f.association :employee, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        
+        <%= f.input :note, as: :trix_editor, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), report.cancel_url || reports_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>
+
+
+<style>
+  #formatt-span-text{
+    color: red;
+    position: absolute;
+    margin-top: -45px;
+    margin-left: 15px;
+    padding: 0 15px 15px 15px;
+  }
+</style>
+
+<script>
+  $("#formatt-span-text").hide();
+
+  function warning(value){
+    if($(value).is(":checked")){
+      $("#formatt-span-text").show();
+    }else{
+      $("#formatt-span-text").hide();
+    }
+    
+  }
+</script>

@@ -1,0 +1,10 @@
+<%= index_bar(itens: {view_t(".latest_remuneration_setting") => latest_remuneration_setting_url, view_t('.paygrade_change_reason') => nil}) do %>
+  <%# action_btn(content: t('update'), href: '#paygrade_change_reason-modal-form', modal_trigger: true) %>
+<% end %>
+
+<p>
+  <strong><%= t(".Reason") %>:</strong>
+  <%= @paygrade_change_reason.reason %>
+</p>
+
+<%= render 'form', paygrade_change_reason: @paygrade_change_reason %>

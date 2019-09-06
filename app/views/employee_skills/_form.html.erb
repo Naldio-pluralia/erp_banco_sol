@@ -1,0 +1,23 @@
+<%= simple_form_for(employee_skill) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="employee_skill_<%= employee_skill.id %>-modal-form" class="modal">
+    <div class="modal-content">
+      <span class="h5-size"> Avaliar </span> <br>
+      <span class="h6-size"> <strong>Escala de Avaliação: </strong> 1 - Mau | 2 - Insuficiente | 3 - Suficiente | 4 - Bom | 5 - Excelente</span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <% f.association :skill, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <% f.association :employee, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :self_assessment, label: 'self_assessment'.ts, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} if current&.employee&.id == employee_skill.employee_id%>
+        <%= f.input :supervisor_assessment, label: 'supervisor_assessment'.ts, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} if current&.team_members.ids.includes?(employee_skill.employee_id)%>
+        <%= f.input :value, label: 'final_assessment'.ts, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''}  if current&.team_members.ids.includes?(employee_skill.employee_id)%>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), employee_skill.redirect_url, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

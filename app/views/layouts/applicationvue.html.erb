@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%= favicon_link_tag 'favicon.ico' %>
+    <title><%= configuration.entity_name %> - <%= @page_name %></title>
+    <%= csrf_meta_tags %>
+    <%= javascript_pack_tag 'application' %>
+  </head>
+
+  <body>
+    <% if is_internet_explorer? %>
+      <%= render "layouts/unsuported_browser_message" %>
+    <% else %>
+      <%= yield %>
+    <% end %>
+  </body>
+</html>

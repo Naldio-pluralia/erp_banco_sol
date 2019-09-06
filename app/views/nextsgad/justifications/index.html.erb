@@ -1,0 +1,23 @@
+<%= index_bar(itens: {t('justifications') => justifications_url}) do %>
+    <%# action_btn(content: t('add'),         href: '#add-justification', modal_trigger: true) %>
+<% end %>
+
+<%= l_table do %>
+    <%= t_header do %>
+        <%= h_cell(text: t('justification.employee')) %>
+        <%= h_cell(text: t('justification.absences')) %>
+        <%= h_cell(text: t('justification.status')) %>
+    <% end %>
+
+    <%= t_body(elements: @justifications) do |e| %>
+        <%= b_row(link_to: justification_url(e)) do %>
+            <%= b_cell(element: e.employee.name_and_number) %>
+            <%= b_cell(element: e.attendances.map{|a| t(a.date.strftime('%d/%B/%Y'))}.join(', ').to_s) %>
+            <%= b_cell(element: t(e.status)) %>
+        <% end %>
+    <% end %>
+<% end %>
+
+<br>
+
+<%# render 'form', justification: @justification %>

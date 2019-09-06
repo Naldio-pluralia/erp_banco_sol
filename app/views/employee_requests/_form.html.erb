@@ -1,0 +1,22 @@
+<%= simple_form_for(employee_request) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="employee_request-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= employee_request.new_record? ? view_t('.new_x', x: view_t('.employee_request')) : view_t('.edit_x', x: view_t('.employee_request')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%#= f.association :employee, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :name, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {class: ''} if f.object.new_record? %>
+        <%= f.input :virtual_object_attachments, as: :file, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {class: '', multiple: true} if f.object.new_record? %>
+        <%= f.association :request_type, include_blank: false, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {class: 'default-selectize'} if f.object.new_record? %>
+        <%= f.input :note, as: :trix_editor, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), employee_request.cancel_url || employee_requests_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

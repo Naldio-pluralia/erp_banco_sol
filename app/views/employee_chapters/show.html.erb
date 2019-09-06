@@ -1,0 +1,16 @@
+<%= index_bar(itens: {view_t(".employee_chapters") => employee_chapters_url, view_t('.employee_chapter') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_employee_chapter_path(@employee_chapter) ) if can?(:edit, @employee_chapter) %>
+  <%= action_btn(content: view_t('update'), href: "#employee_chapter-modal-form", modal_trigger: true) if can?(:edit, @employee_chapter) %>
+<% end %>
+
+
+<%= show_item(".employee_course", @employee_chapter.employee_course) %>
+
+
+<%= show_item(".chapter", @employee_chapter.chapter) %>
+
+
+<%= show_item(".status", @employee_chapter.status) %>
+
+
+<%= render 'form', employee_chapter: @employee_chapter %>

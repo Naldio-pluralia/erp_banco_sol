@@ -1,0 +1,2 @@
+module EmployeeExitsHelper
+end

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <%= render 'layouts/excel_styles'%>
+  <Worksheet ss:Name="<%=t('departments')%>">
+    <Table>
+      <Column ss:Width="200"/>
+      <Column ss:Span="1" ss:Width="200"/>
+      <Column ss:Span="1" ss:Width="250"/>
+      <Row ss:StyleID="bold">
+        <Cell><Data ss:Type="String"><%=t('departments')%></Data></Cell>
+        <Cell><Data ss:Type="String"></Data></Cell>
+        <Cell><Data ss:Type="String"></Data></Cell>
+      </Row>
+      <Row ss:StyleID="bold">
+        <Cell ss:StyleID="my_header"><Data ss:Type="String"><%=t('department_name')%></Data></Cell>
+        <Cell ss:StyleID="my_header"><Data ss:Type="String"><%=t('department_number')%></Data></Cell>
+        <Cell ss:StyleID="my_header"><Data ss:Type="String"><%=t('department_parent')%></Data></Cell>
+      </Row>
+    <% @departments.each_with_index do |f, index| %>
+      <Row>
+        <Cell ss:StyleID="<%=index.odd? ? :odd : :even%>"><Data ss:Type="String"><%= f.name%></Data></Cell>
+        <Cell ss:StyleID="<%=index.odd? ? :odd : :even%>"><Data ss:Type="String"><%= f.number%></Data></Cell>
+        <Cell ss:StyleID="<%=index.odd? ? :odd : :even%>"><Data ss:Type="String"><%= f.name_and_number%></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

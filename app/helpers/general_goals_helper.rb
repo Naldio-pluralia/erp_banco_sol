@@ -1,0 +1,2 @@
+module GeneralGoalsHelper
+end

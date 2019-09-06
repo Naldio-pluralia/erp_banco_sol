@@ -1,0 +1,21 @@
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".period") )%>
+    <%= h_cell(text: view_t(".base_value") )%>
+    <%= h_cell(text: view_t(".value") )%>
+    <%= h_cell(text: view_t(".status") )%>
+    <% h_cell(sortable: false) %>
+  <% end %>
+  <%= t_body(elements: @salaries, class: 'auto-size') do |e| %>
+    <%= b_row('data-fill-modal': '#application_modal', 'data-fill-modal-with': partial_view_salary_url(e)) do %>
+      <%= b_cell(element: l(e.period, format: :period) )%>
+      <%= b_cell(element: to_kwanza(e.base_value))%>
+      <%= b_cell(element: to_kwanza(e.value))%>
+      <%= b_cell(element: e.enum_t(:status))%>
+      <% b_cell(text: "") do %>
+        <%= link_to t('show'), e %> |
+        <%= link_to t('destroy'), employee_salary_families_url(e), method: :delete, data: { confirm: t('are_you_sure') } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

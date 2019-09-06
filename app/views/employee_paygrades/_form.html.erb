@@ -1,0 +1,63 @@
+<%= simple_form_for(employee_paygrade) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="employee_paygrade-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= employee_paygrade.new_record? ? t('.new') : t('.edit') %> </span>
+      <hr>
+
+      <%= render 'salary_boards/latest', salary_board: SalaryBoard.latest%>
+      <div class="flex-row flex-top-xs">
+        <%= f.input :paygrade, collection: SalaryBoard.map_paygrades, include_blank: false, input_html: {class: "default-selectize"}, wrapper_html: {class: 'flex-col-xs-4'} %>
+        <%= f.input :level, collection: EmployeePaygrade.enums_map_t(:level), include_blank: false, input_html: {class: "default-selectize"}, wrapper_html: {class: 'flex-col-xs-4'} %>
+        <%= f.input :since, as: :air_datepicker, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {'data-language' => 'pt'}  %>
+        <% f.input :until, as: :air_datepicker, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {'data-language' => 'pt'}  %>
+        <%= f.input :base_salary, wrapper_html: {class: 'flex-col-xs-4'} %>
+        <%= f.association :employee, collection: Employee.map_for_select(), include_blank: false, input_html: {class: "default-selectize"}, as: :hidden %>
+        <%= f.association :paygrade_change_reason, collection: PaygradeChangeReason.map_for_select(:reason), include_blank: false, input_html: {class: "default-selectize"}, wrapper_html: {class: 'flex-col-xs-4'} %>
+      </div>
+  </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), employee_paygrade.cancel_url || employee_paygrades_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>
+
+
+<script>
+  mark_base_salary();
+  $(document).on('ready change', '#employee_paygrade_paygrade, #employee_paygrade_level', function(){
+    mark_base_salary();
+  });
+
+  function mark_base_salary(){
+    $('td.selected_paygrade_level').removeClass('selected_paygrade_level');
+    $('td.selected_paygrade').removeClass('selected_paygrade');
+    $('td.selected_level').removeClass('selected_level');
+    $('td[data-paygrade="' + $('#employee_paygrade_paygrade').val() + '"]').addClass('selected_paygrade');
+    $('td[data-level="' + $('#employee_paygrade_level').val() + '"]').addClass('selected_level');
+    $('td[data-paygrade="' + $('#employee_paygrade_paygrade').val() + '"][data-level="' + $('#employee_paygrade_level').val() + '"]').addClass('selected_paygrade_level');
+  }
+</script>
+
+<style>
+  td.selected_paygrade_level, 
+  td.selected_paygrade.selected_paygrade_level, 
+  td.selected_level.selected_paygrade_level{
+    background-color: #fbd493;
+    -webkit-transition: background-color .5s;
+    transition: background-color .5s;
+  }
+
+  td.selected_paygrade{
+    background-color: #e0e0e057;
+    -webkit-transition: background-color .5s;
+    transition: background-color .5s;
+  }
+  td.selected_level{
+    background-color: #e0e0e057;
+    -webkit-transition: background-color .5s;
+    transition: background-color .5s;
+  }
+</style>

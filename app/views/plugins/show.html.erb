@@ -1,0 +1,9 @@
+<% @page_name = @plugin.name %>
+
+<% toolbar(itens_menu: {"#{'settings.plugins'.ts}": plugins_url, "#{@plugin.name}": @plugin}, bar_arguments: { edit: edit_plugin_path(@plugin), delete: @plugin  } ) %>
+
+<p><strong>Name:</strong><%= @plugin.name %></p>
+<p><strong>Description:</strong><%= @plugin.description %></p>
+<p><strong>Is active:</strong><%= @plugin.is_active %></p>
+<p><strong>Version:</strong><%= @plugin.version %></p>
+<p><strong>Parent:</strong><%= @plugin.parent_id %></p>

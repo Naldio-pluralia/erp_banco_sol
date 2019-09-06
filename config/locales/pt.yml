@@ -1,0 +1,548 @@
+pt:
+  report_courses: 'Relatórios'
+  cellphone: 'Telemóvel'
+  register_was_successfully_created: "Registo criado com sucesso"
+  register_was_successfully_updated: "Registo actualizado com sucesso"
+  register_was_successfully_destroyed: "Registo apagado com sucesso"
+  attachments: 'Anexos'
+  notifications: 'Notificações'
+  notification: 'Notificação'
+  object_approver: 'Aprovador(a)'
+
+  change_status: "Alterar estado"
+  directorate: "Direcção"
+  directorates: "Direcções"
+  comments: "Commentários"
+  comment: "Commentário"
+  tolerance: "Tolerância(minutos)"
+
+  group: 'Grupo'
+  groups: 'Grupos'
+  type: "Tipo"
+  t_delay: "Atraso"
+  t_exit: "Saida"
+  t_vacation: "Férias"
+  t_absence: "Ausencia"
+  t_presence: "Presença"
+
+  created_at: "Data de criação"
+  vacation_approver: "Aprovador de férias"
+
+  # Percentagem das tarefas já executadas
+  percentage_of_execution_self: 'Auto Avaliação'
+  percentage_of_execution_supervisor: 'Avaliação da Chefia'
+  percentage_of_execution_final: 'Avaliação Final'
+  completed: "%{percentage} % Concluido"
+  count_employees: "%{count} Colaboradores a serem avaliados"
+  company_departamnet: "Média das Competências - %{name_dep}"
+  all_employees_of_departament: "%{all_employees} - Colaboradores"
+  count_others:
+    one: '1 Outro(a)'
+    other: '%{count} Outros(a)'
+
+
+  # misc
+  save: "Registar"
+  edit: "Editar"
+  update: "Actualizar"
+  back: "Cancelar"
+  n/a: "N/D"
+  upload_file: "Adicionar em Massa"
+  # devise translations
+  not_allowed_to_execute_this_action: 'Não tem permissão para executar esta acção'
+
+  # Admin
+  admins:
+    sessions:
+      new:
+        sign_in: "Entrar"
+    passwords:
+      new:
+        send_me_reset_password_instructions: 'Enviar instruções de recuperação da senha'
+      edit:
+        change_my_password: 'Alterar Senha'
+  admin:
+      description: "Usuário"
+      new: 'Nova Conta'
+      first_name: "Primeiro nome"
+      last_name: "Último nome"
+      email: "email@mail.ao"
+      cellphone: 'Telemóvel'
+      password: "Nova senha"
+      new_password: "Nova senha"
+      password_confirmation: "Repita a nova senha"
+      current_password: "Senha actual"
+      leave_blank_if_you_don_t_want_to_change_it: "deixe em branco se não alterar"
+      user_data_title: "Dados do Admin"
+      user_security_title: "Dados de Segurança"
+
+  # assessment
+  assessment:
+    description: "Avaliação de Desempenho"
+    map: "Mapa de Avaliação"
+    year: "Ano de Avaliação"
+    status: "Estado"
+    skills_percentage: "Percentagem de Competência"
+    new: "Nova Avaliação"
+    edit: "Editar Avaliação"
+    save: "Registar Avaliação"
+    skills: "Competências"
+    skills_percentage: "Percentagem das Competências"
+    objectives: "Objectivos"
+    objectives_percentage: "Percentagem dos Objectivos"
+    attendance_configuration: 'Configuração da Assiduidade'
+    activate: 'Activar'
+    close: 'Fechar'
+    deactivate: 'Desactivar'
+    draft: 'Para Rascunho'
+    delete: 'Apagar'
+    update: 'Editar Avaliação de %{year} - %{status}'
+    new_skill: 'Nova Competência'
+    new_objective: 'Novo Objectivo'
+    copy_skills_from_year: 'Copiar Competências de %{year}'
+  assessments: 'Avaliações'
+
+  general_goals: "Objectvos Gerais"
+  general_goal: "Objectvo Geral"
+  assessment: 'Ano'
+  function: 'Funcão'
+  all_goals: 'Objectvo Geral'
+  objectives: 'Descrição do objectivo'
+  position: 'Posição'
+  period: 'Período'
+  target: 'Meta'
+  mode: 'Modo'
+
+  corporate_goals: "Objectvos Corporativos"
+  corporate_goal: "Objectvo Corporativo"
+
+  team_goals: "Objectvos das equipas"
+  team_goal: "Objectvo da equipa"
+
+  the_of_obbjectives_and_skills_percentage_must_be_100: "A Soma das percentagens das competências e Objectivo de ser 100"
+  the_of_obbjectives_and_skills_percentage_must_be_100: "A Soma das percentagens das competências e Objectivo de ser 100"
+
+  my_assessments: 'Minhas avaliações'
+  my_orgchart: 'Meu Organigrama'
+  my_attendances: 'Minha Assiduidade'
+  my_team_assessment: 'Avaliações'
+  my_team_orgchart: 'Organigrama'
+  my_team_attendances: 'Assiduidade da Equipa'
+
+  # Attendance
+  attendance:
+    new: 'Marcar Presença'
+    edit: 'Actualizar Presença'
+    status: 'Estado'
+    date: 'Dia'
+    employee_note: "Nota do Colaborador"
+    manager_note: "Nota do Supervisor"
+    justification: "Justificação"
+    type: "Tipo de Assiduidade"
+    employee: 'Colaborador'
+    position: 'Posição'
+    justification: 'Justificativo'
+    description: 'Assiduidade'
+  pending: "Pendente"
+  attendances: 'Assiduidades'
+  attendance_ids: 'Atrasos Por Justificar'
+  four_hours_late: '-4'
+  three_hours_late: '-3'
+  two_hours_late: '-2'
+  one_hour_late:  '-1'
+  presence:  'PRS'
+  absence: 'FLT'
+  number: "Número"
+  justified_absence: 'FJ'
+  vacation: 'FER'
+  authorized_leave: 'AUT'
+  attendance_date: 'Dia'
+  add_x: 'Adicionar %{x}'
+  new_x: 'Novo(a) %{x}'
+  remove_x: 'Remover %{x}'
+  employee_goal_results: 'Resultados'
+  approver: 'Approvador de JUstificativos'
+  days:
+    one: '1 Dia'
+    other: '%{count} Dias'
+  hours:
+    one: '1 Hora'
+    other: '%{count} Horas'
+  tab_time_managment: 'Gestão de Tempo'
+  tab_skills: 'Competências'
+  absences: 'Ausências'
+  absence: 'Ausência'
+  skills: 'Competências'
+
+
+  long:
+    four_hours_late: '4 horas de atrazo'
+    three_hours_late: '3 horas de atrazo'
+    two_hours_late: '2 horas de atrazo'
+    one_hour_late: '1 hora de atrazo'
+    presence:  'Presente'
+    absence: 'Ausente'
+    justified_absence: 'Falta Justificada'
+    vacation: 'Férias'
+    authorized_leave: 'Licença Autorizada'
+
+  cancel: "Cancelar"
+  paygrade: 'Nível'
+  level: 'Escalão'
+  final_assessment: 'Avaliação Final'
+  description: 'Descrição'
+  self_assessment: 'Auto Avaliação'
+  skills_percentage: "Percentagem das Competências"
+  supervisor_assessment: 'Avaliação da Chefia'
+  skill: 'Competência'
+  objective: 'Objectivo'
+  add: 'Adicionar'
+  export: 'Exportar'
+  add_subsidy: 'Adicionar Subsídio'
+  add_tax: 'Adicionar Imposto'
+  update_assessment: 'Actualizar Avaliação'
+  year: 'Ano'
+  status: 'Estado'
+  opened: 'Aberta'
+  canceled: 'Cancelada'
+  state: 'Estado'
+  draft: 'Rascunho'
+  active: 'Activa'
+  closed: 'Fechada'
+  inactive: 'Inactiva'
+  destroy: 'Apagar'
+  numeric: 'Quantitativa'
+  objective_base: 'Qualitativa'
+  contracts: 'Contractos'
+  currency: 'AKZ'
+  clients: 'Clientes'
+  supervisor: 'Supervisor'
+  description: 'Descrição'
+  employee_note: 'Nota do Colaborador'
+  supervisor_note: 'Nota do Supervisor'
+  amount_of: "Quantidade de %{type}"
+  mechanic_number: 'N.º Mecan.'
+  name: 'Nome'
+  full_name: 'Nome Completo'
+  actions: 'Acções'
+  avatar: 'Avatar'
+  not_a_valid_employee_number: '%{employee_number} Não é um número de empregado válido'
+  create_position?: 'Criar Posição?'
+  create_account?: 'Criar Conta?'
+  home: 'Início'
+  employees_administration: 'Administração de Pessoal'
+  employee_self_service: 'Colaborador - SelfService'
+  manager_self_service: 'Supervisor - SelfService'
+  my_assessments: 'Minhas Avaliações'
+  my_team_assessments: 'Avaliações da Equipa'
+  minimum_characters: '%{minimum_password_length} caracteres no mínimo'
+  log_in: 'Entrar'
+  forgot_password?: 'ESQUECEU A SENHA?'
+  didnt_receive_confirmation_instructions?: 'Não recebeu instruções de confirmação'
+  didnt_receive_unlock_instructions?: 'Não recebeu instruções de desbloqueio'
+  sign_in_with: 'Entrar com %{provider}'
+  assessment_of: 'Avaliação de %{year}'
+  show: 'Detalhes'
+  mark_x_one_hour_delay_as_absence: ''
+  mark_x_four_hours_delays_as_absence: 'Marcar %{delay} atrazos de 4H como  1 FLT'
+  mark_x_three_hours_delays_as_absence: 'Marcar %{delay} atrazos de 3H como  1 FLT'
+  mark_x_two_hours_delays_as_absence: 'Marcar %{delay} atrazos de 2H como  1 FLT'
+  mark_x_one_hour_delay_as_absence: 'Marcar %{delay} atrazos de 1H como  1 FLT'
+  five_points_from_0_to_a_absences:  '5 pontos de 0 até %{a} faltas'
+  four_points_from_a_to_b_absences:  '4 pontos mais %{a} e menos de %{b} faltas'
+  three_points_from_b_to_c_absences: '3 pontos mais %{b} e menos de %{c} faltas'
+  two_points_from_c_to_d_absences:   '2 pontos mais %{c} e menos de %{d} faltas'
+  one_points_from_d_to_e_absences:   '1 pontos mais %{d} e menos de %{e} faltas'
+  no_attachments: 'Sem Anexos'
+  attachments: 'Anexos'
+  dashboard: 'Dashboard'
+  performance_evaluation: 'Avaliação de Desempenho'
+  department_attendances: 'Assiduidade do Departamento'
+  see_more: "Ver mais"
+  unjustified: 'Não Justificada'
+  accepted: 'Aceite'
+  denied: 'Negada'
+  xls: 'EXCEL'
+  pdf: 'PDF'
+  filter: 'Filtro'
+  clear: 'Limpar'
+  close: 'Fechar'
+  unassigned: 'N/ Assignado'
+  hr_admin: 'R.H. Admin'
+  hr_supervisor: 'R.H. Supervisor'
+  hr_employee: 'R.H. Colaborador'
+  use_the_blue_button_to_filter: 'Use o botão azul para filtrar'
+  bad: 'Mau'
+  insuficient: 'Insuficiente'
+  suficient: 'Suficiente'
+  good: 'Bom'
+  excelent: 'Excelente'
+  everything: 'Tudo'
+  reload: 'Recarregar'
+  updated: 'Actualizado'
+  error_updating: 'Error ao actualizar'
+  reports: 'Relatórios'
+  yes: 'Sim'
+  no: 'Não'
+  roles_mask: 'Cargo'
+  add_to_assessment: 'Adicionar à Avaliação'
+  save_and_send: 'Enviar'
+  draft: 'Rascunho'
+  my_messages: 'Minhas mensagens'
+  messages: 'Mensagens'
+  fechar: 'Fechar'
+  until_today: 'Actualmente'
+  are_you_sure: 'Tem a Certeza?'
+  since: 'Desde'
+  self_assessed_signature: 'Assinatura do Colaborador'
+  supervisor_signature: 'Assinatura do Supervisor'
+  supervisor_assessment_file: 'Ficha de Avaliação'
+  assessment_date: 'Data'
+  self_assessment_file: 'Ficha de Avaliação do Colaborador'
+  self_assessment_export: 'Auto Avaliação'
+  assessment_resume_file: 'Resumo de Avaliação'
+  self_assessed_id: 'Identificação do Colaborador'
+  self_assessment_factors: 'Factores Objecto da Auto-Avaliação'
+  supervised_assessment_file: 'Ficha de Avaliação de Chefia'
+  supervisor_assessment_export: 'Avaliação do Supervisor'
+  supervised_assessed_id: 'Identificação do Colaborador'
+  supervisor_id: 'Identificação do avaliador (Chefia Directa)'
+  supervised_assessment_factors: 'Factores Objecto da Avaliação'
+  final_assessment_file: 'Ficha de Resumo de Avaliação'
+  final_assessment_export: 'Avaliação Final'
+  final_assessed_id: 'Identificação do Colaborador'
+  final_assessment_factors: 'Factores Objecto da Avaliação Final'
+  assessment_scale: 'Escala de Avaliação: 1 - Mau | 2 - Insuficiente | 3 - Suficiente | 4 - Bom | 5 - Excelente'
+  export_assessment_file: 'Exportar Ficha de Avaliação'
+  change_status: 'Alterar o estado'
+  add_several: 'Criar Vários'
+  employee_position: 'Posição'
+  submit: 'Registar'
+  true: 'Sim'
+  false: 'Não'
+  enters_at: 'Entrada'
+  leaves_at: 'Saída'
+  supervisor: 'Supervisor'
+  supervisor_supervisor: 'Chefe do Supervisor'
+  dpe_employee: 'Empregado do DPE'
+  dpe_supervisor: 'Chefe do DPE'
+  approved: 'Aprovado'
+  not_approved: 'Não Aprovado'
+  value_count:
+    one: '1 Valor'
+    other: '%{count} Valores'
+
+  default_name:
+    christmas_subsidy: 'Subsídio de Natal'
+    vacation_subsidy: 'Subsídio de Férias'
+    wage_income_tax: 'Imposto Sobre o Rendimento do Trabalho'
+    social_security_tax: 'Segurança Social'
+
+  default_abbr_name:
+    christmas_subsidy: 'SN'
+    vacation_subsidy: 'SF'
+    wage_income_tax: 'IRT'
+    social_security_tax: 'SS'
+
+
+  result:
+    attachment: "Anexo"
+
+  short:
+    supervisor_assessment: 'AC'
+    final_assessment: 'AF'
+    self_assessment: 'AA'
+  plural:
+    skill: 'Competências'
+    user: 'Usuários'
+
+  # dashboard
+  my_skills: "Minhas Competências"
+  team_skills: "Competências da Equipa"
+  my_team: "Minha Equipa"
+  news: "Notícias"
+  your_passwor_was_reseted: 'Sua Senha foi resetada'
+  your_username_is: 'username: %{username}'
+  your_password_is: 'password: %{password}'
+  welcome_x: "Bem-Vindo %{x}"
+  your_account_was_created: 'Sua Conta foi Criada'
+
+  # departments
+  department:
+    supervisor: 'Departamento Supervisor'
+    name: 'Nome'
+    number: 'Número'
+  departments: "Departamentos"
+  new_department: "Novo Departamento"
+  edit_department: "Editar Departamento"
+  department_name: "Departamento"
+  department_number: "Número do Departamento"
+  department_description: "Descrição"
+  department_manager: "Departamento Supervisor"
+  department_parent: 'Departamento Supervisor'
+  department_lider: 'Chefe do departamento'
+
+
+  # employees
+  employee:
+    full_name: 'Nome Completo'
+    edit: "Editar Colaborador"
+    email: "Email"
+    first_name: 'Nome próprio'
+    middle_name: 'Segundo nome'
+    last_name: 'Sobre nome'
+    employee_info: "Dados do Colaborador"
+    tolerance: "Tolerância (minutos)"
+    tolerance: "Tolerância (minutos)"
+  employees: "Colaboradores"
+  new_employee: "Novo Colaborador"
+  edit_employee: "Editar Colaborador"
+  employee_name: "Nome"
+  employee_number: "Nº Mecanográfico"
+  employee_paygrade: "Escalão"
+  employee_paygrade_level: "Nível"
+  x_of_y: '%{x} de %{y}'
+  added_x_results:
+    one: 'Adicionou 1 resultado'
+    other: 'Adicionou %{count} resultados'
+  added_supervisor_note: 'Adicionou uma Nota de Supervisor'
+  added_supervisor_supervisor_note: 'Adicionou uma Nota de Supervisor do Supervisor'
+  added_employee_note: 'Adicionou uma nota de Colaborador'
+  changed_supervisor_note_to_x: 'Escreveu na nota do supervisor: %{x}'
+  changed_supervisor_supervisor_note_to_x: 'Escreveu na nota do supervisor do supervisor: %{x}'
+  changed_employee_note_to_x: 'Escreveu na nota do avaliado: %{x}'
+  changed_self_assessment_to_x: 'Alterou a nota da auto avaliação para %{x}'
+  changed_supervisor_assessment_to_x: 'Alterou a nota da avaliação do supervisor para %{x}'
+  changed_final_assessment_to_x: 'Alterou a nota da avaliação final para %{x}'
+
+
+  # employee_goals
+  employee_goal:
+    assessment: 'Avaliação'
+    amount: 'Resultados'
+
+  #  functions
+  function:
+    description: "Função"
+    efective: 'Efectivo'
+    employees: 'Outros desta Posição'
+    name: 'Nome da Função'
+    new: 'Nova Função'
+    number: 'Número'
+  functions: 'Funções'
+
+  # goals
+  goals: "Objectivos"
+  goal:
+    objective: "Objectivo"
+    save: "Registar Objectivo"
+    edit: "Editar Objectivo"
+    new: "Novo Objectivo"
+    new_skill: "Nova Competência"
+    skill: "Competência"
+    new_objective: "Novo Objectivo"
+    name: "Objectivo"
+    goal_type: "Objectivo"
+    status: "Estado"
+    nature: "Modo de Avaliação"
+    unit: "Unidade"
+    target: "Meta"
+    percentage_on_the_type: "Percentagem do tipo"
+    percentage: "Percentagem"
+    assessment: "Avaliação"
+    position: 'Posição'
+    function: 'Funções'
+    update: 'Actualizar %{type} de %{year}'
+    period: 'Período'
+
+  # Justification
+  justification:
+    new: 'Justificar Faltas'
+    singular: 'Justificar Falta'
+
+
+  # plugins
+  plugins: 'Plugins'
+
+  # positions
+  position_boss: "Chefe Directo"
+  position:
+    description: "Posição"
+    number: "N.º Posição"
+    supervisor: "Supervisor"
+    configure: 'Configurar Posição'
+  positions: "Posições"
+  new_position: "Nova Posição"
+  edit_position: "Editar Posição"
+  organization_chart: "Organigrama"
+  position_name: "Descrição da Posição"
+  position_description: "Detalhes"
+  position_manager: "Supervisor"
+  position_department: "Departamento"
+  position_holder: "Colaborador"
+
+
+  # Results
+  result: "Resultado"
+
+  results:
+    note: "Nota"
+    attachment: "Anexo"
+    result_type: "Tipo de Resultado"
+    state: "Estado"
+
+
+
+
+  # settings
+  settings:
+    description: "Definições"
+    entity: "Nome da Entidade"
+    framework_version: "Versão da Plataforma"
+    ruby_version: "Versão do Ruby"
+    rails_version: "Versão do Rails"
+    plugins: "Módulos"
+
+  upload:
+    file: 'Carregar Ficheiro'
+    new: 'Novo Carregamento'
+    select_file: 'Escolha o Ficheiro'
+    upload: 'Carregar'
+    get_example: 'Baixar Exemplo'
+    get_model: 'Baixar Modelo'
+    upload_biometric_data: 'Carregar dados Biométricos'
+
+  # users
+  first_name: "Primeiro nome"
+  middle_name: "Segundo nome"
+  last_name: "Último nome"
+
+  users:
+    sessions:
+      new:
+        sign_in: "Entrar"
+    passwords:
+      new:
+        send_me_reset_password_instructions: 'Requisitar nova Senha'
+        forgot_your_password: "Nova Senha"
+      edit:
+        change_my_password: 'Alterar Senha'
+  user:
+    reset_password: 'Resetar Senha'
+    user_generate_password: 'Gerar Senha'
+    description: "Usuário"
+    new: 'Nova Conta'
+    edit: 'Actualizar Conta'
+    first_name: "Primeiro nome"
+    middle_name: "Segundo nome"
+    last_name: "Último nome"
+    email: "Correio Electrônico"
+    cellphone: 'Telemóvel'
+    password: "Nova senha"
+    new_password: "Nova senha"
+    password_confirmation: "Repita a nova senha"
+    current_password: "Senha actual"
+    leave_blank_if_you_don_t_want_to_change_it: "deixe em branco se não alterar"
+    user_data_title: "Dados do Usuário"
+    user_security_title: "Dados de Segurança"
+    employee_number: "Número do Colaborador"

@@ -1,0 +1,55 @@
+// User controller styles
+// box
+.login_box {
+  color: white;
+  font-size: 10px;
+  text-align: center;
+  text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  // width: 300px;
+}
+
+// box1 box2 ...
+.login_header {
+  background: black;
+}
+
+.login_body {
+  background: #fecb00;
+  flex-grow: 1;
+}
+
+// container
+.login_container {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.login_button {
+  //background: black;
+  // color: #fecb00;
+}
+
+label.input-custom-file input[type=file] {
+  display: none;
+}
+
+.responsice-img{
+  max-width: 100%;
+  height: auto;
+}
+
+.mdl-tabs__tab-bar {
+  justify-content: flex-start!important;
+}
+
+.user-avatar {
+  padding: 0px!important;
+}
+// .user-avatar:hover {
+//   -moz-transform: scale(1.1);
+//   -webkit-transform: scale(1.1);
+//   transform: scale(1.1);
+// }

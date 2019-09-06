@@ -1,0 +1,30 @@
+<%= simple_form_for(vacancy) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="vacancy-modal-form" class="modal modal-fullscreen modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= vacancy.new_record? ? view_t('.new_x', x: view_t('.vacancy')) : view_t('.edit_x', x: view_t('.vacancy')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.input :position, wrapper_html: {class: 'flex-col-xs-3'}, input_html: {class: ''} %>
+        <% f.input :number, wrapper_html: {class: 'flex-col-xs-3'}, input_html: {class: ''} %>
+        <%= f.input :status, collection: Vacancy.enums_map_t(:status), include_blank: false, include_blank: true, wrapper_html: {class: 'flex-col-xs-3'}, input_html: {class: 'default-selectize'} %>
+        <%= f.input :target, collection: Vacancy.enums_map_t(:target), include_blank: false, include_blank: true, wrapper_html: {class: 'flex-col-xs-3'}, input_html: {class: 'default-selectize'} %>
+        <%= f.input :contract_type, collection: Vacancy.enums_map_t(:contract_type), include_blank: false, wrapper_html: {class: 'flex-col-xs-3'}, input_html: {}%>
+        <%= f.input :year_of_experience, wrapper_html: {class: 'flex-col-xs-3'}, input_html: {}%>
+        <%= f.input :country, as: :string, wrapper_html: {class: 'flex-col-xs-3'}, input_html: {}%>
+        <%= f.input :province, wrapper_html: {class: 'flex-col-xs-3'}, input_html: {}%>
+        <%= f.input :city, wrapper_html: {class: 'flex-col-xs-3'}, input_html: {}%>
+        <%= f.input :job_description, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {}%>
+        <%= f.input :offer_ends_at, wrapper_html: {class: 'flex-col-xs-3'}, as: :string, input_html: {class: 'datepicker-here ', 'data-language' => 'pt', 'data-date-format' => 'dd/mm/yyyy', 'data-inline': 'false', value: (f.object.offer_ends_at.nil? || f.object.offer_ends_at.year == 9999) ? Date.current : f.object.offer_ends_at}, label: "Termina Em" %>
+
+        <%= f.input :requirements, as: :trix_editor, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), vacancy.cancel_url || vacancies_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

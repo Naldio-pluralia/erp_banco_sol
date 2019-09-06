@@ -1,0 +1,7 @@
+<%= index_bar(itens: {t(".assessment_settings") => assessment_settings_url, t('.assessment_setting') => nil}) do %>
+  <%= action_btn(content: t('update'), href: edit_assessment_setting_path(@assessment_setting) )%>
+  <% action_btn(content: t('update'), href: "#assessment_setting-modal-form", modal_trigger: true) %>
+<% end %>
+
+
+<%# render 'form', assessment_setting: @assessment_setting %>

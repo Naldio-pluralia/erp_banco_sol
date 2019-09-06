@@ -1,0 +1,21 @@
+<%= simple_form_for(social_security_tax_salary) do |f| %>
+  <div id="social_security_tax_salary-modal-form" class="-modal -modal-fixed-footer">
+    <div class="-modal-content">
+      <span class="h5-size"> <%= social_security_tax_salary.new_record? ? t('.new') : t('.edit') %> </span>
+      <hr>
+
+      <div class="row">
+        <%= f.input :name, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+        <%= f.input :abbr_name, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+        <%= f.input :value, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+        <%= f.association :salary, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+        <%= f.association :social_security_tax, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), social_security_tax_salary.new_record? ? social_security_tax_salaries_path : social_security_tax_salary_path(social_security_tax_salary), class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

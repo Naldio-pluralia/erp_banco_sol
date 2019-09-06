@@ -1,0 +1,107 @@
+<%= simple_form_for assessment do |f| %>
+    <%= form_url_helpers(f)%>
+    <div id="add-assessment" class="modal modal-fixed-footer">
+      <div class="modal-content">
+        <span class="h5-size"> <%= assessment.new_record? ? t('assessment.new') : t('assessment.update', year: assessment.year, status: t(assessment.status)) %> </span>
+        <hr>
+
+        <div class="row">
+
+          <% if assessment.new_record? %>
+              <% f.input :year, as: :air_datepicker, wrapper_html: {class: 'col m6 s12'}, input_html: {'data-toggle' => "datepicker"} %>
+              <%= f.input :year, as: :air_datepicker, wrapper_html: {class: 'col s12'}, input_html: {class: '', 'data-date-format' => 'yyyy', 'data-language'=>'pt', 'data-min-view'=>"years", 'data-view'=>"years"} %>
+          <% end %>
+
+          <% if assessment.new_record? %>
+              <%# f.input :status, collection: Assessment.statuses.for_select(:ts), wrapper_html: {class: 'm6 s2'} %>
+          <% end %>
+        </div>
+        <div class="row">
+          <%= f.input :skills_percentage, wrapper_html: {class: 'col m4 s12'} %>
+          <%= f.input :objectives_percentage, wrapper_html: {class: 'col m4 s12'} %>
+          <%= f.input :attendance_percentage, wrapper_html: {class: 'col m4 s12'} %>
+
+          <%= f.input :number_of_four_hours_delay_to_absence, as: :hidden %>
+          <%= f.input :number_of_three_hours_delay_to_absence, as: :hidden %>
+          <%= f.input :number_of_two_hours_delay_to_absence, as: :hidden %>
+          <%= f.input :number_of_one_hour_delay_to_absence, as: :hidden %>
+
+          <%= f.input :max_absences_for_five, as: :hidden %>
+          <%= f.input :max_absences_for_four, as: :hidden %>
+          <%= f.input :max_absences_for_three, as: :hidden %>
+          <%= f.input :max_absences_for_two, as: :hidden %>
+          <%= f.input :max_absences_for_one, as: :hidden %>
+        </div>
+
+        <div class="col s12" data-show-on-bigger-than="#assessment_attendance_percentage,0">
+          <p><%= t('assessment.attendance_configuration') %></p>
+
+          <div class="row">
+            <div class="col s4">
+              <%= t(:mark_x_four_hours_delays_as_absence, delay: slider_span('#assessment_number_of_four_hours_delay_to_absence')).html_safe %>
+            </div>
+            <div class="col s8">
+              <%= slider_for('#assessment_number_of_four_hours_delay_to_absence') %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s4">
+              <%= t(:mark_x_three_hours_delays_as_absence, delay: slider_span('#assessment_number_of_three_hours_delay_to_absence')).html_safe %>
+            </div>
+            <div class="col s8">
+              <%= slider_for('#assessment_number_of_three_hours_delay_to_absence') %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s4">
+              <%= t(:mark_x_two_hours_delays_as_absence, delay: slider_span('#assessment_number_of_two_hours_delay_to_absence')).html_safe %>
+            </div>
+            <div class="col s8">
+              <%= slider_for('#assessment_number_of_two_hours_delay_to_absence') %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s4">
+              <%= t(:mark_x_one_hour_delay_as_absence, delay: slider_span('#assessment_number_of_one_hour_delay_to_absence')).html_safe %>
+            </div>
+            <div class="col s8">
+              <%= slider_for('#assessment_number_of_one_hour_delay_to_absence') %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s6">
+              <%= t(:five_points_from_0_to_a_absences, a: slider_span("#assessment_max_absences_for_five")).html_safe %>
+            </div>
+
+            <div class="col s6">
+              <%= t(:four_points_from_a_to_b_absences, b: slider_span('#assessment_max_absences_for_four'), a: slider_span('#assessment_max_absences_for_five')).html_safe %>
+            </div>
+
+            <div class="col s6">
+              <%= t(:three_points_from_b_to_c_absences, c: slider_span('#assessment_max_absences_for_three'), b: slider_span('#assessment_max_absences_for_four')).html_safe %>
+            </div>
+
+            <div class="col s6">
+              <%= t(:two_points_from_c_to_d_absences, d: slider_span('#assessment_max_absences_for_two'), c: slider_span('#assessment_max_absences_for_three')).html_safe %>
+            </div>
+
+            <div class="col s6">
+              <%= t(:one_points_from_d_to_e_absences, e: slider_span('#assessment_max_absences_for_one'), d: slider_span('#assessment_max_absences_for_two')).html_safe %>
+            </div>
+          </div>
+
+          <br>
+          <br>
+          <br>
+
+          <%= multi_slider_for('#assessment_max_absences_for_five,#assessment_max_absences_for_four,#assessment_max_absences_for_three,#assessment_max_absences_for_two,#assessment_max_absences_for_one') %>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <%= f.button :submit, "#{assessment.id.present? ? 'Actualizar' : 'Registar'}", class: "btn btn-default" %>
+        <%= link_to "back".ts, assessment.cancel_url || assessments_map_url(assessment.id), class: "waves-effect waves-light btn btn-flat btn-cancel-form" %>
+      </div>
+    </div>
+<% end %>

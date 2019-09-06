@@ -1,0 +1,37 @@
+<div class="hide employee-details" >
+  <div class="flex-row" style="margin-top: 0px;">
+    <div class="flex-col-xs right-align list-btn-employee">
+      <%= action_btn(content: "Adicionar Nível", href: '#employee_paygrade-modal-form', modal_trigger: true) %>
+      <%= action_btn(content: "Add Tempo de Trab.", href: '#employee_work_period-modal-form', modal_trigger: true) %>
+    </div>
+  </div>
+</div>
+<br>
+<div class="flex-row" style="margin-top: 0px;">
+  <div class="flex-col-xs-6" style="padding-bottom: 15px;">
+    <%= box() do%>
+      <%= box_header(view_t('.employee_paygrades')) do%>
+        <%= box_action(:plus, href: '#employee_paygrade-modal-form', modal_trigger: true) if can?(:create, EmployeePaygrade)%>
+      <%end%>
+      <%= load_from(partial_view_list_employee_paygrades_url(limit: 7)) %>
+      <%= render 'employee_paygrades/form', employee_paygrade: @employee_paygrade %>
+    <%end%>
+  </div>
+  <div class="flex-col-xs-6" style="padding-bottom: 15px;">
+    <%= box() do%>
+      <%= box_header(view_t('.employee_work_periods')) do%>
+        <%= box_action(:plus, href: '#employee_work_period-modal-form', modal_trigger: true) if can?(:create, EmployeeWorkPeriod)%>
+      <%end%>
+      <%= load_from(partial_view_list_employee_work_periods_url(limit: 7)) %>
+      <%= render 'employee_work_periods/form', employee_work_period: @employee_work_period %>
+    <%end%>
+  </div>
+  <div class="flex-col-xs-12">
+    <%= box() do%>
+      <%= box_header(view_t('.employee_salaries')) do%>
+        <%#= box_action(:plus, href: '#employee_work_period-modal-form', modal_trigger: true) if can?(:create, EmployeeWorkPeriod)%>
+      <%end%>
+      <%= load_from(partial_view_list_employee_salaries_url(limit: 7)) %>
+    <%end%>
+  </div>
+</div>

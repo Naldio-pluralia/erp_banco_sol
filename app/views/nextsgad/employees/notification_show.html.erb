@@ -1,0 +1,24 @@
+<% @page_name = t('employees') %>
+<% items = {view_t("notifications") => notification_show_url, view_t('.notifications') => nil}%>
+<%= index_bar(itens: items) do %>
+  <%= action_btn(content: view_t('show'), href: @notification.url)  if @notification&.url.present?%>
+<% end %>
+
+<% if params[:notification_id] %>
+  <p><strong><%= t('description') %>: </strong><%= @notification&.description %></p>
+  <br>
+  <hr>
+<% end %>
+<%= l_table(class: :notifications_table) do %>
+  <%= t_header do %>
+    <%= h_cell(text: "created_at".ts)%>
+    <%= h_cell(text: "status".ts)%>
+  <%end%>
+
+    <%= t_body(elements: @notifications_employee) do |e| %>
+      <%= b_row(link_to: notification_show_url(current.employee, notification_id: e.id.encript)) do %>
+        <%= b_cell(element: e.notification.created_at.to_string("%A, %d / %B / %Y às %H:%M"), tooltip: 'alguma coisa') %>
+        <%= b_cell(element: e.enum_t(:status)) %>
+      <% end %>
+    <% end %>
+<% end %>

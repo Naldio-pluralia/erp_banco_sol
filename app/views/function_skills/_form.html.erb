@@ -1,0 +1,21 @@
+<%= simple_form_for(function_skill) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="function_skill-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> Nova Competência </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.input :min, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {class: ''} %>
+        <%= f.input :recomended, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {class: ''} %>
+        <%= f.association :skill, collection: Skill.where.not(id: f.object.function.function_skills.map(&:skill_id)).map_for_select(:name), include_blank: false, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: 'default-selectize'} %>
+        <%= f.input :function_id, as: :hidden, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), function_skill.cancel_url || function_skills_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

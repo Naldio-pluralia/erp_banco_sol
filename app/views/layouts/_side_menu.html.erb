@@ -1,0 +1,218 @@
+<style>
+
+  .side-nav {
+    width: 174px;
+    transition: all 0.5s cubic-bezier(0.12, 0.85, 0.26, 1.24);
+    -webkit-transition: all 0.5s cubic-bezier(0.12, 0.85, 0.26, 1.24);
+    -moz-transition: all 0.5s cubic-bezier(0.12, 0.85, 0.26, 1.24);
+    -o-transition: all 0.5s cubic-bezier(0.12, 0.85, 0.26, 1.24);
+
+  }
+
+  .side-nav *:not(.collapsible-body) {
+    transition: all 0.5s cubic-bezier(0.12, 0.85, 0.26, 1.24);
+    -webkit-transition: all 0.5s cubic-bezier(0.12, 0.85, 0.26, 1.24);
+    -moz-transition: all 0.5s cubic-bezier(0.12, 0.85, 0.26, 1.24);
+    -o-transition: all 0.5s cubic-bezier(0.12, 0.85, 0.26, 1.24);
+  }
+
+  body.minimized .side-nav {
+    width: 40px;
+  }
+
+  nav ul a:hover {
+    background-color: transparent;
+  }
+
+  body.minimized header, body.minimized main, body.minimized footer {
+    padding-left: 40px;
+  }
+
+  body header, body main, body footer {
+    padding-left: 174px;
+    transition: all 0.5s cubic-bezier(0.12, 0.85, 0.26, 1.24);
+    -webkit-transition: all 0.5s cubic-bezier(0.12, 0.85, 0.26, 1.24);
+    -moz-transition: all 0.5s cubic-bezier(0.12, 0.85, 0.26, 1.24);
+    -o-transition: all 0.5s cubic-bezier(0.12, 0.85, 0.26, 1.24);
+  }
+
+  .mtz-layout .ml_button:active, .mtz-layout .ml_button:focus, .next-ml *:focus,  .sn_button:focus{
+    outline: none;
+  }
+
+  @media only screen and (max-width: 992px) {
+    body header, body main, body footer {
+      padding-left: 0;
+    }
+  }
+
+  /*------------------header-------------------------*/
+
+  body .side-nav .sn-header {
+    height: 145px;
+    margin-top: 5px;
+  }
+
+  body .side-nav .sn-header a {
+    height: inherit;
+    padding: 0;
+  }
+
+  body.minimized .side-nav .sn-header a {
+    padding: 0;
+  }
+
+  body.minimized .side-nav .sn-header p {
+    display: none;
+  }
+
+  body .side-nav .sn-header a img {
+    width: 100px;
+    height: 100px;
+  }
+
+  body.minimized .side-nav .sn-header a img {
+    width: 38px;
+    height: 38px;
+  }
+
+  body .side-nav .sn-header * {
+    text-align: center;
+  }
+
+  /*------------------body-------------------------*/
+
+  body .side-nav .sn-body {
+    background-color: #fff;
+  }
+
+  body .side-nav .sn-body .collapsible-header {
+    height: 35px;
+
+  }
+
+  body .side-nav .sn-body .icon {
+    width: 35px;
+    display: block;
+    height: inherit;
+    float: left;
+  }
+
+  body .collapsible-header i {
+    margin: 0;
+  }
+
+  body.minimized .side-nav .sn-body .texto {
+    display: none;
+  }
+
+  body .side-nav .sn-body .texto {
+    width: calc(100% - 35px);
+    display: block;
+    height: inherit;
+    float: left;
+  }
+
+  body .side-nav .sn-body .icon i {
+    height: inherit;
+  }
+
+  body.minimized .side-nav .sn-body > ul.collapsible .collapsible-header, body.minimized .side-nav .sn-body > ul.collapsible > li ul.collapsible .collapsible-header, body.minimized .side-nav .sn-body > ul.collapsible > li ul.collapsible > li ul.collapsible .collapsible-header {
+    padding-left: 4px;
+    padding-right: 0;
+  }
+
+  /* v1 */
+  body .side-nav .sn-body > ul.collapsible .collapsible-header {
+    padding-left: 4px;
+    padding-right: 0;
+  }
+
+  body .side-nav .sn-body > ul.collapsible > li ul.collapsible .collapsible-header {
+    padding-left: 14px;
+  }
+
+  body .side-nav .sn-body > ul.collapsible > li ul.collapsible .collapsible-header .icon{
+    width: 26px;
+  }
+
+  body .side-nav .sn-body > ul.collapsible > li ul.collapsible > li ul.collapsible .collapsible-header {
+    padding-left: 24px;
+  }
+
+  body .side-nav .sn-body > ul.collapsible > li ul.collapsible .collapsible-header .icon i{
+    font-size: 18px;
+    text-align: left;
+  }
+
+  body .side-nav .sn-body > ul.collapsible > li ul.collapsible > li ul.collapsible .collapsible-header .icon i{
+    font-size: 14px
+  }
+  .side-nav li > a {
+    font-size: 11px;
+    line-height: 19px;
+  }
+
+  /*------------------footer-------------------------*/
+  body .side-nav .sn-footer a {
+    display: inline-block;
+    padding-left: 0;
+    padding-right: 0;
+    color: #333;
+  }
+
+  body .side-nav .sn-footer {
+    position: absolute;
+    width: 100%;
+    height: 200px;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+  }
+
+  .collapsible-header {
+    transition: all 0.5s cubic-bezier(0.12, 0.85, 0.26, 1.24);
+    -webkit-transition: all 0.5s cubic-bezier(0.12, 0.85, 0.26, 1.24);
+    -moz-transition: all 0.5s cubic-bezier(0.12, 0.85, 0.26, 1.24);
+    -o-transition: all 0.5s cubic-bezier(0.12, 0.85, 0.26, 1.24);
+  }
+
+  .collapsible-header.current-url:not(.with-block) {
+    background-color: #fab033;
+    color: #1c1c1c;
+  }
+
+  .side-nav .collapsible-header:hover:not(.with-block), .side-nav.fixed .collapsible-header:hover:not(.with-block) {
+    background-color: rgba(250, 176, 51, 0.65);
+    color: #090909;
+  }
+
+  .side-nav .collapsible-header,
+  .side-nav.fixed .collapsible-header {
+    line-height: 35px;
+  }
+
+  .sn_button_link {
+    top: calc(50vh - 175px);
+  }
+
+  body .sn_button_link > .sn_button {
+    height: 350px;
+    background-color: rgba(255, 255, 255, 0);
+    border: 0;
+    transform: rotate(180deg);
+    transition-duration: .5s;
+  }
+
+  body.minimized .sn_button_link > .sn_button {
+
+    transform: unset;
+  }
+</style>
+
+<%= sn_container do %>
+    <% other_plugins = Plugin.where(is_active: true).as_hash %>
+    <% Plugin.roots.where(is_active: true).order(:order).each do |root| %>
+        <%= side_menu(root, other_plugins) %>
+    <% end %>
+<% end %>

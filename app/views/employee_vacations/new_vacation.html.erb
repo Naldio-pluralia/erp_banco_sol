@@ -1,0 +1,31 @@
+<%= div(class: 'new_vacation') do %>
+  <%= simple_form_for([@employee, @employee_vacation], url: employee_create_vacation_url, html: {remote: true, retabulate: '#presence-map'}) do |f| %>
+    <%= form_url_helpers(f)%>
+    <div class="flex-row flex-top">
+      <%= div(class: 'flex-col-xs-12', style: 'text-align: right;') do%>
+        <%= f.button :submit %>
+      <%end%>
+      <%= f.input :left_at_and_returned_at, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {class: 'flatpicker_range'} %>
+      <%# f.input :returned_at, as: :air_datepicker, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {'data-language' => 'pt'} %>
+      <%# f.input :number_of_days, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+      <%=
+        if @employee.present?
+          div(class: "flex-col-xs-6") do
+            div(class: "flex-row") do
+              if @employee_vacation.new_record?
+                @employee_vacation.employee.employee_avaliable_vacations.with_vacations_not_overdue.each do |g|
+                  divc("#{g.year} - #{t(:days, count: g.number_of_days_remaining)}, disponíveis até #{l(g.valid_until, format: "%B %Y")}", class: "flex-col-xs-12")
+                end
+              else
+                days = @employee_vacation.vacation_days.to_a
+                @employee_vacation.employee.employee_avaliable_vacations.with_vacations_not_overdue.each do |g|
+                  divc("#{g.year} - #{t(:days, count: g.number_of_days_remaining + days.select{|h| h.employee_avaliable_vacation_id == g.id}.size)}, disponíveis até #{l(g.valid_until, format: "%B %Y")}", class: "flex-col-xs-12")
+                end
+              end
+            end
+          end
+        end
+      %>
+    </div>
+  <% end %>
+<%end%>

@@ -1,0 +1,1 @@
+json.partial! "social_security_tax_salaries/social_security_tax_salary", social_security_tax_salary: @social_security_tax_salary

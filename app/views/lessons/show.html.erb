@@ -1,0 +1,19 @@
+<%= index_bar(itens: {view_t(".lessons") => lessons_url, view_t('.lesson') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_lesson_path(@lesson) ) if can?(:edit, @lesson) %>
+  <%= action_btn(content: view_t('update'), href: "#lesson-modal-form", modal_trigger: true) if can?(:edit, @lesson) %>
+<% end %>
+
+
+<%= show_item(".name", @lesson.name) %>
+
+
+<%= show_item(".video", @lesson.video) %>
+
+
+<%= show_item(".text", @lesson.text) %>
+
+
+<%= show_item(".chapter", @lesson.chapter) %>
+
+
+<%= render 'form', lesson: @lesson %>

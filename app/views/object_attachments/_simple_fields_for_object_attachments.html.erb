@@ -1,0 +1,4 @@
+<%= f.simple_fields_for :object_attachments do |ff| %>
+  <%= ff.association :employee, as: :hidden %>
+  <%= ff.input :kind, as: :hidden %>
+<% end %>

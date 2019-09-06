@@ -1,0 +1,38 @@
+<%= simple_form_for(goal, url: assessment_create_skill_url(goal.assessment_id)) do |f| %>
+    <%= f.input :cancel_url, as: :hidden %>
+    <%= f.input :redirect_url, as: :hidden %>
+    <div id="add-assessment-skill" class="modal modal-fixed-footer">
+      <div class="modal-content">
+        <span class="h5-size"> <%= t('assessment.new_skill') %></span>
+        <hr>
+        <div class="row" style="margin:0;">
+
+          <%= f.input :name, label: t("goal.skill"), wrapper_html: {class: 'col s12'} %>
+
+        </div>
+        <div class="row" style="margin:0;">
+
+          <%= f.input :for_everyone, wrapper_html: {class: 'col s6', style: 'padding-top: 18px;padding-bottom: 28px;'}, as: :bootstrap_switch %>
+
+          <%= f.association :functions, label: t("goal.function"), collection: Function.all.map {|a| [a.name, a.id]}, optional: false, wrapper_html: {class: 'col s6', "data-on-check": "#goal_for_everyone,hide"}, input_html: {class: 'default-selectize'} %>
+
+        </div>
+        <div class="row" style="margin:0;">
+
+          <% f.input :status, label: t("goal.status"), collection: Goal.statuses.for_select(:ts), wrapper_html: {class: 'col s6'}, input_html: {class: 'default-selectize'} %>
+
+          <%= f.input :nature, label: t("goal.nature"), collection: Goal.natures.for_select(:ts), wrapper_html: {class: 'col s12'}, input_html: {class: 'default-selectize'} %>
+
+          <%= f.input :target, label: t("goal.target"), wrapper_html: {class: 'col s6', "data-show-on-select": "#goal_nature,numeric"} %>
+
+          <%= f.input :unit, label: t("goal.unit"), collection: Goal.units.for_select(:ts), wrapper_html: {class: 'col s6', "data-show-on-select": "#goal_nature,numeric"}, input_html: {class: 'default-selectize'} %>
+
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <%= f.button :submit, "#{goal.new_record? ? 'Registar' : 'Actualizar'}", class: "btn btn-default" %>
+        <%= link_to t(:cancel), goal.cancel_url || assessment_url(goal.assessment_id), class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+      </div>
+    </div>
+<% end %>

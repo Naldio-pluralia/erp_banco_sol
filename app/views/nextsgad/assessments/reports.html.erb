@@ -1,0 +1,1146 @@
+<%= index_bar(itens: {'Relatórios' => nil}) do %>
+  <div class="flex-row flex-end-xs flex-center-xs">
+    <div class="flex-col" style="padding: 0 3px;">
+      <%= form_tag assessment_reports_url, :method => 'get', class: 'form-inline auto_submit_form' do %>
+        <input type='text' class="air_datepicker form-control string" name="alt_year" value="<%= params[:alt_year] %>" data-position="bottom right" data-language="pt" data-date-format="yyyy" data-min-view="years" data-view="years" data-toggle-selected="true"/>
+      <% end %>
+    </div>
+    <div class="flex-col" style="padding: 0 3px;">
+      <%= form_tag assessment_reports_url(format: :pdf), :method => 'get', id: 'pdf-chartjs', style: 'padding-top: 3px;' do %>
+        <input type='hidden' name="alt_year" value="<%= params[:alt_year] %>"/>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<!--# presents information regarding the assessment-->
+<!-- ============================================ REPORTER POR DIRECAO ================================================== -->
+
+<% if @assessment.present? %>
+  <% unless @current_year == '2018'%>
+    <div class="row">
+      <div class="col s12" style="position: relative;">
+        <%= chart_export_btn('#employee_goals_by_date_chart', 'Avaliações') %>
+        <%= line_chart @data, @options %>
+        <hr>
+      </div>
+    </div>
+
+    <%= filter_modal(assessment_reports_url(year: params[:year]), 'employees_assessments') do %>
+      <input type='hidden' name="alt_year" value="<%= params[:alt_year] %>"/>
+      <div class="flex-row">
+        <div class="flex-col-xs-12 flex-col-sm-3">
+          <%= select_tag 'organic_unit_id[]', options_for_select(OrganicUnit.all.map {|p| ["#{p.abbreviation} - #{p.name}", p.id]}, params[:organic_unit_id]), multiple: :multiple, class: "default-selectize", prompt: "Unidade Orgânica" %>
+        </div>
+        <div class="flex-col-xs-12 flex-col-sm-3">
+          <%= select_tag 'self_assessment_status[]', options_for_select(EmployeeAssessment.enums_map_t(:self_assessment_status), params[:self_assessment_status]), multiple: :multiple, class: "default-selectize", prompt: "Auto Avaliação" %>
+        </div>
+        <div class="flex-col-xs-12 flex-col-sm-3">
+          <%= select_tag 'supervisor_assessment_status[]', options_for_select(EmployeeAssessment.enums_map_t(:supervisor_assessment_status), params[:supervisor_assessment_status]), multiple: :multiple, class: "default-selectize", prompt: "Avaliação do Chefe" %>
+        </div>
+        <div class="flex-col-xs-12 flex-col-sm-3">
+          <%= select_tag 'final_assessment_status[]', options_for_select(EmployeeAssessment.enums_map_t(:final_assessment_status), params[:final_assessment_status]), multiple: :multiple, class: "default-selectize", prompt: "Avaliação Final" %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="row">
+      <div class="col s6" style="position: relative;max-height: 603px;min-height:  100px;">
+        <%= chart_export_btn('#completion_by_dep_chart', 'Avaliações') %>
+        <%= horizontal_bar_chart @data_2, @options_2 %>
+      </div>
+      <div class="col s6 right-align">
+        <%= action_btn_dropdown(content: t('export'), data_activates: "dropdown-export") do %>
+          <%= dropdown_item(export: :xls, color: :green) %>
+        <% end %>
+        <%= action_btn(filter: :employees_assessments) %>
+
+        <hr style="margin-top: 7px;margin-bottom: 7px;">
+
+        <%= l_table do %>
+          <%= t_header do %>
+            <%= h_cell(text: "Nº Mec.") %>
+            <%= h_cell(text: t('employee_name')) %>
+            <%= h_cell(text: t('departments')) %>
+            <th class="mdl-data-table__cell--non-numeric cell-align" style="width: 40px;"><%= t('short.self_assessment') %></th>
+            <th class="mdl-data-table__cell--non-numeric cell-align" style="width: 40px;"><%= t('short.supervisor_assessment') %></th>
+            <th class="mdl-data-table__cell--non-numeric cell-align" style="width: 40px;"><%= t('short.final_assessment') %></th>
+          <% end %>
+
+          <%= t_body(elements: @employees_assessments) do |e| %>
+            <%= b_row do %>
+              <%= b_cell(element: @employees_by_id[e.employee_id]&.number || t('n/a')) %>
+              <%= b_cell(element: @employees_by_id[e.employee_id]&.first_and_last_name || t('n/a')) %>
+              <%= b_cell(element: @departments_by_id[@positions_by_employee_id[e.employee_id]&.department_id]&.name_and_number || t('n/a')) %>
+              <td class="mdl-data-table__cell--non-numeric color" style="width: 40px;font-size: 13px;"> <%= employee_self_assessment_color(@employees_assessments_index_by_employee_id[e.id], :self) %> </td>
+              <td class="mdl-data-table__cell--non-numeric color" style="width: 40px;font-size: 13px;"> <%= employee_self_assessment_color(@employees_assessments_index_by_employee_id[e.id], :supervisor) %> </td>
+              <td class="mdl-data-table__cell--non-numeric color" style="width: 40px;font-size: 13px;"> <%= employee_self_assessment_color(@employees_assessments_index_by_employee_id[e.id], :final) %> </td>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <hr>
+    <%= form_tag assessment_reports_url(year: params[:year]), :method => 'get', class: "auto_submit_form" do %>
+      <input type='hidden' name="alt_year" value="<%= params[:alt_year] %>"/>
+      <div class="row " style="margin-bottom: 5px;">
+        <div class="col s3 offset-s9 no-padding">
+          <%= select_tag 'employee_goal_department_id', options_for_select(@departaments_filter, params[:employee_goal_department_id]), class: "default-selectize", prompt: "Departamento" %>
+        </div>
+      </div>
+    <% end %>
+
+    <% if params[:employee_goal_department_id].present? && params[:employee_goal_department_id].to_i == 0 %>
+        <%= render "company_average" %>
+    <% elsif params[:employee_goal_department_id].present? && params[:employee_goal_department_id].to_i != 0 %>
+        <%= render "reports_value" %>
+    <% else %>
+        <%= render "reports_default" %>
+    <% end %>
+
+    <br>
+    <hr>
+    <!-- ============================================ REPORTER POR DIRECAO ================================================== -->
+
+    <div class="row">
+      <div class="col s6 chart-container" style="position: relative;">
+        <%= chart_export_btn('#chartjs-1', 'Universo de Aplicação') %>
+        <%=
+          positions_data = Position.all.includes(:positions).group_by{|p| p.positions.size > 0}
+          data = {
+            labels: ["Chefias", "Não Chefias"],
+            datasets: [
+              {
+                label: "Participantes",
+                backgroundColor: ["#fab033", "rgba(99, 200, 99, 0.5)"],
+                data: [positions_data[true]&.size || 0, positions_data[false]&.size || 0]
+              }
+            ]
+          }
+          options = {
+            id: 'chartjs-1',
+            height: '180',
+            title: {
+              display: true,
+              text: 'Universo de Aplicação'
+            }
+          }
+          doughnut_chart data, options
+        %>
+      </div>
+      <div class="col s6 chart-container" style="position: relative;">
+        <%= chart_export_btn('#chartjs-2', 'Graus de Concretização') %>
+        <%=
+          goals_array = @assessment.employee_goals.includes(position: [:function, :department])
+          employees_assessments = @assessment.employees_assessments.includes(employee: {efective_position: [:function, :department]}).to_a
+          data = {
+            labels: ["Avaliações Terminadas", "Avaliações Incompletas", 'Avaliações Não Iniciadas'],
+            datasets: [
+              {
+                label: "Participantes",
+                backgroundColor: ['rgba(99, 200, 99, 0.5)', 'rgba(250, 176, 51, 0.5)', 'rgba(200, 12, 12, 0.5)'],
+                data: [employees_assessments.count(&:completed?), employees_assessments.count(&:in_progress?), employees_assessments.count(&:pending?)]
+              }
+            ]
+          }
+          options = {
+            id: 'chartjs-2',
+            height: '180',
+            title: {
+              display: true,
+              text: 'Graus de Concretização'
+            }
+          }
+          pie_chart data, options
+        %>
+      </div>
+    </div>
+
+    <!-- ============================================ REPORTER POR DIRECAO ================================================== -->
+    <br>
+    <hr>
+    <div class="row">
+      <div class="col s6 chart-container" style="position: relative;">
+        <%= chart_export_btn('#chartjs-3', 'Graus de Concretização do Últimos 2 anos') %>
+        <%=
+          last_year_assessment = Assessment.find_by(year: @assessment.year.to_i - 1) || Assessment.new
+          # last_year_goals = last_year_assessment.employee_goals
+          last_year_assessments = last_year_assessment.employees_assessments
+          data = {
+            labels: ["Avaliações Terminadas", "Avaliações Incompletas", 'Avaliações Não Iniciadas'],
+            datasets: [
+              {
+                label: @assessment.year.to_i - 1,
+                backgroundColor: 'rgba(200, 12, 12, 0.5)',
+                data: [last_year_assessments.count(&:completed?), last_year_assessments.count(&:in_progress?), last_year_assessments.count(&:pending?)]
+              },
+              {
+                label: @assessment.year,
+                backgroundColor: 'rgba(99, 200, 99, 0.7)',
+                data: [employees_assessments.count(&:completed?), employees_assessments.count(&:in_progress?), employees_assessments.count(&:pending?)]
+              }
+            ]
+          }
+          options = {
+            id: 'chartjs-3',
+            height: '180',
+            title: {
+              display: true,
+              text: 'Graus de Concretização do Últimos 2 anos'
+            },
+            scales: {
+              xAxes: [{
+                barThickness: 9,
+                ticks: {
+                  fontSize: 9
+                }
+              }],
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true,
+                    fontSize: 9,
+                    #max: 100,
+                    min: 0,
+                    #stepSize: 25
+                  }
+                }
+              ]
+            }
+          }
+
+          bar_chart data, options
+        %>
+      </div>
+      <div class="col s6 chart-container" style="position: relative;">
+        <%= chart_export_btn('#chartjs-4', 'Níveis de Concretização') %>
+        <%=
+          data = {
+            labels: ["Reunião", "Supervisor", 'Auto'],
+            datasets: [
+              {
+                label: "Avaliações Completas",
+                backgroundColor: 'rgba(99, 200, 99, 0.7)',
+                borderColor: "rgba(220,220,220,1)",
+                data: [employees_assessments.count(&:final_completed?), employees_assessments.count(&:supervisor_completed?), employees_assessments.count(&:self_completed?)]
+              },
+              {
+                label: "Avaliações Incompletas",
+                backgroundColor: 'rgba(200, 12, 12, 0.5)',
+                borderColor: "rgba(220,220,220,1)",
+                data: [employees_assessments.count{|a| !a.final_completed?}, employees_assessments.count{|a| !a.supervisor_completed?}, employees_assessments.count{|a| !a.self_completed?}]
+              }
+            ]
+          }
+
+          options = {
+            id: 'chartjs-4',
+            height: '180',
+            scales: {
+                xAxes: [{
+                  stacked: true,
+                  barThickness: 9,
+                  ticks: {
+                    beginAtZero: true,
+                    fontSize: 9,
+                    max: 100,
+                    min: 0,
+                    stepSize: 25
+                  }
+                }],
+                yAxes: [{
+                  stacked: true
+                }]
+            },
+            title: {
+              display: true,
+              text: 'Níveis de Concretização'
+            }
+          }
+          horizontal_bar_chart data, options
+        %>
+      </div>
+    </div>
+
+
+    <!-- ============================================ REPORTER POR DIRECAO ================================================== -->
+
+    <br>
+    <hr>
+    <div class="row">
+      <div class="col s12 chart-container" style="position: relative;">
+        <%= chart_export_btn('#chartjs-6', 'Comparação') %>
+        <%=
+          goals_data_comparison = employees_assessments.group_by{|g| g.employee&.efective_position&.department&.name || 'N/D'}.map{|k,assessments| [k, assessments.count(&:completed?).percentage_in(assessments.size).round(2), assessments.count(&:not_completed?).percentage_in(assessments.size).round(2)]}
+          data = {
+            labels: goals_data_comparison.map(&:first),
+            datasets: [
+              {
+                label: "Avaliações Terminadas",
+                backgroundColor: "rgba(99, 200, 99, 0.5)",
+                data: goals_data_comparison.map(&:second)
+              },
+              {
+                label: "Avaliações Incompletas",
+                backgroundColor: "rgba(200, 12, 12, 0.5)",
+                data: goals_data_comparison.map(&:third)
+              }
+            ]
+          }
+          options = {
+            id: 'chartjs-6',
+            height: '80',
+            scales: {
+              xAxes: [{
+                barThickness: 9,
+                ticks: {
+                  fontSize: 9
+                }
+              }],
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true,
+                    fontSize: 9,
+                    max: 100,
+                    min: 0,
+                    stepSize: 25
+                  }
+                }
+              ]
+            }
+          }
+          bar_chart data, options
+        %>
+      </div>
+    </div>
+
+    <!-- ============================================ REPORTER POR DIRECAO ================================================== -->
+
+    <br>
+    <hr>
+    <div class="row">
+      <div class="col s6 chart-container" style="position: relative;">
+        <%= chart_export_btn('#chartjs-7', 'Classificações Finais') %>
+        <%=
+          data = {
+            labels: ["Excelente", "Bom", "Suficiente", "Insuficiente", "Mau"],
+            datasets: [
+              {
+                label: "Classificações Finais Globais",
+                backgroundColor: ['rgba(99, 200, 99, 0.5)', 'rgba(99, 100, 99, 0.5)', 'rgba(250, 176, 51, 0.5)', 'rgba(150, 176, 51, 0.5)', 'rgba(200, 12, 12, 0.5)'],
+                data: [employees_assessments.count(&:excelent?), employees_assessments.count(&:good?), employees_assessments.count(&:suficient?), employees_assessments.count(&:insuficient?), employees_assessments.count(&:bad?)]
+              }
+            ]
+          }
+          options = {
+            id: 'chartjs-7',
+            height: '180',
+            title: {
+              display: true,
+              text: 'Classificações Finais'
+            }
+          }
+          doughnut_chart data, options
+        %>
+      </div>
+      <div class="col s6 chart-container" style="position: relative;">
+        <%= chart_export_btn('#chartjs-8', 'Classificações Finais nos Últimos 2 anos') %>
+        <%=
+          data = {
+            labels: ["Excelente", "Bom", "Suficiente", "Insuficiente", "Mau"],
+            datasets: [
+              {
+                label: @assessment.year.to_i - 1,
+                backgroundColor: 'rgba(99, 100, 99, 0.5)',
+                data: [last_year_assessments.count(&:excelent?), last_year_assessments.count(&:good?), last_year_assessments.count(&:suficient?), last_year_assessments.count(&:insuficient?), last_year_assessments.count(&:bad?)]
+              },
+              {
+                label: @assessment.year,
+                backgroundColor: 'rgba(99, 200, 99, 0.7)',
+                data: [employees_assessments.count(&:excelent?), employees_assessments.count(&:good?), employees_assessments.count(&:suficient?), employees_assessments.count(&:insuficient?), employees_assessments.count(&:bad?)]
+              }
+            ]
+          }
+          options = {
+            id: 'chartjs-8',
+            height: '180',
+            title: {
+              display: true,
+              text: 'Classificações Finais nos Últimos 2 anos'
+            },
+            scales: {
+              xAxes: [{
+                barThickness: 9,
+                ticks: {
+                  fontSize: 9
+                }
+              }],
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true,
+                    fontSize: 9,
+                    #max: 100,
+                    min: 0,
+                    #stepSize: 25
+                  }
+                }
+              ]
+            }
+          }
+
+          bar_chart data, options
+        %>
+      </div>
+    </div>
+
+    <!-- ============================================ REPORTER POR DIRECAO ================================================== -->
+
+    <br>
+    <hr>
+    <div class="row">
+      <div class="col s6 chart-container" style="position: relative;">
+        <%= chart_export_btn('#chartjs-9', 'Evolução das Classificações nos Últimos 3 anos') %>
+        <%=
+          before_last_year_assessment = Assessment.find_by(year: @assessment.year.to_i - 2) || Assessment.new
+          before_last_year_assessments = before_last_year_assessment.employees_assessments.to_a
+
+          data = {
+            labels: ["Reunião", "Chefia", 'Auto'],
+            datasets: [
+              {
+                label: @assessment.year.to_i - 2,
+                backgroundColor: 'rgba(200, 12, 12, 0.5)',
+                data: [before_last_year_assessments.map(&:result).avg.round(2), before_last_year_assessments.map(&:supervisor_result).avg.round(2), before_last_year_assessments.map(&:self_result).avg.round(2)]
+              },
+              {
+                label: @assessment.year.to_i - 1,
+                backgroundColor: 'rgba(250, 176, 51, 0.6)',
+                data: [last_year_assessments.map(&:result).avg.round(2), last_year_assessments.map(&:supervisor_result).avg.round(2), last_year_assessments.map(&:self_result).avg.round(2)]
+              },
+              {
+                label: @assessment.year,
+                backgroundColor: 'rgba(99, 200, 99, 0.7)',
+                data: [employees_assessments.map(&:result).avg.round(2), employees_assessments.map(&:supervisor_result).avg.round(2), employees_assessments.map(&:self_result).avg.round(2)]
+              }
+            ]
+          }
+          options = {
+            id: 'chartjs-9',
+            height: '180',
+            title: {
+              display: true,
+              text: 'Evolução das Classificações nos Últimos 3 anos'
+            },
+            scales: {
+                yAxes: [{
+                  ticks: {
+                    beginAtZero: true,
+                    fontSize: 8,
+                    max: 5,
+                    min: 0,
+                    stepSize: 1
+                  }
+                }
+              ]
+            }
+          }
+          bar_chart data, options
+          %>
+      </div>
+      <div class="col s6 chart-container" style="position: relative;">
+        <%= chart_export_btn('#chartjs-10', 'Avaliações por funcão') %>
+        <%=
+          goals_average_by_function = employees_assessments.group_by{|g| g.employee&.efective_position&.function&.name || 'N/D'}.map{|func_name, assessments| p [func_name, assessments.map(&:result).avg.round(2)]; [func_name, assessments.map(&:result).avg.round(2)]}.to_h
+          data = {
+            labels: goals_average_by_function.keys,
+            datasets: [
+              {
+                label: "Avaliações por função",
+                backgroundColor: 'rgba(250, 176, 51, 0.5)',
+                data: goals_average_by_function.values
+              }
+            ]
+          }
+          options = {
+            id: 'chartjs-10',
+            height: (((goals_average_by_function.size))*9 + 70).to_s,
+            scales: {
+                xAxes: [{
+                  ticks: {
+                    beginAtZero: true,
+                    fontSize: 8,
+                    max: 5,
+                    min: 0,
+                    stepSize: 1
+                  },
+                  scaleLabel: {
+                    display: false
+                  },
+                  gridLines: {
+                  },
+                  stacked: true
+                }],
+                yAxes: [
+                  {
+                    barThickness: 9,
+                    ticks: {
+                      fontSize: 7
+                    }
+                  }
+                ]
+            }
+          }
+          horizontal_bar_chart data, options
+        %>
+      </div>
+    </div>
+    <!--information to present when no assessment was found-->
+  <% else %>
+    <div class="row">
+      <div class="col s12" style="position: relative;">
+        <%= chart_export_btn('#employee_goals_by_date_chart', 'Avaliações') %>
+        <%= line_chart @data, @options %>
+        <hr>
+      </div>
+    </div>
+
+    <%= filter_modal(assessment_reports_url(year: params[:year]), 'employees_assessments') do %>
+      <input type='hidden' name="alt_year" value="<%= params[:alt_year] %>"/>
+      <div class="flex-row">
+        <div class="flex-col-xs-12 flex-col-sm-3">
+          <%= select_tag 'organic_unit_id[]', options_for_select(OrganicUnit.all.map {|p| ["#{p.abbreviation} - #{p.name}", p.id]}, params[:organic_unit_id]), multiple: :multiple, class: "default-selectize", prompt: "Unidade Orgânica" %>
+        </div>
+        <div class="flex-col-xs-12 flex-col-sm-3">
+          <%#= select_tag 'self_assessment_status[]', options_for_select(EmployeeAssessment.enums_map_t(:self_assessment_status), params[:self_assessment_status]), multiple: :multiple, class: "default-selectize", prompt: "Auto Avaliação" %>
+        </div>
+        <div class="flex-col-xs-12 flex-col-sm-3">
+          <%#= select_tag 'supervisor_assessment_status[]', options_for_select(EmployeeAssessment.enums_map_t(:supervisor_assessment_status), params[:supervisor_assessment_status]), multiple: :multiple, class: "default-selectize", prompt: "Avaliação do Chefe" %>
+        </div>
+        <div class="flex-col-xs-12 flex-col-sm-3">
+          <%#= select_tag 'final_assessment_status[]', options_for_select(EmployeeAssessment.enums_map_t(:final_assessment_status), params[:final_assessment_status]), multiple: :multiple, class: "default-selectize", prompt: "Avaliação Final" %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="row">
+      <div class="col s6" style="position: relative;max-height: 603px;min-height:  100px;">
+        <%= chart_export_btn('#completion_by_dep_chart', 'Avaliações') %>
+        <%= horizontal_bar_chart @data_2, @options_2 %>
+      </div>
+      <div class="col s6 right-align">
+        <%= action_btn_dropdown(content: t('export'), data_activates: "dropdown-export") do %>
+          <%#= dropdown_item(export: :xls, color: :green) %>
+        <% end %>
+        <%= action_btn(filter: :employees_assessments) %>
+
+        <hr style="margin-top: 7px;margin-bottom: 7px;">
+
+        <%= l_table do %>
+          <%= t_header do %>
+            <th class="mdl-data-table__cell--non-numeric cell-align" style="width: 50px;">Nº Mec.</th>
+            <th class="mdl-data-table__cell--non-numeric text-left" style="width: 200px;"><%= t('employee_name')%></th>
+            <%= h_cell(text: t('departments')) %>
+            <th class="mdl-data-table__cell--non-numeric cell-align" style="width: 40px;"><%= t('short.self_assessment') %></th>
+            <th class="mdl-data-table__cell--non-numeric cell-align" style="width: 40px;"><%= t('short.supervisor_assessment') %></th>
+            <th class="mdl-data-table__cell--non-numeric cell-align" style="width: 40px;"><%= t('short.final_assessment') %></th>
+          <% end %>
+
+          <%= t_body(elements: @employees_assessments_progress) do |e| %>
+            <%= b_row do %>
+              <td class="mdl-data-table__cell--non-numeric cell-align color" style="width: 50px;"> <%= e[0] || t('n/a') %> </td>
+              <td class="text-left color" style="width: 200px;"> <%= e[1] || t('n/a') %> </td>
+              <%= b_cell(element: e[2] || t('n/a')) %>
+              <td class="mdl-data-table__cell--non-numeric cell-align color" style="width: 40px;font-size: 13px;"> <%= employee_assessment_color(e[3]) || t('n/a') %> </td>
+              <td class="mdl-data-table__cell--non-numeric cell-align color" style="width: 40px;font-size: 13px;"> <%= employee_assessment_color(e[4]) || t('n/a') %> </td>
+              <td class="mdl-data-table__cell--non-numeric cell-align color" style="width: 40px;font-size: 13px;"> <%= employee_assessment_color(e[5]) || t('n/a') %> </td>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <hr>
+    <%= form_tag assessment_reports_url(year: params[:year]), :method => 'get', class: "auto_submit_form" do %>
+      <input type='hidden' name="alt_year" value="<%= params[:alt_year] %>"/>
+      <div class="row " style="margin-bottom: 5px;">
+        <div class="col s3 offset-s9 no-padding">
+          <%= select_tag 'employee_organic_unit_id', options_for_select(@organic_units, params[:employee_organic_unit_id]), class: "default-selectize", prompt: "Unidades Orgânicas" %>
+        </div>
+      </div>
+    <% end %>
+
+    <% if params[:employee_organic_unit_id].present? && params[:employee_organic_unit_id].to_i == 0 %>
+        <%= render "company_average" %>
+    <% elsif params[:employee_organic_unit_id].present? && params[:employee_organic_unit_id].to_i != 0 %>
+        <%= render "reports_value" %>
+    <% else %>
+        <%= render "reports_default" %>
+    <% end %>
+
+    <br>
+    <hr>
+    <!-- ============================================ REPORTER POR DIRECAO ================================================== -->
+
+    <div class="row">
+      <div class="col s6 chart-container" style="position: relative;">
+        <%= chart_export_btn('#chartjs-1', 'Universo de Aplicação') %>
+        <%=
+          positions_data = Position.all.includes(:positions).group_by{|p| p.positions.size > 0}
+          data = {
+            labels: ["Chefias", "Não Chefias"],
+            datasets: [
+              {
+                label: "Participantes",
+                backgroundColor: ["#fab033", "rgba(99, 200, 99, 0.5)"],
+                data: [positions_data[true]&.size || 0, positions_data[false]&.size || 0]
+              }
+            ]
+          }
+          options = {
+            id: 'chartjs-1',
+            height: '180',
+            title: {
+              display: true,
+              text: 'Universo de Aplicação'
+            }
+          }
+          doughnut_chart data, options
+        %>
+      </div>
+      <div class="col s6 chart-container" style="position: relative;">
+        <%= chart_export_btn('#chartjs-2', 'Graus de Concretização') %>
+        <%=
+          data = {
+            labels: ["Avaliações Terminadas", "Avaliações Incompletas", 'Avaliações Não Iniciadas'],
+            datasets: [
+              {
+                label: "Participantes",
+                backgroundColor: ['rgba(99, 200, 99, 0.5)', 'rgba(250, 176, 51, 0.5)', 'rgba(200, 12, 12, 0.5)'],
+                data: [@degree_of_concretization[0].to_i, @degree_of_concretization[1].to_i, @degree_of_concretization[2].to_i]
+              }
+            ]
+          }
+          options = {
+            id: 'chartjs-2',
+            height: '180',
+            title: {
+              display: true,
+              text: 'Graus de Concretização'
+            }
+          }
+          pie_chart data, options
+        %>
+      </div>
+    </div>
+
+    <!-- ============================================ REPORTER POR DIRECAO ================================================== -->
+    <br>
+    <hr>
+    <div class="row">
+      <div class="col s6 chart-container" style="position: relative;">
+        <%= chart_export_btn('#chartjs-3', 'Graus de Concretização do Últimos 2 anos') %>
+        <%=
+          last_year_assessment = Assessment.find_by(year: 2017) || Assessment.new
+          # last_year_goals = last_year_assessment.employee_goals
+          last_year_assessments = last_year_assessment.employees_assessments
+          data = {
+            labels: ["Avaliações Terminadas", "Avaliações Incompletas", 'Avaliações Não Iniciadas'],
+            datasets: [
+              {
+                label: @assessment.year.to_i - 1,
+                backgroundColor: 'rgba(200, 12, 12, 0.5)',
+                data: [last_year_assessments.count(&:completed?), last_year_assessments.count(&:in_progress?), last_year_assessments.count(&:pending?)]
+              },
+              {
+                label: '2018',
+                backgroundColor: 'rgba(99, 200, 99, 0.7)',
+                data: [@degree_of_concretization[0].to_i, @degree_of_concretization[1].to_i, @degree_of_concretization[2].to_i]
+              }
+            ]
+          }
+          options = {
+            id: 'chartjs-3',
+            height: '180',
+            title: {
+              display: true,
+              text: 'Graus de Concretização do Últimos 2 anos'
+            },
+            scales: {
+              xAxes: [{
+                barThickness: 9,
+                ticks: {
+                  fontSize: 9
+                }
+              }],
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true,
+                    fontSize: 9,
+                    #max: 100,
+                    min: 0,
+                    #stepSize: 25
+                  }
+                }
+              ]
+            }
+          }
+
+          bar_chart data, options
+        %>
+      </div>
+      <!-- TODO fazer os select deste grafico -->
+      <div class="col s6 chart-container" style="position: relative;">
+        <%= chart_export_btn('#chartjs-4', 'Níveis de Concretização') %>
+        <%=
+          data = {
+            labels: ["Reunião", "Supervisor", 'Auto'],
+            datasets: [
+              {
+                label: "Avaliações Completas (%)",
+                backgroundColor: 'rgba(99, 200, 99, 0.7)',
+                borderColor: "rgba(220,220,220,1)",
+                data: [@nivel_of_concretization[0], @nivel_of_concretization[1], @nivel_of_concretization[2]]
+              },
+              {
+                label: "Avaliações Incompletas (%)",
+                backgroundColor: 'rgba(200, 12, 12, 0.5)',
+                borderColor: "rgba(220,220,220,1)",
+                data: [100 - @nivel_of_concretization[0], 100 - @nivel_of_concretization[1], 100 - @nivel_of_concretization[2]]
+              }
+            ]
+          }
+
+          options = {
+            id: 'chartjs-4',
+            height: '180',
+            scales: {
+                xAxes: [{
+                  stacked: true,
+                  barThickness: 9,
+                  ticks: {
+                    beginAtZero: true,
+                    fontSize: 9,
+                    max: 100,
+                    min: 0,
+                    stepSize: 25
+                  }
+                }],
+                yAxes: [{
+                  stacked: true
+                }]
+            },
+            title: {
+              display: true,
+              text: 'Níveis de Concretização'
+            }
+          }
+          horizontal_bar_chart data, options
+        %>
+      </div>
+    </div>
+
+
+    <!-- ============================================ REPORTER POR DIRECAO ================================================== -->
+
+    <br>
+    <hr>
+    <div class="row">
+      <div class="col s12 chart-container" style="position: relative;">
+        <%= chart_export_btn('#chartjs-6', 'Comparação') %>
+        <br>
+        <%
+          organic_unit_name = []
+          completed_assessment_skill = []
+          incompleted_assessment_skill = []
+          @skill_organic_unit_comparison.each do |data1, data2|
+            organic_unit_name << "#{data1.first(3)}. #{data1.split(' ')[1..-1]&.join(' ')}"&.truncate(20) || t('n/a')
+            completed_assessment_skill << data2
+            incompleted_assessment_skill << 100 - data2
+          end
+          data = {
+            labels: organic_unit_name,
+            datasets: [
+              {
+                label: "Avaliações Terminadas",
+                backgroundColor: "rgba(99, 200, 99, 0.5)",
+                data: completed_assessment_skill
+              },
+              {
+                label: "Avaliações Incompletas",
+                backgroundColor: "rgba(200, 12, 12, 0.5)",
+                data: incompleted_assessment_skill
+              }
+            ]
+          }
+          options = {
+            id: 'chartjs-6',
+            height: '80',
+            scales: {
+              xAxes: [{
+                barThickness: 9,
+                ticks: {
+                  fontSize: 9
+                }
+              }],
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true,
+                    fontSize: 9,
+                    max: 105,
+                    min: 0,
+                    stepSize: 25
+                  }
+                }
+              ]
+            }
+          }
+        %>
+
+        <%= bar_chart data, options%>
+      </div>
+    </div>
+
+    <!-- ============================================ REPORTER POR DIRECAO ================================================== -->
+
+    <br>
+    <hr>
+    <div class="row">
+      <div class="col s6 chart-container" style="position: relative;">
+        <%= chart_export_btn('#chartjs-7', 'Classificações Finais') %>
+        <%=
+          data = {
+            labels: ["Excelente", "Bom", "Suficiente", "Insuficiente", "Mau"],
+            datasets: [
+              {
+                label: "Classificações Finais Globais",
+                backgroundColor: ['rgba(99, 200, 99, 0.5)', 'rgba(99, 100, 99, 0.5)', 'rgba(250, 176, 51, 0.5)', 'rgba(150, 176, 51, 0.5)', 'rgba(200, 12, 12, 0.5)'],
+                data: [@final_classification[0], @final_classification[1], @final_classification[2], @final_classification[3], @final_classification[4]]
+              }
+            ]
+          }
+          options = {
+            id: 'chartjs-7',
+            height: '180',
+            title: {
+              display: true,
+              text: 'Classificações Finais'
+            }
+          }
+          doughnut_chart data, options
+        %>
+      </div>
+      <div class="col s6 chart-container" style="position: relative;">
+        <%= chart_export_btn('#chartjs-8', 'Classificações Finais nos Últimos 2 anos') %>
+        <%=
+          data = {
+            labels: ["Excelente", "Bom", "Suficiente", "Insuficiente", "Mau"],
+            datasets: [
+              {
+                label: @assessment.year.to_i - 1,
+                backgroundColor: 'rgba(99, 100, 99, 0.5)',
+                data: [last_year_assessments.count(&:excelent?), last_year_assessments.count(&:good?), last_year_assessments.count(&:suficient?), last_year_assessments.count(&:insuficient?), last_year_assessments.count(&:bad?)]
+              },
+              {
+                label: '2018',
+                backgroundColor: 'rgba(99, 200, 99, 0.7)',
+                data: [@final_classification[0], @final_classification[1], @final_classification[2], @final_classification[3], @final_classification[4]]
+              }
+            ]
+          }
+          options = {
+            id: 'chartjs-8',
+            height: '180',
+            title: {
+              display: true,
+              text: 'Classificações Finais nos Últimos 2 anos'
+            },
+            scales: {
+              xAxes: [{
+                barThickness: 9,
+                ticks: {
+                  fontSize: 9
+                }
+              }],
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true,
+                    fontSize: 9,
+                    #max: 100,
+                    min: 0,
+                    #stepSize: 25
+                  }
+                }
+              ]
+            }
+          }
+
+          bar_chart data, options
+        %>
+      </div>
+    </div>
+
+    <!-- ============================================ REPORTER POR DIRECAO ================================================== -->
+
+    <br>
+    <hr>
+    <div class="row">
+      <div class="col s6 chart-container" style="position: relative;">
+        <%= chart_export_btn('#chartjs-9', 'Evolução das Classificações nos Últimos 3 anos') %>
+        <%=
+          before_last_year_assessment = Assessment.find_by(year: @assessment.year.to_i - 2) || Assessment.new
+          before_last_year_assessments = before_last_year_assessment.employees_assessments.to_a
+
+          data = {
+            labels: ["Reunião", "Chefia", 'Auto'],
+            datasets: [
+              {
+                label: @assessment.year.to_i - 2,
+                backgroundColor: 'rgba(200, 12, 12, 0.5)',
+                data: [before_last_year_assessments.map(&:result).avg.round(2), before_last_year_assessments.map(&:supervisor_result).avg.round(2), before_last_year_assessments.map(&:self_result).avg.round(2)]
+              },
+              {
+                label: @assessment.year.to_i - 1,
+                backgroundColor: 'rgba(250, 176, 51, 0.6)',
+                data: [last_year_assessments.map(&:result).avg.round(2), last_year_assessments.map(&:supervisor_result).avg.round(2), last_year_assessments.map(&:self_result).avg.round(2)]
+              },
+              {
+                label: '2018',
+                backgroundColor: 'rgba(99, 200, 99, 0.7)',
+                data: [@average_by_type_assessment[2].round(2), @average_by_type_assessment[1].round(2), @average_by_type_assessment[0].round(2)]
+              }
+            ]
+          }
+          options = {
+            id: 'chartjs-9',
+            height: '180',
+            title: {
+              display: true,
+              text: 'Evolução das Classificações nos Últimos 3 anos'
+            },
+            scales: {
+                yAxes: [{
+                  ticks: {
+                    beginAtZero: true,
+                    fontSize: 8,
+                    max: 5,
+                    min: 0,
+                    stepSize: 1
+                  }
+                }
+              ]
+            }
+          }
+          bar_chart data, options
+          %>
+      </div>
+      <div class="col s6 chart-container" style="position: relative;">
+        <%= chart_export_btn('#chartjs-10', 'Avaliações por funcão') %>
+        <%=
+        average  = []
+        function = []
+        @average_by_fuction.each do |f|
+          average  << f[1].round_up(2)
+          function << f[0]
+        end
+          data = {
+            labels: function,
+            datasets: [
+              {
+                label: "Avaliações por função",
+                backgroundColor: 'rgba(250, 176, 51, 0.5)',
+                data: average
+              }
+            ]
+          }
+          options = {
+            id: 'chartjs-10',
+            height: (((@average_by_fuction.size))*9 + 70).to_s,
+            scales: {
+                xAxes: [{
+                  ticks: {
+                    beginAtZero: true,
+                    fontSize: 8,
+                    max: 5,
+                    min: 0,
+                    stepSize: 1
+                  },
+                  scaleLabel: {
+                    display: false
+                  },
+                  gridLines: {
+                  },
+                  stacked: true
+                }],
+                yAxes: [
+                  {
+                    barThickness: 9,
+                    ticks: {
+                      fontSize: 7
+                    }
+                  }
+                ]
+            }
+          }
+          horizontal_bar_chart data, options
+        %>
+      </div>
+    </div>
+    <!--information to present when no assessment was found-->
+  <%end%>
+<% else %>
+  <%= render "reports_default" %>
+  <hr>
+<% end %>
+
+
+<style>
+  input[type=text].datepicker-here {
+    outline: 0;
+    height: 20px;
+    border: 1px solid #b5b5b5;
+    padding: 0 8px;
+    margin: 0 0 6px;
+    color: #444;
+    font-family: Tahoma, sans-serif;
+    transition: all .2s;
+    width: 250px;
+  }
+</style>
+
+
+<script>
+
+  Chart.plugins.register({
+    afterDatasetsDraw: function(chartInstance, easing) {
+      // To only draw at the end of animation, check for easing === 1
+      var ctx = chartInstance.chart.ctx;
+
+      chartInstance.data.datasets.forEach(function(dataset, i) {
+        var meta = chartInstance.getDatasetMeta(i);
+
+        if (!meta.hidden) {
+          meta.data.forEach(function(element, index) {
+            ctx.fillStyle = '#000000';
+            var fontSize = 12;
+            ctx.font = Chart.helpers.fontString(fontSize);
+
+            var dataString = dataset.data[index].toString();
+
+            // Make sure alignment settings are correct
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            var padding = 5;
+
+            var type_chart = element._chart.config.type
+
+            var position = element.tooltipPosition();
+            if (!(dataString == 0)){
+
+              if(type_chart == 'horizontalBar' ){
+                if (element._chart.canvas.id == 'completion_by_dep_chart'){
+                  ctx.fillText(dataString + '%', position.x, position.y - (fontSize / 2) - padding);
+                }else{
+                  ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
+                }
+              }
+
+              else if(type_chart == 'pie'){
+                ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
+              }
+
+              else if(type_chart == 'doughnut'){
+                ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
+              }
+
+              else if(type_chart == 'bar'){
+                if (element._chart.canvas.id == 'chartjs-6'){
+                  ctx.fillText(dataString + '%', position.x, position.y - (fontSize / 2) - padding);
+                }else{
+                  ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
+                }
+              }
+            }
+          });
+        }
+      });
+    }
+  });
+
+</script>
+
+<script type="text/javascript" charset="utf-8">
+
+    $('input[name="year"]').change(function () {
+        $(this).parents('form').submit();
+    });
+
+    function saveImages() {
+        var form = $('#pdf-chartjs');
+        $('.chart:not("[id^=chart]")').each(function () {
+            var chart_type = $(this).attr('id');
+            var file = dataURLToBlob(this.toDataURL());
+            var file_form = new FormData;
+            file_form.append("Content-Type", file.type);
+            file_form.append("photo[image]", file);
+
+            var xhr = new XMLHttpRequest;
+            xhr.open("POST", "/photos.json", true);
+            xhr.setRequestHeader("X-CSRF-Token", Rails.csrfToken());
+            xhr.send(file_form);
+            // We can finish off our xhr upload now, but we need to define this ahead of tie so that that is handled once we fire off the request. We need to add one more function to handle progress here
+
+            xhr.onload = function () {
+                if (xhr.status === 201) {
+                    var data = JSON.parse(xhr.responseText);
+                    form.append('<input value="' + data.image_path + '" name="charts[' + chart_type + ']" type="hidden" />');
+                }
+            }
+        });
+
+        form.find('[type="submit"]').removeProp('disabled');
+//        Chart.helpers.each(Chart.instances, function (instance) {
+//            console.log(instance.chart.canvas.id);
+//            instance.update({
+//                animation: {
+//                    onProgress: function () {
+//                        console.log('mmmmmmmm');
+//                    }
+//                }
+//            });
+//        })
+    }
+
+    function dataURLToBlob(dataURL) {
+        var BASE64_MARKER = ';base64,';
+
+        if (dataURL.indexOf(BASE64_MARKER) == -1) {
+            var parts = dataURL.split(',');
+            var contentType = parts[0].split(':')[1];
+            var raw = decodeURIComponent(parts[1]);
+
+            return new Blob([raw], {type: contentType});
+        }
+
+        var parts = dataURL.split(BASE64_MARKER);
+        var contentType = parts[0].split(':')[1];
+        var raw = window.atob(parts[1]);
+        var rawLength = raw.length;
+
+        var uInt8Array = new Uint8Array(rawLength);
+
+        for (var i = 0; i < rawLength; ++i) {
+            uInt8Array[i] = raw.charCodeAt(i);
+        }
+
+        return new Blob([uInt8Array], {type: contentType});
+    }
+
+    setTimeout(saveImages, 500);
+
+</script>

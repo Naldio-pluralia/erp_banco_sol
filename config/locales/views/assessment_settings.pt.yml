@@ -1,0 +1,12 @@
+pt:
+  assessment_settings:
+    defaults:
+      latest_assessment_setting: 'Configurações das Avaliações'
+      singular_name: 'Unidade no Singular'
+      plural_name: 'Unidade no Plural'
+      goal_settings: 'Competências e Objectivos'
+      goal_units: 'Unidades das Competências e Objectivos'
+      name: 'Unidade'
+    form:
+      new: 'Criar'
+      update: 'Actualizar'

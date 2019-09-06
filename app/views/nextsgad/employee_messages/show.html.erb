@@ -1,0 +1,24 @@
+<%= index_bar(itens: {t('.employee_x_messages', x: @employee.first_and_last_name) => employee_employee_messages_url(@employee), t('.message') => nil}) do %>
+<% end %>
+
+<div>
+  <div class="left" style="height: 70px;">
+    <h4>
+      <strong><%= @employee_message.title %></strong>
+    </h4>
+  </div>
+</div>
+
+<br><br><br>
+<div style="padding: 5px; border: 1px #ddd solid; min-width: 100%; min-height: 100px;">
+  <p>
+    <%= @employee_message.body.to_s.html_safe %>
+  </p>
+  <br><br>
+  <% if @employee_message.signature.present? %>
+      <div>
+        <%= @employee_message.signature %>
+      </div>
+  <% end %>
+</div>
+<br><br><br>

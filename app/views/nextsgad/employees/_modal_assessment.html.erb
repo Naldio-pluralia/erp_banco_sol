@@ -1,0 +1,144 @@
+<div id="modal_assessment_<%= employee_goal.id %>" class="modal modal-fixed-footer change-modal-height">
+  <div class="modal-content">
+    <!--<span class="h5-size"> <%= employee_goal.name %> - <%= employee_goal.assessment.year %> </span>-->
+
+    <%= simple_form_for employee_goal do |f| %>
+      <%= hidden_field_tag :"value_amount_#{employee_goal.id}", params[:value_amount], :value => employee_goal.amount %>
+
+      <ul class="collapsible" data-collapsible="expandable">
+        <li>
+          <div class="collapsible-header active "><h6 class="mdl-card__title-text" style="font-size: 18px;"><%= employee_goal.goal_type.ts %>: <%= employee_goal.name %></h6></div>
+          <div class="collapsible-body collapsible-body-remove-padding">
+
+            <div class="mdl-card__supporting-text no-padding">
+              <% if employee_goal.numeric? %>
+                <%= 'goal.nature'.ts %>: <%= employee_goal.nature.ts %>
+                <br>
+                <%= 'goal.target'.ts %>: <%= employee_goal.target.to_i %>
+                <br>
+                <%= 'self_assessment'.ts %>: <span class="amount_<%= employee_goal.id %>"><%= employee_goal.final_assessment.to_i %></span>
+              <% end %>
+              <br>
+              <%= :description.ts %>:<%= employee_goal.description %></p>
+            </div>
+            <p>
+                  1 - <%= t :bad %> |
+                  2 - <%= t :insuficient %> |
+                  3 - <%= t :suficient %> |
+                  4 - <%= t :good %> |
+                  5 - <%= t :excelent %> </p>
+            <hr>
+            <div class="row no-margin">
+              <% if employee_goal.numeric? %>
+                  <%# f.input :amount, label: "amount_of".ts(type: employee_goal.unit.ts), wrapper_html: {class: 'm4 s12'}, disabled: current.employee != @employee, read_only: current.employee != @employee %>
+              <% else %>
+                  <%= f.input :self_assessment, label: "self_assessment".ts, wrapper_html: {class: 'col m4 s12 no-padding-left'}, disabled: current.employee != @employee, read_only: current.employee != @employee %>
+                  <%= f.input :supervisor_assessment, label: "supervisor_assessment".ts, wrapper_html: {class: 'col m4 s12'}, disabled: !current.team_members.include?(@employee), read_only: !current.team_members.include?(@employee) %>
+                  <%= f.input :final_assessment, label: "final_assessment".ts, wrapper_html: {class: 'col m4 s12 no-padding-right'}, disabled: !current.team_members.include?(@employee), read_only: !current.team_members.include?(@employee) %>
+              <% end %>
+
+              <div class="col m2 s12">
+                <%= link_to change_status_employee_goal_url(employee_goal.id), method: :patch, remote: true do %>
+                  <span class="fa fa-flag <%= employee_goal.report ? 'icon-red' : 'icon-gray' %>" style="font-size: 55px; padding: 13px;" onclick="change_report(this)" id="<%= employee_goal.id %>" data-report="<%= employee_goal.report %>"></span>
+                <% end %>
+              </div>
+              <%= editable employee_goal, :employee_note%>
+              <%= f.input :employee_note, label: :employee_note.ts, wrapper_html: {class: 'col m10 s12 no-padding'}, disabled: current.employee != @employee, read_only: current.employee != @employee %>
+              <%= f.input :supervisor_note, label: :supervisor_note.ts, wrapper_html: {class: 'col s12 no-padding'}, disabled: !current.team_members.include?(@employee), read_only: !current.team_members.include?(@employee) %>
+              <%= f.input :supervisor_supervisor_note, wrapper_html: {class: 'col s12 no-padding'}, disabled: !current.team_team_members.include?(@employee), read_only: !current.team_team_members.include?(@employee) %>
+              <% f.input :status, label: "employee_goal.status".ts, collection: EmployeeGoal.statuses.map.for_select(:ts), wrapper_html: {class: 'col m6 s12'}, input_html: {class: 'default-selectize'} %>
+            </div>
+
+            <div class="" style="text-align: left;">
+              <%= f.button :submit, "update".ts, class:"btn btn-default" %>
+              <%= close_modal_result %>
+            </div>
+        </li>
+      </ul>
+
+    <% end %>
+
+    <!-- =======================  lista e adicionar os resultados ======================= -->
+    <% if employee_goal.numeric? %>
+      <ul class="collapsible" data-collapsible="expandable">
+        <li>
+          <div class="collapsible-header active"><h6 class="mdl-card__title-text" style="font-size: 18px;"><%= "Resultados" %> </h6></div>
+          <div class="collapsible-body collapsible-body-remove-padding">
+
+            <div class="adicionar-tarefas" style="text-align: left;">
+              <% if (current.employee?) %>
+                <%= link_to new_result_path(employee_goal_id: employee_goal.id), id: "new-result-#{employee_goal.id}", remote: true do %>
+                  <i class="fa fa-plus" aria-hidden="true"></i> <%= "result".ts %>
+                <% end %>
+              <% end %>
+            </div>
+
+            <hr>
+
+            <div class="row" style="text-align: left;">
+              <ul class="collection add-new-result-list-<%= employee_goal.id %>">
+                <% resutls_employee_goal(employee_goal).each_with_index do |result, index| %>
+                  <li class="collection-item" id="destroy_<%=result.id%>" style="line-height: 0.5rem;" >
+                    <span style="margin-left: 0%;">
+                      <% unless false%>
+                        <input type="checkbox" class="filled-in" id="filled-in-box-<%=result.id%>" data-id="<%=result.id%>" onchange="validat_status_rsult(this);" <%=change_status_of_result_input(result) %> />
+                      <% end %>
+                      <label for="filled-in-box-<%=result.id%>" id="filled-in-box-<%=result.id%>" class="<%= change_status_of_result_label(result) %>"> <%= result.note %>
+                        <% if result.employee_goal.goal.numeric? %>
+                          - <%= result.result_value %>
+                        <% end %>
+                      </label>
+                    </span>
+
+                    <span style="margin-left: 40px">
+                      <% if result.attachment.present? %>
+                        <%= link_to '<i class="small material-icons resul-attachment">attach_file</i>'.html_safe, result.attachment.url, :target => "_blank" %>
+                        <!-- <%= image_tag(result.attachment_url, class: 'img-responsive img-thumbnail', style: "height: 10px;") %> -->
+                      <% end%>
+                    </span>
+
+                    <% if true %>
+                      <%= link_to '<i class="fa fa-times" aria-hidden="true"></i>'.html_safe, result, class:"remove-result-row", id: "#{result.id}", onClick: "get_id_remove_result(this.id)", style:"color: #ce1b1b;", method: :delete, remote: true %>
+                    <% end %>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+    <% end %>
+
+  </div>
+
+  <div class="modal-footer" style="padding-right: 25px;">
+    <% close_modal_result %>
+  </div>
+</div>
+
+
+<script>
+  function change_report(report){
+    var value_report = $(report).attr("data-report");
+    var data_id = $(report).attr("id");
+
+    console.log(value_report);
+
+
+    if(value_report == true){
+      $(report).removeClass("icon-red");
+      $(report).addClass("icon-gray");
+      console.log("tem");
+
+    }
+    else{
+      $(report).removeClass("icon-gray");
+      $(report).addClass("icon-red");
+       console.log("nao tem ");
+
+    }
+
+  }
+
+
+</script>

@@ -1,0 +1,16 @@
+# geral
+default: &default
+  adapter: postgresql
+  enconding: unicode
+  host: localhost
+  pool: 5
+  username: solusoft
+  password: admin
+# desenvolvimento
+development:
+  <<: *default
+  database: nextbss_development
+# qas
+test:
+  <<: *default
+  database: nextbss_test

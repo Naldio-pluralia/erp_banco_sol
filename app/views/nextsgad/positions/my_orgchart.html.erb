@@ -1,0 +1,7 @@
+
+<% @page_name = t('organization_chart') %>
+
+<% toolbar(itens_menu: {"#{'organization_chart'.ts}": my_orgchart_url}, bar_arguments: {}, if_can: {} ) %>
+
+
+<div id="orgchart" data-orgchart-type="1" data-orgchart-url="<%= my_orgchart_url %>"></div>

@@ -1,0 +1,27 @@
+<%object_video.object = Lesson.first%>
+<%= simple_form_for(object_video) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="object_video-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= object_video.new_record? ? view_t('.new_x', x: view_t('.object_video')) : view_t('.edit_x', x: view_t('.object_video')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.input :local_title, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :local_file, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :local_file_tmp, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :local_file_processing, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :local_watermark_image, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :youtube_video_id, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :object_type, as: :hidden %>
+        <%= f.input :object_id, as: :hidden %>
+        <%= f.input :kind, collection: ObjectVideo.enums_map_t(:kind), wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), object_video.cancel_url || object_videos_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,5 @@
+<% @page_name = t('organization_chart') %>
+
+<% toolbar(itens_menu: {"#{'organization_chart'.ts}": my_team_orgchart_url}, bar_arguments: { excel_export_btn: my_team_orgchart_url(format: "xls"), png_export_btn: "" }, if_can: {} ) %>
+
+<div id="orgchart" data-orgchart-type="1" data-orgchart-url="<%= my_team_orgchart_url %>"></div>

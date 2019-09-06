@@ -1,0 +1,25 @@
+<%= index_bar(itens: {view_t('.latest_remuneration_setting') => latest_remuneration_setting_url, view_t('.subsidy_type') => nil}) do %>
+  <%= action_btn(content: t('update'), href: "##{@subsidy_type.kind}-modal-form", modal_trigger: true) %>
+<% end %>
+
+<p>
+  <strong><%= t(".name") %>:</strong>
+  <%= @subsidy_type.name %>
+</p>
+
+<p>
+  <strong><%= t(".code") %>:</strong>
+  <%= @subsidy_type.code %>
+</p>
+
+<p>
+  <strong><%= t(".value") %>:</strong>
+  <%= @subsidy_type.fixed? ? to_kwanza(@subsidy_type.value) : to_percentage(@subsidy_type.value)%>
+</p>
+
+<p>
+  <strong><%= t(".status") %>:</strong>
+  <%= @subsidy_type.enum_t(:status) %>
+</p>
+
+<%= render 'form', subsidy_type: @subsidy_type %>

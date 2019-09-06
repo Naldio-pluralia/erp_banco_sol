@@ -1,0 +1,26 @@
+pt:
+  nextsgad:
+    assessments:
+      company_average:
+        skill_reports: 'Relatório das Competências'
+        conclusion_percentage: 'Percentagem de Conclusão das Competências'
+        goal_average: 'Média das Avaliações'
+        company_average: 'Média das Competências da Empresa'
+      
+      reports_default:
+        skill_reports: 'Relatório das Competências'
+        conclusion_percentage: 'Percentagem de Conclusão das Competências'
+        goal_average: 'Média das Avaliações'
+        company_average: 'Média das Competências da Empresa'
+      
+      reports_value:
+        skill_reports: 'Relatório das Competências'
+        conclusion_percentage: 'Percentagem de Conclusão das Competências'
+        goal_average: 'Média das Avaliações'
+        company_average: 'Média das Competências da Empresa'
+
+      reports:
+        skill_reports: 'Relatório das Competências'
+        conclusion_percentage: 'Percentagem de Conclusão das Competências'
+        goal_average: 'Média das Avaliações'
+        company_average: 'Média das Competências da Empresa'

@@ -1,0 +1,10 @@
+<%= index_bar(itens: {view_t(".function_settings") => function_settings_url, view_t('.function_setting') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_function_setting_path(@function_setting) ) if can?(:edit, @function_setting) %>
+  <%= action_btn(content: view_t('update'), href: "#function_setting-modal-form", modal_trigger: true) if can?(:edit, @function_setting) %>
+<% end %>
+
+
+<%= show_item(".max_chairman_number", @function_setting.max_chairman_number) %>
+
+
+<%= render 'form', function_setting: @function_setting %>

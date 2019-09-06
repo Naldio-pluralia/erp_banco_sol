@@ -1,0 +1,25 @@
+pt:
+  salaries:
+    defaults:
+      salaries: 'Salários'
+      salary: 'Salário'
+      base_value: 'Valor Base'
+      value: 'Valor Líquido'
+      period: 'Período'
+      paygrade_board: 'Tabela Salarial'
+      employee_paygrade: 'Colaborador'
+      activate: 'Activar'
+      period: 'Período'
+      pay: 'Pagar'
+      subtotal: 'Subtotal'
+      total: 'Total'
+    create:
+      success: 'Gravado'
+      unsuccess: 'Ocorreu um Erro na Gravação'
+    update:
+      success: 'Actualizado'
+      unsuccess: 'Ocorreu um Erro na Actualização'
+    form:
+      new: 'Criar'
+      update: 'Actualizar'
+    

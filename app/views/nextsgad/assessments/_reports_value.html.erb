@@ -1,0 +1,292 @@
+<% if params[:employee_organic_unit_id].to_i.present? %>
+  <div class="row">
+    <%= l_table do %>
+      <%= t_header do %>
+        <th class="mdl-data-table__cell--non-numeric cell-align left"><%= @department_name || 'N/D' %></th>
+        <th class="mdl-data-table__cell--non-numeric cell-align left"><%= "" %></th>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="row">
+    <div class="col s12 m6" style="position: relative;">
+      <%= chart_export_btn('#department_average_radar_chart', t('.goal_average')) %>
+      <%
+
+        average_labels  = []
+        average_options = []
+        @employee_skills_by_organic_unit.each do |skill_name, average|
+          average_labels   << "(#{average}) #{skill_name}"
+          average_options  << average
+        end
+
+        data = {
+          labels: average_labels,
+          datasets: [
+            {
+              label: t('.goal_average'),
+              data: average_options,
+              borderWidth: 1,
+              backgroundColor: "rgba(119,220,119,0.3)",
+              borderColor: "rgba(119,220,119,1)",
+              fill: true,
+              pointBorderWidth: 0.05,
+              pointBackgroundColor: "rgba(119,220,119,0.3)",
+              pointBorderColor: "rgba(119,220,119,1)"
+            }
+          ]
+        }
+        options = {
+          id: 'department_average_radar_chart',
+          title: {display: true},
+          legend: false,
+          scale: {
+            ticks: {
+              display: false,
+              begin_at_zero: true,
+              min: 0,
+              max: 5,
+              step_size: 1
+            }
+          }
+        }
+      %>
+
+      <%=  radar_chart data, options%>
+    </div>
+
+    <div class="col s12 m6" style="position: relative;">
+      <%= chart_export_btn('#department_average_h_bar_chart', t('.goal_average')) %>
+      <%
+
+        data = {
+          labels: average_labels,
+          datasets: [
+            {
+              label: t('.goal_average'),
+              data: average_options,
+              borderWidth: 1,
+              backgroundColor: "rgba(119,220,119,0.3)",
+              borderColor: "rgba(119,220,119,1)",
+              fill: true,
+              pointBorderWidth: 0.05,
+              pointBackgroundColor: "rgba(119,220,119,0.3)",
+              pointBorderColor: "rgba(119,220,119,1)"
+            }
+          ]
+        }
+
+        options = {
+          id: 'department_average_h_bar_chart',
+          height: ((@employee_skills_by_organic_unit.size + 1)*33).to_s,
+          maintainAspectRatio: false,
+          scales: {
+              xAxes: [{
+                        ticks: {
+                          beginAtZero: true,
+                          fontSize: 12,
+                          max: 5,
+                          min: 0,
+                          stepSize: 1
+                        },
+                        scaleLabel: {
+                          display: false
+                        },
+                        stacked: true
+                      }
+                    ],
+              yAxes: [{
+                      barThickness: 15,
+                      ticks: {
+                        fontSize: 12
+                      },
+                      stacked: true,
+                      id: 'y-axis'
+                  }]
+          },
+          legend: {display: false},
+          title: {
+              display: true,
+              text: t('company_departamnet', name_dep: @department_name || 'N/D')
+
+          }
+        }
+      %>
+      <%= horizontal_bar_chart data, options %>
+
+    </div>
+  </div>
+  <hr>
+  <!-- ============================================ REPORTER POR DIRECAO ================================================== -->
+  <div class="row">
+		<div class="col s6 chart-container" style="position: relative;">
+			<%= chart_export_btn('#chartjs-dep-3', "Classificações Finais #{@department_name || 'N/D'}") %>
+      <%=
+
+				data = {
+					labels: ["Excelente", "Bom", "Suficiente", "Insuficiente", "Mau"],
+					datasets: [
+						{
+							label: "Classificações Finais Globais",
+							backgroundColor: ['rgba(99, 200, 99, 0.5)', 'rgba(99, 100, 99, 0.5)', 'rgba(250, 176, 51, 0.5)', 'rgba(150, 176, 51, 0.5)', 'rgba(200, 12, 12, 0.5)'],
+							data: [@organic_unit_final_classification[0], @organic_unit_final_classification[1], @organic_unit_final_classification[2], @organic_unit_final_classification[3], @organic_unit_final_classification[4]]
+						}
+					]
+				}
+				options = {
+					id: 'chartjs-dep-3',
+					height: '180',
+					title: {
+						display: true,
+						text: 'Classificações Finais'
+					}
+				}
+				doughnut_chart data, options
+			%>
+		</div>
+
+    <div class="col s6 chart-container" style="position: relative;">
+			<%= chart_export_btn('#chartjs-dep-2', "Graus de Concretização #{@department_name || 'N/D'}") %>
+			<%=
+
+				data = {
+					labels: ["Avaliações Terminadas", "Avaliações Incompletas", 'Avaliações Não Iniciadas'],
+					datasets: [
+						{
+							label: "Participantes",
+							backgroundColor: ['rgba(99, 200, 99, 0.5)', 'rgba(250, 176, 51, 0.5)', 'rgba(200, 12, 12, 0.5)'],
+							data: [@organic_unit_degree_of_concretization[0], @organic_unit_degree_of_concretization[1], @organic_unit_degree_of_concretization[2]]
+						}
+					]
+				}
+				options = {
+					id: 'chartjs-dep-2',
+					height: '180',
+					title: {
+						display: true,
+						text: 'Graus de Concretização'
+					}
+				}
+				pie_chart data, options
+			%>
+		</div>
+  </div>
+  <hr>
+    <!-- ============================================ REPORTER POR DIRECAO ================================================== -->
+  <div class="row">
+		<div class="col s6 chart-container" style="position: relative;">
+			<%= chart_export_btn('#chartjs-dep-3', "Classificações Finais #{@department_name || 'N/D'}") %>
+      <%
+				data = {
+					labels: ["Excelente", "Bom", "Suficiente", "Insuficiente", "Mau"],
+					datasets: [
+						{
+							label: "Classificações Finais Globais",
+							backgroundColor: ['rgba(99, 200, 99, 0.5)', 'rgba(99, 100, 99, 0.5)', 'rgba(250, 176, 51, 0.5)', 'rgba(150, 176, 51, 0.5)', 'rgba(200, 12, 12, 0.5)'],
+							data: [@organic_unit_final_classification[0], @organic_unit_final_classification[1], @organic_unit_final_classification[2], @organic_unit_final_classification[3], @organic_unit_final_classification[4]]
+						}
+					]
+				}
+				options = {
+					id: 'chartjs-dep-3',
+					height: '180',
+					title: {
+						display: true,
+						text: 'Classificações Finais'
+					}
+				}
+			%>
+      <%= doughnut_chart data, options%>
+		</div>
+
+    <div class="col s6 chart-container" style="position: relative;">
+			<%= chart_export_btn('#chartjs-dep-2', "Graus de Concretização (#{@department_name || 'N/D'})") %>
+			<%
+				data = {
+					labels: ["Avaliações Terminadas", "Avaliações Incompletas", 'Avaliações Não Iniciadas'],
+					datasets: [
+						{
+							label: "Participantes",
+							backgroundColor: ['rgba(99, 200, 99, 0.5)', 'rgba(250, 176, 51, 0.5)', 'rgba(200, 12, 12, 0.5)'],
+							data: [@organic_unit_degree_of_concretization[0], @organic_unit_degree_of_concretization[1], @organic_unit_degree_of_concretization[2]]
+						}
+					]
+				}
+				options = {
+					id: 'chartjs-dep-2',
+					height: '180',
+					title: {
+						display: true,
+						text: 'Graus de Concretização'
+					}
+				}
+			%>
+      <%= pie_chart data, options%>
+		</div>
+  </div>
+    <hr>
+    <!-- ============================================ TOTAL DOS COLABORADORES ================================================== -->
+
+    <div class="row">
+      <div class="col s6">
+
+        <table class="bordered" style="width: 100%;">
+          <tbody>
+            <tr style="background-color: #fbb035; color: #fff;">
+              <td class="mdl-data-table__cell--non-numeric">Colaboradores que podem ser avaliados</td>
+              <td class="mdl-data-table__cell--non-numeric"> </td>
+            </tr>
+
+            <tr>
+              <td class="mdl-data-table__cell--non-numeric">Total de Colaboradores</td>
+              <td class="mdl-data-table__cell--non-numeric"><%= @employees_chefias + @employees_n_chefias%></td>
+            </tr>
+
+            <tr>
+              <td class="mdl-data-table__cell--non-numeric">Colaboradores Chefias</td>
+              <td class="mdl-data-table__cell--non-numeric"><%= @employees_chefias %></td>
+            </tr>
+
+            <tr>
+              <td class="mdl-data-table__cell--non-numeric">Colaboradores Não Chefias</td>
+              <td class="mdl-data-table__cell--non-numeric"><%= @employees_n_chefias %></td>
+            </tr>
+          </tbody>
+        </table>
+
+
+      </div>
+
+      <div class="col s6">
+        <table class="bordered" style="width: 100%;">
+          <tbody>
+            <tr style="background-color: #fbb035; color: #fff;">
+              <td class="mdl-data-table__cell--non-numeric">Colaboradores avaliados no(a) <%= "#{@department_name || 'N/D'}"%> </td>
+              <td class="mdl-data-table__cell--non-numeric"> </td>
+            </tr>
+
+            <tr>
+              <td class="mdl-data-table__cell--non-numeric">Total de Processos</td>
+              <td class="mdl-data-table__cell--non-numeric"><%= @total_unit_degree_of_concretization  %></td>
+            </tr>
+
+            <tr>
+              <td class="mdl-data-table__cell--non-numeric">Processos Concluídos</td>
+              <td class="mdl-data-table__cell--non-numeric"><%= @organic_unit_degree_of_concretization[0] %> (<%= @organic_unit_degree_of_concretization[0].percentage_in(@total_unit_degree_of_concretization).round(2) %>)</td>
+            </tr>
+
+            <tr>
+              <td class="mdl-data-table__cell--non-numeric">Processos Iniciados e Não concluídos</td>
+              <td class="mdl-data-table__cell--non-numeric"><%= @organic_unit_degree_of_concretization[1] %> (<%= @organic_unit_degree_of_concretization[1].percentage_in(@total_unit_degree_of_concretization).round(2) %>)</td>
+            </tr>
+
+            <tr>
+              <td class="mdl-data-table__cell--non-numeric">Processos Não Iniciados</td>
+              <td class="mdl-data-table__cell--non-numeric"><%= @organic_unit_degree_of_concretization[2] %> (<%= @organic_unit_degree_of_concretization[2].percentage_in(@total_unit_degree_of_concretization).round(2) %>)</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% end %>

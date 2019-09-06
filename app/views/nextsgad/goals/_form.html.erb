@@ -1,0 +1,46 @@
+<%= simple_form_for goal do |f| %>
+    <%= form_url_helpers(f)%>
+    <%= f.input :goal_type, as: :hidden%>
+    <%= f.input :assessment_id, as: :hidden%>
+    <%= f.input :for_a_single_employee, as: :hidden%>
+    <div id="add-goal" class="modal modal-fixed-footer">
+      <div class="modal-content">
+        <span class="h5-size"> <%= goal.new_record? ? t('goal.new') : t('goal.update', type: t(goal.goal_type), year: goal.assessment.year) %> </span>
+        <hr>
+
+        <div class="flex-row flex-top">
+          
+          <% if goal.skill? %>
+            <%= f.input :name, label: goal.goal_type.ts, wrapper_html: {class: 'flex-col-xs-12'} %>
+            <%= f.input :for_everyone, wrapper_html: {class: 'flex-col-xs-7', style: 'padding-top: 18px;padding-bottom: 28px;'}, as: :bootstrap_switch %>
+            <%= f.association :functions, label: "goal.function".ts, collection: Function.all.map {|a| [a.name, a.id]}, optional: false, wrapper_html: {class: 'flex-col-xs-5',"data-on-check": "#goal_for_everyone,hide"}, input_html: {class: 'default-selectize'} %>
+          <% elsif goal.objective? %>
+            <%= f.input :name, label: goal.goal_type.ts, wrapper_html: {class: 'flex-col-xs-7'} %>
+            <%= f.input :period, collection: Goal.enums_map_t(:period), wrapper_html: {class: 'flex-col-xs-5'}, input_html: {class: 'default-selectize'} %>
+            <%unless goal.for_a_single_employee%>
+              <%= f.input :for_everyone, wrapper_html: {class: 'flex-col-xs-7', style: 'padding-top: 18px;padding-bottom: 28px;'}, as: :bootstrap_switch %>
+              <%= f.association :positions, label: t("goal.position"), collection: Position.get_by_role(current).map {|a| [a.name, a.id]}, optional: false, wrapper_html: {class: 'flex-col-xs-5', "data-on-check": "#goal_for_everyone,hide"}, input_html: {class: 'default-selectize'} %>
+            <%else%>
+              <%= f.input :for_everyone, as: :hidden%>
+              <%= f.association :positions, label: t("goal.position"), collection: Position.get_by_role(current).map {|a| [a.name, a.id]}, optional: false, wrapper_html: {class: 'hide'} %>
+            <%end%>
+          <% end %>
+          
+          <% f.input :goal_type, label: "goal.goal_type".ts, collection: Goal.goal_types.for_select(:ts), wrapper_html: {class: 'flex-col-md-6 flex-col-xs-12'}, input_html: {class: 'default-selectize'} %>
+          <% f.input :status, label: "goal.status".ts, collection: Goal.statuses.for_select(:ts), wrapper_html: {class: 'flex-col-xs-2'}, input_html: {class: 'default-selectize'} %>
+          <% if goal.new_record?%>
+            <%= f.input :nature, label: "goal.nature".ts, collection: Goal.natures.for_select(:ts), wrapper_html: {class: 'flex-col-xs-7'}, input_html: {class: 'default-selectize'}, include_blank: false%>
+            <%= f.input :target, label: "goal.target".ts, wrapper_html: {class: 'flex-col-xs-5', "data-show-on-select": "#goal_nature,numeric"} %>
+          <%elsif goal.numeric?%>
+            <%= f.input :target, label: "goal.target".ts, wrapper_html: {class: 'flex-col-xs-12'} %>
+          <%end%>
+          <%#= f.association :goal_unit, label: "goal.unit".ts, collection: GoalUnit.map_for_select(:plural_name), wrapper_html: {class: 'flex-col-xs-8', "data-show-on-select": "#goal_nature,numeric"}, input_html: {class: 'default-selectize'}, include_blank: false %>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <%= f.button :submit, "#{goal.new_record? ? 'Registar' : 'Actualizar'}", class: "btn btn-default" %>
+        <%= link_to "back".ts, goal.cancel_url || assessments_map_url(goal.assessment_id), class: "waves-effect waves-light btn btn-flat btn-cancel-form" %>
+      </div>
+    </div>
+<% end %>

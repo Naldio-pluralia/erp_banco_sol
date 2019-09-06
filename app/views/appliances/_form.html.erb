@@ -1,0 +1,19 @@
+<%= simple_form_for(appliance) do |f| %>
+  <%= form_url_helpers(f)%>
+  <span class="h5-size"> <%= appliance.new_record? ? view_t('.new_x', x: view_t('.appliance')) : view_t('.edit_x', x: view_t('.appliance')) %> </span>
+  <hr>
+
+  <div class="flex-row flex-top">
+    <%= f.input :name, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+    <%= f.input :email, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+    <%= f.input :cellphone, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+    <%= f.input :resume, as: :dropify, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {class: ''} %>
+    <%= f.input :attachments, as: :file, multiple: true, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {class: ''} %>
+    <%= f.input :note, as: :trix_editor, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: ''} %>
+    <%#= f.input :relevance, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+  </div>
+  <%= f.button :submit %>
+  <%= link_to t('cancel'), f.object.cancel_url, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+  </div>
+<% end %>
+<br>

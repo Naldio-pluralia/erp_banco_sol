@@ -1,0 +1,12 @@
+<div class="attachments_list">
+  <%object.object_attachments.sort_by{|a| a.created_at }.each do |attachment|%>
+    <%= link_to attachment.file.url, target: :_blank do %>
+      <span class="dropify-render">
+        <i class="dropify-font-file"></i>
+        (<span class="dropify-extension"><%= attachment.file.extension%></span>)
+      </span> 
+      <%= attachment.description%>
+    <%end%>
+    <br>
+  <%end%>
+</div>

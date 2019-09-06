@@ -1,0 +1,20 @@
+
+<%= div(class: 'new_exit') do %>
+  <%= simple_form_for([@employee, @employee_exit], url: employee_create_exit_url, html: {remote: true, retabulate: '#presence-map'}) do |f| %>
+    <%= form_url_helpers(f)%>
+    <div class="flex-row flex-top">
+      <%= div(class: 'flex-col-xs-12', style: 'text-align: right;') do%>
+        <%= f.button :submit %>
+      <%end%>
+      <%= f.association :absence_type, label: 'Tipo de Saída', collection: AbsenceType.latests.exit.map_for_select(:name), include_blank: false, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {class: ''} %>
+      <%= f.input :kind, collection: EmployeeExit.enums_map_t(:kind), include_blank: false, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {class: ''} %>
+      <%= f.input :date, as: :flatpickr, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: '', 'data-language' => 'pt'} %>
+      <%= f.input :left_at, as: :flatpickr_time, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: '', 'data-language' => 'pt', 'data-enable-time': true, 'data-no-calendar': true, 'data-date-format': "H:i"} %>
+      <%= f.input :returned_at, as: :flatpickr_time, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: '', 'data-language' => 'pt', 'data-enable-time': true, 'data-no-calendar': true, 'data-date-format': "H:i"} %>
+      <%last_regime = @employee.employee_regimes.order(created_at: :asc).last%>
+      <%if last_regime.present? && !last_regime.five_two? && !last_regime.six_one?%>
+        <%= f.input :number_of_hours_absent, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+      <%end%>
+    </div>
+  <% end %>
+<%end%>

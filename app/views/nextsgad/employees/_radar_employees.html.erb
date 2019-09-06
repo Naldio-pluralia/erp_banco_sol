@@ -1,0 +1,21 @@
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: "Gráfico de Competência")%>
+  <%end%>
+<%end%>
+
+<div class="" style="margin-top: 10%;">
+  <%= radar_chart(@my_spider_data, height: '200px', legend: false, scale: {ticks: {display: false, begin_at_zero: true, min: 0, max: 5, step_size: 1}}) %>
+</div>
+
+<br>
+
+<div class='my-legend'>
+  <div class='legend-scale'>
+    <ul class='legend-labels'>
+      <li><span style='background: #f39c12;'></span> <%= 'self_assessment'.ts %> </li>
+      <li><span style='background: #3498db;'></span> <%= 'supervisor_assessment'.ts %> </li>
+      <li><span style='background: #2ecc71;'></span> <%= 'final_assessment'.ts %> </li>
+    </ul>
+  </div>
+</div>

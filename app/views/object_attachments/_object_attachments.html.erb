@@ -1,0 +1,85 @@
+<% can_edit = true if can_edit.nil?%>
+<div class="object_attachments">
+  <%object.object_attachments.sort_by{|a| a.created_at }.each do |attachment|%>
+
+    <div class="dropify-wrapper has-preview" data-position="bottom" data-tooltip="<%= attachment.description%>" style="height: 70px; width: 70px; display: inline-block;">
+      <%= link_to 'Remover', object_attachment_url(attachment, format: :js), remote: true,  method: :delete, class: 'dropify-clear' if can_edit %>
+      <%= link_to 'Ver', attachment.file.url, class: 'dropify-clear ver', target: :_blank %>
+      <div class="dropify-preview" style="display: block;">
+        <%if %w(png jpg jpeg gif).include?(attachment.file.extension)%>
+          <span class="dropify-render"><%= image_tag attachment.file.url %></span>
+        <%else%>
+          <span class="dropify-render">
+            <i class="dropify-font-file"></i>
+            <span class="dropify-extension"><%= attachment.file.extension%></span>
+          </span>
+        <%end%>
+        <div class="dropify-infos">
+          <div class="dropify-infos-inner">
+            <p class="hide dropify-filename">
+              <span class="file-icon"></span> 
+              <span class="dropify-filename-inner"><%= attachment.file.filename%></span>
+            </p>
+            <p class="hide dropify-infos-message"><%= attachment.description%></p>
+          </div>
+        </div>
+      </div>
+    </div>
+      
+  <%end%>
+  <% if can_edit %>
+    <div class="dropify-wrapper has-preview" style="height: 70px; width: 70px; display: inline-block;">
+      <button type="button" data-target="object_attachment-modal-form" class="dropify-clear add waves-effect waves-light btn  modal-trigger">Adicionar</button>
+      <div class="dropify-preview" style="display: block;">
+        <span class="dropify-render">
+          <span class="dropify-extension plus"><span class="fa fa-3x fa-plus"></span></span>
+        </span>
+        <div class="dropify-infos">
+          
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <%= render 'object_attachments/form', object_attachment: ObjectAttachment.new(object: object, cancel_url: candidaturas_url  ) if can_edit%>
+
+  <style>
+    .dropify-wrapper .dropify-clear.add{
+      top: 20px;
+      right: 1px;
+      border: 1px solid #FFF;
+      font-size: 9px;
+      padding: 0px 4px;
+    }
+    .dropify-wrapper .dropify-clear {
+      top: 7px;
+      right: 6px;
+      border: 1px solid #FFF;
+      font-size: 9px;
+      padding: 0px 4px;
+    }
+
+  .dropify-wrapper .dropify-clear.ver {
+      bottom: 7px;
+      right: 6px;
+      border: 1px solid #FFF;
+      padding: 0px 16.5px;
+      top: unset;
+    }
+
+    .dropify-wrapper .dropify-preview {
+      padding: 0;
+    }
+
+    .dropify-wrapper .dropify-preview .dropify-render i {
+      font-size: 44px;
+    }
+
+    .dropify-wrapper .dropify-preview .dropify-render .dropify-extension {
+      font-size: 11px;
+    }
+
+    .dropify-wrapper .dropify-preview .dropify-render .dropify-extension.plus {
+      top: 41%;
+    }
+  </style>
+</div> 

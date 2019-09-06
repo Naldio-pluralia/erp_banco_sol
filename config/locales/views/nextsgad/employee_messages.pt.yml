@@ -1,0 +1,21 @@
+pt:
+  nextsgad:
+    employee_messages:
+      index:
+        messages: 'Mensagens'
+        message: 'Mensagem'
+        employee: 'Colaborador'
+        status: 'Estado'
+        title: 'Título'
+        body: 'Corpo'
+        signature: 'Assinatura'
+        employee_x_messages: 'Mensagens de %{x}'
+      show:
+        messages: 'Mensagens'
+        message: 'Mensagem'
+        employee: 'Colaborador'
+        status: 'Estado'
+        title: 'Título'
+        body: 'Corpo'
+        signature: 'Assinatura'
+        employee_x_messages: 'Mensagens de %{x}'

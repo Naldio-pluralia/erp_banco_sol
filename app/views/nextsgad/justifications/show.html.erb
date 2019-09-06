@@ -1,0 +1,54 @@
+<%= index_bar(itens: {t('justifications') => justifications_url, t('show') => nil}) do %>
+    <%= action_btn(content: t('update'), href: '#add-justification', modal_trigger: true, if_can: {update: @justification}) %>
+    <%= action_btn(content: t('aprove'), href: aprove_justification_url(redirect_to: justification_url), method: :patch, if_can: {aprove: @justification}) %>
+    <%= action_btn(content: t('disaprove'), href: disaprove_justification_url(redirect_to: justification_url), color: :red, method: :patch, if_can: {disaprove: @justification}) %>
+<% end %>
+
+<p>
+  <strong><%=t 'attachments'%>:</strong>
+  <% if [@justification.documents].flatten.compact.present? %>
+      &nbsp;
+      <% [@justification.documents].flatten.compact.each do |r| %>
+          <%= link_to r.url(), format: "pdf", :target => "_blank", class: "view-pdf" do %>
+              <% if r.url().to_s[r.url().to_s.size - 3, r.url().to_s.size].upcase == 'PDF' %>
+                  <i class="fa fa-file-pdf-o pdf-file-regulamento"></i>
+              <% else %>
+                  <i class="fa fa-file-photo-o img-file-regulamento"></i>
+              <% end %>
+          <% end %>
+           &nbsp;
+      <% end %>
+  <% else %>
+      <%= t('n/a') %>
+  <% end %>
+</p>
+
+<p>
+  <strong>Supervisor Note:</strong>
+  <%= @justification.supervisor_note %>
+</p>
+
+<p>
+  <strong>Employee Note:</strong>
+  <%= @justification.employee_note %>
+</p>
+
+<%= l_table do %>
+    <%= t_header do %>
+        <%= h_cell(text: t('attendance.date')) %>
+        <%= h_cell(text: t('attendance.status')) %>
+        <%= h_cell(text: t('attendance.employee')) %>
+        <%= h_cell(text: t('attendance.position')) %>
+    <% end %>
+
+    <%= t_body(elements: @justification.attendances) do |e| %>
+        <%= b_row() do %>
+            <%= b_cell(element: t(e.date.strftime('%Y %m %d'))) %>
+            <%= b_cell(element: t("long.#{e.status}")) %>
+            <%= b_cell(element: e.employee.first_and_last_name) %>
+            <%= b_cell(element: e.position&.name || t('n/a')) %>
+        <% end %>
+    <% end %>
+<% end %>
+
+<%= render 'form', justification: @justification %>

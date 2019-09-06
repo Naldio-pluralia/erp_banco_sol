@@ -1,0 +1,49 @@
+<%= index_bar(itens: {view_t(".pelouros") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_pelouro_path) %>
+  <%= action_btn(content: view_t('add'), href: "#pelouro-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-pelouros-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%=
+    t_header do
+      h_cell(text: view_t(".employee") ) +
+      h_cell(text: view_t(".name") ) +
+      h_cell(text: view_t(".title") ) +
+      h_cell(text: 'PCA' ) +
+      h_cell(text: 'Nº de Direcções' ) +
+      h_cell(sortable: false)
+    end
+  %>
+
+  <%= t_body(elements: @pelouros) do |e| %>
+    <%= b_row(link_to: pelouro_path(e)) do %>
+      <%= b_cell(element: e.employee.name_and_number)%>
+      <%= b_cell(element: e.name_and_abbr)%>
+      <%= b_cell(element: e.title_and_abbr)%>
+      <%= 
+        b_cell do
+          if e.is_chairman
+            mticon(:done, style: 'font-size: 10px;color: green;')
+          end
+        end
+      %>
+      <%= b_cell(element: e.directorates.size.to_s)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e if can?(:show, e) %> |
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(pelouros_url, "pelouros") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', pelouro: @pelouro %>

@@ -1,0 +1,7 @@
+<%= index_bar(itens: {view_t('.latest_remuneration_setting') => latest_remuneration_setting_url, view_t('.tax_type') => nil}) do %>
+  <%= action_btn(content: t('update'), href: "##{@tax_type.kind}-modal-form", modal_trigger: true) %>
+<% end %>
+
+<%= render "#{@tax_type.kind}_show", tax_type: @tax_type %>
+
+<%= render "#{@tax_type.kind}_form", tax_type: @tax_type%>

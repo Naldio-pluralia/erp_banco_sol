@@ -1,0 +1,27 @@
+<%= index_bar(itens: {view_t(".pelouros") => pelouros_url, view_t('.pelouro') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_pelouro_path(@pelouro) ) if can?(:edit, @pelouro) %>
+  <%= action_btn(content: view_t('update'), href: "#pelouro-modal-form", modal_trigger: true) if can?(:edit, @pelouro) %>
+<% end %>
+
+<%=
+  show_item(".name", @pelouro.name_and_abbr) +
+  show_item(".employee", @pelouro.employee.name) +
+  show_item(".title", @pelouro.title_and_abbr) +
+  
+  render('form', pelouro: @pelouro) +
+
+  l_table do
+    t_header do
+      h_cell(text: "Unidade Orgânica" ) +
+      h_cell(text: "Tipo" ) +
+      h_cell(text: view_t(".abbreviation") )
+    end +
+    t_body(elements: @pelouro.organic_units.includes(:organic_unit_type)) do |e|
+      concat(b_row() do
+        b_cell{ e.name} +
+        b_cell{ e.organic_unit.organic_unit_type.name} +
+        b_cell{ e.abbreviation}
+      end)
+    end
+  end
+%>

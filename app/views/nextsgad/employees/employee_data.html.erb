@@ -1,0 +1,322 @@
+<div class="employee-details" style="margin-bottom: calc(0vh - 5px);">
+  <%= render "header_employee", assessment: @assessment, employee: @employee %>
+  <div class="flex-row" style="margin-top: 0px; margin-right: 0px; margin-left: 0px;">
+    <div class="flex-col-xs right-align list-btn-employee">
+      <%# button_print(icon: '<i class="material-icons">local_printshop</i>', url: request.original_fullpath(format: "pdf")) %>
+      <%= buttons_modal(text: t("employee.edit"), url: "#add-employee", class_css: "edit_button", if_can: {update: @employee}) if action?(:show) && current.is?(:hr, :admin)%>
+      <%#= buttons_modal(text: t("justification.new"), url: "#add-justification", if_can: {create: @justification}) if @employee.is_assessed? %>
+      <%# buttons_modal(text: t('assessment.new_skill'), url: '#add-assessment-skill', if_can: {new_skill: @assessment}) if @skill.present? && @employee.is_assessed? %>
+      <%= action_btn(content: t('assessment.new_objective'), class: 'btn-adicinar-objectivo', href: '#add-goal', modal_trigger: true, if_can: {create: Goal}) if @assessment.present? && @employee.efective_position.present? && @employee.is_assessed? && action?(:show, :team_member_data)%>
+    </div>
+  </div>
+</div>
+<%goal = @employee.new_goal(assessment_id: @assessment&.id, goal_type: :objective, for_a_single_employee: true, for_everyone: false, cancel_url: current_url, redirect_url: current_url)%>
+<%goal.position_ids = Position.where(id: @employee.efective_position&.id).ids%>
+<%= render "nextsgad/goals/form", goal: goal if @assessment.present? && @employee.efective_position&.present? && @employee.is_assessed? && action?(:show, :team_member_data)%>
+<%= render "form", employee: @employee %>
+<%#= render "nextsgad/justifications/form", justification: @justification %>
+<%# render "nextsgad/assessments/skill_form", goal: @skill if @skill.assessment_id.present? || can?(:new_skill, @assessment)%>
+<%#= render "nextsgad/assessments/objective_form", goal: @objective if @objective.present? && can?(:new_objective, @assessment) %>
+
+
+
+<hr style="margin-bottom: 0;">
+
+<%= tab do%>
+  <%= tab_header do%>
+    <% if @employee.can_be_assessed%>
+      <%= tab_header_item(:tab_performance_assessment, view_t('.performance_assessment')) %>
+    <% end %>
+    <%= tab_header_item(:tab_remuneration, view_t('.remunerations'))%>
+    <%= tab_header_item(:tab_time_managment, view_t('.tab_time_managment'))%>
+    <%# tab_header_item(:tab_skills, view_t('.tab_skills')) if @employee.efective_position&.function_id.present?%>
+  <%end%>
+
+  <%= tab_body(:tab_performance_assessment) do%>
+    <div class="employee_assessment_details">
+      <%= render "employee_assessment_details", assessment: @assessment, employee: @employee%>
+    </div>
+  <%end%>
+  <% if @employee.can_be_assessed%>
+    <%= tab_body(:tab_remuneration) do%>
+      <div class="employee_remuneration_details">
+        <br>
+        <div class="flex-row" style="margin-left: 0px; margin-right: 0px; margin-top: 0px; ">
+          <div class="flex-col-xs-6" style="padding-bottom: 15px;">
+            <%= box() do%>
+              <%= box_header(view_t('.employee_paygrades')) do%>
+                <%= box_action(:plus, href: '#employee_salary_family-modal-form', modal_trigger: true) if can?(:create, EmployeeSalaryFamily)%>
+              <%end%>
+              <%= l_table do %>
+                <%= t_header do %>
+                  <%= h_cell(text: 'Família Salarial', sortable: false )%>
+                  <%= h_cell(text: view_t(".level"), sortable: false )%>
+                  <%= h_cell(text: view_t(".paygrade"), sortable: false )%>
+                  <%= h_cell(text: view_t(".since"), sortable: false )%>
+                  <%= h_cell(text: view_t(".base_salary"), sortable: false )%>
+                  <%= h_cell(sortable: false) %>
+                <% end %>
+
+                <%= t_body(elements: @employee.employee_salary_families.order(since: :desc).first(7), class: 'auto-size') do |e| %>
+                  <%= b_row do %>
+                    <%= b_cell(element: e.salary_family.salary_grid.gs)%>
+                    <%= b_cell(element: e.level)%>
+                    <%= b_cell(element: e.paygrade.to_s)%>
+                    <%= b_cell(element: l(e.since))%>
+                    <%= b_cell(element: e.kwanza_t(:base_salary, precision: 0))%>
+                    <%= b_cell(text: "") do %>
+                      <%= link_to t('destroy'), employee_salary_family_url(e, redirect_url: current_url(active_tab: :tab_remuneration)), method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              <% end %>
+
+              <%= render 'employee_salary_families/form', employee_salary_family: EmployeeSalaryFamily.new(employee_id: @employee.id, cancel_url: current_url(active_tab: :tab_remuneration), redirect_url: current_url(active_tab: :tab_remuneration)) %>
+            <%end%>
+          </div>
+          <div class="flex-col-xs-6" style="padding-bottom: 15px;">
+            <%= box() do%>
+              <%= box_header(view_t('.employee_work_periods')) do%>
+                <%= box_action(:plus, href: '#employee_work_period-modal-form', modal_trigger: true) if can?(:create, EmployeeWorkPeriod)%>
+              <%end%>
+              <%= load_from(partial_view_list_employee_work_periods_url(@employee, limit: 7)) %>
+              <%= render 'employee_work_periods/form', employee_work_period: @employee.new_work_period(cancel_url: request.original_fullpath) %>
+            <%end%>
+          </div>
+          <div class="flex-col-xs-12">
+            <%= box() do%>
+              <%= box_header(view_t('.employee_salaries')) do%>
+                <%#= box_action(:plus, href: '#employee_work_period-modal-form', modal_trigger: true) if can?(:create, EmployeeWorkPeriod)%>
+              <%end%>
+              <%= l_table do %>
+                <%= t_header do %>
+                  <%= h_cell(text: view_t(".period") )%>
+                  <%= h_cell(text: view_t(".base_value") )%>
+                  <%= h_cell(text: view_t(".value") )%>
+                  <%= h_cell(text: view_t(".status") )%>
+                  <% h_cell(sortable: false) %>
+                <% end %>
+                <%= t_body(elements: Salary.where(employee_salary_family_id: EmployeeSalaryFamily.where(employee_id: @employee.id).ids), class: 'auto-size') do |e| %>
+                  <%= b_row('data-fill-modal': '#application_modal', 'data-fill-modal-with': partial_view_salary_url(e)) do %>
+                    <%= b_cell(element: l(e.period, format: :period) )%>
+                    <%= b_cell(element: to_kwanza(e.base_value))%>
+                    <%= b_cell(element: to_kwanza(e.value))%>
+                    <%= b_cell(element: e.enum_t(:status))%>
+                    <% b_cell(text: "") do %>
+                      <%= link_to t('show'), e %> |
+                      <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              <% end %>
+            <%end%>
+          </div>
+        </div>
+      </div>
+    <%end%>
+  <%end%>
+
+  <%= tab_body(:tab_time_managment) do%>
+    <br>
+    <div class="flex-row" style="margin-top: 0px; margin-right: 0px; margin-left: 0px;">
+      <div class="flex-col-xs-6">
+        <%= box(size: '250px') do%>
+          <%= box_header(view_t('.regime')) do%>
+            <%= box_action(:plus, href: '#employee_regime-modal-form', modal_trigger: true, tooltip: view_t('.register_x', x: view_t('.regime'))) if can?(:create, EmployeeRegime)%>
+          <%end%>
+          <%= l_table do %>
+            <%= t_header do %>
+              <%= h_cell(text: view_t(".regime") )%>
+              <%= h_cell(text: view_t(".enters_at") )%>
+              <%= h_cell(text: view_t(".leaves_at") )%>
+              <%= h_cell(text: view_t(".tolerance") )%>
+              <%= h_cell(sortable: false) %>
+            <% end %>
+
+            <%= t_body(elements: @employee.employee_regimes.order(created_at: :desc), class: 'auto-size') do |e| %>
+              <%= b_row() do %>
+                <%= b_cell(element: e.enum_t(:regime))%>
+                <%= b_cell(element: e.enters_at.present? ? l(e.enters_at, format: '%H:%M') : 'N/D')%>
+                <%= b_cell(element: e.leaves_at.present? ? l(e.leaves_at, format: '%H:%M') : 'N/D')%>
+                <%= b_cell(element: @employee.tolerance || 'N/D', class: 'auto-size' )%>
+                <%= b_cell(text: "") do %>
+                  <%= link_to t('destroy'), employee_employee_regime_url(@employee, e, redirect_url: current_url(active_tab: :tab_time_managment)), method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <% employee_regime = EmployeeRegime.new(employee_id: @employee.id) %>
+          <% employee_regime.cancel_and_redirect_url_to(current_url(active_tab: :tab_time_managment))%>
+          <%= render 'employee_regimes/form', employee_regime: employee_regime, employee: @employee %>
+        <%end%>
+        <br>
+      </div>
+      <%=
+        div(class: 'flex-col-xs-6') do
+          box(size: '250px') do
+            concat(box_header("Balanço das Férias"))
+            concat(content_tag(:h6, 'Férias Por Gozar', style: 'font-weight: bold;'))
+            @employee.employee_avaliable_vacations.with_vacations.not_overdue.order(:year).collect do |f|
+              concat(content_tag(:p, "#{f.year} - #{content_tag(:span, f.number_of_days_remaining, style: 'font-weight: bold;')}/#{f.number_of_days} dias até #{I18n.l(f.valid_until, format: "%B %Y")}".html_safe, style: "margin: 0;"))
+            end
+            concat(content_tag(:p, "Total - #{@employee.employee_avaliable_vacations.not_overdue.number_of_days_remaining}/#{@employee.employee_avaliable_vacations.not_overdue.sum(:number_of_days)} dias", style: "margin: 0;"))
+          end
+        end
+      %>
+
+      <div class="flex-col-xs-6">
+        <%= box(size: '500px') do%>
+          <%= box_header(view_t('.absences')) do%>
+            <%= box_action('hourglass-o', href: '#employee_absence-modal-form', modal_trigger: true, tooltip: view_t('.register_x', x: view_t('.absence'))) if can?(:create, EmployeeAbsence)%>
+            <%= box_action('hourglass-2', href: '#employee_delay-modal-form', modal_trigger: true, tooltip: view_t('.register_x', x: view_t('.delay'))) if can?(:create, EmployeeDelay)%>
+            <%= box_action('hourglass-1', href: '#employee_exit-modal-form', modal_trigger: true, tooltip: view_t('.register_x', x: view_t('.exit'))) if can?(:create, EmployeeExit)%>
+            <%= box_action('umbrella', href: '#employee_vacation--modal-form', modal_trigger: true, tooltip: "Pedido de Férias") if can?(:create, EmployeeVacation) && current.employee == @employee%>
+          <%end%>
+          <%= l_table do %>
+            <%= t_header do %>
+              <%= h_cell(text: view_t(".absence") )%>
+              <%#= h_cell(text: view_t(".left_at") )%>
+              <%#= h_cell(text: view_t(".returned_at") )%>
+              <%#= h_cell(text: view_t(".absent_days_number") )%>
+              <%= h_cell(sortable: false) %>
+            <% end %>
+
+            <%= t_body(elements: (@employee.employee_absences + @employee.employee_delays + @employee.employee_exits + @employee.employee_vacations).sort_by{|f| f.date rescue f.arrived_at rescue f.left_at}, class: 'auto-size') do |e| %>
+              <%if e.class.name.eql?('EmployeeAbsence')%>
+                <%= b_row() do %>
+                  <%= b_cell() do %>
+                    <%= jpanel_to e.name_and_date, employee_attendance_url(@employee.id, e.left_at.day, e.left_at.month, e.left_at.year), jpanel: 'Ausência' if can?(:presence, @employee) %>
+                  <% end %>
+                  <%#= b_cell(element: l(e.left_at))%>
+                  <%#= b_cell(element: l(e.returned_at))%>
+                  <%#= b_cell(element: e.absent_days_number.to_s)%>
+                  <%= b_cell(text: "") do %>
+                    <%= link_to t('destroy'), employee_employee_absence_url(@employee, e, redirect_url: current_url(active_tab: :tab_time_managment)), method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+                  <% end %>
+                <% end %>
+              <%elsif e.class.name.eql?('EmployeeDelay')%>
+                <%= b_row() do %>
+                  <%= b_cell() do %>
+                    <%= jpanel_to e.name_and_date, employee_attendance_url(@employee.id, e.arrived_at.day, e.arrived_at.month, e.arrived_at.year), jpanel: 'Atraso' if can?(:presence, @employee) %>
+                  <% end %>
+                  <%#= b_cell(element: e.arrived_at)%>
+                  <%#= b_cell(element: e.number_of_hours_late)%>
+                  <%= b_cell(text: "") do %>
+                    <%= link_to t('destroy'), employee_employee_delay_url(@employee, e, redirect_url: current_url(active_tab: :tab_time_managment)), method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+                  <% end %>
+                <% end %>
+              <%elsif e.class.name.eql?('EmployeeExit')%>
+                <%= b_row() do %>
+                  <%= b_cell() do %>
+                    <%= jpanel_to e.name_and_date, employee_attendance_url(@employee.id, e.date.day, e.date.month, e.date.year), jpanel: 'Saída' if can?(:presence, @employee) %>
+                  <% end %>
+                  <%#= b_cell(element: e.enum_t(:kind))%>
+                  <%#= b_cell(element: e.date)%>
+                  <%#= b_cell(element: e.left_at)%>
+                  <%#= b_cell(element: e.returned_at)%>
+                  <%#= b_cell(element: e.number_of_hours_absent)%>
+                  <%= b_cell(text: "") do %>
+                    <%= link_to t('destroy'), employee_employee_exit_url(@employee, e, redirect_url: current_url(active_tab: :tab_time_managment)), method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+                  <% end %>
+                <% end %>
+              <%elsif e.class.name.eql?('EmployeeVacation')%>
+                <%= b_row() do %>
+                  <%= b_cell() do %>
+                    <%= jpanel_to e.name_and_date, employee_attendance_url(@employee.id, e.left_at.day, e.left_at.month, e.left_at.year), jpanel: 'Férias' if can?(:presence, @employee) %>
+                  <% end %>
+                  <%#= b_cell(element: e.enum_t(:kind))%>
+                  <%#= b_cell(element: e.date)%>
+                  <%#= b_cell(element: e.left_at)%>
+                  <%#= b_cell(element: e.returned_at)%>
+                  <%#= b_cell(element: e.number_of_hours_absent)%>
+                  <%= b_cell() do %>
+                    <%= link_to t('destroy'), employee_vacation_url(e, redirect_url: current_url(active_tab: :tab_time_managment)), method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+                    <%= link_to t('edit'), "#employee_vacation-#{e.id}-modal-form", class: 'modal-trigger' if can?(:update, e) %>
+                    <% e.cancel_and_redirect_url_to(current_url(active_tab: :tab_time_managment))%>
+                    <%= render 'employee_vacations/form', employee_vacation: e %>
+                  <% end %>
+                <% end %>
+              <%end%>
+            <% end %>
+          <% end %>
+
+
+          <% employee_absence = EmployeeAbsence.new(employee_id: @employee.id)%>
+          <% employee_absence.cancel_and_redirect_url_to(current_url(active_tab: :tab_time_managment))%>
+          <%= render 'employee_absences/form', employee_absence: employee_absence, employee: @employee %>
+
+          <% employee_delay = EmployeeDelay.new(employee_id: @employee.id)%>
+          <% employee_delay.cancel_and_redirect_url_to(current_url(active_tab: :tab_time_managment))%>
+          <%= render 'employee_delays/form', employee_delay: employee_delay, employee: @employee %>
+
+          <% employee_exit = EmployeeExit.new(employee_id: @employee.id)%>
+          <% employee_exit.cancel_and_redirect_url_to(current_url(active_tab: :tab_time_managment))%>
+          <%= render 'employee_exits/form', employee_exit: employee_exit, employee: @employee %>
+
+          <% employee_vacation = EmployeeVacation.new(employee_id: @employee.id)%>
+          <% employee_vacation.cancel_and_redirect_url_to(current_url(active_tab: :tab_time_managment))%>
+          <%= render 'employee_vacations/form', employee_vacation: employee_vacation %>
+        <%end%>
+      </div>
+
+      <div class="flex-col-xs-6">
+        <%= box(size: '500px') do%>
+          <%= box_header(view_t('.employee_justifications')) do%>
+            <%= box_action(:plus, href: '#employee_justification-modal-form', modal_trigger: true) if can?(:create, EmployeeJustification)%>
+          <%end%>
+          <%= l_table do %>
+            <%= t_header do %>
+              <%= h_cell(text: view_t(".justification") )%>
+              <%#= h_cell(text: view_t(".attachments") )%>
+              <%#= h_cell(text: view_t(".employee_note") )%>
+              <%#= h_cell(text: view_t(".supervisor_note") )%>
+              <%= h_cell(sortable: false) %>
+            <% end %>
+
+            <%= t_body(elements: @employee.employee_justifications, class: 'auto-size') do |e| %>
+              <%= b_row('data-create-panel': 'Justificativo', 'data-panel-body-class': e.css_class, 'data-load-url': employee_employee_justification_url(@employee, e, format: :js).to_s) do %>
+                <%= b_cell() do %>
+                  <%= e.absence.name_and_date %>
+                <%end%>
+                <%#= b_cell(element: e.attachments)%>
+                <%#= b_cell(element: e.employee_note)%>
+                <%#= b_cell(element: e.supervisor_note)%>
+                <%= b_cell(text: "") do %>
+                  <%= link_to t('show'), employee_employee_justification_path(@employee, e, format: :text, render_view: 'show.html.erb'), data: {jpanel: 'Justificativo'}, remote: true if can?(:show, e) %> |
+                  <%= link_to t('edit'), edit_employee_employee_justification_path(@employee, e, format: :text, render_view: 'edit.html.erb'), data: {jpanel: 'Editar Justificativo'}, remote: true if can?(:show, e) %> |
+                  <%= link_to t('destroy'), employee_employee_justification_path(@employee, e, redirect_url: current_url(active_tab: :tab_time_managment)), method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <%employee_justification = EmployeeJustification.new(employee_id: @employee.id) %>
+          <%employee_justification.cancel_and_redirect_url_to(current_url(active_tab: :tab_time_managment))%>
+          <%= render 'employee_justifications/form', employee_justification: employee_justification, employee: @employee %>
+        <%end%>
+      </div>
+    </div>
+  <%end%>
+
+
+<%end%>
+
+<style media="screen">
+  .list-btn-employee {
+    position: absolute;
+    text-align: right;
+    right: 0;
+    margin-top: -15px;
+    padding-right: 25px;
+  }
+  [data-func="close"], [data-func="editTitle"], [data-func="reload"]{
+    display: none;
+  }
+</style>
+
+<script type="text/javascript">
+
+    function enviar(employee_id) {
+        document.getElementById("edit_employee_" + employee_id).submit();
+    }
+
+</script>

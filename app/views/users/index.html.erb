@@ -1,0 +1,65 @@
+<% @page_name = t('plural.user') %>
+
+
+<%= index_bar(itens: {t('plural.user') => users_url}) do %>
+    <%= action_btn(content: t('add'), href: new_user_path) %>
+    <%= action_btn(content: t('upload.new'), href: '#upload-file', modal_trigger: true) %>
+    <%= action_btn(filter: :users) %>
+<% end %>
+
+<table class="bordered users_table">
+  <thead>
+  <tr>
+    <th><%= :full_name.ts %></th>
+    <th><%= 'user.email'.ts %></th>
+    <th><%= :employee_number.ts %></th>
+    <th class=""><%= :actions.ts %></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @users.each do |f| %>
+      <tr data-href="<%= user_url(f) %>">
+        <td><%= f.full_name %></td>
+        <td><%= f.email || 'n/a'.ts %></td>
+        <td><%= f.employee_number || 'n/a'.ts %></td>
+        <td class="text-right" width="300px;">
+          <%= link_to 'Resetar Senha', user_reset_password_url(f), method: :patch if can?(:reset_password, f)%> |
+          <%= link_to 'Gerar Senha', user_generate_password_url(f), method: :patch if can?(:generate_password, f)%> |
+          <%= link_to 'Destroy', f, method: :delete, data: {confirm: 'Are you sure?'} if can?(:destroy, f)%>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= render 'uploads/form', upload: @upload, type: 'users' %>
+
+<%= filter_modal(users_url, 'users') do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+        <%= select_tag 'user_name[]', options_for_select(User.all.map {|p| ["#{p.first_and_last_name}", p.id]}, params[:user_name]), multiple: :multiple, class: "default-selectize", prompt: "Nome" %>
+      </div>
+      <div class="flex-col-xs-12 flex-col-sm-3">
+        <%= select_tag 'user_email[]', options_for_select(User.all.map {|p| ["#{p.email}", p.id]}, params[:user_email]), multiple: :multiple, class: "default-selectize", prompt: "Email" %>
+      </div>
+      <div class="flex-col-xs-12 flex-col-sm-3">
+        <%= select_tag 'employee_number[]', options_for_select(User.all.where.not(employee_number: nil).map {|p| ["#{p.employee_number}", p.id]}, params[:employee_number]), multiple: :multiple, class: "default-selectize", prompt: "Número de Colaborador" %>
+      </div>
+    </div>
+<% end %>
+
+
+<% if params[:username].present? && params[:password].present? %>
+    <div class="user-password-reset modal">
+      <div class="modal-content">
+        <span class="h5-size"> <%= t :password_reset %> </span>
+        <h4><%=params[:name]%>.<br></h4>
+        <h5><%= I18n.t('your_username_is', username: params[:username]) %><br></h5>
+        <h5><%= t('your_password_is', password: params[:password]) %><br></h5>
+        <hr>
+      </div>
+      <div class="modal-footer">
+        <%= close_modal_btn %>
+      </div>
+    </div>
+<% end %>

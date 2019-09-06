@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Activities</h1>
+<ul class="collection" id="list-result-activite" style="border-radius: 10px; margin: 10px;">
+
+<% @activities.each do |activity| %>
+
+
+
+<%= link_to activity do %>
+  <li class="collection-item" style="padding: 10px; background-color: rgba(250, 176, 51, 0.1);">
+    <p class="no-margin" style="font-weight: bold;"> <%= activity.created_by %> </p>
+    <p class="no-margin" style="font-size: 12px;"> <%= activity.description %>  </p>
+    <p class="no-margin" style="font-size: 12px;"> <%= activity.created_at %> </p>
+    <%= link_to '<i class="material-icons change-status-activite">close</i>'.html_safe, "#" %>
+  </li>
+<% end%>
+
+
+<% end %>
+
+
+
+</ul>
+
+
+<style media="screen">
+  .change-status-activite{
+    color: red;
+    font-size: 15px;
+    margin-top: 10px;
+
+  }
+</style>

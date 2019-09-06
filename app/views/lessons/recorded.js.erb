@@ -1,0 +1,4 @@
+$('.current_lesson').replaceWith("<%= j render('courses/current_lesson', lesson: @lesson)%>");
+$('.chapters').replaceWith("<%= j render('courses/chapters', course: @lesson.course, chapters: @lesson.course.chapters)%>");
+
+initPlugins($('.current_lesson, .chapters'));

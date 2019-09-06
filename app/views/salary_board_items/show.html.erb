@@ -1,0 +1,47 @@
+<%= index_bar(itens: {t(".salary_board_items") => salary_board_items_url, t('.salary_board_item') => nil}) do %>
+  <%= action_btn(content: t('update'), href: edit_salary_board_item_path(@salary_board_item) )%>
+  <% action_btn(content: t('update'), href: "#salary_board_item-modal-form", modal_trigger: true) %>
+<% end %>
+
+<p>
+  <strong><%= t(".paygrade") %>:</strong>
+  <%= @salary_board_item.paygrade %>
+</p>
+
+<p>
+  <strong><%= t(".base_value") %>:</strong>
+  <%= @salary_board_item.base_value %>
+</p>
+
+<p>
+  <strong><%= t(".increment_value") %>:</strong>
+  <%= @salary_board_item.increment_value %>
+</p>
+
+<p>
+  <strong><%= t(".a_value") %>:</strong>
+  <%= @salary_board_item.a_value %>
+</p>
+
+<p>
+  <strong><%= t(".b_value") %>:</strong>
+  <%= @salary_board_item.b_value %>
+</p>
+
+<p>
+  <strong><%= t(".c_value") %>:</strong>
+  <%= @salary_board_item.c_value %>
+</p>
+
+<p>
+  <strong><%= t(".d_value") %>:</strong>
+  <%= @salary_board_item.d_value %>
+</p>
+
+<p>
+  <strong><%= t(".salary_board") %>:</strong>
+  <%= @salary_board_item.salary_board %>
+</p>
+
+
+<%# render 'form', salary_board_item: @salary_board_item %>

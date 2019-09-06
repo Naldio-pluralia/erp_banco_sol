@@ -1,0 +1,21 @@
+<% @page_name = t('employees') %>
+
+<% toolbar(itens_menu: {"#{'employees'.ts}": my_team_url}, bar_arguments: { } ) %>
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: "employee_name".ts)%>
+    <%= h_cell(text: "employee_number".ts)%>
+    <%= h_cell(text: "employee_paygrade".ts)%>
+    <%= h_cell(text: "employee_paygrade_level".ts)%>
+  <%end%>
+
+  <%= t_body(elements: @my_team) do |e|%>
+    <%= b_row(link_to: team_member_data_url(e)) do %>
+    <%= b_cell(element: "#{e.first_name} #{e.last_name}")%>
+    <%= b_cell(element: e.number)%>
+    <%= b_cell(element: e.level)%>
+    <%= b_cell(element: e.paygrade)%>
+    <%end%>
+  <%end%>
+<%end%>

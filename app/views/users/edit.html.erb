@@ -1,0 +1,5 @@
+<% @page_name = 'user.edit'.ts %>
+
+<% toolbar(itens_menu: {"#{'plural.user'.ts}": users_url, "#{'user.edit'.ts}": "#"}, bar_arguments: {} ) %>
+
+<%= render 'form', user: @user %>

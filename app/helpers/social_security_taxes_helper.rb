@@ -1,0 +1,2 @@
+module SocialSecurityTaxesHelper
+end

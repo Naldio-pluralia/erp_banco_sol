@@ -1,0 +1,70 @@
+<ul id="slide-out-activite" class="side-nav" style="right: 0px;">
+  <div class="" style="text-align: center; margin-top: 15px;">
+    <span style="    font-size: 20px;">NOTIFICAÇÕES</span>
+    <hr>
+  </div>
+  <div class="row">
+    <ul class="collection" id="list-result-activite" style="border-radius: 10px; margin: 10px;">
+      <% if current.is?(:employee) %>
+          <% current.employee.employee_messages.unread.each do |f| %>
+              <li class="collection-item" style="position: relative;padding: 10px; background-color: rgba(250, 176, 51, 0.1);">
+                <%= link_to employee_employee_message_url(f.employee_id, f), class: :notification_item do %>
+                    <!--<p class="no-margin" style="font-weight: bold;"> <%= f.signature %> </p>-->
+                    <p class="no-margin" style="font-size: 12px;"> <%= f.title.truncate(40) %>  </p>
+                    <p class="no-margin" style="font-size: 12px;"> <%= l(f.created_at) %> </p>
+                    <%= link_to '<i class="material-icons change-status-activite">close</i>'.html_safe, employee_employee_message_url(f.employee_id, f), class: "close_notification", remote: true %>
+                <% end %>
+              </li>
+          <% end %>
+
+      <% end %>
+    </ul>
+  </div>
+</ul>
+
+
+<style media="screen">
+  #list-result-activite{border: none;margin: 0px!important;}
+  #slide-out-activite.side-nav {
+    -moz-transition: all 0s cubic-bezier(0, 0, 0, 0) !important;
+    -o-transition: all 0s cubic-bezier(0, 0, 0, 0) !important;
+    -webkit-transition: all 0s cubic-bezier(0, 0, 0, 0);
+    width: 320px;
+  }
+
+  body.minimized #slide-out-activite.side-nav {
+    width: 220px;
+  }
+
+  #slide-out-activite .close_notification {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0;
+    height: 23px;
+  }
+
+  #slide-out-activite .close_notification i.material-icons {
+    margin: 0 4px 0 0;
+    line-height: 37px;
+  }
+
+  #slide-out-activite.side-nav li > a:hover {
+    background-color: unset;
+  }
+  #slide-out-activite li.collection-item{
+    padding: 0!important;
+  }
+  #slide-out-activite a.notification_item {
+    padding: 10px;
+    min-height: 66px;
+  }
+
+
+</style>
+
+<script type="text/javascript" charset="utf-8">
+  $('#slide-out-activite a.close_notification').click(function () {
+      $(this).parents('.collection-item').remove();
+  });
+</script>

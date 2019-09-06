@@ -1,0 +1,11 @@
+#Simple form
+pt:
+  employee_delays:
+    defaults:
+      employee_delays: 'Atrasos'
+      employee_delay: 'Atraso'
+      employee: 'Colaborador'
+      absence_type: 'Tipo de Ausência'
+      date: 'Data'
+      arrival_time: 'Hora de Entrada'
+      hours: 'Nº de Horas de Atraso'

@@ -1,0 +1,46 @@
+<%= index_bar(itens: {t(".vacation_subsidy_salaries") => nil }) do %>
+  <%= action_btn(content: t('add'), href: new_vacation_subsidy_salary_path) %>
+  <% action_btn(content: t('add'), href: "vacation_subsidy_salary-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: t('filter'), href: "#filter-vacation_subsidy_salaries-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: t(".name") )%>
+    <%= h_cell(text: t(".abbr_name") )%>
+    <%= h_cell(text: t(".value") )%>
+    <%= h_cell(text: t(".percentage") )%>
+    <%= h_cell(text: t(".year") )%>
+    <%= h_cell(text: t(".salary") )%>
+    <%= h_cell(text: t(".vacation_subsidy") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @vacation_subsidy_salaries) do |e| %>
+    <%= b_row(link_to: vacation_subsidy_salary_path(e)) do %>
+      <%= b_cell(element: e.name)%>
+      <%= b_cell(element: e.abbr_name)%>
+      <%= b_cell(element: e.value)%>
+      <%= b_cell(element: e.percentage)%>
+      <%= b_cell(element: e.year)%>
+      <%= b_cell(element: e.salary)%>
+      <%= b_cell(element: e.vacation_subsidy)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e %> | 
+        <%= link_to t('edit'), edit_vacation_subsidy_salary_path(e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(vacation_subsidy_salaries_url, "vacation_subsidy_salaries") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%# render 'form', vacation_subsidy_salary: @vacation_subsidy_salary %>

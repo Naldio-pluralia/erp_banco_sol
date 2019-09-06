@@ -1,0 +1,24 @@
+<% @page_name = @employee_goal.self_assessment %>
+
+<% toolbar(itens_menu: {"#{'employee_goals'.ts}": employee_goals_url, "#{'employee_goals'.ts}": @employee_goal}, bar_arguments: { edit_modal: "#add-employee_goal", delete: @employee_goal  } ) %>
+
+<p>
+  <strong>Self assessment:</strong>
+  <%= @employee_goal.self_assessment %>
+</p>
+
+<p>
+  <strong>Supervisor assessment:</strong>
+  <%= @employee_goal.supervisor_assessment %>
+</p>
+
+<p>
+  <strong>Final assessment:</strong>
+  <%= @employee_goal.final_assessment %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @employee_goal.status %>
+</p>
+<%# render "form" %>

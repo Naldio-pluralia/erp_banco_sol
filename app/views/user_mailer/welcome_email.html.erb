@@ -1,0 +1,10 @@
+<h1><%= t("welcome_x", x: @user.full_name )%></h1>
+<p>
+  <%=I18n.t("your_account_was_created")%>
+  <br>
+  <%=t('your_username_is', username: @user.email || @user.employee_number) %>.<br>
+  <%=t('your_password_is', password: @password)%><br>
+</p>
+<p>
+  <% t(:follow_the_link_to_login, link: @url)%>
+</p>

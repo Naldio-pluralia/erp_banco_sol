@@ -1,0 +1,30 @@
+<div class="lesson_form">
+  <% if lesson.new_record?%>
+    <% lesson.name = 'Nova Lição'; lesson.number = (lesson.chapter&.lessons&.map(&:number)&.sort&.last.defs_to(0)).to_i + 1; lesson.text = ''; lesson.save(validate: false) %>
+  <%end%>
+  <%= simple_form_for(lesson, format: :js, remote: true) do |f| %>
+    <%= form_url_helpers(f)%>
+    <div id="lesson-modal-form" class="-modal modal-fixed-footer">
+      <div class="-modal-content">
+        <div class="flex-row flex-top">
+          <div class="flex-col-xs-12" style="text-align: right;">
+            <%= f.button :submit %>
+            <br>  
+          </div>
+          <%= f.input :number, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+          <%= f.input :name, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+          <%= f.input :video_kind, collection: Lesson.enums_map_t(:video_kind), include_blank: false, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: 'default-selectize'} unless lesson.new_record?%>
+          <%= f.input :video, wrapper_html: {class: 'flex-col-xs-4', "data-show-on-select": "#lesson_video_kind,youtube"}, input_html: {class: ''} unless lesson.new_record?%>
+          <div class="flex-col-xs-12">
+            <%unless lesson.new_record?%>
+              <div class="jquery-file-upload" data-show-on-select="#lesson_video_kind,local" data-url="<%= lesson_file_upload_url(lesson)%>" data-method="PATCH">Carregar Video</div>
+              <%= f.error :local_video %>
+            <%end%>
+          </div>
+          <%= f.input :text, as: :trix_editor, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: ''} %>
+          <%= f.association :chapter, as: :hidden, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

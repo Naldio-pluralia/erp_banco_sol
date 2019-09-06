@@ -1,0 +1,20 @@
+<%= index_bar(itens: {t(".employee_work_periods") => employee_work_periods_url, t('.employee_work_period') => nil}) do %>
+  <%= action_btn(content: t('update'), href: '#employee_work_period-modal-form', modal_trigger: true) %>
+<% end %>
+
+<p>
+  <strong><%= t(".employee") %>:</strong>
+  <%= @employee_work_period.employee.name_and_number %>
+</p>
+
+<p>
+  <strong><%= t(".since") %>:</strong>
+  <%= l @employee_work_period.since %>
+</p>
+
+<p>
+  <strong><%= t(".until") %>:</strong>
+  <%= @employee_work_period.present_until %>
+</p>
+
+<%= render 'form', employee_work_period: @employee_work_period %>

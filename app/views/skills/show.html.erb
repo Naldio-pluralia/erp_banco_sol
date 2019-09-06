@@ -1,0 +1,10 @@
+<%= index_bar(itens: {view_t(".skills") => skills_url, view_t('.skill') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_skill_path(@skill) ) if can?(:edit, @skill) %>
+  <%= action_btn(content: view_t('update'), href: "#skill-modal-form", modal_trigger: true) if can?(:edit, @skill) %>
+<% end %>
+
+
+<%= show_item(".name", @skill.name) %>
+
+
+<%= render 'form', skill: @skill %>

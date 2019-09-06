@@ -1,0 +1,175 @@
+<div class="flex-row">
+  <div class="flex-col-xs-6">
+    <p style="margin-bottom: 0;"> <%= link_to view_t(".courses"), courses_url %> / <strong style="font-size: 20px;"><%= @course.name %></strong> (<%=@course.enum_t(:status)%>)</p>
+  </div>
+  <div class="flex-col-xs-6" style="text-align: right;">
+    <p style="margin-bottom: 0;"> 
+      <%= action_btn(content: 'Ver Curso', href: course_url(@course), ) if can?(:show, @course) %>
+    </p>
+  </div>
+</div>
+<% employee_courses = @course.employee_courses.to_a %>
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: "Relatório de Conclusão", align: :center, sortable: false )%>
+  <% end %>
+<% end %>
+
+<div class="flex-row">
+  <div class="flex-col-xs-6 chart-container" style="position: relative;">
+    <%= chart_export_btn('#chartjs-course-1', 'Relatório de Conclusão') %>
+    <%=
+
+      data = {
+        labels: [l(DateTime.now - 2.months, format: '%B'), l(DateTime.now - 1.month, format: '%B'), l(DateTime.now, format: '%B')],
+        datasets: [
+          {
+            label: "Não Iniciado",
+            backgroundColor: 'rgba(200, 12, 12, 0.5)',
+            data: [employee_courses.select{|f| f.updated_at.year == DateTime.now.year && f.conclusion_percentage == 0 && f.updated_at.month == (DateTime.now - 2.months).month}.size, employee_courses.select{|f| f.updated_at.year == DateTime.now.year && f.conclusion_percentage == 0 && f.updated_at.month == (DateTime.now - 1.months).month}.size, employee_courses.select{|f| f.updated_at.year == DateTime.now.year && f.conclusion_percentage == 0 && f.updated_at.month == DateTime.now.month}.size]
+          },
+          {
+            label: "Em Curso",
+            backgroundColor: 'rgba(250, 176, 51, 0.6)',
+           data: [employee_courses.select{|f| f.updated_at.year == DateTime.now.year && f.conclusion_percentage > 0 && f.conclusion_percentage < 100  && f.updated_at.month == (DateTime.now - 2.months).month}.size, employee_courses.select{|f| f.updated_at.year == DateTime.now.year && f.conclusion_percentage > 0 && f.conclusion_percentage < 100  && f.updated_at.month == (DateTime.now - 1.months).month}.size, employee_courses.select{|f| f.updated_at.year == DateTime.now.year && f.conclusion_percentage > 0 && f.conclusion_percentage < 100  && f.updated_at.month == DateTime.now.month}.size]
+          },
+          {
+            label: "Concluido",
+            backgroundColor: 'rgba(99, 200, 99, 0.7)',
+            data: [employee_courses.select{|f| f.updated_at.year == DateTime.now.year && f.conclusion_percentage == 100 && f.updated_at.month == (DateTime.now - 2.months).month}.size, employee_courses.select{|f| f.updated_at.year == DateTime.now.year && f.conclusion_percentage == 100 && f.updated_at.month == (DateTime.now - 1.months).month}.size, employee_courses.select{|f| f.updated_at.year == DateTime.now.year && f.conclusion_percentage == 100 && f.updated_at.month == DateTime.now.month}.size]
+          }
+        ]
+      }
+      options = {
+        id: 'chartjs-course-1',
+        height: '180',
+        title: {
+          display: true,
+          text: 'Relatório de Conclusão'
+        },
+        scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true,
+                fontSize: 8
+              }
+            }
+          ]
+        }
+      }
+      bar_chart data, options
+      %>
+  </div>
+
+  <div class="flex-col-xs-6 chart-container" style="position: relative;">
+    <%= chart_export_btn('#chartjs-courses-2', 'Sucesso') %>
+    <%=
+      data = {
+        labels: ["Aprovado", "Falhado"],
+        datasets: [
+          {
+            label: "Participantes",
+            backgroundColor: ["#92d992", "#e48686"],
+            data: [@course.employee_courses.approved.size, @course.employee_courses.not_approved.size]
+          }
+        ]
+      }
+      options = {
+        id: 'chartjs-courses-2',
+        height: '180',
+        title: {
+          display: true,
+          text: 'Sucesso'
+        }
+      }
+      doughnut_chart data, options
+    %>
+  </div>
+
+  <div class="flex-col-xs-6 chart-container" style="position: relative;">
+    <%= chart_export_btn('#chartjs-course-3', 'Relatório de Execução') %>
+    <%=
+
+      data = {
+        labels: ["Menos de 24H", "Mais de 24H", "Mais de uma Semana"],
+        datasets: [
+          {
+            label: "Execução",
+            backgroundColor: ['rgba(200, 12, 12, 0.5)', 'rgba(250, 176, 51, 0.6)', 'rgba(99, 200, 99, 0.7)'],
+            data: [employee_courses.select(&:less_than_a_day?).size, employee_courses.select(&:more_than_a_day?).size, employee_courses.select(&:more_than_a_week?).size]
+          }
+        ]
+      }
+      options = {
+        id: 'chartjs-course-3',
+        height: '180',
+        title: {
+          display: true,
+          text: 'Relatório de Execução'
+        },
+        scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true,
+                fontSize: 8
+              }
+            }
+          ]
+        }
+      }
+      bar_chart data, options
+      %>
+  </div>
+</div>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: "Relatório de Participação", align: :center, sortable: false )%>
+  <% end %>
+<% end %>
+
+<div class="row">
+  <div class="col s12 chart-container" style="position: relative;">
+    <%= chart_export_btn('#chartjs-report-2', 'Comparação de participação com os anos anteriores') %>
+    <%=
+      data = {
+        labels: ["Ano de #{(DateTime.now - 3.year).year}", "Ano de #{(DateTime.now - 2.year).year}", "Ano de #{(DateTime.now - 1.year).year}", "Ano de #{DateTime.now.year}"],
+        datasets: [
+          {
+            label: 'Participações',
+            backgroundColor: 'rgba(200, 12, 12, 0.5)',
+            data: [employee_courses.select{|f| f.updated_at.year == (DateTime.now - 3.year).year}.size, employee_courses.select{|f| f.updated_at.year == (DateTime.now - 2.year).year}.size, employee_courses.select{|f| f.updated_at.year == (DateTime.now - 1.year).year}.size, employee_courses.select{|f| f.updated_at.year == DateTime.now.year}.size]
+          }
+        ]
+      }
+      options = {
+        id: 'chartjs-report-2',
+        height: '180',
+        title: {
+          display: true,
+          text: 'Comparação de participação com os anos anteriores'
+        },
+        scales: {
+          xAxes: [{
+            barThickness: 9,
+            ticks: {
+              fontSize: 9
+            }
+          }],
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+                fontSize: 9,
+                min: 0,
+              }
+            }
+          ]
+        }
+      }
+
+      bar_chart data, options 
+    %>
+  </div>

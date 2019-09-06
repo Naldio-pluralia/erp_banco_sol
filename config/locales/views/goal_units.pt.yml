@@ -1,0 +1,7 @@
+pt:
+  nextsgad:
+    goal_units:
+      form:
+        new: 'Criar Unidade de Avaliação'
+        update: 'Actualizar Unidade de Avaliação'
+    

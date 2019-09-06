@@ -1,0 +1,22 @@
+<div class="new_object_attachment">
+  <%= simple_form_for(object_attachment, html: {multipart: true}, remote: true) do |f| %>
+    <%= form_url_helpers(f)%>
+    <div id="object_attachment-modal-form" class="modal modal-fixed-footer">
+      <div class="modal-content">
+        <span class="hide h5-size"> <%= object_attachment.new_record? ? view_t('.new_x', x: view_t('.object_attachment')) : view_t('.edit_x', x: view_t('.object_attachment')) %> </span>
+        <div class="flex-row flex-top">
+          <%= f.input :file, label: false, as: :dropify, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: ''} %>
+          <%= f.input :description, label: false, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: ''} %>
+          <%= f.input :extension_whitelist, as: :hidden %>
+          <%= f.input :object_id,  as: :hidden %>
+          <%= f.input :object_type,  as: :hidden %>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <%= f.button :submit %>
+        <%= link_to t('cancel'), "#", class: 'waves-effect modal-close waves-light btn btn-flat btn-cancel-form' %>
+      </div>
+    </div>
+  <% end %>
+</div>

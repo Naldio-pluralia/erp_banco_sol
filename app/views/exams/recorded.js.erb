@@ -1,0 +1,5 @@
+$('.exam_form').replaceWith("<div style='padding: 100px'><div class='success-msg' style='padding: 25px;font-size: 18px;text-align: center;background-color: rgb(223, 242, 191); border-bottom-left-radius: 3px;border-bottom-right-radius: 3px;border-top-left-radius: 3px;border-top-right-radius: 3px;color: rgb(34, 119, 0);display: block;font-family:'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', 'sans serif';font-weight: 300;height: 18px;margin-bottom: 10px;margin-left: 0px;margin-right: 0px;margin-top: 10px;padding-bottom: 10px;padding-left: 10px;padding-right: 10px;padding-top: 10px; width:'><i class='fa fa-check'></i>Gravado.</div></div>");
+$('.course_current_lesson').html("<%= j render('courses/current_exam', exam: @exam)%>");
+$('.chapters').replaceWith("<%= j render('courses/chapters', course: @exam.course, chapters: @exam.course.chapters)%>");
+
+initPlugins($('.exam_form, .course_current_lesson, .chapters'));

@@ -1,0 +1,9 @@
+<% if lesson.present? && lesson.youtube? && lesson.video.present? %>
+  <div class="course_box remove-box-shadow" style="padding: 0;height: 464px;overflow-y:  hidden;text-align:  center; margin-top: 0;border-top-left-radius: 0;border-top-right-radius: 0;">
+    <iframe src="https://www.youtube.com/embed/<%= lesson.video%>?rel=0" height="300" frameborder="0" allowfullscreen></iframe>
+  </div>
+<%elsif lesson.present? && lesson.local? && lesson.local_video.present? %>
+  <div class="course_box remove-box-shadow" style="padding: 0;height: 464px;overflow-y:  hidden;text-align:  center; margin-top: 0;border-top-left-radius: 0;border-top-right-radius: 0;">
+    <%= video_tag(lesson.local_video_url, controls: true, autoplay: true, style: 'max-width: 100%; height: 100%') %>
+  </div>
+<%end%>

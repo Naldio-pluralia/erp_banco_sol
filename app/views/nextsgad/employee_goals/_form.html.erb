@@ -1,0 +1,20 @@
+<%= simple_form_for @employee_goal do |f| %>
+  <div id="add-employee_goal" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= @employee_goal.id.present? ? 'employee_goal.assessment'.ts : 'employee_goal.assessment'.ts %> </span>
+      <hr>
+
+      <div class="row">
+        <%= f.input :self_assessment, label: "employee_goal.self_assessment".ts, wrapper_html: { class: 'col m6 s12' } %>
+        <%= f.input :supervisor_assessment, label: "employee_goal.supervisor_assessment".ts, wrapper_html: { class: 'col m6 s12' } %>
+        <%= f.input :final_assessment, label: "employee_goal.final_assessment".ts, wrapper_html: { class: 'col m6 s12' } %>
+        <%= f.input :status, label: "employee_goal.status".ts, wrapper_html: { class: 'col m6 s12' } %>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <%= f.button :submit, "#{@employee_goal.id.present? ? 'Actualizar' : 'Registar'}", class:"btn btn-default" %>
+      <%= close_modal_btn %>
+    </div>
+  </div>
+<% end %>

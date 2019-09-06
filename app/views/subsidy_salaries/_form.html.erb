@@ -1,0 +1,19 @@
+<%= simple_form_for(subsidy_salary) do |f| %>
+  <div id="subsidy_salary-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= subsidy_salary.new_record? ? t('.new') : t('.edit') %> </span>
+      <hr>
+
+      <div class="row">
+        <%= f.input :value, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+        <%= f.association :salary, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+        <%= f.input :subsidy_type, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), subsidy_salary.new_record? ? subsidy_salaries_path : subsidy_salary_path(subsidy_salary), class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

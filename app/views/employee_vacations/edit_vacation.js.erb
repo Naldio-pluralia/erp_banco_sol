@@ -1,0 +1,2 @@
+$("vacation-<%=@employee_vacation.id%>-edit").replaceWith(" <%= j render(template: 'employee_vacations/edit_vacation.html.erb', locals: { :@employee_vacation => @employee_vacation, :@employee => @employee})%>");
+initPlugins($("vacation-<%=@employee_vacation.id%>-edit"));

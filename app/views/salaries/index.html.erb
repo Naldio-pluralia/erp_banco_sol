@@ -1,0 +1,64 @@
+<%= index_bar(itens: {view_t(".salaries") => nil }) do %>
+  <%= action_btn(content: view_t('add_several'), href: new_salary_map_url) if can?(:new_salary_map, Salary)%>
+  <%= action_btn(content: view_t('add'), href: '#salary-modal-form', modal_trigger: true) if can?(:create, Salary)%>
+  <%= action_btn(content: view_t('filter'), href: "#filter-salaries-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".employee_paygrade") )%>
+    <%= h_cell(text: view_t(".period") )%>
+    <%= h_cell(text: view_t(".base_value") )%>
+    <%= h_cell(text: view_t(".value") )%>
+    <%= h_cell(text: view_t(".status") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @salaries) do |e| %>
+    <%= b_row() do %>
+      <%= b_cell(element: e.employee_salary_family.employee.name_and_number)%>
+      <%= b_cell(element: l(e.period, format: :period) )%>
+      <%= b_cell(element: to_kwanza(e.base_value))%>
+      <%= b_cell(element: to_kwanza(e.value))%>
+      <%= b_cell(element: e.enum_t(:status))%>
+      <%= b_cell(text: "") do %>
+        <%= link_to view_t('show'), salary_url(e, back_url: request.original_url) %> |
+        <%= link_to view_t('destroy'), e, method: :delete, data: { confirm: view_t('are_you_sure') } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(salaries_url, "salaries") do %>
+  <div class="flex-row">
+
+    <% if (params[:map_type] ||= 'monthly') == 'monthly' %>
+      <div class="flex-col-xs-12 flex-col-sm-3">
+        <input type="text" class="air_datepicker form-control" placeholder="Período" value="<%= params[:period] %>" name="period" data-language='pt' data-min-view="months" data-view="months" data-date-format="mm/yyyy" />
+      </div>
+    <%elsif params[:map_type] == 'all' %>
+      <div class="flex-col-xs-12 flex-col-sm-3">
+        <input type="text" class="air_datepicker form-control" placeholder="Desde" value="<%= params[:since] %>" name="since" data-language='pt' data-min-view="months" data-view="months" data-date-format="mm/yyyy" />
+      </div>
+      <div class="flex-col-xs-12 flex-col-sm-3">
+        <input type="text" class="air_datepicker form-control" placeholder="até" value="<%= params[:until] %>" name="until" data-language='pt' data-min-view="months" data-view="months" data-date-format="mm/yyyy" />
+      </div>
+    <% elsif params[:map_type] == 'annual' %>
+      <div class="flex-col-xs-12 flex-col-sm-3">
+        <input type="text" class="air_datepicker form-control" placeholder="Ano" value="<%= params[:year] %>" name="year" data-language='pt' data-min-view="years" data-view="years" data-date-format="yyyy" />
+      </div>
+    <% end %>
+    <div class="flex-col-xs-12 flex-col-sm-3">
+      <%= select_tag 'map_type', options_for_select([:all, :annual, :monthly].map{|x| [view_t(".#{x}"), x]}, params[:map_type]), class: "select optional form-control default-selectize", prompt: "Modo do Mapa" %>
+    </div>
+    <div class="flex-col-xs-12 flex-col-sm-3">
+      <%= select_tag 'employee_id[]', options_for_select(Employee.all.map{|p|["#{p.name_and_number}", p.id]}, params[:employee_id]), multiple: :multiple, class: "select optional form-control default-selectize", prompt: "Colaborador" %>
+    </div>
+    <div class="flex-col-xs-12 flex-col-sm-3">
+      <%= select_tag 'status[]', options_for_select(Salary.enums_map_t(:status), params[:status]), multiple: :multiple, class: "select optional form-control default-selectize", prompt: "Estado" %>
+    </div>
+  </div>
+<% end %>
+
+<%= render 'form', salary: @salary%>

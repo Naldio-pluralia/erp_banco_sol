@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @employee_goal_activity.description %>
+</p>
+
+<p>
+  <strong>Employee goal:</strong>
+  <%= @employee_goal_activity.employee_goal %>
+</p>
+
+<p>
+  <strong>Creator:</strong>
+  <%= @employee_goal_activity.creator %>
+</p>
+
+<p>
+  <strong>Attachment:</strong>
+  <%= @employee_goal_activity.attachment %>
+</p>
+
+<%= link_to 'Edit', edit_employee_goal_activity_path(@employee_goal_activity) %> |
+<%= link_to 'Back', employee_goal_activities_path %>

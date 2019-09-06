@@ -1,0 +1,105 @@
+<div class="object_activities_area">
+  <span style="color: #838c91;"><%= view_t('.add_x', x: 'comentarios') %> </span>
+
+  <div class="activity_form">
+    <%  object_activity = ObjectActivity.new(creator: current.user, object: object)%>
+    <%= render "object_activities/form", object_activity: object_activity%>
+  </div>
+  <br>
+  <span style="color: #838c91;"><%= view_t('.comments') %> </span>
+  <div class="flex-row employee_goal_activities no-margin msg-wrap">
+    <%object.object_activities.sort_by(&:created_at).reverse.each do |activity|%>
+      <div class="flex-col-xs-12">
+        <div class="phenom mod-attachment-type">
+          <div class="phenom-creator">
+            <div class="member js-show-mem-menu" idmember="598092e3850abd4be6e55b6a">
+              <%= image_tag activity.creator.avatar, class: 'member-avatar', style: 'width: 30px; height: 100%;', alt: activity.creator.first_and_last_name, title: activity.creator.first_and_last_name%>
+              <span class="member-gold-badge" title="This member has Trello Gold."></span>
+            </div>
+          </div>
+          <div class="phenom-desc">
+            <span class="inline-member js-show-mem-menu" idmember="598092e3850abd4be6e55b6a">
+              <span class="u-font-weight-bold text-nova-bold"><%= activity.creator.first_and_last_name %></span>
+            </span> <%=activity.description%>
+          </div>
+          <p class="phenom-meta quiet">
+            <span class="date js-hide-on-sending js-highlight-link"><%= l activity.created_at, format: :extended %></span>
+          </p>
+        </div>
+      </div>
+    <%end%>
+  </div>
+</div>
+
+
+<style>
+  .phenom {
+    border-bottom: 1px solid #e2e4e6;
+    margin-left: 38px;
+    min-height: 30px;
+    padding: 10px 0;
+    position: relative;
+  }
+
+  .phenom-creator, .phenom-icon {
+    height: 30px;
+    left: -38px;
+    position: absolute;
+    top: 13px;
+    width: 30px;
+  }
+
+  .phenom.mod-attachment-type .phenom-desc, .phenom.mod-attachment-type .phenom-meta, .phenom.mod-comment-type .phenom-desc, .phenom.mod-comment-type .phenom-meta {
+    display: block;
+  }
+
+  .phenom-meta {
+    display: inline-block;
+    font-size: 12px;
+    margin: 0;
+    min-width: 110px;
+  }
+
+  .quiet, .quiet a {
+    color: #838c91;
+  }
+
+  .member {
+    background-color: #d6dadc;
+    border-radius: 25em;
+    color: #4d4d4d;
+    cursor: pointer;
+    display: block;
+    float: left;
+    height: 30px;
+    margin: 0 4px 4px 0;
+    overflow: visible;
+    position: relative;
+    width: 30px;
+    text-decoration: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    z-index: 0;
+  }
+
+  .phenom-desc {
+    margin: 0 24px 0 0;
+    word-wrap: break-word;
+  }
+
+  .window-main-col img {
+    max-width: 100%;
+  }
+
+  .member-avatar {
+      height: 30px;
+      width: 30px;
+      border-radius: 25em;
+  }
+
+  img {
+      border: 0;
+  }
+</style>

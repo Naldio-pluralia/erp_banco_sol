@@ -1,0 +1,34 @@
+<%= index_bar(itens: {view_t(".function_contract_types") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_function_contract_type_path) %>
+  <%= action_btn(content: view_t('add'), href: "#function_contract_type-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-function_contract_types-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".name") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @function_contract_types) do |e| %>
+    <%= b_row(link_to: function_contract_type_path(e)) do %>
+      <%= b_cell(element: e.name)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e if can?(:show, e) %> | 
+        <%= link_to t('edit'), edit_function_contract_type_path(e) if can?(:edit, e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(function_contract_types_url, "function_contract_types") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', function_contract_type: @function_contract_type %>

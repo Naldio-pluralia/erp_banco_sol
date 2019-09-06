@@ -1,0 +1,1 @@
+json.partial! "employee_vacation_responses/employee_vacation_response", employee_vacation_response: @employee_vacation_response

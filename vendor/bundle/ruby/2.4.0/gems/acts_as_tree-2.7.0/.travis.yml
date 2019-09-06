@@ -1,0 +1,64 @@
+language: ruby
+
+sudo: false
+cache: bundler
+
+before_install: gem install bundler -v '~> 1.15' --conservative --minimal-deps
+
+rvm:
+  - 1.9.2
+  - 1.9.3
+  - 2.0.0
+  - 2.1.8
+  - 2.2.4
+
+gemfile:
+  - gemfiles/rails-3.0.gemfile
+  - gemfiles/rails-3.1.gemfile
+  - gemfiles/rails-3.2.gemfile
+  - gemfiles/rails-4.0.gemfile
+  - gemfiles/rails-4.1.gemfile
+  - gemfiles/rails-4.2.gemfile
+  - gemfiles/rails-5.0.gemfile
+  - gemfiles/rails-5.1.gemfile
+
+matrix:
+  exclude:
+    # rails 4.x requries ruby 1.9.3 or newer
+    - rvm: 1.9.2
+      gemfile: gemfiles/rails-4.0.gemfile
+    - rvm: 1.9.2
+      gemfile: gemfiles/rails-4.1.gemfile
+    - rvm: 1.9.2
+      gemfile: gemfiles/rails-4.2.gemfile
+    # rails < 3.2 is unsupported on ruby 2.0+
+    - rvm: 2.0.0
+      gemfile: gemfiles/rails-3.0.gemfile
+    - rvm: 2.0.0
+      gemfile: gemfiles/rails-3.1.gemfile
+    - rvm: 2.1.8
+      gemfile: gemfiles/rails-3.0.gemfile
+    - rvm: 2.1.8
+      gemfile: gemfiles/rails-3.1.gemfile
+    - rvm: 2.2.4
+      gemfile: gemfiles/rails-3.0.gemfile
+    - rvm: 2.2.4
+      gemfile: gemfiles/rails-3.1.gemfile
+    # rails 5.0 requires ruby 2.2.2+
+    - rvm: 1.9.2
+      gemfile: gemfiles/rails-5.0.gemfile
+    - rvm: 1.9.3
+      gemfile: gemfiles/rails-5.0.gemfile
+    - rvm: 2.0.0
+      gemfile: gemfiles/rails-5.0.gemfile
+    - rvm: 2.1.8
+      gemfile: gemfiles/rails-5.0.gemfile
+    # rails 5.1 requires ruby 2.2.2+
+    - rvm: 1.9.2
+      gemfile: gemfiles/rails-5.1.gemfile
+    - rvm: 1.9.3
+      gemfile: gemfiles/rails-5.1.gemfile
+    - rvm: 2.0.0
+      gemfile: gemfiles/rails-5.1.gemfile
+    - rvm: 2.1.8
+      gemfile: gemfiles/rails-5.1.gemfile

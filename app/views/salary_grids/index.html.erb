@@ -1,0 +1,28 @@
+<%= index_bar(itens: {view_t(".salary_grids") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_salary_grid_path) %>
+  <%#= action_btn(content: view_t('add'), href: "#salary_grid-modal-form", modal_trigger: true) %>
+  <%= action_btn(content: view_t('.add_salary_grid'), href: add_salary_grid_url(), method: :patch) if can?(:add_grid, SalaryGrid)%>
+  <%= action_btn(content: view_t('.remove_salary_grid'), href: remove_salary_grid_url(), method: :patch) if can?(:remove_grid, SalaryGrid)%>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-salary_grids-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<% l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".number"), sortable: false)%>
+    <%= h_cell(text: view_t(".value_80"), sortable: false, align: :right)%>
+    <%= h_cell(text: view_t(".value_100"), sortable: false, align: :right)%>
+    <%= h_cell(text: view_t(".value_110"), sortable: false, align: :right)%>
+    <%= h_cell(text: view_t(".value_125"), sortable: false, align: :right)%>
+  <% end %>
+
+  <%= t_body(elements: @salary_grids, class: 'auto-size') do |e| %>
+    <%= b_row do %>
+      <%= b_cell(element: e.gs, align: :left)%>
+      <%= b_cell(element: e.kwanza_t(:value_80, precision: 0), align: :right)%>
+      <%= b_cell(element: e.kwanza_t(:value_100, precision: 0), align: :right)%>
+      <%= b_cell(element: e.kwanza_t(:value_110, precision: 0), align: :right)%>
+      <%= b_cell(element: e.kwanza_t(:value_125, precision: 0), align: :right)%>
+    <% end %>
+  <% end %>
+<% end %>

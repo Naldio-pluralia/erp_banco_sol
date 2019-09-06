@@ -1,0 +1,20 @@
+#Simple form
+pt:
+  simple_form:
+    labels:
+      result:
+        result_value: 'Inserir Resultado'
+        note: 'Nota'
+        attachment: 'Anexo'
+    hints:
+      defaults:
+        # data_de_emissao: "Data da emissão da factura"
+    placeholders:
+      defaults:
+        result:
+          note: 'Escreva uma nota sobre o resultado'
+        # column: 'translation'
+    prompts:
+      defaults:
+        result:
+          note: 'Escreva uma nota sobre o resultado'

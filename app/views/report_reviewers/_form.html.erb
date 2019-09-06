@@ -1,0 +1,26 @@
+<div class="report_reviwer">
+  <%= simple_form_for(report_reviewer, remote: true) do |f| %>
+    <%= form_url_helpers(f)%>
+    <div id="report_reviewer-modal-form" class="modal">
+      <div class="modal-content">
+        <span class="h5-size"> <%= report_reviewer.new_record? ? view_t('.new_x', x: view_t('.report_reviewer')) : view_t('.edit_x', x: view_t('.report_reviewer')) %> </span>
+        <hr>
+
+        <div class="flex-row flex-top">
+          <%= f.association :employee, collection: Employee.where.not(id: ReportReviewer.all.map(&:employee_id)), include_blank: false, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: 'default-selectize'} %>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+      </div>
+
+      <div class="modal-footer">
+        <%= f.button :submit %>
+        <%= link_to t('cancel'), report_reviewer.cancel_url || report_reviewers_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+      </div>
+    </div>
+  <% end %>
+
+</div>

@@ -1,0 +1,40 @@
+<%= index_bar(itens: {view_t(".object_attachments") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_object_attachment_path) %>
+  <%= action_btn(content: view_t('add'), href: "#object_attachment-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-object_attachments-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".file") )%>
+    <%= h_cell(text: view_t(".description") )%>
+    <%= h_cell(text: view_t(".extension_whitelist") )%>
+    <%= h_cell(text: view_t(".object") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @object_attachments) do |e| %>
+    <%= b_row(link_to: object_attachment_path(e)) do %>
+      <%= b_cell(element: e.file)%>
+      <%= b_cell(element: e.description)%>
+      <%= b_cell(element: e.extension_whitelist)%>
+      <%= b_cell(element: e.object)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e if can?(:show, e) %> | 
+        <%= link_to t('edit'), edit_object_attachment_path(e) if can?(:edit, e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(object_attachments_url, "object_attachments") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', object_attachment: @object_attachment %>

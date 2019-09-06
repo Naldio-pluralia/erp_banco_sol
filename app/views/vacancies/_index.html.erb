@@ -1,0 +1,40 @@
+<div class="vacancies_index">
+
+  <div class="row">
+    <br><br>
+    <div class="col s12 ">
+      <%#= action_btn(content: view_t('add'), href: new_vacancy_path) %>
+      <%= link_to 'Enviar Candidatura Espontânea', create_application_url(), class: 'waves-effect waves-light btn btn-default btn-cancel-form right', style: "margin-right: 2px;" %>
+       
+      <%= action_btn(content: view_t('add'), href: "#vacancy-modal-form", modal_trigger: true, class: "right", style: "margin-right: 5px;") if can?(:create, Vacancy)%>
+      <%#= action_btn(content: view_t('filter'), href: "#filter-vacancies-modal", modal_trigger: true, color: :blue) %>
+
+    </div>
+  </div>
+
+  <div class="flex-row flex-top" style="margin: 0;">
+    <div class="flex-col-xs-3">
+      <p class="card-prefix">Filtrar Resultados</p> 
+      <div class="card" style="padding: 10px 10px 0 10px;">
+        <%= form_tag vacancies_url, :method => 'get', class: "", id: "vacancies_search_form" do%>
+          <label class="filter-label" for="">Vaga</label>
+          <%= select_tag 'position[]', options_for_select(Vacancy.map_for_filter(:position), params[:position]), multiple: :multiple, class: "default-selectize", prompt: "Vaga" %>
+          <label class="filter-label" for="">Tipo de Contracto</label>
+          <%= select_tag 'contract_type[]', options_for_select(Vacancy.enums_map_t(:contract_type), params[:contract_type]), multiple: :multiple, class: "default-selectize", prompt: "Tipo de Contracto" %>
+        
+          <label class="filter-label" for="">Número</label>
+          <%= select_tag 'number[]', options_for_select(Vacancy.map_for_filter(:present_number), params[:number]), multiple: :multiple, class: "default-selectize", prompt: "Número" %>
+        
+          <br>
+          <div class="toolbox">
+            <%= link_to 'Limpar', vacancies_url, class: 'filter-btn' %>
+            <input name="commit" value="Filtrar" class="filter-btn pull-right" style="color: #FFF;background-color: #fab033; transition: all 0.3s linear;" type="submit">
+          </div>
+        <%end%>
+      </div>
+    </div>
+    <%= render "vacancies_list", vacancies: vacancies %>
+  </div>
+
+  <%= render 'form', vacancy: Vacancy.new(cancel_url: vacancies_url, redirect_url: vacancies_url) %>
+</div>

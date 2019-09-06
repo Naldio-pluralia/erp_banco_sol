@@ -1,0 +1,1 @@
+json.partial! "function_deslocation_regimes/function_deslocation_regime", function_deslocation_regime: @function_deslocation_regime

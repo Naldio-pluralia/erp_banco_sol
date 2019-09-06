@@ -1,0 +1,32 @@
+<%= simple_form_for(subsidy_type, url: subsidy_types_url, method: :post, html: {class: ''}) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="<%=subsidy_type.kind %>-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= subsidy_type.new_record? ? t('.new') : t('.edit') %> </span>
+      <hr>
+
+      <div class="flex-row flex-top-xs">
+        <%= f.input :code, as: :hidden %>
+        <%= f.input :status, collection: SubsidyType.enums_map_t(:status), include_blank: false, input_html: {class: 'default-selectize'}, wrapper_html: {class: 'flex-col-xs-2'} %>
+        <%= f.input :name, wrapper_html: {class: 'flex-col-xs-5'} %>
+        <%= f.input :abbr_name, wrapper_html: {class: 'flex-col-xs-5'} %>
+        <%= f.input :kind, as: :hidden, input_html: {value: subsidy_type.kind} %>
+        <%= f.input :value_mode, collection: SubsidyType.enums_map_t(:value_mode), include_blank: false, input_html: {class: 'default-selectize'}, wrapper_html: {class: 'flex-col-xs-6'} if subsidy_type.other?%>
+        <%= f.input :value, label: 'Valor (%)', wrapper_html: {class: 'flex-col-xs-6'} %>
+      </div>
+
+      <div class="flex-row flex-top-xs">
+        <%= f.input :for_all, as: :bootstrap_switch, wrapper_html: {class: 'flex-col-xs-2'} %>
+        <%= f.input :is_taxed, as: :bootstrap_switch, wrapper_html: {class: 'flex-col-xs-3'} %>
+        <%= f.association :functions, collection: Function.map_for_select, input_html: {class: 'default-selectize'}, wrapper_html: {class: 'flex-col-xs-5', 'data-on-check' => '#subsidy_type_for_all,hide'} %>
+        <%= f.association :positions, collection: Position.where.not(efective_id: nil).map_for_select, input_html: {class: 'default-selectize'}, wrapper_html: {class: 'flex-col-xs-5', 'data-on-check' => '#subsidy_type_for_all,hide'} %>
+        <%= f.association :employees, collection: Employee.all.map { |e| [e.name_and_number, e.id] }, label: 'Colaboradores', input_html: {class: 'selectize'}, wrapper_html: {class: 'flex-col-xs-5', 'data-on-check' => '#subsidy_type_for_all,hide'} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), latest_remuneration_setting_url(active_tab: :tab_subsidy_and_tax_settings), class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

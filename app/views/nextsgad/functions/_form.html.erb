@@ -1,0 +1,30 @@
+<%= simple_form_for @function do |f| %>
+  <div id="add-function" class="modal modal-fullscreen modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= f.object.id.present? ? 'Actualizar Função' : 'Registar Função' %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.input :name, wrapper_html: { class: 'flex-col-xs-4' } %>
+        <%= f.association :organic_unit, label: 'Unidade Orgânica', wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: 'default-selectize'} %>
+        <%# f.association :directorate, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: 'default-selectize'} %>
+        <%= f.association :function_deslocation_regime, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: 'default-selectize'} %>
+        <%= f.input :enters_at, as: :flatpickr, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {value: f.object.enters_at.present? ? l(f.object.enters_at, format: 'H:M') : 'N/D', class: '', 'data-language' => 'pt', 'data-enable-time': true, 'data-no-calendar': true, 'data-date-format': "H:i"} %>
+        <%= f.input :leaves_at, as: :flatpickr, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {value: f.object.leaves_at.present? ? l(f.object.leaves_at, format: 'H:M') : 'N/D', class: '', 'data-language' => 'pt', 'data-enable-time': true, 'data-no-calendar': true, 'data-date-format': "H:i"} %>
+        <%= f.input :qualification_kind, collection: Function.enums_map_t(:qualification_kind), wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: 'default-selectize'} %>
+        <%= f.input :experience_kind, collection: Function.enums_map_t(:experience_kind), wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: 'default-selectize'} %>
+        <%= f.input :experience_years, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :other_requirements, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: ''} %>
+        <%= f.input :objectives, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: ''} %>
+        <%= f.input :description, wrapper_html: { class: 'flex-col-xs-12' } %>
+        <%= f.association :function_autonomy_levels, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: 'default-selectize'} %>
+        <%= f.association :function_subsidies, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: 'default-selectize'} %>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <%= f.button :submit, "#{f.object.id.present? ? 'Actualizar' : 'Registar'}", class:"btn btn-default" %>
+      <%= button_close_modal(back_to: f.object.id.present? ? "#{f.object.id}" : functions_url ) %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,59 @@
+<%# precisa do objecto employee_exam %>
+<% employee_course = employee_exam.employee_chapter.employee_course %>
+<div class="course_box" style="min-height: 444px; padding: 20px; position: relative;">
+  <div class="chapter_exam">
+    <div class="row" style="padding-top: 20px;">
+      <div class="col s6 no-padding">
+        <strong style="font-size: 15px;">Exame do Cap. <%= employee_exam.employee_chapter.chapter.number %></strong>
+        <br>
+        <%= link_to 'Completar Exame', complete_employee_exam_url(employee_exam), method: :patch, class: 'btn' if can?(:complete, employee_exam) %>
+      </div>
+      <div class="col s6" style="text-align: right;">
+      </div>
+    </div>
+    <%employee_exam.employee_questions.sort_by{|e| e.question.number}.each do |employee_question|%>
+      <thead>
+        <tr>
+          <th> <%= employee_question.question.number %>.<%= employee_question.question.description  %></th>
+          (<small><%= employee_question.question.enum_t(:kind) %></small>)
+          <th class="right">
+            <% unless employee_question.question.short_answer? %>
+              <%= employee_question.question.value %> <%= employee_question.question.value == 1 ? 'Valor' : 'Valores' %>
+            <% end %>
+          </th>
+        </tr>
+        <%employee_question.employee_question_options.sort_by{|f| f.question_option.option}.each do |employee_question_option|%>
+          <div style="padding-left: 20px">
+            <tr>
+              <th><%= link_to_if can?(:select, employee_question_option), "#{mticon(employee_question_option.is_selected ? 'check_box' : 'check_box_outline_blank', style: "font-size: 18px; vertical-align: text-bottom;")} #{employee_question_option.question_option.option}".html_safe, select_employee_question_option_url(employee_question_option), method: :patch, style: "font-size: 16px;color: #333" %></th>
+              <th class="right"></th>
+            </tr>
+          </div>
+        <%end%>
+        <% if employee_question.employee_answer.present? && employee_question.question.short_answer?%>
+          <br>
+          <div style="padding-left: 20px">
+            <% if !employee_course.done? && can?(:update, employee_question.employee_answer) %>
+              <% editable employee_question.employee_answer, :answer, type: :textarea %>
+              <%= simple_form_for(employee_question.employee_answer) do |f| %>
+                <%= form_url_helpers(f)%>
+                <%= f.input :answer, label: false %>
+                <%= f.button :submit, 'Responder' %>
+              <% end %>
+            <%else%>
+              <%= employee_question.employee_answer.answer %>
+            <%end%>
+          </div>
+        <%end%>
+        <br>
+      </thead>
+    <%end%>
+  </div>
+</div>
+
+<style>
+
+.editable.editable-click {
+  font-size: 14px;
+}
+</style>

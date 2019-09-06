@@ -1,0 +1,24 @@
+<%= simple_form_for([employee, employee_delay]) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="employee_delay-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= employee_delay.new_record? ? view_t('.new_x', x: view_t('.employee_delay')) : view_t('.edit_x', x: view_t('.employee_delay')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%#= f.association :employee, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.association :absence_type, label: 'Tipo de Atrasos', collection: AbsenceType.latests.map_for_select(:name), include_blank: false, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {class: ''} %>
+        <%= f.input :arrived_at, as: :flatpickr, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {'data-enable-time': 'true', 'data-date-format': "Y-m-d H:i"} %>
+        <%last_regime = employee.employee_regimes.order(created_at: :asc).last%>
+        <%if last_regime.present? && !last_regime.five_two? && !last_regime.six_one?%>
+          <%= f.input :number_of_hours_late, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%end%>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), employee_delay.cancel_url || employee_employee_delays_path(employee), class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

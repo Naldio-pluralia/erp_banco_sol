@@ -1,0 +1,13 @@
+<%= index_bar(itens: {view_t(".course_obligated_functions") => course_obligated_functions_url, view_t('.course_obligated_function') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_course_obligated_function_path(@course_obligated_function) ) if can?(:edit, @course_obligated_function) %>
+  <%= action_btn(content: view_t('update'), href: "#course_obligated_function-modal-form", modal_trigger: true) if can?(:edit, @course_obligated_function) %>
+<% end %>
+
+
+<%= show_item(".course", @course_obligated_function.course) %>
+
+
+<%= show_item(".function", @course_obligated_function.function) %>
+
+
+<%= render 'form', course_obligated_function: @course_obligated_function %>

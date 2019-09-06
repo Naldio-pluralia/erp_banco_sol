@@ -1,0 +1,2 @@
+module EmployeeJustificationsHelper
+end

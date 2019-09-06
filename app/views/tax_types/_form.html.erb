@@ -1,0 +1,27 @@
+<%= simple_form_for(tax_type, class: 'partial_view_application') do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="tax_type-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= tax_type.new_record? ? t('.new') : t('.edit') %> </span>
+      <hr>
+
+      <div class="flex-row flex-top-xs">
+        <%= f.input :name, wrapper_html: {class: 'flex-col-xs-3'} %>
+        <%= f.input :code, as: :hidden %>
+        <%= f.input :value_mode, collection: SubsidyType.enums_map_t(:value_mode), include_blank: false, input_html: {class: 'default-selectize'}, wrapper_html: {class: 'flex-col-xs-3'} %>
+        <%= f.input :value, wrapper_html: {class: 'flex-col-xs-3'} %>
+        <%= f.input :status, collection: SubsidyType.enums_map_t(:status), include_blank: false, input_html: {class: 'default-selectize'}, wrapper_html: {class: 'flex-col-xs-3'} %>
+        <%= f.input :abbr_name, wrapper_html: {class: 'flex-col-xs-3'} %>
+        <%= f.input :for_all, as: :bootstrap_switch, wrapper_html: {class: 'flex-col-xs-3'} %>
+        <%= f.association :functions, collection: Function.map_for_select, input_html: {class: 'selectize'}, wrapper_html: {class: 'flex-col-xs-3', 'data-on-check' => '#subsidy_type_for_all,hide'} %>
+        <%= f.association :positions, collection: Position.where.not(efective_id: nil).map_for_select, input_html: {class: 'selectize'}, wrapper_html: {class: 'flex-col-xs-3', 'data-on-check' => '#subsidy_type_for_all,hide'} %>
+        <%= f.association :employees, collection: Employee.all.map { |e| [e.first_and_last_name, e.id] }, label: 'Colaboradores', input_html: {class: 'selectize'}, wrapper_html: {class: 'flex-col-xs-3', 'data-on-check' => '#subsidy_type_for_all,hide'} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), latest_remuneration_setting_url(active_tab: :tab_subsidy_and_tax_settings), class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

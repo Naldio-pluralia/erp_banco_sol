@@ -1,0 +1,19 @@
+<%= index_bar(itens: {view_t(".object_responses") => object_responses_url, view_t('.object_response') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_object_response_path(@object_response) ) if can?(:edit, @object_response) %>
+  <%= action_btn(content: view_t('update'), href: "#object_response-modal-form", modal_trigger: true) if can?(:edit, @object_response) %>
+<% end %>
+
+
+<%= show_item(".employee", @object_response.employee) %>
+
+
+<%= show_item(".object", @object_response.object) %>
+
+
+<%= show_item(".status", @object_response.status) %>
+
+
+<%= show_item(".kind", @object_response.kind) %>
+
+
+<%= render 'form', object_response: @object_response %>

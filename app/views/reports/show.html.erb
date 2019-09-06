@@ -1,0 +1,28 @@
+<% if current.employee&.id == @report.employee_id %>
+  <% items = {view_t(".my_reports") => my_reports_url, view_t('.report') => nil} %>
+<%else%>
+  <% items = {view_t(".reports") => reports_url, view_t('.report') => nil}%>
+<%end%>
+<%= index_bar(itens: items) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_report_path(@report) ) if can?(:edit, @report) %>
+  <%= action_btn_dropdown(content: t('change_status'), data_activates: "dropdown-status") do %>
+    <% Report.statuses.each do |k, v| %>
+      <% next if @report.status == k %>
+      <%= dropdown_item(item: t(k), href: (k == 'open') ? open_report_url(@report) : cancel_report_url(@report), color: :green) %>
+    <% end %>
+  <% end %>
+  <%= action_btn(content: view_t('update'), href: "#report-modal-form", modal_trigger: true) if can?(:edit, @report) %>
+
+<% end %>
+
+
+<%= show_item(".employee", @report.reporter) %>
+
+
+<%= show_item(".name", @report.name) %>
+
+
+<%= show_item(".note", @report.note) %>
+
+
+<%= render 'form', report: @report %>

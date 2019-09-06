@@ -1,0 +1,215 @@
+<%= index_bar(itens: {'Configurações' => nil}) do %>
+
+<% end %>
+
+
+<%= tab do%>
+  <%= tab_header do%>
+    <%= tab_header_item(:tab_main , 'Gerais') %>
+    <%= tab_header_item(:tab_directorate_areas , "Áreas") %>
+    <%= tab_header_item(:tab_skills , view_t(".skills")) %>
+    <%= tab_header_item(:tab_autonomy , view_t(".autonomy")) %>
+    <%= tab_header_item(:tab_contract , view_t(".contract")) %>
+    <%= tab_header_item(:tab_deslocation , view_t(".deslocation")) %>
+    <%= tab_header_item(:tab_subsidies , view_t(".subsidies")) %>
+  <%end%>
+
+  <%= tab_body(:tab_main) do%>
+    <br>
+    <%= next_editable(FunctionSetting.latest, :max_chairman_number) %>
+    <%= next_editable(FunctionSetting.latest, :maximum_objective_number) %>
+  <%end%>
+
+
+
+  <%= tab_body(:tab_directorate_areas) do%>
+    <br>
+    <div class="flex-row" style="margin-top: 0px;">
+      <div class="flex-col-xs-12" style="padding-bottom: 15px;">
+        <%= box(size: '320px') do%>
+          <%= box_header("Áreas") do%>
+            <%= box_action(:plus, href: '#directorate_area-modal-form', modal_trigger: true, tooltip: view_t('.register_x', x: view_t('.directorate_area'))) if can?(:create, DirectorateArea)%>
+          <%end%>
+
+          <%= l_table do %>
+            <%= t_header do %>
+              <%= h_cell(text: "Área", sortable: false)%>
+              <% h_cell(sortable: false) %>
+            <% end %>
+
+            <%= t_body(elements: DirectorateArea.order(created_at: :desc), class: 'auto-size') do |e| %>
+              <%= b_row() do %>
+                <%= b_cell() do%>
+                  <%= editable(e, :name, mode: :popup, title: 'Competência') %>
+                <%end%>
+                <%= b_cell(text: "") do %>
+                  <%= link_to t('destroy'), directorate_area_url(e, redirect_url: current_url), method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <%= render 'directorate_areas/form', directorate_area: DirectorateArea.new(cancel_url: functions_settings_url(active_tab: :tab_salary_categories), redirect_url: functions_settings_url(active_tab: :tab_salary_categories)) %>
+        <%end%>
+      </div>
+    </div>
+  <%end%>
+
+  <%= tab_body(:tab_skills) do%>
+    <br>
+    <div class="flex-row" style="margin-top: 0px;">
+      <div class="flex-col-xs-12" style="padding-bottom: 15px;">
+        <%= box(size: '320px') do%>
+          <%= box_header(view_t('.skill')) do%>
+            <%= box_action(:plus, href: '#skill-modal-form', modal_trigger: true, tooltip: view_t('.register_x', x: view_t('.skill'))) if can?(:create, Skill)%>
+          <%end%>
+
+          <%= l_table do %>
+            <%= t_header do %>
+              <%= h_cell(text: view_t(".skill_name"), sortable: false)%>
+              <% h_cell(sortable: false) %>
+            <% end %>
+
+            <%= t_body(elements: Skill.order(created_at: :desc), class: 'auto-size') do |e| %>
+              <%= b_row() do %>
+                <%= b_cell() do%>
+                  <%= editable(e, :name, mode: :popup, title: 'Competência') %>
+                <%end%>
+                <%= b_cell(text: "") do %>
+                  <%= link_to t('destroy'), skill_url(e, redirect_url: current_url), method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <%= render 'skills/form', skill: Skill.new(cancel_url: functions_settings_url(active_tab: :tab_salary_categories), redirect_url: functions_settings_url(active_tab: :tab_salary_categories)) %>
+        <%end%>
+      </div>
+    </div>
+  <%end%>
+
+  <%= tab_body(:tab_autonomy) do%>
+    <br>
+    <div class="flex-row" style="margin-top: 0px;">
+      <div class="flex-col-xs-12" style="padding-bottom: 15px;">
+        <%= box(size: '320px') do%>
+          <%= box_header(view_t('.function_autonomy_levels')) do%>
+            <%= box_action(:plus, href: '#function_autonomy_level-modal-form', modal_trigger: true, tooltip: view_t('.register_x', x: view_t('.function_autonomy_level'))) if can?(:create, FunctionAutonomyLevel)%>
+          <%end%>
+
+          <%= l_table do %>
+            <%= t_header do %>
+              <%= h_cell(text: view_t(".function_autonomy_level_name"), sortable: false)%>
+              <% h_cell(sortable: false) %>
+            <% end %>
+
+            <%= t_body(elements: FunctionAutonomyLevel.order(created_at: :desc), class: 'auto-size') do |e| %>
+              <%= b_row() do %>
+                <%= b_cell(element: e.name)%>
+                <% b_cell(text: "") do %>
+                  <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <%= render 'function_autonomy_levels/form', function_autonomy_level: FunctionAutonomyLevel.new(cancel_url: functions_settings_url(active_tab: :tab_autonomy), redirect_url: functions_settings_url(active_tab: :tab_autonomy)) %>
+        <%end%>
+      </div>
+    </div>
+  <%end%>
+
+  <%= tab_body(:tab_contract) do%>
+    <br>
+    <div class="flex-row" style="margin-top: 0px;">
+      <div class="flex-col-xs-12" style="padding-bottom: 15px;">
+        <%= box(size: '320px') do%>
+          <%= box_header(view_t('.function_contract_types')) do%>
+            <%= box_action(:plus, href: '#function_contract_type-modal-form', modal_trigger: true, tooltip: view_t('.register_x', x: view_t('.function_contract_type'))) if can?(:create, FunctionContractType)%>
+          <%end%>
+
+          <%= l_table do %>
+            <%= t_header do %>
+              <%= h_cell(text: view_t(".function_contract_type_name"), sortable: false)%>
+              <% h_cell(sortable: false) %>
+            <% end %>
+
+            <%= t_body(elements: FunctionContractType.order(created_at: :desc), class: 'auto-size') do |e| %>
+              <%= b_row() do %>
+                <%= b_cell(element: e.name)%>
+                <% b_cell(text: "") do %>
+                  <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <%= render 'function_contract_types/form', function_contract_type: FunctionContractType.new(cancel_url: functions_settings_url(active_tab: :tab_contract), redirect_url: functions_settings_url(active_tab: :tab_contract)) %>
+        <%end%>
+      </div>
+    </div>
+  <%end%>
+
+  <%= tab_body(:tab_deslocation) do%>
+    <br>
+    <div class="flex-row" style="margin-top: 0px;">
+      <div class="flex-col-xs-12" style="padding-bottom: 15px;">
+        <%= box(size: '320px') do%>
+          <%= box_header(view_t('.function_deslocation_regimes')) do%>
+            <%= box_action(:plus, href: '#function_deslocation_regime-modal-form', modal_trigger: true, tooltip: view_t('.register_x', x: view_t('.function_deslocation_regime'))) if can?(:create, FunctionDeslocationRegime)%>
+          <%end%>
+
+          <%= l_table do %>
+            <%= t_header do %>
+              <%= h_cell(text: view_t(".function_deslocation_regime_name"), sortable: false)%>
+              <% h_cell(sortable: false) %>
+            <% end %>
+
+            <%= t_body(elements: FunctionDeslocationRegime.order(created_at: :desc), class: 'auto-size') do |e| %>
+              <%= b_row() do %>
+                <%= b_cell(element: e.name)%>
+                <% b_cell(text: "") do %>
+                  <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <%= render 'function_deslocation_regimes/form', function_deslocation_regime: FunctionDeslocationRegime.new(cancel_url: functions_settings_url(active_tab: :tab_deslocation), redirect_url: functions_settings_url(active_tab: :tab_deslocation)) %>
+        <%end%>
+      </div>
+    </div>
+  <%end%>
+
+  <%= tab_body(:tab_subsidies) do%>
+    <br>
+    <div class="flex-row" style="margin-top: 0px;">
+      <div class="flex-col-xs-12" style="padding-bottom: 15px;">
+        <%= box(size: '320px') do%>
+          <%= box_header(view_t('.function_subsidies')) do%>
+            <%= box_action(:plus, href: '#function_subsidy-modal-form', modal_trigger: true, tooltip: view_t('.register_x', x: view_t('.function_subsidy'))) if can?(:create, FunctionSubsidy)%>
+          <%end%>
+
+          <%= l_table do %>
+            <%= t_header do %>
+              <%= h_cell(text: view_t(".function_subsidy_name"), sortable: false)%>
+              <% h_cell(sortable: false) %>
+            <% end %>
+
+            <%= t_body(elements: FunctionSubsidy.order(created_at: :desc), class: 'auto-size') do |e| %>
+              <%= b_row() do %>
+                <%= b_cell(element: e.name)%>
+                <% b_cell(text: "") do %>
+                  <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <%= render 'function_subsidies/form', function_subsidy: FunctionSubsidy.new(cancel_url: functions_settings_url(active_tab: :tab_subsidies), redirect_url: functions_settings_url(active_tab: :tab_subsidies)) %>
+        <%end%>
+      </div>
+    </div>
+  <%end%>
+
+
+
+<%end%>

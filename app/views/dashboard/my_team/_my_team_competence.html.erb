@@ -1,0 +1,10 @@
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: "Competências - #{@assessment&.year || DateTime.now.year}")%>
+  <%end%>
+<%end%>
+
+
+<div style="margin-top: 5%;">
+  <%= radar_chart(@team_spider_data, height: '200px', legend: {position: "right"}, scale: {ticks: {display: false, begin_at_zero: true, min: 0, max: 5, step_size: 1}}) %>
+</div>

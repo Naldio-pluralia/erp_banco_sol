@@ -1,0 +1,18 @@
+<div class="mdl-cell mdl-cell--4-col">
+  <br>
+  <div class="mdl-card mdl-shadow--2dp next-card general-cards-2">
+    <div class="mdl-card__actions mdl-card--border">
+      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+        <%= t('department_attendances') %>
+      </a>
+    </div>
+    <div class="mdl-card__supporting-text" style="width: 100%; padding: 0;">
+      <%= line_chart(@department_attendances_data, height: '200px', legend: {position: "right"}, scales: {yAxes: [{ticks: {max: 31, min: 0, step_size: 8}}]}) %>
+    </div>
+    <div class="mdl-card__menu">
+      <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+        <i class="material-icons">people_outline</i>
+      </button>
+    </div>
+  </div>
+</div>

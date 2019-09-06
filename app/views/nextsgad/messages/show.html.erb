@@ -1,0 +1,45 @@
+<%= index_bar(itens: {t('.messages') => messages_url, t('.message') => nil}) do %>
+    <%= action_btn(content: t('edit'), href: '#add-message', modal_trigger: true) if can?(:update, @message) %>
+<% end %>
+
+<!--<p>-->
+<!--<strong>Send to all:</strong>-->
+<!--<%= @message.send_to_all %>-->
+<!--</p>-->
+
+<!--<p>-->
+<!--<strong><%= t('.status') %>:</strong>-->
+<!--<%= @message.enum_t(:status) %>-->
+<!--</p>-->
+
+<div>
+  <div class="left" style="height: 70px;">
+    <h4>
+      <strong><%= @message.title %></strong>
+    </h4>
+  </div>
+  <div class="right" style="height: 70px;">
+    <div class="valign-wrapper" style="height: 70px;">
+      <% if @message.sent? %>
+          <span class="label label-success"><%= @message.enum_t(:status) %></span>
+      <% elsif @message.draft? %>
+          <span class="label label-default"><%= @message.enum_t(:status) %></span>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<br><br><br>
+<div style="padding: 5px; border: 1px #ddd solid; min-width: 100%; min-height: 100px;">
+  <p>
+    <%= @message.body.to_s.html_safe %>
+  </p>
+  <br><br>
+  <% if @message.signature.present? %>
+      <div>
+        <%= @message.signature %>
+      </div>
+  <% end %>
+</div>
+<%= render 'form', message: @message %>
+<br><br><br>

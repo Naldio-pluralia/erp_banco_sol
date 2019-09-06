@@ -1,0 +1,28 @@
+pt:
+  subsidy_salaries:
+    index:
+      subsidy_salaries: 'Subsídios'
+      subsidy_salary: 'Subsídio'
+      value: 'Valor'
+      salary: 'Salário'
+      subsidy_type: 'Subsídio'
+    show:
+      subsidy_salaries: 'Subsídios'
+      subsidy_salary: 'Subsídio'
+      value: 'Valor'
+      salary: 'Salário'
+      subsidy_type: 'Subsídio'
+    edit:
+      value: 'Valor'
+      salary: 'Salário'
+      subsidy_type: 'Subsídio'
+    create:
+      success: 'Gravado'
+      unsuccess: 'Ocorreu um Erro na Gravação'
+    update:
+      success: 'Actualizado'
+      unsuccess: 'Ocorreu um Erro na Actualização'
+    form:
+      new: 'Criar'
+      update: 'Actualizar'
+    

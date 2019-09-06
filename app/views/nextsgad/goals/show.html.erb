@@ -1,0 +1,20 @@
+<% @page_name = @goal.name %>
+
+<%= index_bar(itens: {t('goals') => goals_url, "#{@goal.name}": @goal}) do %>
+    <%= action_btn(content: t('update'),             href: '#add-goal', modal_trigger: true) %>
+    <%= action_btn(content: t('delete'), href: goal_url, method: :delete, color: :red) %>
+<% end %>
+
+
+
+<p><strong><%= @goal.goal_type.ts %>: </strong><%= @goal.name %></p>
+<p class="hide"><strong><%= "goal.goal_type".ts %>: </strong><%= @goal.goal_type.ts %></p>
+<p class="hide"><strong><%= "goal.status".ts %>: </strong><%= @goal.status.ts %></p>
+<%if @goal.numeric?%>
+  <p class="hide"><strong><%= "goal.nature".ts %>: </strong><%= @goal.nature.ts %></p>
+  <p><strong><%= "goal.target".ts %>: </strong><%= @goal.target.trim_decimal %></p>
+<%end%>
+<%if @goal.objective?%>
+  <p><strong><%= 'goal.period'.ts %>: </strong><%= @goal.enum_t(:period)%></p>
+<%end%>
+<%= render "form", goal: @goal %>

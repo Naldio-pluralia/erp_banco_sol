@@ -1,0 +1,18 @@
+<%= simple_form_for(function_autonomy_level) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="function_autonomy_level-modal-form" class="modal">
+    <div class="modal-content">
+      <span class="h5-size"> <%= function_autonomy_level.new_record? ? 'Adicionar Grau de Autonomia' : 'Actualizar Grau de Autonomia' %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.input :name, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), function_autonomy_level.cancel_url || function_autonomy_levels_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

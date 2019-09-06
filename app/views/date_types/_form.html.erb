@@ -1,0 +1,22 @@
+<%= simple_form_for(date_type) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="date_type-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= date_type.new_record? ? view_t('.add_x', x: view_t('.date_type')) : view_t('.edit_x', x: view_t('.date_type')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.input :name, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :kind, collection: DateType.enums_map_t(:kind), include_blank: false, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :date, as: :air_datepicker, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {'data-language' => 'pt'}  %>
+        <%= f.input :recurrent, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :description, as: :trix_editor, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), date_type.cancel_url || date_types_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

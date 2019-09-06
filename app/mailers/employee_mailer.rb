@@ -1,0 +1,3 @@
+class EmployeeMailer < ApplicationMailer
+
+end

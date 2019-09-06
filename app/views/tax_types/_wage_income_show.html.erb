@@ -1,0 +1,46 @@
+
+<%if tax_type.new_record?%>
+
+
+<%else%>
+  <p>
+    <strong><%= view_t(".name") %>:</strong>
+    <%= tax_type.name %>
+  </p>
+
+  <p>
+    <strong><%= view_t(".abbr_name") %>:</strong>
+    <%= tax_type.abbr_name %>
+  </p>
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><%= view_t '.wage'%></th>
+        <th style='padding-right: 7%; text-align: right;'><%= view_t '.fixed_portion'%></th>
+        <th><%= view_t '.rate'%></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td><%= view_t '.up_to'%> <%= tax_type.kwanza_t(:exempt_up_to) %></td>
+        <td colspan='2' style='text-align: center;'><%= view_t '.exempt'%></td>
+      </tr>
+      <% tax_type.wage_income_tax_items.order(id: :asc).each do |f| %>
+        <tr>
+          <td><%= view_t '.from'%> <%= f.kwanza_t(:from) %> <%= view_t '.up_to'%> <%= f.kwanza_t(:to) %></td>
+          <td style='padding-right: 7%; text-align: right;'><%= f.kwanza_t(:fixed_portion) %></td>
+          <td><%= f.percentage_t(:percentage_over_the_excess) %> <%= view_t '.over_the_excess_of'%> <%= f.kwanza_t(:excess_of) %></td>
+        </tr>
+      <% end %>
+      <tr>
+        <td><%= view_t '.over'%> <%= tax_type.kwanza_t(:max_wage) %></td>
+        <td style='padding-right: 7%; text-align: right;'><%= tax_type.kwanza_t(:max_wage_fixed_portion) %></td>
+        <td><%= tax_type.percentage_t(:percentage_over_max_wage_excess) %> <%= view_t '.over_the_excess_of'%> <%= tax_type.kwanza_t(:max_wage_excess_of) %></td>
+      </tr>
+    </tbody>
+  </table>
+
+<%end%>

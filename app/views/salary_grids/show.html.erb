@@ -1,0 +1,25 @@
+<%= index_bar(itens: {view_t(".salary_grids") => salary_grids_url, view_t('.salary_grid') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_salary_grid_path(@salary_grid) ) if can?(:edit, @salary_grid) %>
+  <%= action_btn(content: view_t('update'), href: "#salary_grid-modal-form", modal_trigger: true) if can?(:edit, @salary_grid) %>
+<% end %>
+
+
+<%= show_item(".number", @salary_grid.number) %>
+
+
+<%= show_item(".code", @salary_grid.code) %>
+
+
+<%= show_item(".value_80", @salary_grid.value_80) %>
+
+
+<%= show_item(".value_100", @salary_grid.value_100) %>
+
+
+<%= show_item(".value_110", @salary_grid.value_110) %>
+
+
+<%= show_item(".value_125", @salary_grid.value_125) %>
+
+
+<%= render 'form', salary_grid: @salary_grid %>

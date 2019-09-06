@@ -1,0 +1,2 @@
+$('.new_absence').replaceWith(" <%= j render(template: 'employee_absences/new_absence.html.erb', locals: { :@employee_absence => @employee_absence, :@employee => @employee})%>");
+initPlugins($(".new_absence"));

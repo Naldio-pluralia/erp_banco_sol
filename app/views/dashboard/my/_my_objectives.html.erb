@@ -1,0 +1,24 @@
+<div class="mdl-cell mdl-cell--12-col">
+  <div class="mdl-card mdl-shadow--2dp next-card general-cards-2">
+    <div class="mdl-card__actions mdl-card--border">
+      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+        <%= "assessment.skills_percentage".ts %> - <%= @assessment&.year || DateTime.now.year %>
+      </a>
+    </div>
+    <div class="mdl-card__supporting-text">
+      <% unless @my_objectives_list.blank? %>
+        <% @my_objectives_list.each do |objective| %>
+          <span style="font-size: 11px;"> <%= objective.name %></span>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= calculate_progress_bar(objective&.final_assessment.to_i) %>%;"></div>
+          </div>
+
+        <% end %>
+      <% end %>
+    </div>
+
+    <div class="mdl-card__menu">
+      <%=link_to "see_more".ts, my_data_url, class: "mdl-button btn-see-more" %>
+    </div>
+  </div>
+</div>

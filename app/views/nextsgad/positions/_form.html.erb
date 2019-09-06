@@ -1,0 +1,39 @@
+<%= simple_form_for @position do |f| %>
+
+  <%= hidden_field_tag :back_to, params[:back_to], :value => organigram_url %>
+  <%= hidden_field_tag :after_submit_redirect_to, params[:after_submit_redirect_to], :value => organigram_url %>
+
+  <div id="add-position" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= @position.id.present? ? 'edit_position'.ts : 'new_position'.ts %> </span>
+      <!--
+      <%#if current.is?(:admin) && @position.id.present? && (@position.function_id.nil? || @position.establishment_id.nil?) %>
+        <br>
+
+        <p>posição: <%#@position.name %></p>
+        <p>departamento: <%#@position.department&.name %></p>
+        <hr>
+        <%#excell_data = Position::EMPLOYEES[@position.efective&.number] %>
+        <%#if excell_data.present?%>
+          <%# excell_data.to_s.gsub("@@", "@").split("@") %>
+        <%#end %>
+      <%#end %>
+      <hr>
+       -->
+      <div class="row">
+        <% f.input :name, label: t('position_name'), wrapper_html: {class: 'col s6'} %>
+        <%= f.input :function_id, label: 'function.name'.ts, collection: Function.map_for_select,  multiple: :multiple, wrapper_html: {class: 'col m6 s12'}, input_html: {class: "default-selectize"}, placeholder: 'function.name'.ts %>
+        <%= f.input :position_id, label: t('position_manager'), collection: Position.all.map{|e| ["#{e&.efective&.first_and_last_name&.upcase} (#{e.name_and_number})", e.id]}, wrapper_html: {class: 'col m6 s12'}, input_html: {class: "default-selectize"}, placeholder: 'position_manager'.ts %>
+        <%= f.association :establishments, label: 'Balcões que gere', collection: Establishment.all.order(name: :asc).map {|v| [v.name, v.id]}, wrapper_html: {class: 'col m6 s12'}, input_html: {class: "default-selectize"}, placeholder: 'Balcão' %>
+        <%= f.association :establishment, label: 'Balcão em que trabalha', collection: Establishment.all.order(name: :asc).map {|v| [v.name, v.id]}, wrapper_html: {class: 'col m6 s12'}, input_html: {class: "default-selectize"}, placeholder: 'Balcão' %>
+        <%= f.input :organic_unit_id, label: 'Unidade Orgânica', collection: OrganicUnit.all.order(name: :asc).map {|v| [v.name, v.id]}, wrapper_html: {class: 'col m6 s12'}, input_html: {class: "default-selectize"}, placeholder: 'Unidade orgânica' %>
+        <%= f.input :efective_id, label: 'function.efective'.ts, collection: Employee.where.not(id: Position.where.not(id: @position&.id).map(&:efective_id)).order(first_name: :asc).map {|v| [v.first_and_last_name, v.id]}, wrapper_html: {class: 'col m6 s12'}, input_html: {class: "default-selectize"}, placeholder: "function.efective".ts %>
+        <%= f.input :description, label: t('position_description'), wrapper_html: {class: 'col s12'} %>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <%= f.button :submit, "#{@position.id.present? ? 'Actualizar' : 'Registar'}", class:"btn btn-default" %>
+      <%= close_modal_btn %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,42 @@
+<%= index_bar(itens: {t(".wage_income_tax_salaries") => nil }) do %>
+  <%= action_btn(content: t('add'), href: new_wage_income_tax_salary_path) %>
+  <% action_btn(content: t('add'), href: "wage_income_tax_salary-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: t('filter'), href: "#filter-wage_income_tax_salaries-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: t(".name") )%>
+    <%= h_cell(text: t(".abbr_name") )%>
+    <%= h_cell(text: t(".value") )%>
+    <%= h_cell(text: t(".salary") )%>
+    <%= h_cell(text: t(".wage_income_tax") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @wage_income_tax_salaries) do |e| %>
+    <%= b_row(link_to: wage_income_tax_salary_path(e)) do %>
+      <%= b_cell(element: e.name)%>
+      <%= b_cell(element: e.abbr_name)%>
+      <%= b_cell(element: e.value)%>
+      <%= b_cell(element: e.salary)%>
+      <%= b_cell(element: e.wage_income_tax)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e %> | 
+        <%= link_to t('edit'), edit_wage_income_tax_salary_path(e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(wage_income_tax_salaries_url, "wage_income_tax_salaries") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%# render 'form', wage_income_tax_salary: @wage_income_tax_salary %>

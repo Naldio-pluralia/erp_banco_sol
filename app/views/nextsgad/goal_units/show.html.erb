@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Singular name:</strong>
+  <%= @goal_unit.singular_name %>
+</p>
+
+<p>
+  <strong>Plural name:</strong>
+  <%= @goal_unit.plural_name %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @goal_unit.status %>
+</p>
+
+<%= link_to 'Edit', edit_goal_unit_path(@goal_unit) %> |
+<%= link_to 'Back', goal_units_path %>

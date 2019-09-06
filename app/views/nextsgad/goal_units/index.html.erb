@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Goal Units</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Singular name</th>
+      <th>Plural name</th>
+      <th>Status</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @goal_units.each do |goal_unit| %>
+      <tr>
+        <td><%= goal_unit.singular_name %></td>
+        <td><%= goal_unit.plural_name %></td>
+        <td><%= goal_unit.status %></td>
+        <td><%= link_to 'Show', goal_unit %></td>
+        <td><%= link_to 'Edit', edit_goal_unit_path(goal_unit) %></td>
+        <td><%= link_to 'Destroy', goal_unit, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Goal Unit', new_goal_unit_path %>

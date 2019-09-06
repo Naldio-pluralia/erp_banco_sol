@@ -1,0 +1,12 @@
+<%= div(class: "vacation-#{@employee_vacation.id}-edit") do %>
+  <%= simple_form_for(@employee_vacation, url: edit_vacation_url, html: {remote: true, method: :patch}) do |f| %>
+    <%= form_url_helpers(f)%>
+    <div class="flex-row flex-top">
+      <%= div(class: 'flex-col-xs-12', style: 'text-align: right;') do%>
+        <%= f.button :submit %>
+      <%end%>
+      <%= f.input :left_at, as: :air_datepicker, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {'data-language' => 'pt'} %>
+      <%= f.input :returned_at, as: :air_datepicker, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {'data-language' => 'pt'} %>
+    </div>
+  <% end %>
+<%end%>

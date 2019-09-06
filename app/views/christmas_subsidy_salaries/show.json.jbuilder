@@ -1,0 +1,1 @@
+json.partial! "christmas_subsidy_salaries/christmas_subsidy_salary", christmas_subsidy_salary: @christmas_subsidy_salary

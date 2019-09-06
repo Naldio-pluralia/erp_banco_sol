@@ -1,0 +1,46 @@
+<%= index_bar(itens: {view_t(".employee_salary_families") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_employee_salary_family_path) %>
+  <%= action_btn(content: view_t('add'), href: "#employee_salary_family-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-employee_salary_families-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".employee") )%>
+    <%= h_cell(text: view_t(".salary_family") )%>
+    <%= h_cell(text: view_t(".paygrade_change_reason") )%>
+    <%= h_cell(text: view_t(".level") )%>
+    <%= h_cell(text: view_t(".paygrade") )%>
+    <%= h_cell(text: view_t(".since") )%>
+    <%= h_cell(text: view_t(".base_salary") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @employee_salary_families) do |e| %>
+    <%= b_row(link_to: employee_salary_family_path(e)) do %>
+      <%= b_cell(element: e.employee)%>
+      <%= b_cell(element: e.salary_family)%>
+      <%= b_cell(element: e.paygrade_change_reason)%>
+      <%= b_cell(element: e.level)%>
+      <%= b_cell(element: e.paygrade)%>
+      <%= b_cell(element: e.since)%>
+      <%= b_cell(element: e.base_salary)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e if can?(:show, e) %> | 
+        <%= link_to t('edit'), edit_employee_salary_family_path(e) if can?(:edit, e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(employee_salary_families_url, "employee_salary_families") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', employee_salary_family: @employee_salary_family %>

@@ -1,0 +1,120 @@
+<div class="title-bar" style="height: unset; padding-bottom: 3px; padding-top: 7px;">
+  <div class="flex-container" style="margin-left: auto; margin-right: auto;">
+    <p class="crumbs" style="margin: 0 0px;"><%= link_to 'Cursos', my_training_url%></p>
+    <p class="course-title" style="font-size: x-large; margin: 5px 0px; font-weight: 400;"><%= @employee_course.course.name %></p>
+    <p class="course-title" style="font-size: x-small; margin: 0px 0px; font-weight: 400;"><%= @employee_course.conclusion_percentage.round(2).trim_decimal %>% Concluído / <%= @employee_course.value.round(2).trim_decimal %>% Aproveitamento / <%= @employee_course.course.approval_amount.round(2).trim_decimal %>% Necessários Para Aprovação</p>
+  </div>
+</div>
+<div class="flex-container" style="margin-left: auto; margin-right: auto;">
+  <div class="flex-row flex-top-xs">
+    <div class="flex-col-xs-9" style="margin-left: 0;padding-left: 0;">
+      <div class="current_lesson" style="padding-top: 0; padding-left: 0; padding-right: 0;">
+        <%= render "lessons/video", lesson: @employee_lesson.lesson if @employee_lesson.present? %>
+
+        <% if @employee_lesson.present? %>
+          <div class="course_box">
+            <%= tab do%>
+              <%= tab_header do%>
+                <%= tab_header_item(:tab_overview , 'Curso') %>
+                <%= tab_header_item(:tab_files ,'Ficheiros') %>
+              <%end%>
+
+              <%= tab_body(:tab_overview) do%>
+                <br>
+                <span><strong style="font-size: 20px;">Capt. <%= @employee_lesson.lesson.chapter.number%>. <%= @employee_lesson.lesson.chapter.name%></strong></span>
+                <span><strong class="dark-text" style="font-size: 15px;"><br> Lição nº <%= @employee_lesson.lesson.number%> - <%= @employee_lesson.lesson.name%></strong></span>
+                <br>
+                <br>
+                <%= @employee_lesson.lesson.text.to_s.html_safe %>
+              <%end%>
+
+              <%= tab_body(:tab_files) do%>
+                <br>
+                <h5>Anexos</h5>
+                <br>
+                <%= render 'object_attachments/attachments_vlist', object: @employee_lesson.lesson %>
+                <br><br>
+              <%end%>
+            <%end%>
+          </div>
+        <%end%>
+        <%= render "employee_exams/exam", employee_exam: @employee_exam if @employee_exam.present? %>
+      </div>
+    </div>
+    <div class="flex-col-xs-3" style="padding-left: 0;">
+      <div class="chapters">
+        <div class="course_box" style="height: 444px; padding: 20px; position: relative;">
+          <h5>Lições</h5>
+          <%= link_to "Completar Curso", complete_course_path(@employee_course), method: :patch, class: "btn", data: {confirm: 'Não podera voltar a editar as respostas, Deseja Continuar?'} if can?(:complete, @employee_course) %>
+          <ul>
+            <% @employee_course.employee_chapters.each do |employee_chapter| %>
+              <li style="border-bottom: 1px solid #888888;">
+                <div class="flex-row">
+                  <div class="flex-col-xs-12" style="padding: 0;"><strong><%= "#{employee_chapter.chapter.number}. #{employee_chapter.chapter.name}" %></strong></div>
+                </div>  
+                <% employee_chapter.employee_lessons.sort_by{|l| l.lesson.number.to_i}.each do |employee_lesson|%>
+                  <div class="flex-row">
+                    <div class="flex-col-xs-10">
+                      <%= link_to "#{employee_lesson.lesson.number}. #{employee_lesson.lesson.name}", watch_employee_lesson_url(employee_lesson), method: :patch, class: "truncate dark-text" %>
+                    </div>
+                    <div class="flex-col-xs-2"><%= mticon(:checkbox, style: 'font-size: 12px;') if employee_lesson.done?%></div>
+                  </div>  
+                <% end %>
+                <%if employee_chapter.employee_exam.present?%>
+                  <div class="flex-row">
+                    <div class="flex-col-xs-10">
+                      <%= link_to "Exame", employee_course_path(employee_chapter.employee_course, employee_exam_id: employee_chapter.employee_exam.id), class: "dark-text" %>
+                    </div>
+                    <div class="flex-col-xs-2"><%= mticon(:checkbox, style: 'font-size: 12px;') if employee_chapter.employee_exam.done?%></div>
+                  </div>
+                <%end%>
+              </li>
+            <%end%>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<br>
+<br>
+
+<style>
+  body{
+    background-color: #e6e6e6;
+  }
+  .page-content{
+    margin:0;
+  }
+  
+  .title-bar{
+    margin:0;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px;
+    box-sizing: border-box;
+    color: rgb(51, 51, 51);
+    cursor: auto;
+    display: block;
+    font-family: 'Proxima Nova Rg', "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 13px;
+    height: 62px;
+    line-height: 18.5714px;
+    padding-bottom: 10px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 10px;
+    position: relative;
+    text-size-adjust: 100%;
+    width: 100%;
+    z-index: 20;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+    }
+
+    a:hover{background-color: #e8e8e8; text-decoration: none}
+
+ 
+
+
+</style>

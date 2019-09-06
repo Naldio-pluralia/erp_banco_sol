@@ -1,0 +1,28 @@
+<%= simple_form_for attendance do |f| %>
+    <%= hidden_field_tag :redirect_url, redirect_url ||= params[:redirect_url]%>
+    <div id="add-attendance" class="modal modal-fixed-footer">
+      <div class="modal-content">
+        <span class="h5-size"> <%= attendance.new_record? ? t('attendance.new') : t('attendance.edit') %> </span>
+        <hr>
+        <div class="row">
+          <%= f.input :date, label: "Data", as: :flatpickr, input_html: {prompt: t('select_date')}, wrapper_html: {class: 'col s12 m4'} %>
+          <div class="col s12 m8">
+            <div class="row">
+              <%= f.input :status, label: "Tipo de Registo",collection: Attendance.statuses.for_select(:ts), wrapper_html: {class: 'col s12'}, input_html: {class: 'default-selectize'} %>
+              <%= f.input :employee_id, label: "Colaborador",collection: Employee.can_be_assessed.get_by_role(current).all.map {|v| [v.name_and_number, v.id]}, wrapper_html: {class: 'col s12'}, input_html: {class: 'default-selectize'} %>
+            </div>
+          </div>
+        </div>
+
+        <div class="hide row">
+          <% f.input :employee_note, wrapper_html: {class: 'col s12'} %>
+          <% f.input :supervisor_note, wrapper_html: {class: 'col s12'} %>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <%= f.button :submit %>
+        <%= cancel redirect_url || attendances_url %>
+      </div>
+    </div>
+<% end %>

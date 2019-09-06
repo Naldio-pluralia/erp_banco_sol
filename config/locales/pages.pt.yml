@@ -1,0 +1,39 @@
+pt:
+  pages:
+    defaults:
+      index: 'Listar'
+      show: 'Detalhes'
+      edit: 'Editar'
+    vacancies:
+      index: 'Candidaturas'
+    groups:
+      index: 'Grupos'
+      show: "Grupo"
+    nextsgad:
+      messages:
+        index: 'Mensagens'
+        show: 'Ver Mensagem'
+      employee_messages:
+        index: 'Minhas Mensagens'
+        show: 'Ver Mensagem'
+    paygrade_boards:
+      latest: 'Tabela Salarial'
+    salary_boards:
+      latest: 'Tabela Salarial'
+    remuneration_settings:
+      latest: 'Configurações das Remunerações'
+    courses:
+      my_training: 'Meus Cursos'
+      statistics: 'Estatísticas'
+    functions:
+      functions_settings: 'Configurações'
+      settings: 'Configurações'
+    nextsgad:
+      employees:
+        hr_presence_map: 'Mapa de Presença'
+        my_team_presence_map: 'Mapa de Presença'
+        department_presence_map: 'Mapa de presenças do departamento'
+        my_data: 'Meus Dados'
+        team_member_data: 'Dados do Colaborador'
+    time_settings:
+      latest: 'Configurações do Tempo'

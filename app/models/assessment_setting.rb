@@ -1,0 +1,2 @@
+class AssessmentSetting < ApplicationRecord
+end

@@ -1,0 +1,4 @@
+<% @page_name = t('user.new') %>
+<% toolbar(itens_menu: {"#{'plural.user'.ts}": users_url, "#{'user.new'.ts}": "#"}, bar_arguments: {} ) %>
+
+<%= render 'form', user: @user %>

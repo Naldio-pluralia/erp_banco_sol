@@ -1,0 +1,2 @@
+module SalaryBoardItemsHelper
+end

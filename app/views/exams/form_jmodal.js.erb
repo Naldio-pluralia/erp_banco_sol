@@ -1,0 +1,19 @@
+var m = jsPanel.modal.create({
+	headerTitle: 'Adicionar Exame',
+	theme: 'none',
+	panelSize: {width: '95%', height: '90%'},
+	content:     "<div class='exam_jmodal'><%= j render('form', exam: @exam) %></div>",
+	position:    'center 0 0',
+	container: 'body',
+	contentOverflow: 'hidden scroll',
+	headerControls: {
+		smallify: 'disable',
+		smallifyrev: 'disable',
+		minimize: "disable"
+	},
+	dragit:         true,
+	resizeit:       true
+});
+
+$(m.content).mCustomScrollbar({scrollButtons: {enable: true}, theme: 'dark-thin'});
+initPlugins($(m.content));

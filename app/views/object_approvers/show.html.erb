@@ -1,0 +1,16 @@
+<%= index_bar(itens: {view_t(".object_approvers") => object_approvers_url, view_t('.object_approver') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_object_approver_path(@object_approver) ) if can?(:edit, @object_approver) %>
+  <%= action_btn(content: view_t('update'), href: "#object_approver-modal-form", modal_trigger: true) if can?(:edit, @object_approver) %>
+<% end %>
+
+
+<%= show_item(".employee", @object_approver.employee) %>
+
+
+<%= show_item(".kind", @object_approver.kind) %>
+
+
+<%= show_item(".object", @object_approver.object) %>
+
+
+<%= render 'form', object_approver: @object_approver %>

@@ -1,0 +1,18 @@
+jQuery(document).ready(function($) {
+  var preloader_html = '<div style="text-align: center;">' +
+                          '<div class="preloader-wrapper big active">' +
+                            '<div class="spinner-layer spinner-blue-only">' +
+                              '<div class="circle-clipper left">' +
+                                '<div class="circle"></div>' +
+                              '</div><div class="gap-patch">' +
+                                '<div class="circle"></div>' +
+                              '</div><div class="circle-clipper right">' +
+                                '<div class="circle"></div>' +
+                              '</div>' +
+                            '</div>' +
+                          '</div>' +
+                        '</div>';
+  $("#salaries_show").html(preloader_html);
+  $("#salaries_show").html(" <%= j render('show', salary: @salary, back_url: params[:back_url])%>");
+  initPlugins($("#salaries_show"));
+});

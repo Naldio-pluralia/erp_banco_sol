@@ -1,0 +1,21 @@
+<%= simple_form_for(object_approver) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="object_approver-<%=object_approver.kind%>-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= object_approver.new_record? ? view_t('.new_x', x: view_t('.object_approver')) : view_t('.edit_x', x: view_t('.object_approver')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.association :employee, label: false, collection: Employee.where.not(id: f.object.object.object_approvers.map(&:employee_id)).map_for_select, include_blank: false, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: 'default-selectize'} %>
+        <%= f.input :kind, as: :hidden %>
+        <%= f.input :object_id, as: :hidden %>
+        <%= f.input :object_type, as: :hidden %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), object_approver.cancel_url || object_approvers_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

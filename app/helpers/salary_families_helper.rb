@@ -1,0 +1,2 @@
+module SalaryFamiliesHelper
+end

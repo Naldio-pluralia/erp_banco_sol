@@ -1,0 +1,33 @@
+pt:
+  excel:
+    # Posições
+    positions: 'Carregar Posições'
+    position_name: 'Nome da Posição'
+    position_number: 'Número da Posição'
+    position_parent: 'Número da Posição Supervisora'
+
+    # Funções
+    functions: 'Carregar Funções'
+    function_number: 'Número da Função'
+    function_name: 'Nome da Função'
+
+    # Colaboradores
+    employees: 'Carregar Colaboradores'
+    employee_number: 'Número de Colaborador'
+    employee_parent: 'Número de Colaborador'
+    employee_name: 'Nome do Colaborador'
+    employee_level: 'Escalão do Colaborador'
+    employee_paygrade: 'Nível do Colaborador'
+    employee_new_position: 'Criar Posição?'
+    employee_new_user: 'Criar Usuário?'
+
+    # Departamentos
+    departments: 'Carregar Departamentos'
+    department_name: 'Número do Departamento'
+    department_number: 'Número do Departamento'
+    department_parent: 'Número do Departamento supervisor'
+
+    # Users
+    users: 'Carregar Usuários'
+    user_name: 'Nome do Usuário'
+    user_email: 'Email do Usuário'

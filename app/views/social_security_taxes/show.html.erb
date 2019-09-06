@@ -1,0 +1,36 @@
+<%= index_bar(itens: {t(".latest_social_security_tax") => latest_social_security_tax_url, t('.social_security_tax') => nil}) do %>
+  <%= action_btn(content: t('update'), href: "social_security_tax-modal-form", modal_trigger: true) %>
+<% end %>
+
+<p>
+  <strong><%= t(".name") %>:</strong>
+  <%= @social_security_tax.name %>
+</p>
+
+<p>
+  <strong><%= t(".abbr_name") %>:</strong>
+  <%= @social_security_tax.abbr_name %>
+</p>
+
+<p>
+  <strong><%= t(".percentage") %>:</strong>
+  <%= @social_security_tax.percentage %>
+</p>
+
+<p>
+  <strong><%= t(".percentage_from_employee") %>:</strong>
+  <%= @social_security_tax.percentage_from_employee %>
+</p>
+
+<p>
+  <strong><%= t(".percentage_from_employer") %>:</strong>
+  <%= @social_security_tax.percentage_from_employer %>
+</p>
+
+<p>
+  <strong><%= t(".status") %>:</strong>
+  <%= @social_security_tax.status %>
+</p>
+
+
+<%= render 'form', social_security_tax: @social_security_tax %>

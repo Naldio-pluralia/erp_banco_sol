@@ -1,0 +1,14 @@
+#Simple form
+pt:
+  courses:
+    defaults:
+      chapter: 'Capítulo'
+      exam: 'Exame'
+      lesson: 'Lição'
+      courses: 'Cursos'
+
+    index:
+      courses: 'Cursos'
+    show:
+
+

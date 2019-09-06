@@ -1,0 +1,36 @@
+<%= index_bar(itens: {view_t(".employee_exams") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_employee_exam_path) %>
+  <%= action_btn(content: view_t('add'), href: "#employee_exam-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-employee_exams-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".exam") )%>
+    <%= h_cell(text: view_t(".employee_course") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @employee_exams) do |e| %>
+    <%= b_row(link_to: employee_exam_path(e)) do %>
+      <%= b_cell(element: e.exam)%>
+      <%= b_cell(element: e.employee_course)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e if can?(:show, e) %> | 
+        <%= link_to t('edit'), edit_employee_exam_path(e) if can?(:edit, e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(employee_exams_url, "employee_exams") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', employee_exam: @employee_exam %>

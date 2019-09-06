@@ -1,0 +1,154 @@
+pt:
+  date:
+    abbr_day_names:
+    - Dom
+    - Seg
+    - Ter
+    - Qua
+    - Qui
+    - Sex
+    - Sáb
+    abbr_month_names:
+    -
+    - Jan
+    - Fev
+    - Mar
+    - Abr
+    - Mai
+    - Jun
+    - Jul
+    - Ago
+    - Set
+    - Out
+    - Nov
+    - Dez
+    day_names:
+    - Domingo
+    - Segunda-feira
+    - Terça-feira
+    - Quarta-feira
+    - Quinta-feira
+    - Sexta-feira
+    - Sábado
+    formats:
+      extended: "%b, %d %Y %H:%M"
+      format_nextgad: "%A, %d de %B de %Y"
+      default: "%d/%m/%Y"
+      long: "%d de %B de %Y"
+      short_month_and_year: "%d %b %y"
+      short: "%d de %B"
+      period: "%B de %Y"
+      h_m: "%H:%M"
+    month_names:
+    -
+    - Janeiro
+    - Fevereiro
+    - Março
+    - Abril
+    - Maio
+    - Junho
+    - Julho
+    - Agosto
+    - Setembro
+    - Outubro
+    - Novembro
+    - Dezembro
+    order:
+    - :day
+    - :month
+    - :year
+
+  time:
+    abbr_day_names:
+    - Dom
+    - Seg
+    - Ter
+    - Qua
+    - Qui
+    - Sex
+    - Sáb
+    abbr_month_names:
+    -
+    - Jan
+    - Fev
+    - Mar
+    - Abr
+    - Mai
+    - Jun
+    - Jul
+    - Ago
+    - Set
+    - Out
+    - Nov
+    - Dez
+    day_names:
+    - Domingo
+    - Segunda-feira
+    - Terça-feira
+    - Quarta-feira
+    - Quinta-feira
+    - Sexta-feira
+    - Sábado
+    formats:
+      extended: "%b, %d %Y %H:%M"
+      format_nextgad: "%A, %d de %B de %Y"
+      default: "%d/%m/%Y"
+      long: "%d de %B de %Y"
+      short_month_and_year: "%d %b %y"
+      short: "%d de %B"
+    month_names:
+    -
+    - Janeiro
+    - Fevereiro
+    - Março
+    - Abril
+    - Maio
+    - Junho
+    - Julho
+    - Agosto
+    - Setembro
+    - Outubro
+    - Novembro
+    - Dezembro
+    order:
+    - :day
+    - :month
+    - :year
+  January: "Janeiro"
+  February: "Fevereiro"
+  March: "Março"
+  April: "Abril"
+  May: "Maio"
+  June: "Junho"
+  July: "Julho"
+  August: "Agosto"
+  September: "Setembro"
+  October: "Outubro"
+  November: "Novembro"
+  December: "Dezembro"
+  Monday: "Segunda - Feira"
+  Tuesday: "Terça - Feira"
+  Wednesday: "Quarta - Feira"
+  Thursday: "Quinta - Feira"
+  Friday: "Sexta - Feira"
+  Saturday: "Sábado"
+  Sunday: "Domingo"
+  Jan: "Jan"
+  Feb: "Fev"
+  Mar: "Mar"
+  Apr: "Abr"
+  May: "Maio"
+  Jun: "Jun"
+  Jul: "Jul"
+  Aug: "Ago"
+  Sep: "Set"
+  Oct: "Out"
+  Nov: "Nov"
+  Dec: "Dez"
+  Mon: "Seg"
+  Tue: "Ter"
+  Wed: "Qua"
+  Thu: "Qui"
+  Fri: "Sex"
+  Sat: "Sab"
+  Sun: "Dom"

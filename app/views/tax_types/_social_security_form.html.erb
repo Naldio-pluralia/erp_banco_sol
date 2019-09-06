@@ -1,0 +1,29 @@
+<%= simple_form_for(tax_type, html: {class: ''}, url: tax_types_url, method: :post) do |f| %>
+  <%= form_url_helpers(f)%>
+  <%= f.input :kind, as: :hidden, input_html: {value: tax_type.kind} %>
+  <div id="social_security-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= tax_type.new_record? ? t('.new') : t('.edit') %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.input :code, as: :hidden %>
+        <%= f.input :name, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :abbr_name, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :status, collection: SubsidyTaxModel.enums_map_t(:status), include_blank: false, input_html: {class: 'default-selectize'}, wrapper_html: {class: 'flex-col-xs-4'} %>
+        <%= f.input :value, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :percentage_from_employee, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :percentage_from_employer, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :for_all, as: :bootstrap_switch, wrapper_html: {class: 'flex-col-xs-2'} %>
+        <%= f.association :functions, collection: Function.map_for_select, input_html: {class: 'selectize'}, wrapper_html: {class: 'flex-col-xs-5', 'data-on-check' => '#tax_type_for_all,hide'} %>
+        <%= f.association :positions, collection: Position.where.not(efective_id: nil).map_for_select, input_html: {class: 'selectize'}, wrapper_html: {class: 'flex-col-xs-5', 'data-on-check' => '#tax_type_for_all,hide'} %>
+        <%= f.association :employees, collection: Employee.all.map { |e| [e.name_and_number, e.id] }, label: 'Colaboradores', input_html: {class: 'selectize'}, wrapper_html: {class: 'flex-col-xs-5', 'data-on-check' => '#tax_type_for_all,hide'} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), latest_remuneration_setting_url(active_tab: :tab_subsidy_and_tax_settings), class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

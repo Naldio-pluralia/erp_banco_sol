@@ -1,0 +1,33 @@
+<%= index_bar(itens: {view_t(".object_videos") => object_videos_url, view_t('.object_video') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_object_video_path(@object_video) ) if can?(:edit, @object_video) %>
+  <%= action_btn(content: view_t('update'), href: "#object_video-modal-form", modal_trigger: true) if can?(:edit, @object_video) %>
+<% end %>
+
+
+<%= show_item(".local_title", @object_video.local_title) %>
+
+
+<%= show_item(".local_file", @object_video.local_file) %>
+
+
+<%= show_item(".local_file_tmp", @object_video.local_file_tmp) %>
+
+
+<%= show_item(".local_file_processing", @object_video.local_file_processing) %>
+
+
+<%= show_item(".local_watermark_image", @object_video.local_watermark_image) %>
+
+
+<%= show_item(".youtube_video_id", @object_video.youtube_video_id) %>
+
+
+<%= show_item(".object", @object_video.object) %>
+
+
+<%= show_item(".kind", @object_video.kind) %>
+
+
+<%= render 'form', object_video: @object_video %>
+
+<%= video_tag(@object_video.local_file.url, controls: true) if @object_video.local_file.url.present? %>

@@ -1,0 +1,12 @@
+<% @page_name = "position_name".ts %>
+
+<% toolbar(itens_menu: {"#{'positions'.ts}": positions_url, "#{@position.new_name || @position.number}": @position}, bar_arguments: { edit_modal: "#add-position", delete: @position } ) %>
+
+<p><strong><%= 'position.number'.ts %>: </strong><%= @position.number %></p>
+<p><strong><%= t('position_name') %>: </strong><%= @position.new_name %></p>
+<p><strong><%= t('position_manager') %>: </strong><%= @position.position&.new_name_and_number %></p>
+<p><strong><%= 'Unidade Orgânica' %>: </strong><%= @position.organic_unit&.name || 'N/D' %></p>
+<p><strong><%= t('position_holder') %>: </strong><%= @position.efective&.first_and_last_name %></p>
+<p><strong>Função: </strong><%= @position.function&.name_and_number %></p>
+<p><strong><%= t('position_description') %>: </strong><%= @position.description %></p>
+<%= render "form" %>

@@ -1,0 +1,18 @@
+#Simple form
+pt:
+  simple_form:
+      labels:
+        employee_delay:
+          employee: 'Colaborador'
+          absence_type: 'Tipo de Ausência'
+          date: 'Data'
+          arrived_at: 'Hora de Entrada'
+          number_of_hours_late: 'Nº de Horas de Atraso'
+      hints:
+        defaults:
+          # data_de_emissao: "Data da emissão da factura"
+      placeholders:
+        defaults:
+          # column: 'translation'
+      prompts:
+        defaults:

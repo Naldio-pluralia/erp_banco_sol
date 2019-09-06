@@ -1,0 +1,28 @@
+<%= index_bar(itens: {view_t(".employee_exits") => employee_employee_exits_url(@employee), view_t('.employee_exit') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_employee_exit_path(@employee_exit) ) if can?(:edit, @employee_exit) %>
+  <%= action_btn(content: view_t('update'), href: "#employee_exit-modal-form", modal_trigger: true) if can?(:edit, @employee_exit) %>
+<% end %>
+
+
+<%= show_item(".employee", @employee_exit.employee.name_and_number) %>
+
+
+<%= show_item(".absence_type", @employee_exit.absence_type.name) %>
+
+
+<%= show_item(".kind", @employee_exit.enum_t(:kind)) %>
+
+
+<%= show_item(".date", l(@employee_exit.date)) %>
+
+
+<%= show_item(".left_at", l(@employee_exit.left_at)) %>
+
+
+<%= show_item(".returned_at", l(@employee_exit.returned_at)) %>
+
+
+<%= show_item(".number_of_hours_absent", @employee_exit.number_of_hours_absent) %>
+
+
+<%= render 'form', employee_exit: @employee_exit, employee: @employee %>

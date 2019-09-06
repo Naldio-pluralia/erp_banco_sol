@@ -1,0 +1,1 @@
+json.partial! "employee_avaliable_vacations/employee_avaliable_vacation", employee_avaliable_vacation: @employee_avaliable_vacation

@@ -1,0 +1,66 @@
+<% unless @assessment.blank? %>
+  <table class="bordered" style="width: 100%;">
+    <tbody>
+      <tr style="background-color: #fbb035; color: #fff;">
+        <td class="mdl-data-table__cell--non-numeric"><%= "Competências"%></td>
+        <td class="mdl-data-table__cell--non-numeric"><%= 'short.self_assessment'.ts %></td>
+        <td class="mdl-data-table__cell--non-numeric"><%= 'short.supervisor_assessment'.ts %></td>
+        <td class="mdl-data-table__cell--non-numeric"><%= 'short.final_assessment'.ts %></td>
+      </tr>
+
+      <% @employee_goals&.last(4).each do |f| %>
+        <tr class="modal-trigger"  href="#modal_assessment_<%= f.id %>">
+          <td class="mdl-data-table__cell--non-numeric no-padding-left">
+            <%= f.skill.name %>
+            <div class="progress-in-table"><div class="progress-bar-in-table" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= calculate_progress_bar(f.value.to_i) %>%; background-color: #4caf50;"></div></div>
+          </td>
+          <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= f.self_assessment %></td>
+          <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= f.supervisor_assessment %></td>
+          <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= f.value %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <table class="bordered" style="width: 100%;">
+    <tbody>
+      <tr style="background-color: #fbb035; color: #fff;">
+        <td class="mdl-data-table__cell--non-numeric"><%= "Objectivos"%></td>
+        <td class="mdl-data-table__cell--non-numeric"><%= 'short.self_assessment'.ts %></td>
+        <td class="mdl-data-table__cell--non-numeric"><%= 'short.supervisor_assessment'.ts %></td>
+        <td class="mdl-data-table__cell--non-numeric"><%= 'short.final_assessment'.ts %></td>
+      </tr>
+
+      <% @my_objectives_list.last(4).each do |f| %>
+        <tr class="modal-trigger"  href="#modal_assessment_<%= f.id %>">
+          <td class="mdl-data-table__cell--non-numeric no-padding-left">
+            <%= f.skill.name %>
+            <div class="progress-in-table"><div class="progress-bar-in-table" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= calculate_progress_bar(f.final_assessment.to_i) %>%; background-color: #4caf50;"></div></div>
+          </td>
+          <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= f.self_assessment.round(1) %></td>
+          <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= f.supervisor_assessment.round(1) %></td>
+          <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= f.final_assessment.round(1) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+
+<div class="mdl-cell mdl-cell--12-col hide">
+  <div class="mdl-card mdl-shadow--2dp next-card general-cards-2">
+    <div class="mdl-card__actions mdl-card--border">
+      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+        <%= t('goals') %>  - <%= @assessment&.year || DateTime.now.year %>
+      </a>
+    </div>
+
+    <div class="mdl-card__supporting-text my-goals-skills" style="padding: 0;">
+
+    </div>
+
+    <div class="mdl-card__menu">
+      <%=link_to "see_more".ts, my_data_url, class: "mdl-button btn-see-more" %>
+    </div>
+  </div>
+</div>

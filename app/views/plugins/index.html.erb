@@ -1,0 +1,27 @@
+<% @page_name = "settings.plugins".ts %>
+
+<% toolbar(itens_menu: {"#{'settings.plugins'.ts}": plugins_url}, bar_arguments: { new: new_plugin_path } ) %>
+
+<%= l_table do %>
+    <%= t_header do %>
+        <%= h_cell(text: '') %>
+        <%= h_cell(text: "name".ts) %>
+        <%= h_cell(text: "description".ts) %>
+        <%= h_cell(text: "active".ts) %>
+        <%= h_cell(text: "Version") %>
+        <%= h_cell(text: "Parent") %>
+        <%= h_cell(text: "URL".ts) %>
+    <% end %>
+
+    <%= t_body(elements: @plugins) do |e| %>
+        <%= b_row(link_to: plugin_url(e)) do %>
+            <%= b_cell(element: icon(icon: e.icon)) %>
+            <%= b_cell(element: e.name) %>
+            <%= b_cell(element: e.description) %>
+            <%= b_cell(element: e.is_active) %>
+            <%= b_cell(element: e.version) %>
+            <%= b_cell(element: e.parent_id) %>
+            <%= b_cell(element: e.url) %>
+        <% end %>
+    <% end %>
+<% end %>

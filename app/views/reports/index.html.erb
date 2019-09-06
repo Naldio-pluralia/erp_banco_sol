@@ -1,0 +1,48 @@
+<%= index_bar(itens: {view_t(".reports") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_report_path) %>
+  <% is_action?(:my_reports, :employees) do%>
+    <%= action_btn(content: view_t('add'), href: "#report-modal-form", modal_trigger: true) %>
+  <%end%>
+  <%# is_action?(:index, :reports) do%>
+    <%= action_btn(content: view_t('filter'), href: "#filter-reports-modal", modal_trigger: true, color: :blue) %>
+  <%#end%>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".name") )%>
+    <% is_action?(:index, :reports) do%>
+      <%= h_cell(text: view_t(".employee") )%>
+    <%end%>
+    <%= h_cell(text: view_t(".status") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @reports) do |e| %>
+    <%= b_row(link_to: report_path(e)) do %>
+      <%= b_cell(element: e.name)%>
+      <% is_action?(:index, :reports) do%>
+        <%= b_cell(element: e.reporter) %>
+      <%end%>
+      <%= b_cell(element: t(e.status))%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e if can?(:show, e) %> |
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(reports_url, "reports") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+        <%= select_tag 'employee_id[]', options_for_select(Employee.where.not(id: current.employee&.id).map_for_select, params[:employee_id]), multiple: :multiple, class: "default-selectize", prompt: "Colaborador", label: 'Colaborador' %>
+      </div>
+      <div class="flex-col-xs-12 flex-col-sm-3">
+        <%= select_tag 'is_anonymous[]', options_for_select([['Anónimos', true], ['Não Anónimos', false]], params[:is_anonymous]), multiple: :multiple, class: "default-selectize", prompt: "Anónimo", label: 'Anónimo' %>
+      </div>
+    </div>
+<% end %>
+
+<%= render 'reports/form', report: @report %>

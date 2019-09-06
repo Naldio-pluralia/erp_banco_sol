@@ -1,0 +1,17 @@
+<%= div(class: 'new_justification') do%>
+  <%= simple_form_for([@employee, @employee_justification], url: employee_create_justification_path(@employee), html: {multipart: true, remote: true, retabulate: '#presence-map'}) do |f| %>
+    <%= form_url_helpers(f) %>
+    <div class="flex-row flex-top">
+      <%= div(class: 'flex-col-xs-12', style: 'text-align: right;') do%>
+        <%= f.button :submit %>
+      <%end%>
+      <%= f.input :absence_object_id, collection: (@employee.employee_absences.unjustified + @employee.employee_delays.unjustified + @employee.employee_exits.unjustified).map{|f| [f.name_and_date, f.class.name.tableize.singularize + "_id_#{f.id}"]}, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: 'default-selectize'} %>
+      <%= f.input :attachments, as: :file, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {multiple: true} %>
+      <%if current&.employee&.id == @employee.id%>
+        <%= f.input :employee_note, as: :trix_editor, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: ''} %>
+      <%elsif current.team_members&.include?(@employee)%>
+        <%= f.input :supervisor_note, as: :trix_editor, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: ''} %>
+      <%end%>
+    </div>
+  <% end %>
+<%end%>

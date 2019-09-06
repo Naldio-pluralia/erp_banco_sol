@@ -1,0 +1,34 @@
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: t(".name") )%>
+    <%  h_cell(text: t(".abbr_name") )%>
+    <%  h_cell(text: t(".kind") )%>
+    <%  h_cell(text: t(".code") )%>
+    <%  h_cell(text: t(".value_mode") )%>
+    <%= h_cell(text: t(".value") )%>
+    <%= h_cell(text: t(".status"), style: 'width: 57px;')%>
+    <% h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @subsidy_types, class: 'auto-size') do |e| %>
+    <%= b_row(link_to: subsidy_type_path(e)) do %>
+      <%= b_cell(element: e.name)%>
+      <%  b_cell(element: e.abbr_name)%>
+      <%  b_cell(element: e.kind)%>
+      <%  b_cell(element: e.code)%>
+      <%  b_cell(element: e.enum_t(:value_mode))%>
+
+      <%if e.fixed?%>
+        <%= b_cell(element: e.kwanza_t(:value))%>
+      <%else%>
+        <%= b_cell(element: e.percentage_t(:value))%>
+      <%end%>
+
+      <%= b_cell(element: e.enum_t(:status), style: 'width: 57px;')%>
+      <% b_cell(text: "") do %>
+        <%= link_to t('show'), e %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

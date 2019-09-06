@@ -1,0 +1,13 @@
+#Simple form
+pt:
+  employee_justifications:
+    defaults:
+      employee_justification: 'Justificativo'
+      employee_justifications: 'Justificativos'
+      employee: 'Colaborador'
+      note: 'Nota'
+      attachments: ''
+      supervisor_note: 'Nota do Supervisor'
+      first_justifiaction_status: 'Aprovação do Supervisor'
+      second_justification_status: 'Aprovação do DPE'
+      third_justification_status: 'Aprovação do chefe do DPE'

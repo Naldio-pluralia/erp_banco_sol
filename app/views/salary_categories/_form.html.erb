@@ -1,0 +1,18 @@
+<%= simple_form_for(salary_category) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="salary_category-modal-form" class="modal">
+    <div class="modal-content">
+      <span class="h5-size"> <%= salary_category.new_record? ? view_t('.new_x', x: view_t('.salary_category')) : view_t('.edit_x', x: view_t('.salary_category')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.input :name, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), salary_category.cancel_url || salary_categories_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

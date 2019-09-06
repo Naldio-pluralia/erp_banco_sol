@@ -1,0 +1,98 @@
+<%= index_bar(itens: {view_t(".courses") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_course_path) %>
+  <%= action_btn(content: view_t('add'), href: "#course-modal-form", modal_trigger: true) if can?(:create, Course) && is_action?(:index)%>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-courses-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+<div class="row">
+
+  <% @courses.each do |course| %>
+    <div class="col s4">
+      <div class="card blue-grey darken-1 featured-keyword">
+        <div class="card-content white-text padding-15" style="min-height: 102px;">
+          <span class="card-title"><%= course.name %></span>
+
+        </div>
+        <div class="card-action padding-15">
+
+          <%= link_to 'Editar', course_path(course) if can?(:show, course) && is_action?(:index) %>
+          <%= link_to 'Iniciar Curso', start_course_url(course), method: :patch if can?(:start, course)  && is_action?(:my_training)%>
+          <%= link_to 'Ver', see_course_url(course) if can?(:see, course)  && is_action?(:my_training)%>
+          <%= link_to 'Continuar', continue_course_url(course) if can?(:continue, course)  && is_action?(:my_training)%>
+          <%= link_to 'Refazer Curso', restart_course_url(course), method: :patch if can?(:restart, course)  && is_action?(:my_training)%>
+          <span style="color: #fab230;"><%= course.enum_t(:status) %></span>
+          
+          <%= link_to '<span data-tooltip="Relatório" style="color: #fab230; float: right;" class="material-icons" aria-hidden="true">show_chart</span>'.html_safe, course_statistics_path(course) if can?(:statistics, course) && is_action?(:index) %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%[].each do |course| %>
+  <div class="flex-row" style="height: 120px;">
+    <div class="flex-col-xs-3">
+    
+    </div>
+
+    <div class="flex-col-xs-9">
+      <div class="flex-row">
+        <div class="flex-col-xs-12">
+          <%= link_to "#{course.name} (Editar)", course_path(course), class: 'course-link' if can?(:show, course) && is_action?(:index) %>
+          <%= link_to "#{course.name} (Iniciar Curso)", start_course_url(course), class: 'course-link', method: :patch if can?(:start, course)  && is_action?(:my_training)%>
+          <%= link_to "#{course.name} (Continuar)", continue_course_url(course), class: 'course-link' if can?(:continue, course)  && is_action?(:my_training)%>
+          <%= link_to "#{course.name} (Refazer Curso)", restart_course_url(course), class: 'course-link', method: :patch if can?(:restart, course)  && is_action?(:my_training)%>
+        </div>
+        <div class="flex-col-xs-12"><span class="course-description"><%= course.description %></span></div>
+        <div class="flex-col-xs-12">
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<% end %>
+
+<%= filter_modal(courses_url, "courses") do %>
+  <div class="flex-row">
+    <div class="flex-col-xs-12 flex-col-sm-3">
+
+    </div>
+  </div>
+<% end %>
+  
+<% if is_action?(:index) %>
+  <%= render 'form', course: @course %>
+<% end %>
+
+<style>
+  .course-link{
+    background-position: 0px 0px;
+    box-sizing: border-box;
+    color: rgb(31, 143, 193);
+    text-decoration: none solid rgb(31, 143, 193);
+    text-size-adjust: 100%;
+    column-rule-color: rgb(31, 143, 193);
+    perspective-origin: 0px 0px;
+    transform-origin: 0px 0px;
+    caret-color: rgb(31, 143, 193);
+    background: rgba(0, 0, 0, 0) none repeat scroll 0px 0px / auto padding-box border-box;
+    border: 0px none rgb(31, 143, 193);
+    font: normal normal 400 normal 18px / 28.8px "Open Sans", sans-serif;
+    outline: rgb(31, 143, 193) none 0px;
+    transition: color 0.3s ease 0s;
+  }
+
+  .course-description{
+    box-sizing: border-box;
+    color: rgb(82, 92, 101);
+    text-decoration: none solid rgb(82, 92, 101);
+    text-size-adjust: 100%;
+    column-rule-color: rgb(82, 92, 101);
+    perspective-origin: 0px 0px;
+    transform-origin: 0px 0px;
+    caret-color: rgb(82, 92, 101);
+    border: 0px none rgb(82, 92, 101);
+    font: normal normal 400 normal 16px / 24px "Open Sans", sans-serif;
+    outline: rgb(82, 92, 101) none 0px;
+  }
+</style>

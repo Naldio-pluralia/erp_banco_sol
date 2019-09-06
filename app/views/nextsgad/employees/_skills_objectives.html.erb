@@ -1,0 +1,96 @@
+<% if @assessment.present? %>
+
+    <table class="bordered" style="width: 100%;">
+      <tbody>
+      <tr style="background-color: #fbb035; color: #fff;">
+        <td class="mdl-data-table__cell--non-numeric"><%= "assessment.skills".ts %></td>
+        <th class=""><%= "Actions"  %></th>
+        <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= 'short.self_assessment'.ts %></td>
+        <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= 'short.supervisor_assessment'.ts %></td>
+        <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= 'short.final_assessment'.ts %></td>
+      </tr>
+
+      <% @employee_goals.where(goal_type: 0).each do |f| %>
+          <% if can?(:update, f) %>
+              <%= render "modal_assessment", employee_goal: f %>
+              <tr class="modal-trigger" href="#modal_assessment_<%= f.id %>">
+          <% else %>
+              <tr>
+          <% end %>
+          <td class="mdl-data-table__cell--non-numeric no-padding-left">
+            <%= f.name %>
+            <div class="progress-in-table">
+              <div class="progress-bar-in-table" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= calculate_progress_bar(f.final_assessment.to_i) %>%; background-color: #4caf50;"></div>
+            </div>
+          </td>
+
+          <td class="">
+            <% if f.employee_note.present? %>
+              <span, class="#{f.report ? 'close-report' : 'open-report'}" style="position: absolute;">
+                <span class="fa-stack has-badge" style="font-size: 18px; top: -13px;"><i class="fa fa-comment fa-stack-1x"></i></span>
+                <% if f.report %>
+                  <span class="fa-stack has-badge" style="font-size: 18px; top: -13px;"><i class="fa fa-flag fa-stack-1x icon-red"></i></span>
+                <% end %>
+              </span>
+            <% end %>
+          </td>
+
+          <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= f.self_assessment.round(1) %></td>
+          <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= f.supervisor_assessment.round(1) %></td>
+          <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= f.final_assessment.round(1) %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+    <table class="bordered" style="width: 100%;">
+      <tbody>
+      <tr style="background-color: #fbb035; color: #fff;">
+        <td class="mdl-data-table__cell--non-numeric"><%= "assessment.objectives".ts %></td>
+        <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= 'short.self_assessment'.ts %></td>
+        <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= 'short.supervisor_assessment'.ts %></td>
+        <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= 'short.final_assessment'.ts %></td>
+      </tr>
+
+      <% @employee.individual_goals.each do |f| %>
+          <%# if can?(:update, f) %>
+              <%# render "modal_assessment", employee_goal: f %>
+              <!-- <tr class="modal-trigger" href="#modal_assessment_<%# f.id %>"> -->
+          <%# else %>
+              <tr>
+          <%# end %>
+            <td class="mdl-data-table__cell--non-numeric no-padding-left">
+              <%= f.pertence_type.downcase %>
+              <div class="progress-in-table">
+                <div class="progress-bar-in-table" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= calculate_progress_bar((f.individual_value + f.supervisor_value + f.pca_value).to_i) %>%; background-color: #4caf50;"></div>
+              </div>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= f.individual_value.round(1) %></td>
+            <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= f.supervisor_value.round(1) %></td>
+            <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= f.pca_value.round(1) %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+    <table class="bordered" style="width: 100%;">
+      <tbody>
+      <tr style="background-color: #fbb035; color: #fff;">
+        <td class="mdl-data-table__cell--non-numeric"><%= "attendance.description".ts %></td>
+        <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= 'absence'.ts %></td>
+        <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= 'justified_absence'.ts %></td>
+        <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= 'short.final_assessment'.ts %></td>
+      </tr>
+
+      <% @assessment.attendance_assessment_by_month(@employee).each do |month, value| %>
+          <tr class="modal-trigger" href="#">
+            <td class="mdl-data-table__cell--non-numeric no-padding-left"><%= month.ts %></td>
+            <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= value[0] %></td>
+            <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= value[1] %></td>
+            <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= value[2] %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+<% end %>

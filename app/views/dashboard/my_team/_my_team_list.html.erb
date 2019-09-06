@@ -1,0 +1,34 @@
+<div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--8-col-phone">
+  <div class="mdl-card mdl-shadow--2dp next-card general-cards-1">
+    <div class="mdl-card__actions mdl-card--border">
+      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+        <%= t('my_team') %>
+      </a>
+    </div>
+    <div class="mdl-card__supporting-text" style="padding: 0; width: 100%;">
+      <% unless @assessment.blank? %>
+        <%= l_table do %>
+          <%= t_header do %>
+            <%= h_cell(text: "employee_name".ts) %>
+            <%= h_cell(text: "position_name".ts) %>
+            <%= h_cell(text: "department_name".ts) %>
+          <% end %>
+
+        <%= t_body(elements: current.team_members) do |e| %>
+          <%= b_row(link_to: position_url(e.id)) do %>
+                <%= b_cell(element: "#{e.first_name} #{e.last_name}") %>
+                <%= b_cell(element: "#{e.efective_position&.name || 'n/a'.ts}") %>
+                <%= b_cell(element: "#{e.efective_position&.department&.name || 'n/a'.ts}") %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+    </div>
+    <div class="mdl-card__menu">
+      <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+        <i class="material-icons">people_outline</i>
+      </button>
+    </div>
+  </div>
+</div>

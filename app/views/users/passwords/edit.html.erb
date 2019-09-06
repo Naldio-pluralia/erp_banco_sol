@@ -1,0 +1,24 @@
+<% @page_name = "Change your password" %>
+
+<%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+  <%= f.input :reset_password_token, as: :hidden %>
+  <%= f.full_error :reset_password_token %>
+
+  <div class="login_box login_header">
+    <%= image_tag(configuration.entity_logo_url, class: "img-responsive settings-logo") %>
+  </div>
+
+  <div class="flex-container-fluid " style="margin-top: 5%;">
+    <div class="flex-row flex-center-xs">
+      <div class="flex-col-xs-12 flex-col-sm-4 flex-col-md-3" style="min-width: 415px; max-width: 415px; width: 415px;">
+
+        <%= f.input :password, autofocus: true, :input_html => {class:'form-control no-margin'}, placeholder: '*******', label: false, hint: (:minimum_characters.ts(minimum_password_length: @minimum_password_length) if @minimum_password_length)  %>
+        <%= f.input :password_confirmation, required: true, :input_html => {class:'form-control no-margin'}, placeholder: '*******', label: false  %>
+        <%= f.submit t('.change_my_password'), class: "waves-effect waves-light btn login_button btn-block" %>
+
+        <br>
+        <%= render "users/shared/links" %>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,27 @@
+<%= index_bar(itens: {t(".vacation_subsidies") => vacation_subsidies_url, t('.vacation_subsidy') => nil}) do %>
+  <%= action_btn(content: t('update'), href: edit_vacation_subsidy_path(@vacation_subsidy) )%>
+  <% action_btn(content: t('update'), href: "vacation_subsidy-modal-form", modal_trigger: true) %>
+<% end %>
+
+<p>
+  <strong><%= t(".name") %>:</strong>
+  <%= @vacation_subsidy.name %>
+</p>
+
+<p>
+  <strong><%= t(".abbr_name") %>:</strong>
+  <%= @vacation_subsidy.abbr_name %>
+</p>
+
+<p>
+  <strong><%= t(".percentage") %>:</strong>
+  <%= @vacation_subsidy.percentage %>
+</p>
+
+<p>
+  <strong><%= t(".status") %>:</strong>
+  <%= @vacation_subsidy.status %>
+</p>
+
+
+<%# render 'form', vacation_subsidy: @vacation_subsidy %>

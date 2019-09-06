@@ -1,0 +1,32 @@
+<%= index_bar(itens: {t(".wage_income_tax_salaries") => wage_income_tax_salaries_url, t('.wage_income_tax_salary') => nil}) do %>
+  <%= action_btn(content: t('update'), href: edit_wage_income_tax_salary_path(@wage_income_tax_salary) )%>
+  <% action_btn(content: t('update'), href: "wage_income_tax_salary-modal-form", modal_trigger: true) %>
+<% end %>
+
+<p>
+  <strong><%= t(".name") %>:</strong>
+  <%= @wage_income_tax_salary.name %>
+</p>
+
+<p>
+  <strong><%= t(".abbr_name") %>:</strong>
+  <%= @wage_income_tax_salary.abbr_name %>
+</p>
+
+<p>
+  <strong><%= t(".value") %>:</strong>
+  <%= @wage_income_tax_salary.value %>
+</p>
+
+<p>
+  <strong><%= t(".salary") %>:</strong>
+  <%= @wage_income_tax_salary.salary %>
+</p>
+
+<p>
+  <strong><%= t(".wage_income_tax") %>:</strong>
+  <%= @wage_income_tax_salary.wage_income_tax %>
+</p>
+
+
+<%# render 'form', wage_income_tax_salary: @wage_income_tax_salary %>

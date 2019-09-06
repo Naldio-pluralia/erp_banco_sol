@@ -1,0 +1,1 @@
+json.partial! "course_obligated_functions/course_obligated_function", course_obligated_function: @course_obligated_function

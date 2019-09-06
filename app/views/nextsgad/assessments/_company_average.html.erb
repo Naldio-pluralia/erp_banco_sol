@@ -1,0 +1,99 @@
+<div class="row ">
+  <div class="col s12">
+    <%= l_table do %>
+        <%= t_header do %>
+            <th class="mdl-data-table__cell--non-numeric cell-align"><%= t(".company_average") %></th>
+        <% end %>
+    <% end %>
+  </div>
+
+  <div class="col s6" style="position: relative;">
+		<%= chart_export_btn('#company_average_radar_chart', t('.goal_average')) %>
+    <% data = {
+        labels: @employee_skills_by_organic_unit.map {|skill_name, average| "(#{average}) #{skill_name}"},
+        datasets: [
+          {
+            label: t('.goal_average'),
+            data: @employee_skills_by_organic_unit.map {|skill_name, average| average},
+            borderWidth: 1,
+            backgroundColor: "rgba(119,220,119,0.3)",
+            borderColor: "rgba(119,220,119,1)",
+            fill: true,
+            pointBorderWidth: 0.05,
+            pointBackgroundColor: "rgba(119,220,119,0.3)",
+            pointBorderColor: "rgba(119,220,119,1)"
+          }
+        ]
+    } %>
+
+    <% options = {
+        id: 'company_average_radar_chart',
+        title: {display: true},
+        legend: false,
+        scale: {
+          ticks: {
+            display: false,
+            begin_at_zero: true,
+            min: 0,
+            max: 5,
+            step_size: 1
+          }
+        }} %>
+    <%= radar_chart data, options %>
+
+  </div>
+
+  <div class="col s6" style="position: relative;">
+	<%= chart_export_btn('#company_average_h_bar_chart', t('.goal_average')) %>
+    <% data = {
+        labels: @employee_skills_by_organic_unit.map {|skill_name, average| "(#{average}) #{skill_name}"},
+        datasets: [
+            {
+              label: t('.goal_average'),
+              data: @employee_skills_by_organic_unit.map {|skill_name, average| average},
+              borderWidth: 1,
+              backgroundColor: "rgba(119,220,119,0.3)",
+              borderColor: "rgba(119,220,119,1)",
+              fill: true,
+              pointBorderWidth: 0.05,
+              pointBackgroundColor: "rgba(119,220,119,0.3)",
+              pointBorderColor: "rgba(119,220,119,1)"
+            }
+        ]
+    } %>
+    <% options = {
+        id: 'company_average_h_bar_chart',
+        height: ((@employee_skills_by_organic_unit.size + 1)*33).to_s,
+        maintainAspectRatio: false,
+        scales: {
+            xAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            fontSize: 12,
+                            max: 5,
+                            min: 0,
+                            stepSize: 1
+                        },
+                        scaleLabel: {
+                            display: false
+                        },
+                        stacked: true
+                    }],
+            yAxes: [{
+                        barThickness: 15,
+                        ticks: {
+                            fontSize: 12
+                        },
+                        stacked: true,
+                        id: 'y-axis'
+                    }]
+        },
+        legend: {display: false},
+        title: {
+            display: true,
+            text: t(".company_average")
+        }
+    } %>
+    <%= horizontal_bar_chart data, options %>
+  </div>
+</div>

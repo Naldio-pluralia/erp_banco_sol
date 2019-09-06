@@ -1,0 +1,20 @@
+<%= index_bar(itens: {t(".tax_salaries") => tax_salaries_url, t('.tax_salary') => nil}) do %>
+  <%= action_btn(content: t('update'), href: '#subsidy_types-modal-form', modal_trigger: true) %>
+<% end %>
+
+<p>
+  <strong><%= t(".value") %>:</strong>
+  <%= to_kwanza @tax_salary.value %>
+</p>
+
+<p>
+  <strong><%= t(".salary") %>:</strong>
+  <%= @tax_salary.salary %>
+</p>
+
+<p>
+  <strong><%= t(".tax_type") %>:</strong>
+  <%= @tax_salary.enum_t(:tax_type) %>
+</p>
+
+<%= render 'form', tax_salary: @tax_salary %>

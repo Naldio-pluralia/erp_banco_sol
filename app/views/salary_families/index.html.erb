@@ -1,0 +1,48 @@
+<%= index_bar(itens: {view_t(".salary_families") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_salary_family_path) %>
+  <%= action_btn(content: view_t('add'), href: "#salary_family-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-salary_families-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".code") )%>
+    <%= h_cell(text: view_t(".salary_grid") )%>
+    <%= h_cell(text: view_t(".salary_category") )%>
+    <%= h_cell(text: view_t(".salary_area") )%>
+    <%= h_cell(text: view_t(".family") )%>
+    <%= h_cell(text: view_t(".salary_layer") )%>
+    <%= h_cell(text: view_t(".salary_group") )%>
+    <%= h_cell(text: view_t(".core") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @salary_families) do |e| %>
+    <%= b_row(link_to: salary_family_path(e)) do %>
+      <%= b_cell(element: e.code)%>
+      <%= b_cell(element: e.salary_grid)%>
+      <%= b_cell(element: e.salary_category)%>
+      <%= b_cell(element: e.salary_area)%>
+      <%= b_cell(element: e.family)%>
+      <%= b_cell(element: e.salary_layer)%>
+      <%= b_cell(element: e.salary_group)%>
+      <%= b_cell(element: e.core)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e if can?(:show, e) %> | 
+        <%= link_to t('edit'), edit_salary_family_path(e) if can?(:edit, e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(salary_families_url, "salary_families") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', salary_family: @salary_family %>

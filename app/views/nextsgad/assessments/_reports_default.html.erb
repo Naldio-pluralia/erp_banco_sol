@@ -1,0 +1,96 @@
+<div class="row">
+  <div class="col s12">
+    <%= l_table do %>
+        <%= t_header do %>
+            <th class="mdl-data-table__cell--non-numeric cell-align"><%= "Use o filtro para buscar o relatório do Departamento" %></th>
+        <% end %>
+    <% end %>
+  </div>
+
+  <div class="col s12 m6" style="position: relative;">
+    <% data = {
+        labels: ["", "", "", "", "", "", "", "", "", "", "", "", ""],
+        datasets: [
+            {
+                label: 'N/D',
+                data: [4.5, 4, 4, 4, 4, 4, 5, 4, 4, 4, 4, 4, 4.5, 4.5, 4, 4],
+                borderWidth: 1,
+                backgroundColor: "rgba(209, 209, 209, 0.3)",
+                borderColor: "rgba(209, 209, 209, 0.3)",
+                fill: true,
+                pointBorderWidth: 0.05,
+                pointBackgroundColor: "rgba(209, 209, 209, 0.3)",
+                pointBorderColor: "rgba(209, 209, 209, 0.3)"
+            }
+        ]
+    } %>
+    <% options = {
+        title: {display: true},
+        legend: false,
+        scale: {
+            ticks: {
+                display: false,
+                begin_at_zero: true,
+                min: 0,
+                max: 5,
+                step_size: 1
+            }
+        }} %>
+    <%= radar_chart data, options %>
+  </div>
+
+  <div class="col s12 m6" style="position: relative;">
+    <% data = {
+        labels: ["", "", "", "", "", "", "", "", "", "", "", "", ""],
+        datasets: [
+            {
+                label: 'N/D',
+                data: [2.5, 0.8, 1.5, 0.8, 2, 3, 3.4, 2.5, 3.4, 5, 3, 5, 3],
+                borderWidth: 1,
+                backgroundColor: "rgba(209, 209, 209, 0.3)",
+                borderColor: "rgba(209, 209, 209, 0.3)" ,
+                fill: true,
+                pointBorderWidth: 0.05,
+                pointBackgroundColor: "rgba(209, 209, 209, 0.3)" ,
+                pointBorderColor: "rgba(209, 209, 209, 0.3)"
+            }
+        ]
+    } %>
+    <% options = {
+        height: ((13 + 1)*33).to_s,
+        maintainAspectRatio: false,
+        scales: {
+            xAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            fontSize: 12,
+                            max: 5,
+                            min: 0,
+                            stepSize: 1
+                        },
+                        scaleLabel: {
+                            display: false
+                        },
+                        stacked: true
+                    }],
+            yAxes: [{
+                        barThickness: 15,
+                        ticks: {
+                            fontSize: 12
+                        },
+                        stacked: true,
+                        id: 'y-axis'
+                    }]
+        },
+        legend: {display: false},
+        title: {
+            display: true,
+            text: t('company_departamnet', name_dep: t("n/a"))
+
+        }
+    } %>
+    <%= horizontal_bar_chart data, options %>
+
+  </div>
+
+</div>

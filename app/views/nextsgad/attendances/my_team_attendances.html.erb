@@ -1,0 +1,32 @@
+<% @page_name = "my_team_attendances".ts %>
+
+<%= index_bar(itens: {t('attendances') => my_team_attendances_url}) do %>
+    <%= action_btn(content: t('add'),         href: '#add-attendance', modal_trigger: true) %>
+    <%= action_btn(content: t('upload.file'), href: '#upload-file',    modal_trigger: true) %>
+<% end %>
+
+<%= l_table do %>
+    <%= t_header do %>
+        <%= h_cell(text: t('attendance.date')) %>
+        <%= h_cell(text: t('attendance.status')) %>
+        <%= h_cell(text: t('attendance.employee')) %>
+        <%= h_cell(text: t('attendance.position')) %>
+        <%= h_cell(text: t('attendance.justification')) %>
+    <% end %>
+
+    <%= t_body(elements: @attendances) do |e| %>
+        <%= b_row(link_to: attendance_url(e)) do %>
+            <%= b_cell(element: t(e.date.strftime('%Y %m %d'))) %>
+            <%= b_cell(element: t(e.status)) %>
+            <%= b_cell(element: e.employee.first_and_last_name) %>
+            <%= b_cell(element: e.position&.name || t('n/a')) %>
+            <%= b_cell(element: e.unjustified? ? t('n/a') : e.justification_status.ts) %>
+        <% end %>
+    <% end %>
+<% end %>
+
+<br>
+
+<%= render 'form', attendance: @attendance, redirect_url: my_team_attendances_url, employees: current.team_members %>
+
+<%= render 'uploads/form', upload: @upload, type: 'attendances' %>

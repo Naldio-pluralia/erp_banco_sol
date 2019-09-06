@@ -1,0 +1,28 @@
+<%= simple_form_for(general_goal) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="general_goal-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= general_goal.new_record? ? view_t('.new_x', x: view_t('general_goal')) : view_t('.edit_x', x: view_t('.general_goal')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.input :who_belongs, include_blank: false, label: "Para ?", collection: GeneralGoal.enums_map_t(:who_belongs), wrapper_html: {class: 'flex-col-xs-3'} %>
+
+        <%= f.association :employees, label: t('employees'), collection: Employee.map_for_select, input_html: {class: 'selectize'}, wrapper_html: {class: 'flex-col-xs-4'} %>
+        <%= f.association :functions, label: t('functions'), collection: Function.map_for_select, input_html: {class: 'selectize'}, wrapper_html: {class: 'flex-col-xs-4'} %>
+        <%= f.association :positions, label: t('positions'), collection: Position.map_for_select, input_html: {class: 'selectize'}, wrapper_html: {class: 'flex-col-xs-4'} %>
+
+        <%= f.association :assessment, include_blank: false, label: "#{"year".ts} #{"goal.assessment".ts}", collection: Assessment.all.map {|a| [a.year, a.id]}, wrapper_html: {class: 'flex-col-xs-4'} %>
+        <%= f.input :period, collection: GeneralGoal.enums_map_t(:period), wrapper_html: {class: 'flex-col-xs-3'} %>
+        <%= f.input :objectives, label: ".objectives".ts, as: :trix_editor, wrapper_html: {class: 'flex-col-xs-12'} %>
+        <%= f.input :target, label: "goal.target".ts, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''}%>
+        <%= f.input :mode, label: "goal.nature".ts, include_blank: false, collection: GeneralGoal.enums_map_t(:mode), wrapper_html: {class: 'flex-col-xs-4'}%>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), general_goal.cancel_url || general_goals_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

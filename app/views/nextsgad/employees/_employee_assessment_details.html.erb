@@ -1,0 +1,273 @@
+<div class="employee-details" >
+  <div class="flex-row" style="margin-top: 0px;">
+    <div class="flex-col-xs right-align list-btn-employee">
+      <% action_btn(content: params[:year], class: 'btn-adicinar-objectivo btn-color', 'data-show-airdatepicker' => '#year') do %>
+        <% material_icon.date_range.md_18 %>
+        <% form_tag current_url(remove_params: true), :method => 'get', class: 'auto_submit_form' do %>
+          <input type='text' class="air_datepicker form-control string" style="bottom: 0;height: 0; width:0; padding: 0;border: none;" name="year" id='year' value="<%= params[:year] %>" data-position="bottom right" data-language="pt" data-date-format="yyyy" data-min-view="years" data-view="years" data-toggle-selected="true"/>
+        <% end %>
+      <% end %>
+
+      <% if employee.has_this_assessment?(assessment&.id) %>
+        <%= action_btn_dropdown(content: t('export_assessment_file'), data_activates: "dropdown-status", class: 'btn-adicinar-objectivo') do %>
+          <%= dropdown_item(item: t('self_assessment_export'), href: current_url(format: :pdf, pdf_type: :self), target: :_blank, color: :gray) %>
+          <%= dropdown_item(item: t('supervisor_assessment_export'), href: current_url(format: :pdf, pdf_type: :supervisor), target: :_blank, color: :gray) %>
+          <%= dropdown_item(item: t('final_assessment_export'), href: current_url(format: :pdf, pdf_type: :final), target: :_blank, color: :gray) %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+<div class="is-active" id="data-panel">
+  <br>
+
+  <% if employee.can_be_assessed%>
+    <div class="row" style="">
+      <div class="col s5 no-padding radar_employees">
+        <%= l_table do %>
+          <%= t_header do %>
+            <%= h_cell(text: "Gráfico de Competência")%>
+          <%end%>
+        <%end%>
+
+        <% employee_skills = @employee.get_function_employee_skills.includes(:skill).sort_by{|s| s.skill.name} %>
+        <div class="" style="margin-top: 10%;">
+          <%= chart_export_btn('#function_skill_radar', 'Competências') %>
+          <%=
+            emp_skill_map = employee_skills.map{|e| [e.skill_id, e]}.to_h
+            f_data = FunctionSkill.includes(:skill).where(function_id: @employee.efective_position&.function_id).map{|f| [f.skill.name, f.min, f.recomended, emp_skill_map[f.skill_id]&.self_assessment, emp_skill_map[f.skill_id]&.supervisor_assessment, emp_skill_map[f.skill_id]&.value ] }
+            data = {
+              labels: f_data.map{|x| x.first.to_s.truncate(20)},
+              datasets: [
+                {
+                  label: 'Mínimo',
+                  data: f_data.map{|x| x[1]},
+                  borderWidth: 2,
+                  backgroundColor: "rgba(220,220,99,0)",
+                  borderColor: "rgba(220,220,99,1)",
+                  fill: true,
+                  pointBorderWidth: 0.05,
+                  pointBackgroundColor: "rgba(220,220,99,0.3)",
+                  pointBorderColor: "rgba(220,220,99,1)"
+                },
+                {
+                  label: 'Recomendado',
+                  data: f_data.map{|x| x[2]},
+                  borderWidth: 2,
+                  backgroundColor: "rgba(90,90,220,0)",
+                  borderColor: "rgba(90,90,220,1)",
+                  fill: true,
+                  pointBorderWidth: 0.05,
+                  pointBackgroundColor: "rgba(90,90,220,0.3)",
+                  pointBorderColor: "rgba(90,90,220,1)"
+                },
+                {
+                  label: 'Auto Avaliação',
+                  data: f_data.map{|x| x[3]},
+                  borderWidth: 2,
+                  backgroundColor: "rgba(243,156,18,0)",
+                  borderColor: "rgba(243,156,18,1)",
+                  fill: true,
+                  pointBorderWidth: 0.05,
+                  pointBackgroundColor: "rgba(243,156,18,0.3)",
+                  pointBorderColor: "rgba(243,156,18,1)"
+                },
+                {
+                  label: 'Av. Chefia',
+                  data: f_data.map{|x| x[4]},
+                  borderWidth: 2,
+                  backgroundColor: "rgba(167,222,251,0)",
+                  borderColor: "rgba(167,222,251,1)",
+                  fill: true,
+                  pointBorderWidth: 0.05,
+                  pointBackgroundColor: "rgba(2,136,209,0.3)",
+                  pointBorderColor: "rgba(2,136,209,1)"
+                },
+                {
+                  label: 'Av. Final',
+                  data: f_data.map{|x| x[5]},
+                  borderWidth: 2,
+                  backgroundColor: "rgba(119,220,119,0)",
+                  borderColor: "rgba(119,220,119,1)",
+                  fill: true,
+                  pointBorderWidth: 0.05,
+                  pointBackgroundColor: "rgba(119,220,119,0.3)",
+                  pointBorderColor: "rgba(119,220,119,1)"
+                }
+              ]
+            }
+            options = {
+              id: 'function_skill_radar',
+              title: {display: true, position: 'left'},
+              scale: {
+                ticks: {
+                  begin_at_zero: true,
+                  min: 0,
+                  max: 5,
+                  step_size: 1
+                }
+              }
+            }
+            radar_chart data, options
+          %>
+          <%# radar_chart(skills_radar_data(employee.employee_goals.select_where_assessment_id(assessment&.id).select(&:skill?).sort_by{|e| e.goal.name}), height: '200px', legend: false, scale: {ticks: {display: false, begin_at_zero: true, min: 0, max: 5, step_size: 1}}) %>
+        </div>
+        <br>
+
+        <!-- <div class='my-legend'>
+          <div class='legend-scale'>
+            <ul class='legend-labels'>
+              <li><span style='background: #f39c12;'></span> <%= 'self_assessment'.ts %> </li>
+              <li><span style='background: #3498db;'></span> <%= 'supervisor_assessment'.ts %> </li>
+              <li><span style='background: #2ecc71;'></span> <%= 'final_assessment'.ts %> </li>
+            </ul>
+          </div>
+        </div> -->
+      </div>
+
+      <div class="col s7 no-padding skills_objectives" style="margin-top: -15px;">
+        <% if employee.can_be_assessed %>
+          <table class="bordered" style="width: 100%;">
+            <tbody>
+              <tr style="background-color: #fbb035; color: #fff;">
+                <td class="mdl-data-table__cell--non-numeric"><%= view_t('.skills') %></td>
+                <td style="width: 40px;" class=""><%= ""  %></th>
+                <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= 'short.self_assessment'.ts %></td>
+                <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= 'short.supervisor_assessment'.ts %></td>
+                <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= 'short.final_assessment'.ts %></td>
+              </tr>
+              <tr><td colspan="5" style="text-align: center;"><%= show_item("Escala de Avaliação:", "1 - Mau | 2 - Insuficiente | 3 - Suficiente | 4 - Bom | 5 - Excelente") %></td></tr>
+
+              <% employee_skills.each do |e| %>
+                <% e.redirect_url = current_url %>
+                <%= render 'employee_skills/form', employee_skill: e %>
+                <tr>
+                  <td class="mdl-data-table__cell--non-numeric no-padding-left">
+                    <% if (current&.employee&.id == e.employee_id || current&.team_members.ids.includes?(e.employee_id))%>
+                      <%= link_to e.skill.name, "#employee_skill_#{e.id}-modal-form", class: 'modal-trigger' %>
+                    <% else %>
+                      <%= e.skill.name %>
+                    <% end %>
+                    <div class="progress-in-table">
+                      <div class="progress-bar-in-table" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= calculate_progress_bar(e.value.to_i) %>%; background-color: #4caf50;"></div>
+                    </div>
+                  </td>
+
+                  <td  style="width: 40px;" class="">
+
+                  </td>
+
+                  <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= e.self_assessment.round(1) %></td>
+                  <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= e.supervisor_assessment.round(1) %></td>
+                  <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= e.value.round(1) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+
+          <table class="bordered" style="width: 100%;">
+            <tbody>
+            <tr style="background-color: #fbb035; color: #fff;">
+              <td class="mdl-data-table__cell--non-numeric"><%= "objectives".ts %></td>
+                <td style="width: 40px;" class=""><%= ''  %></th>
+              <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= 'short.self_assessment'.ts %></td>
+              <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= 'short.supervisor_assessment'.ts %></td>
+              <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= 'short.final_assessment'.ts %></td>
+            </tr>
+
+            <% employee.employee_goals.select_where_assessment_id(assessment&.id).select(&:objective?).sort_by{|e| e.goal.name}.each do |f| %>
+                <% if can?(:update, f) %>
+                    <%#= render "modal_assessment", employee_goal: f %>
+                    <tr data-modal-title="<%= f.goal.name %>" data-fill-modal-with="<%= employee_goal_partial_view_show_url(f) %>">
+                <% else %>
+                    <tr>
+                <% end %>
+                <td class="mdl-data-table__cell--non-numeric no-padding-left">
+                  <%= f.name %>
+                  <div class="progress-in-table">
+                    <div class="progress-bar-in-table" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= calculate_progress_bar(f.final_assessment.to_i) %>%; background-color: #4caf50;"></div>
+                  </div>
+                </td>
+                <td  style="width: 40px;" class="">
+                    <% if f.employee_note.present? %>
+                      <span class="#{f.report ? 'close-report' : 'open-report'}" style="position: absolute;">
+                        <span class="fa-stack has-badge" style="font-size: 18px; top: -13px;"><i class="fa fa-comment fa-stack-1x"></i></span>
+                        <% if f.report %>
+                          <span class="fa-stack has-badge" style="font-size: 18px; top: -13px;"><i class="fa fa-flag fa-stack-1x icon-red"></i></span>
+                        <% end %>
+                      </span>
+                    <% end %>
+                  </td>
+                <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= f.self_assessment.round(1) %></td>
+                <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= f.supervisor_assessment.round(1) %></td>
+                <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= f.final_assessment.round(1) %></td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+
+          <table class="bordered" style="width: 100%;">
+            <tbody>
+            <tr style="background-color: #fbb035; color: #fff;">
+              <td class="mdl-data-table__cell--non-numeric"><%= "attendance.description".ts %></td>
+              <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= 'absence'.ts %></td>
+              <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= 'justified_absence'.ts %></td>
+              <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= 'short.final_assessment'.ts %></td>
+            </tr>
+
+            <% assessment.attendance_assessment_by_month(employee).each do |month, value| %>
+              <tr class="modal-trigger" href="#">
+                <td class="mdl-data-table__cell--non-numeric no-padding-left"><%= month.ts %></td>
+                <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= value[0] %></td>
+                <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= value[1] %></td>
+                <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= value[2] %></td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+
+        <% end %>
+
+      </div>
+
+      <div class="col s12">
+        <br>
+        <div class="" style="">
+          <%=
+            employees_assessments = employee.employees_assessments.map{|e| [e.assessment.year, e.result]}.select{|year, result| [assessment.year - 1, assessment.year, assessment.year + 1, assessment.year + 2, assessment.year + 3, assessment.year + 4, assessment.year - 1, ].include?(year.to_i)}.sort_by{|year, result| year}.to_h
+            employees_assessments = [[assessment.year - 1, 0], [assessment.year, 0], [assessment.year + 1, 0], [assessment.year + 2, 0], [assessment.year + 3, 0], [assessment.year + 4, 0]].to_h.merge(employees_assessments)
+            data = {
+                labels: employees_assessments.keys,
+                datasets: [
+                    {
+                        label: 'Histórico de Avaliações',
+                        backgroundColor: "rgba(120,220,120,0)",
+                        borderColor: "rgba(120,220,120,1)",
+                        data: employees_assessments.values
+                    }
+                ]
+            }
+            options = {
+              height: '90',
+              elements: {line: {tension: 0}},
+              scales: {
+                yAxes: [
+                  {
+                    ticks: {
+                      beginAtZero: true,
+                      fontSize: 8,
+                      max: 5,
+                      min: 0,
+                      stepSize: 1
+                    }
+                  }
+                ]
+              }
+            }
+            line_chart(data, options)
+          %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

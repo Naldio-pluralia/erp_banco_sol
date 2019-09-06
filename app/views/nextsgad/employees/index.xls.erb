@@ -1,0 +1,12 @@
+<% book = Spreadsheet::Workbook.new %>
+<% sheet = book.create_worksheet name: t(:employees)%>
+<% sheet.row(0).concat [t('employees')]%>
+<% sheet.row(1).concat [t('employee_name'), t('employee_number'), t('status'), t('employee_paygrade'), t('employee_paygrade_level')]%>
+<% @employees.each_with_index do |f, index| %>
+    <% sheet.row(2 + index).concat [f.first_and_last_name, f.number, f.enum_t(:status).upcase, f.paygrade, f.level]%>
+<% end %>
+
+<%buffer = StringIO.new%>
+<%book.write(buffer)%>
+<%buffer.rewind%>
+<%buffer.read%>

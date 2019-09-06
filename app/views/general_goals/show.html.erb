@@ -1,0 +1,35 @@
+<%= index_bar(itens: {view_t(".general_goals") => general_goals_url, view_t('.general_goal') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_general_goal_path(@general_goal) ) if can?(:edit, @general_goal) %>
+  <%= action_btn(content: view_t('update'), href: "#general_goal-modal-form", modal_trigger: true) if can?(:edit, @general_goal) %>
+<% end %>
+
+<div class="flex-row">
+  <div class="flex-col-xs-12 flex-col-sm-3 no-padding-left">
+    <%= show_item(".assessment", @general_goal.assessment.year) %>
+    <%= show_item(".period", @general_goal.enum_t(:period)) %>
+    <%= show_item(".target", @general_goal.target) %>
+    <%= show_item(".mode", @general_goal.enum_t(:mode)) %>
+  </div>
+  <div class="flex-col-xs-12 flex-col-sm-3">
+    <h6><strong><%= view_t(".employees")%></strong></h6>
+    <% @general_goal.employees.each do |e|%>
+      <%= show_item(view_t(".name"), e.first_and_last_name || 'N/D') %>
+    <% end %>
+  </div>
+  <div class="flex-col-xs-12 flex-col-sm-3">
+    <h6><strong><%= view_t(".functions")%></strong></h6>
+    <% @general_goal.functions.each do |e|%>
+      <%= show_item(view_t(".name"), "#{e.name_and_number}") %>
+    <% end %>
+  </div>
+  <div class="flex-col-xs-12 flex-col-sm-3">
+    <h6><strong><%= view_t(".positions")%></strong></h6>
+    <% @general_goal.positions.each do |e|%>
+      <%= show_item(view_t(".name"), "#{e.name_and_number}") %>
+    <% end %>
+  </div>
+</div>
+<br>
+<%= show_item(".objectives", @general_goal&.objectives) %>
+
+<%= render 'form', general_goal: @general_goal %>

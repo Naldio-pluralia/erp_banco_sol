@@ -1,0 +1,38 @@
+<%= index_bar(itens: {view_t(".object_activities") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_object_activity_path) %>
+  <%= action_btn(content: view_t('add'), href: "#object_activity-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-object_activities-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".description") )%>
+    <%= h_cell(text: view_t(".object") )%>
+    <%= h_cell(text: view_t(".creator") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @object_activities) do |e| %>
+    <%= b_row(link_to: object_activity_path(e)) do %>
+      <%= b_cell(element: e.description)%>
+      <%= b_cell(element: e.object)%>
+      <%= b_cell(element: e.creator)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e if can?(:show, e) %> | 
+        <%= link_to t('edit'), edit_object_activity_path(e) if can?(:edit, e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(object_activities_url, "object_activities") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', object_activity: @object_activity %>

@@ -1,0 +1,59 @@
+<%if employee_goal.numeric?%>
+  <span class="text-soft-gray"><%= 'goal.nature'.ts %></span>: <%= employee_goal.goal.nature.ts %>
+  <br>
+  <span class="text-soft-gray"><%= 'employee_goal.amount'.ts %></span>: <%= employee_goal.results.result_valid.sum(&:result_value).trim_decimal%>
+  <br>
+  <span class="text-soft-gray"><%= 'goal.target'.ts %></span>: <%= employee_goal.goal.target.trim_decimal%>
+  <br>
+  <span class="text-soft-gray"><%= 'employee_goal.assessment'.ts %></span>: <span class="amount_<%= employee_goal.id %>"><%= employee_goal.final_assessment.trim_decimal %></span>
+<%end%>
+
+<%if employee_goal.objective?%>
+  <br>
+  <span class="text-soft-gray"><%= 'goal.period'.ts %></span>: <%= employee_goal.goal.enum_t(:period)%>
+<%end%>
+
+<p style="font-size: 12px;">
+  1 - <%= t :bad %> |
+  2 - <%= t :insuficient %> |
+  3 - <%= t :suficient %> |
+  4 - <%= t :good %> |
+  5 - <%= t :excelent %> 
+</p>
+<hr>
+
+<div class="flex-row flex-top no-margin">
+  <% if employee_goal.objective_base? %>
+
+    <div class="flex-col-xs-4">
+      <%= next_editable(employee_goal, :self_assessment, dont_edit_if: !current.employee.eql?(employee_goal.employee)) %>    
+    </div>
+    
+    <div class="flex-col-xs-4">
+      <%= next_editable(employee_goal, :supervisor_assessment, dont_edit_if: !current.team_members.include?(employee_goal.employee)) %>    
+    </div>
+    
+    <div class="flex-col-xs-4">
+      <%= next_editable(employee_goal, :final_assessment, dont_edit_if: !current.team_members.include?(employee_goal.employee)) %>    
+    </div>
+  <% end %>
+
+  <div class="hide col m2 s12">
+    <%= link_to change_status_employee_goal_url(employee_goal.id), method: :patch, remote: true do %>
+      <span class="fa fa-flag <%= employee_goal.report ? 'icon-red' : 'icon-gray' %>" style="font-size: 55px; padding: 13px;" onclick="change_report(this)" id="<%= employee_goal.id %>" data-report="<%= employee_goal.report %>"></span>
+    <% end %>
+  </div>
+
+  <div class="flex-col-xs-12">
+    <%= next_editable(employee_goal, :employee_note, dont_edit_if: !current.employee.eql?(employee_goal.employee)) %>
+  </div>
+  
+  <div class="flex-col-xs-12">
+    <%= next_editable(employee_goal, :supervisor_note, dont_edit_if: !current.team_members.include?(employee_goal.employee)) %>
+  </div>
+  
+  <div class="flex-col-xs-12">
+    <%= next_editable(employee_goal, :supervisor_supervisor_note, dont_edit_if: !current.team_team_members.include?(employee_goal.employee)) %>
+  </div>
+</div>
+

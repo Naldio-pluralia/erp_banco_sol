@@ -1,0 +1,42 @@
+<%= index_bar(itens: {t(".wage_income_tax_items") => wage_income_tax_items_url, t('.wage_income_tax_item') => nil}) do %>
+  <%= action_btn(content: t('update'), href: edit_wage_income_tax_item_path(@wage_income_tax_item) )%>
+  <% action_btn(content: t('update'), href: "wage_income_tax_item-modal-form", modal_trigger: true) %>
+<% end %>
+
+<p>
+  <strong><%= t(".wage_income_tax") %>:</strong>
+  <%= @wage_income_tax_item.wage_income_tax %>
+</p>
+
+<p>
+  <strong><%= t(".from") %>:</strong>
+  <%= @wage_income_tax_item.from %>
+</p>
+
+<p>
+  <strong><%= t(".to") %>:</strong>
+  <%= @wage_income_tax_item.to %>
+</p>
+
+<p>
+  <strong><%= t(".fixed_portion") %>:</strong>
+  <%= @wage_income_tax_item.fixed_portion %>
+</p>
+
+<p>
+  <strong><%= t(".percentage_over_the_excess") %>:</strong>
+  <%= @wage_income_tax_item.percentage_over_the_excess %>
+</p>
+
+<p>
+  <strong><%= t(".excess_of") %>:</strong>
+  <%= @wage_income_tax_item.excess_of %>
+</p>
+
+<p>
+  <strong><%= t(".status") %>:</strong>
+  <%= @wage_income_tax_item.status %>
+</p>
+
+
+<%# render 'form', wage_income_tax_item: @wage_income_tax_item %>

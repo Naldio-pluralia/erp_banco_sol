@@ -1,0 +1,10 @@
+<%= index_bar(itens: {view_t(".vacation_approvers") => latest_time_setting_url(active_tab: :tab_approver_settings), view_t('.vacation_approver') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_vacation_approver_path(@vacation_approver) ) if can?(:edit, @vacation_approver) %>
+  <%= action_btn(content: view_t('update'), href: "#vacation_approver-modal-form", modal_trigger: true) if can?(:edit, @vacation_approver) %>
+<% end %>
+
+
+<%= show_item(".employee", @vacation_approver.employee) %>
+
+
+<%= render 'form', vacation_approver: @vacation_approver %>

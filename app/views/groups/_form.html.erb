@@ -1,0 +1,23 @@
+<%= simple_form_for(group) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="group-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= group.new_record? ? view_t('.new_x', x: view_t('.group')) : view_t('.edit_x', x: view_t('.group')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.input :status, collection: Group.enums_map_t(:status), wrapper_html: {class: 'flex-col-xs-6'}, input_html: {class: ''} %>
+        <%= f.input :group_type, collection: Group.enums_map_t(:group_type), wrapper_html: {class: 'flex-col-xs-6'}, input_html: {class: ''} %>
+        <%= f.association :employees, label: t('employees'), collection: Employee.map_for_select, input_html: {class: 'selectize'}, wrapper_html: {class: 'flex-col-xs-4'} %>
+        <%= f.association :functions, label: t('functions'), collection: Function.map_for_select, input_html: {class: 'selectize'}, wrapper_html: {class: 'flex-col-xs-4'} %>
+        <%= f.association :positions, label: t('positions'), collection: Position.map_for_select, input_html: {class: 'selectize'}, wrapper_html: {class: 'flex-col-xs-4'} %>
+
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), group.cancel_url || groups_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

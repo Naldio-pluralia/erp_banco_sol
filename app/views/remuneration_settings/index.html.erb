@@ -1,0 +1,34 @@
+<%= index_bar(itens: {t(".remuneration_settings") => nil }) do %>
+  <%= action_btn(content: t('add'), href: new_remuneration_setting_path) %>
+  <% action_btn(content: t('add'), href: "#remuneration_setting-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: t('filter'), href: "#filter-remuneration_settings-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: t(".base_salary") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @remuneration_settings) do |e| %>
+    <%= b_row(link_to: remuneration_setting_path(e)) do %>
+      <%= b_cell(element: e.base_salary)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e %> | 
+        <%= link_to t('edit'), edit_remuneration_setting_path(e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(remuneration_settings_url, "remuneration_settings") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%# render 'form', remuneration_setting: @remuneration_setting %>

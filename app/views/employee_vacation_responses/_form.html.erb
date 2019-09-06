@@ -1,0 +1,21 @@
+<%= simple_form_for(employee_vacation_response) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="employee_vacation_response-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= employee_vacation_response.new_record? ? view_t('.new_x', x: view_t('.employee_vacation_response')) : view_t('.edit_x', x: view_t('.employee_vacation_response')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.association :employee_vacation, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.association :employee, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :status, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :kind, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), employee_vacation_response.cancel_url || employee_vacation_responses_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

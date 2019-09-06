@@ -1,0 +1,37 @@
+<%= index_bar(itens: {t(".christmas_subsidy_salaries") => christmas_subsidy_salaries_url, t('.christmas_subsidy_salary') => nil}) do %>
+  <%= action_btn(content: t('update'), href: edit_christmas_subsidy_salary_path(@christmas_subsidy_salary) )%>
+  <% action_btn(content: t('update'), href: "christmas_subsidy_salary-modal-form", modal_trigger: true) %>
+<% end %>
+
+<p>
+  <strong><%= t(".name") %>:</strong>
+  <%= @christmas_subsidy_salary.name %>
+</p>
+
+<p>
+  <strong><%= t(".abbr_name") %>:</strong>
+  <%= @christmas_subsidy_salary.abbr_name %>
+</p>
+
+<p>
+  <strong><%= t(".value") %>:</strong>
+  <%= @christmas_subsidy_salary.value %>
+</p>
+
+<p>
+  <strong><%= t(".year") %>:</strong>
+  <%= @christmas_subsidy_salary.year %>
+</p>
+
+<p>
+  <strong><%= t(".salary") %>:</strong>
+  <%= @christmas_subsidy_salary.salary %>
+</p>
+
+<p>
+  <strong><%= t(".christmas_subsidy") %>:</strong>
+  <%= @christmas_subsidy_salary.christmas_subsidy %>
+</p>
+
+
+<%# render 'form', christmas_subsidy_salary: @christmas_subsidy_salary %>

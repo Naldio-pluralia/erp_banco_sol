@@ -1,0 +1,20 @@
+<%= index_bar(itens: {t(".subsidy_salaries") => subsidy_salaries_url, t('.subsidy_salary') => nil}) do %>
+  <%= action_btn(content: t('update'), href: '#subsidy_salary-modal-form', modal_trigger: true) %>
+<% end %>
+
+<p>
+  <strong><%= t(".value") %>:</strong>
+  <%= @subsidy_salary.value %>
+</p>
+
+<p>
+  <strong><%= t(".salary") %>:</strong>
+  <%= @subsidy_salary.salary %>
+</p>
+
+<p>
+  <strong><%= t(".subsidy_type") %>:</strong>
+  <%= @subsidy_salary.subsidy_type.name %>
+</p>
+
+<%= render 'form', subsidy_salary: @subsidy_salary %>

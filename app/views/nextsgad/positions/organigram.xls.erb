@@ -1,0 +1,56 @@
+<%#= render 'form' %>
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Styles>
+    <Style ss:ID="Default" ss:Name="Normal">
+      <Alignment ss:Vertical="Bottom"/>
+      <Borders/>
+      <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="12" ss:Color="#000000"/>
+      <Interior/>
+      <NumberFormat/>
+      <Protection/>
+    </Style>
+
+    <Style ss:ID="cor1">
+      <Alignment ss:Vertical="Bottom"/>
+      <Borders/>
+      <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="14" ss:Color="#ffffff"/>
+      <Interior ss:Color="#fab033" ss:Pattern="Solid"/>
+      <NumberFormat/>
+      <Protection/>
+    </Style>
+
+    <Style ss:ID="negrito">
+      <Font ss:Bold="1"/>
+    </Style>
+  </Styles>
+  <Worksheet ss:Name="Organigrama Geral">
+    <Table>
+      <Row ss:StyleID="negrito">
+        <Cell ss:StyleID="cor1" ss:MergeAcross="1"><Data ss:Type="String"><%= "position_name".ts %></Data></Cell>
+        <Cell ss:StyleID="cor1" ss:MergeAcross="1"><Data ss:Type="String"><%= "position_holder".ts %></Data></Cell>
+        <Cell ss:StyleID="cor1" ss:MergeAcross="1"><Data ss:Type="String"><%= "employee_number".ts %></Data></Cell>
+        <Cell ss:StyleID="cor1" ss:MergeAcross="1"><Data ss:Type="String"><%= "Unidade Orgânica" %></Data></Cell>
+        <Cell ss:StyleID="cor1" ss:MergeAcross="1"><Data ss:Type="String"><%= "supervisor".ts %></Data></Cell>
+        <Cell ss:StyleID="cor1" ss:MergeAcross="1"><Data ss:Type="String"><%= "employee_paygrade".ts %></Data></Cell>
+        <Cell ss:StyleID="cor1" ss:MergeAcross="1"><Data ss:Type="String"><%= "employee_paygrade_level".ts %></Data></Cell>
+      </Row>
+    <% @positions.each do |p| %>
+      <Row>
+        <Cell ss:StyleID="Default" ss:MergeAcross="1"><Data ss:Type="String"><%= p.name %></Data></Cell>
+        <Cell ss:StyleID="Default" ss:MergeAcross="1"><Data ss:Type="String"><%= p&.efective&.first_and_last_name || 'N/D' %></Data></Cell>
+        <Cell ss:StyleID="Default" ss:MergeAcross="1"><Data ss:Type="String"><%= p&.efective&.number || 'N/D' %></Data></Cell>
+        <Cell ss:StyleID="Default" ss:MergeAcross="1"><Data ss:Type="String"><%= p&.organic_unit&.name || 'N/D' %></Data></Cell>
+
+        <Cell ss:StyleID="Default" ss:MergeAcross="1"><Data ss:Type="String"><%= p&.position&.name || 'N/D' %></Data></Cell>
+        <Cell ss:StyleID="Default" ss:MergeAcross="1"><Data ss:Type="String"><%= p&.efective&.paygrade || 'N/D' %></Data></Cell>
+        <Cell ss:StyleID="Default" ss:MergeAcross="1"><Data ss:Type="String"><%= p&.efective&.level || 'N/D' %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

@@ -1,0 +1,21 @@
+<%= simple_form_for(employee_answer) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="employee_answer-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= employee_answer.new_record? ? view_t('.new_x', x: view_t('.employee_answer')) : view_t('.edit_x', x: view_t('.employee_answer')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.association :question, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :answer, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :option, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.association :employee_course, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), employee_answer.cancel_url || employee_answers_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

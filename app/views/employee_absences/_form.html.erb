@@ -1,0 +1,25 @@
+<%= simple_form_for([employee, employee_absence]) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="employee_absence-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= employee_absence.new_record? ? view_t('.new_x', x: view_t('.employee_absence')) : view_t('.edit_x', x: view_t('.employee_absence')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%#= f.association :employee, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.association :absence_type, label: 'Tipo de Ausência', collection: AbsenceType.latests.absence.map_for_select(:name), include_blank: false, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :left_at, as: :air_datepicker, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {'data-language' => 'pt'} %>
+        <%= f.input :returned_at, as: :air_datepicker, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {'data-language' => 'pt'} %>
+        <%last_regime = employee.employee_regimes.order(created_at: :asc).last%>
+        <%if last_regime.present? && !last_regime.five_two? && !last_regime.six_one?%>
+          <%= f.input :absent_days_number, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%end%>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), employee_absence.cancel_url || employee_employee_absences_url(employee), class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

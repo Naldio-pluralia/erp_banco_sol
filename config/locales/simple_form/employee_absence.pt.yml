@@ -1,0 +1,18 @@
+#Simple form
+pt:
+  simple_form:
+      labels:
+        employee_absence:
+          employee: 'Colaborador'
+          absence_type: 'Tipo de Ausência'
+          left_at: '1º dia de Ausência (Saída)'
+          returned_at: '1º dia de Presença (Regresso)'
+          absent_days_number: 'Nº de dias Úteis de Ausência'
+      hints:
+        defaults:
+          # data_de_emissao: "Data da emissão da factura"
+      placeholders:
+        defaults:
+          # column: 'translation'
+      prompts:
+        defaults:

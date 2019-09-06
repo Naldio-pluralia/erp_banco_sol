@@ -1,0 +1,53 @@
+<%= index_bar(itens: {view_t(".applications") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_application_path) %>
+  <%# action_btn(content: view_t('add'), href: "#application-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-applications-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".name") )%>
+    <%= h_cell(text: view_t(".email") )%>
+    <%= h_cell(text: view_t(".cellphone") )%>
+    <%#= h_cell(text: view_t(".birthdate") )%>
+    <%#= h_cell(text: view_t(".civil_status") )%>
+    <%#= h_cell(text: view_t(".dependents_number") )%>
+    <%#= h_cell(text: view_t(".note") )%>
+    <%#= h_cell(text: view_t(".status") )%>
+    <%= h_cell(text: view_t(".relevance") )%>
+    <%= h_cell(text: view_t(".application") )%>
+    <%= h_cell(text: view_t(".employee") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @applications) do |e| %>
+    <%= b_row(link_to: application_path(e)) do %>
+      <%= b_cell(element: e.name)%>
+      <%= b_cell(element: e.email)%>
+      <%= b_cell(element: e.cellphone)%>
+      <%#= b_cell(element: e.birthdate)%>
+      <%#= b_cell(element: e.enum_t(:civil_status))%>
+      <%#= b_cell(element: e.dependents_number)%>
+      <%#= b_cell(element: e.note)%>
+      <%#= b_cell(element: e.enum_t(:status))%>
+      <%= b_cell(element: e.enum_t(:relevance))%>
+      <%= b_cell(element: e.vacancy&.position || 'Espontânea')%>
+      <%= b_cell(element: e.employee&.number || 'N/D')%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e if can?(:show, e) %> |
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(applications_url, "applications") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', application: @application %>

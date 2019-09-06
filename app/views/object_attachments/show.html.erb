@@ -1,0 +1,19 @@
+<%= index_bar(itens: {view_t(".object_attachments") => object_attachments_url, view_t('.object_attachment') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_object_attachment_path(@object_attachment) ) if can?(:edit, @object_attachment) %>
+  <%= action_btn(content: view_t('update'), href: "#object_attachment-modal-form", modal_trigger: true) if can?(:edit, @object_attachment) %>
+<% end %>
+
+
+<%= show_item(".file", @object_attachment.file) %>
+
+
+<%= show_item(".description", @object_attachment.description) %>
+
+
+<%= show_item(".extension_whitelist", @object_attachment.extension_whitelist) %>
+
+
+<%= show_item(".object", @object_attachment.object) %>
+
+
+<%= render 'form', object_attachment: @object_attachment %>

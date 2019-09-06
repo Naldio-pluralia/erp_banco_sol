@@ -1,0 +1,26 @@
+<% @page_name = "my_attendances".ts %>
+
+<%= index_bar(itens: {t('attendances') => my_attendances_url}) do %>
+    <%= action_btn(content: t('justification.new'), href: '#add-justification', modal_trigger: true) %>
+<% end %>
+
+<%= l_table do %>
+    <%= t_header do %>
+        <%= h_cell(text: 'attendance.date'.ts ) %>
+        <%= h_cell(text: 'attendance.status'.ts ) %>
+        <%= h_cell(text: 'attendance.justification'.ts ) %>
+    <% end %>
+
+    <%= t_body(elements: @attendances) do |e| %>
+        <%= b_row(link_to: attendance_url(e)) do %>
+            <%= b_cell(element: t(e.date.strftime('%Y %m %d'))) %>
+            <%= b_cell(element: t(e.status)) %>
+            <%= b_cell(element: e.unjustified? ? t('n/a') : e.justification_status) %>
+        <% end %>
+    <% end %>
+<% end %>
+
+<br>
+
+<%= render 'form', attendance: @attendance, redirect_url: my_attendances_url %>
+<%= render "nextsgad/justifications/form", justification: @justification %>

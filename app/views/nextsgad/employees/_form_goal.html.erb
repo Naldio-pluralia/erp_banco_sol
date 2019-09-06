@@ -1,0 +1,28 @@
+<%= simple_form_for(@goal, url: employee_create_objective_url) do |f| %>
+
+    <%= hidden_field_tag :back_to, params[:back_to], :value => @employee.id %>
+    <%= hidden_field_tag :redirect_url, redirect_url ||= params[:redirect_url]%>
+
+  <div id="add-objective" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"><%= "goal.new_objective".ts %></span>
+      <hr>
+      <div class="row">
+        <%= hidden_field_tag :goal_assessment_id, @assessment.id%>
+        <%= f.input :name, label: "goal.objective".ts, wrapper_html: {class: 'col s12'} %>
+        <%# f.association :functions, label: "goal.function".ts, collection: Function.all.map {|a| [a.name, a.id]}, optional: false, wrapper_html: {class: 's6', "data-on-check": "#goal_for_everyone,hide"} %>
+        <%= f.association :positions, label: "goal.position".ts, collection: Position.get_by_role(current).map {|a| [a.name, a.id]}, optional: false, wrapper_html: {class: 'col m4'}, input_html: {class: 'default-selectize'} %>
+        <% f.input :status, label: "goal.status".ts, collection: Goal.statuses.for_select(:ts), wrapper_html: {class: 'col s6'}, input_html: {class: 'default-selectize'} %>
+        <%= f.input :nature, label: "goal.nature".ts, collection: Goal.natures.for_select(:ts), wrapper_html: {class: 'col s6'}, input_html: {class: 'default-selectize'} %>
+        <%= f.input :unit, label: "goal.unit".ts, collection: Goal.units.for_select(:ts), wrapper_html: {class: 'col s6', "data-show-on-select": "#goal_nature,numeric"}, input_html: {class: 'default-selectize'} %>
+        <%= f.input :target, label: "goal.target".ts, wrapper_html: {class: 'col m6 s2', "data-show-on-select": "#goal_nature,numeric"} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit, "add".ts, class:"waves-effect waves-light btn btn-default" %>
+      <%= close_modal_btn %>
+    </div>
+  </div>
+
+<% end %>

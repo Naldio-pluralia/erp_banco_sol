@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+  <%= favicon_link_tag 'favicon.ico' %>
+  <title><%= configuration.entity_name %> - <%= @page_name %></title>
+  <%= csrf_meta_tags %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+
+<body class="<%= 'minimized' if current&.user&.is_menu_minimized %>">
+  <% if is_internet_explorer? %>
+      <%= render "layouts/unsuported_browser_message" %>
+  <% else %>
+      <div class="">
+
+        <header>
+          <nav class="top-nav mtz-layout" style="background-color: black; padding-right: 15px;">
+            <div class="flex-container" style="margin-left: auto; margin-right: auto;">
+              <div class="nav-wrapper">
+                <!-- <a href="#!" class="brand-logo"><%= image_tag configuration.entity_logo_url, height: "65px" %></a> -->
+                <a href="<%= root_url %>" class="brand-logo"><%= image_tag configuration.entity_logo_url, height: "65px" %></a>
+                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down" style="line-height: inherit;">
+                  <li><%= "#{current_account.first_name} #{current_account.last_name} - #{my_employee_number}" %></li>
+                  <% notification_numbers = current.employee&.employee_messages&.unread&.size || 0%>
+                  <% notification_numbers = '99+' if notification_numbers > 99 %>
+                  <% if current.is?(:employee) && notification_numbers > 0 %>
+                    <li>
+                      <a href="#" data-activates="slide-out-activite" class="button-collapse-notification"%><div class="icon material-icons mdl-badge" data-badge="<%=notification_numbers%>" style="color: #fab033;">notifications_active</div></a>
+                    </li>
+                  <% else %>
+                    <li>
+                      <a href="#" data-activates="slide-out-activite" class="button-collapse-notification"><i class="material-icons">notifications_none</i></a>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </nav>
+        </header>
+        <main>
+          <div class="page-content">
+            <%= toasts %>
+            <div style="padding: 0 0 0 0"><%= yield %></div>
+            <div id="application_modal" class="modal" style="min-height: 204px;">
+              <%= box_header(nil) do%>
+                <%= box_action(:close, class: 'modal-action modal-close')%>
+              <%end%>
+              <div class="modal-content">
+                
+              </div>
+            </div>
+            <div id="application_container">
+            
+            </div>
+            <div id="jspanel-container">
+            
+            </div>
+          </div>
+
+        </main>
+      </div>
+      <%= render "layouts/activities" %>
+      <div class="fullscreen" style="width: 100vw; height: 100vh; top: 0;left:0;position: absolute;z-index: 12000;">
+        <div class="preloader-wrapper big active" style="left: 50vw;top: 50vh" onload>
+          <div class="spinner-layer spinner-green-only">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+              <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+  <% end %>
+</body>
+
+</html>
+
+<style media="screen">
+  /*.mtz-layout .next-ml .next-ml-body>ul>li>div.collapsible-header .texto{
+    padding-top: 0;
+    padding-bottom: 0;
+  }*/
+  .page-content>div>hr{
+    margin: 9px 0;
+  }
+</style>
+
+<script type="text/javascript" charset="utf-8">
+    $('.fullscreen').remove();
+</script>

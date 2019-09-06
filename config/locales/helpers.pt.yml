@@ -1,0 +1,52 @@
+pt:
+  helpers:
+    submit:
+      create: "Registar"
+      update: "Actualizar"
+      # attendance:
+      #   create: "Registar"
+      #   update: "Actualizar"
+      # message:
+      #   create: "Enviar"
+      #   update: "Actualizar"
+      # employee_work_period:
+      #   create: "Registar"
+      #   update: "Actualizar"
+      # paygrade_board:
+      #   create: "Registar"
+      #   update: "Actualizar"
+      # employee_paygrade:
+      #   create: "Registar"
+      #   update: "Actualizar"
+      # tax_type:
+      #   create: "Registar"
+      #   update: "Actualizar"
+      # subsidy_type:
+      #   create: "Registar"
+      #   update: "Actualizar"
+      salary:
+        create: "Registar"
+        update: "Actualizar"
+      employee_goal_activity:
+        create: "Comentar"
+      # subsidy_salary:
+      #   create: "Registar"
+      #   update: "Actualizar"
+      # tax_salary:
+      #   create: "Registar"
+      #   update: "Actualizar"
+      # salary_board:
+      #   create: "Registar"
+      #   update: "Actualizar"
+      # tax_type:
+      #   create: "Registar"
+      #   update: "Actualizar"
+      # subsidy_type:
+      #   create: "Registar"
+      #   update: "Actualizar"
+      # remuneration_setting:
+      #   create: "Registar"
+      #   update: "Actualizar"
+      # paygrade_change_reason:
+      #   create: "Registar"
+      #   update: "Actualizar"

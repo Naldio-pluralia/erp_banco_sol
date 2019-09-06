@@ -1,0 +1,19 @@
+<%= index_bar(itens: {view_t(".justification_answers") => employee_employee_justification_justification_answers_url(@employee, @employee_justification), view_t('.justification_answer') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_justification_answer_path(@justification_answer) ) if can?(:edit, @justification_answer) %>
+  <%= action_btn(content: view_t('update'), href: "#justification_answer-modal-form", modal_trigger: true) if can?(:edit, @justification_answer) %>
+<% end %>
+
+
+<%= show_item(".employee_justification", @justification_answer.employee_justification) %>
+
+
+<%= show_item(".employee", @justification_answer.employee) %>
+
+
+<%= show_item(".status", @justification_answer.status) %>
+
+
+<%= show_item(".kind", @justification_answer.kind) %>
+
+
+<%= render 'form', employee: @employee, employee_justification: @employee_justification, justification_answer: @justification_answer %>

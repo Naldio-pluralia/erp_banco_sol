@@ -1,0 +1,47 @@
+
+<%= simple_form_for(@plugin, local: true) do |f| %>
+  <% if plugin.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(plugin.errors.count, "error") %> prohibited this plugin from being saved:</h2>
+
+      <ul>
+      <% plugin.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <div class="row">
+
+      <%= f.input :is_active, as: :bootstrap_switch, wrapper_html: {class: 'col s12'} %>
+
+      <%= f.input :name, id: :plugin_name, wrapper_html: {class: 'col s3'} %>
+
+      <%= f.input :description, id: :plugin_description, wrapper_html: {class: 'col s3'} %>
+
+      <%= f.input :url, as: :string, wrapper_html: {class: 'col s3'} %>
+
+      <%= f.input :icon, as: :string, wrapper_html: {class: 'col s3'} %>
+
+      <%= f.input :order, wrapper_html: {class: 'col s3'} %>
+
+      <%= f.input :version, id: :plugin_version, wrapper_html: {class: 'col s3'} %>
+
+      <!--todo improve-->
+      <%# f.input :if_can, collection: Account.all_routes.group_by{|r| t(r.defaults[:controller])}.map{|k, routes| [k, routes.map{|r| [r.defaults[:action], "#{r.defaults[:action]},#{r.defaults[:controller]}"]}]}, as: :grouped_select, group_method: :last, group_label_method: :first, wrapper_html: {class: 's3'} %>
+      <%= f.input :if_can, collection: Account.all_routes_grouped.map {|k, r| [t("route.controller_name.#{k}"), r.map{|b| [t("route.#{b.defaults[:controller]}.#{b.defaults[:action]}"), "#{b.defaults[:action]},#{b.defaults[:controller]}"]}.compact.uniq]}, 
+                  as: :grouped_select, 
+                  group_method: :last,
+                  label_method: :first,
+                  value_method: :last,
+                  wrapper_html: {class: 'col s3'}, 
+                  input_html: {class: 'default-selectize'} %>
+      <%= f.input :parent_id, collection: Plugin.where(url: [nil, '']).map{|p| [t(p.description), p.id]}, wrapper_html: {class: 'col s3'}, input_html: {class: 'default-selectize'} %>
+    </div>
+
+  <div class="actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
+<br>

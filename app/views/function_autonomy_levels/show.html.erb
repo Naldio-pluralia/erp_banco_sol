@@ -1,0 +1,10 @@
+<%= index_bar(itens: {view_t(".function_autonomy_levels") => function_autonomy_levels_url, view_t('.function_autonomy_level') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_function_autonomy_level_path(@function_autonomy_level) ) if can?(:edit, @function_autonomy_level) %>
+  <%= action_btn(content: view_t('update'), href: "#function_autonomy_level-modal-form", modal_trigger: true) if can?(:edit, @function_autonomy_level) %>
+<% end %>
+
+
+<%= show_item(".name", @function_autonomy_level.name) %>
+
+
+<%= render 'form', function_autonomy_level: @function_autonomy_level %>

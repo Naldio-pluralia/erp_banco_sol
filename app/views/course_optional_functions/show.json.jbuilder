@@ -1,0 +1,1 @@
+json.partial! "course_optional_functions/course_optional_function", course_optional_function: @course_optional_function

@@ -1,0 +1,16 @@
+<%= index_bar(itens: {view_t(".vacation_days") => vacation_days_url, view_t('.vacation_day') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_vacation_day_path(@vacation_day) ) if can?(:edit, @vacation_day) %>
+  <%= action_btn(content: view_t('update'), href: "#vacation_day-modal-form", modal_trigger: true) if can?(:edit, @vacation_day) %>
+<% end %>
+
+
+<%= show_item(".employee_vacation", @vacation_day.employee_vacation) %>
+
+
+<%= show_item(".employee_avaliable_vacation", @vacation_day.employee_avaliable_vacation) %>
+
+
+<%= show_item(".date", @vacation_day.date) %>
+
+
+<%= render 'form', vacation_day: @vacation_day %>

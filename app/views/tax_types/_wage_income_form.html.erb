@@ -1,0 +1,115 @@
+<%= simple_form_for(tax_type, url: tax_types_url, method: :post, html: {class: ''}) do |f| %>
+  <%= form_url_helpers(f)%>
+  <%= f.input :kind, as: :hidden, input_html: {value: tax_type.kind} %>
+  <%= f.input :code, as: :hidden %>
+  <div id="wage_income-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= tax_type.new_record? ? t('.new') : t('.edit') %> </span>
+      <hr>
+      <div class="hide row">
+        <%#= f.input :name, wrapper_html: {class: 'col s8'}, input_html: {class: ''} %>
+        <%#= f.input :abbr_name, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+        <%#= f.input :exempt_up_to, wrapper_html: {class: 'col s12'}, input_html: {class: ''} %>
+        <%#= f.simple_fields_for :wage_income_tex_items do |ff| %>
+          <div class="row relative">
+            <%#= ff.input :from, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+            <%#= ff.input :to, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+            <%#= ff.input :fixed_portion, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+            <%#= ff.input :percentage_over_the_excess, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+            <%#= ff.input :excess_of, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+          </div>
+        <%# end %>
+        <%#= f.input :max_wage, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+        <%#= f.input :max_wage_fixed_portion, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+        <%#= f.input :percentage_over_max_wage_excess, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+        <%#= f.input :max_wage_excess_of, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+      </div>
+      <div class="flex-row flex-top relative">
+        <%= f.input :name, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {class: ''} %>
+        <%= f.input :abbr_name, wrapper_html: {class: 'flex-col-xs-3'}, input_html: {class: ''} %>
+        <%= f.input :status, collection: SubsidyTaxModel.enums_map_t(:status), include_blank: false, input_html: {class: 'default-selectize'}, wrapper_html: {class: 'flex-col-xs-3'} %>
+        <%= f.input :for_all, as: :bootstrap_switch, wrapper_html: {class: 'flex-col-xs-2'} %>
+        <%= f.association :functions, collection: Function.map_for_select, input_html: {class: 'selectize'}, wrapper_html: {class: 'flex-col-xs-5', 'data-on-check' => '#tax_type_for_all,hide'} %>
+        <%= f.association :positions, collection: Position.where.not(efective_id: nil).map_for_select, input_html: {class: 'selectize'}, wrapper_html: {class: 'flex-col-xs-5', 'data-on-check' => '#tax_type_for_all,hide'} %>
+        <%= f.association :employees, collection: Employee.all.map { |e| [e.name_and_number, e.id] }, label: 'Colaboradores', input_html: {class: 'selectize'}, wrapper_html: {class: 'flex-col-xs-5', 'data-on-check' => '#tax_type_for_all,hide'} %>
+      </div>
+
+
+      <%= link_to t('add'), '#', id: :add %>
+      <%= link_to t('destroy'), '#', class: 'delete_row red-text' %>
+      <table id='wage_form_table'>
+        <thead>
+          <tr>
+            <th style='text-align: center; width: 43%;'><%= view_t '.wage'%></th>
+            <th style='text-align: left; width: 14%;'><%= view_t '.fixed_portion'%></th>
+            <th style='text-align: left; width: 43%;'><%= view_t '.rate'%></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr class='first_row'>
+            <td style='text-align: right; padding-right: 2%;'>
+              <span class=''>
+                <%= view_t '.from'%>
+              </span>
+              <span class=''><%= to_kwanza(0) %></span>
+              <span class=''><%= view_t '.up_to'%></span>
+              <%= f.input :exempt_up_to, label: false, wrapper_html: {class: '', style: 'max-width: 130px;display: inline-block;'}, input_html: {class: 'ms-input'} %>
+            </td>
+            <td colspan="2"><%= view_t('.exempt') %></td>
+          </tr>
+          <%= f.simple_fields_for :wage_income_tax_items do |ff| %>
+            <tr class='removable_row'>
+              <td style='text-align: right; padding-right: 2%;'>
+                <span style=''>
+                  <%= view_t '.from'%>
+                </span>
+                <span class='from_span'><%= ff.object.kwanza_t(:from)%></span>
+                <span style=''><%= view_t '.up_to'%></span>
+                <%= ff.input :to, label: false, wrapper_html: {class: '', style: 'max-width: 130px;display: inline-block;'}, input_html: {class: 'ms-input'} %>
+              </td>
+              <td><%= ff.input :fixed_portion, label: false, wrapper_html: {class: '', style: 'max-width: 130px;display: inline-block;'}, input_html: {class: 'ms-input'} %></td>
+              <td style='text-align: left;'>
+                <%= ff.input :percentage_over_the_excess, label: false, wrapper_html: {style: 'width: 80px;display: inline-block;'}, input_html: {class: 'ms-input'} %>
+                <span style=''><%= view_t '.over_the_excess_of'%></span> <span class='excess_of_span'><%= ff.object.kwanza_t(:excess_of)%></span>
+              </td>
+            </tr>
+          <% end %>
+          <tr class='last_row'>
+            <td style='text-align: right; padding-right: 2%;'>
+              <span style=''>
+                <%= view_t '.from'%>
+              </span>
+              <span class='from_span'>
+                <%= f.object.kwanza_t(:max_wage)%>
+                <%= f.error :max_wage%>
+              </span>
+
+              <span style=''><%= view_t '.up_to'%></span>
+              <%= view_t('.infiniti') %>
+            </td>
+            <td><%= f.input :max_wage_fixed_portion, label: false, wrapper_html: {class: '', style: 'max-width: 130px;display: inline-block;'}, input_html: {class: 'ms-input'} %></td>
+            <td style="text-align: left;">
+              <%= f.input :percentage_over_max_wage_excess, label: false, wrapper_html: {style: 'max-width: 80px;display: inline-block;'}, input_html: {class: 'ms-input'} %>
+              <span class=''><%= view_t '.over_the_excess_of'%></span> <span class='excess_of_span'> <%= f.object.kwanza_t(:max_wage_excess_of)%> </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), latest_remuneration_setting_url(active_tab: :tab_subsidy_and_tax_settings), class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>
+
+<style>
+  #wage_form_table td{
+    padding: 2px 2px;
+  }
+  tbody tr:nth-child(even){
+    background-color: #40404012;
+  }
+</style>

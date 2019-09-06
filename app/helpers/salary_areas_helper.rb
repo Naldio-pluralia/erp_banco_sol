@@ -1,0 +1,2 @@
+module SalaryAreasHelper
+end

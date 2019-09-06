@@ -1,0 +1,31 @@
+<%= index_bar(itens: {view_t(".salary_families") => salary_families_url, view_t('.salary_family') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_salary_family_path(@salary_family) ) if can?(:edit, @salary_family) %>
+  <%= action_btn(content: view_t('update'), href: "#salary_family-modal-form", modal_trigger: true) if can?(:edit, @salary_family) %>
+<% end %>
+
+
+<%= show_item(".code", @salary_family.code) %>
+
+
+<%= show_item(".salary_grid", @salary_family.salary_grid) %>
+
+
+<%= show_item(".salary_category", @salary_family.salary_category) %>
+
+
+<%= show_item(".salary_area", @salary_family.salary_area) %>
+
+
+<%= show_item(".family", @salary_family.family) %>
+
+
+<%= show_item(".salary_layer", @salary_family.salary_layer) %>
+
+
+<%= show_item(".salary_group", @salary_family.salary_group) %>
+
+
+<%= show_item(".core", @salary_family.core) %>
+
+
+<%= render 'form', salary_family: @salary_family %>

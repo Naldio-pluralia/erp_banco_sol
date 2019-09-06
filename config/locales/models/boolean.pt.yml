@@ -1,0 +1,25 @@
+pt:
+  booleans:
+    defaults:
+      true: 'Sim'
+      false: 'Não'
+    date_type:
+      recurrent:
+        true: 'Recorrente'
+        false: 'Não Recorrente'
+    absence_type:
+      requires_document: 
+        true: 'Requer Comprovativo'
+        false: 'Não Requer Comprovativo'
+      requires_justification:
+        true: 'Requer Justificação'
+        false: 'Não Requer Justificação'
+      requires_supervisor_justification:
+        true: 'Requer Aprovação do Supervisor'
+        false: 'Não Requer Aprovação do Supervisor'
+      requires_approver_justification:
+        true: 'Requer Aprovação do DPE'
+        false: 'Não Requer Aprovação do DPE'
+      requires_approver_supervisor_justification:
+        true: 'Requer Aprovação do Chefe do DPE'
+        false: 'Não Requer Aprovação do Chefe do DPE'

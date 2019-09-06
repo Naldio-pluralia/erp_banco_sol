@@ -1,0 +1,15 @@
+<%= index_bar(itens: {view_t(".employee_delays") => employee_employee_delays_url(@employee), view_t('.employee_delay') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_employee_delay_path(@employee_delay) ) if can?(:edit, @employee_delay) %>
+  <%= action_btn(content: view_t('update'), href: "#employee_delay-modal-form", modal_trigger: true) if can?(:edit, @employee_delay) %>
+<% end %>
+
+
+<%= show_item(".employee", @employee_delay.employee.name_and_number) %>
+
+<%= show_item(".absence_type", @employee_delay.absence_type.name) %>
+
+<%= show_item(".arrived_at", l(@employee_delay.arrived_at)) %>
+
+<%= show_item(".number_of_hours_late", @employee_delay.number_of_hours_late) %>
+
+<%= render 'form', employee_delay: @employee_delay, employee: @employee %>

@@ -1,0 +1,44 @@
+<% @page_name = t('goals') %>
+
+<%= index_bar(itens: {t('goals') => goals_url}) do %>
+    <%# action_btn(content: t('add'), href: '#add-goal', modal_trigger: true, if_can: {create: @goal}) %>
+    <%# action_btn(content: t('assessment.new_skill'),             href: '#add-assessment-skill', modal_trigger: true) %>
+    <%# action_btn(content: t('assessment.new_objective'),         href: '#add-assessment-objective', modal_trigger: true) %>
+    <%= action_btn(content: t('reload'), href: reload_goals_url, color: :blue) %>
+    <%= action_btn(filter: :goals) %>
+    <%= action_btn(export: :pdf) %>
+<% end %>
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: t("goal.name")) %>
+    <%= h_cell(text: t("goal.goal_type")) %>
+    <%= h_cell(text: t("goal.status")) %>
+    <%= h_cell(text: t("goal.nature")) %>
+    <%= h_cell(text: t("goal.target"), align: :right) %>
+  <% end %>
+
+  <%= t_body(elements: @goals) do |e| %>
+    <%= b_row(link_to: goal_url(e)) do %>
+      <%= b_cell(element: e.name) %>
+      <%= b_cell(element: t(e.goal_type)) %>
+      <%= b_cell(element: t(e.status)) %>
+      <%= b_cell(element: t(e.nature)) %>
+      <%= b_cell(element: e.numeric? ? e.target : '-') %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%#= render "form", goal: @goal %>
+<%# render "skill_form", goal: @skill %>
+<%# render "objective_form", goal: @objective %>
+<%= filter_modal(goals_url, 'goals') do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+        <%= select_tag 'assessment_id[]', options_for_select(Assessment.all.map{|p|[p.year, p.id]}, params[:assessment_id]), multiple: :multiple, class: "select optional form-control  default-selectize", prompt: "Ano da Avaliação" %>
+      </div>
+      <div class="flex-col-xs-12 flex-col-sm-3">
+        <%= select_tag 'goal_type[]', options_for_select(Goal.goal_types.for_select(:pt), params[:goal_type]), multiple: :multiple, class: "select optional form-control  default-selectize", prompt: "Tipo" %>
+      </div>
+    </div>
+<% end %>

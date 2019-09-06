@@ -1,0 +1,238 @@
+<div class="hr_presence_map">
+  <%
+    presence_colors = {"F" => 'ff0000', "A" => 'fab230', "S" => 'fab230', "V" => '0000ff', nil => '00b300', 'P' => '00b300', 'P-confirmed' => '00b300', 'P-unconfirmed'=> 'e65100', "e"=>'757575', "b"=>'69f0ae', "n"=>'ff6e40'}
+
+    employees_panel_links = ""
+    @employees_list.map do |e|
+      employees_panel_links += jmodal_to(employee_persona(e), employee_new_justification_url(e), class: 'ms-Link', title: "Registar Justificativo do(a) #{e.name}")
+    end
+  %>
+  <%=
+    # index_bar() do
+    #   action_btn(content: "view_t('update')", href: "#absence_type-modal-form", modal_trigger: true) +
+    #   action_btn(filter: 'presences') +
+    #   ms_ctx_container(style: 'display: inline-block;') do
+    #     ms_ctx_btn(:upload, 'Adicionar') +
+    #     ms_ctx_menu() do
+    #       ms_ctx_item(:upload, "Adicionar Justificativo", new_employee_employee_justification_url(6, format: :html, layout_type: :no_layout), remote: true, jmodal: 'Novo') +
+    #       ms_ctx_item(nil, "Registar Ausência", new_employee_employee_absence_url(6, format: :html, layout_type: :no_layout), remote: true, jmodal: 'Novo')
+    #     end
+    #   end
+    # end
+  %>
+  <br>
+  <div class="ms-CommandBar ms-CommandBar--navBar">
+    <div class="ms-CommandBar-mainArea">
+      <div class="ms-CommandButton ms-CommandButton--pivot">
+        <a class="ms-CommandButton-button modal-trigger" href="#filter-presences-modal"><span class="ms-CommandButton-label">Filtro</span></a>
+      </div>
+      <div class="ms-CommandButton ms-CommandButton--pivot">
+        <button class="ms-CommandButton-button">
+          <span class="ms-CommandButton-label">Exportar</span>
+          <span class="ms-CommandButton-dropdownIcon"><i class="ms-Icon ms-Icon--ChevronDown"></i></span>
+        </button>
+        <ul class="ms-ContextualMenu is-opened">
+          <li class="ms-ContextualMenu-item">
+            <a class="ms-ContextualMenu-link" href="<%= hr_presence_map_url(period: l(curr_date, format: '%m/%Y'), 'employee[]' => params[:employee], 'kind[]' => params[:kind], format: :pdf)%>" tabindex="1">PDF</a>
+          </li>
+          <li class="ms-ContextualMenu-item">
+            <a class="ms-ContextualMenu-link" href="<%= hr_presence_map_url(period: l(curr_date, format: '%m/%Y'), 'employee[]' => params[:employee], 'kind[]' => params[:kind], format: :xls)%>" tabindex="1">Excel</a>
+          </li>
+        </ul>
+      </div>
+      <div class="ms-CommandButton ms-CommandButton--pivot">
+        <button class="ms-CommandButton-button">
+          <span class="ms-CommandButton-label">Adicionar</span>
+          <span class="ms-CommandButton-dropdownIcon"><i class="ms-Icon ms-Icon--ChevronDown"></i></span>
+        </button>
+        <ul class="ms-ContextualMenu is-opened">
+          <li class="ms-ContextualMenu-item">
+            <%=
+              context_menu_panel('Justificativo', 'Registar Justificativo do(a):') do
+                # div('', id: 'justification-onelist', class: :tabulator_list_theme, tabulate: {
+                #   height: "500px",
+                #   layout: :fitColumns,
+                #   ajaxURL: employees_url(),
+                #   pagination: :remote,
+                #   paginationSize: 20,
+                #   placeholder:"Sem Dados",
+                #   columns: [
+                #     {title: 'Colaborador', field: 'first_name', visible: false, formatter: :personaCardFormatter, formatterParams: {dataRemote: true, href: employee_new_justification_url("<data>id</data>"), linkClass: :jmodal}}
+                #   ],
+                # }.to_json)
+                employees_panel_links
+              end
+            %>
+          </li>
+          <li class="ms-ContextualMenu-item ms-ContextualMenu-item--divider"></li>
+          <li class="ms-ContextualMenu-item">
+            <%=
+              context_menu_panel('Presença', 'Registar Presença do(a):') do
+                employees_panel_links.gsub('new_justification', 'new_presence').gsub('Registar Justificativo do(a) ', 'Registar Presença do(a) ')
+              end
+            %>
+          </li>
+          <li class="ms-ContextualMenu-item ms-ContextualMenu-item--divider"></li>
+          <li class="ms-ContextualMenu-item">
+            <%=
+              context_menu_panel('Falta', 'Registar Falta do(a):') do
+                employees_panel_links.gsub('new_justification', 'new_absence').gsub('Registar Justificativo do(a) ', 'Registar Falta do(a) ')
+              end
+            %>
+          </li>
+          <li class="ms-ContextualMenu-item">
+            <%=
+              context_menu_panel('Atraso', 'Registar Atraso do(a)') do
+                employees_panel_links.gsub('new_justification', 'new_delay').gsub('Registar Justificativo do(a) ', 'Registar Atraso do(a) ')
+              end
+            %>
+          </li>
+          <li class="ms-ContextualMenu-item">
+            <%=
+              context_menu_panel('Saída', 'Registar Saída do(a):') do
+                employees_panel_links.gsub('new_justification', 'new_exit').gsub('Registar Justificativo do(a) ', 'Registar Saída do(a) ')
+              end
+            %>
+          </li>
+          <li class="ms-ContextualMenu-item">
+            <%=
+              context_menu_panel('Férias', 'Solicitação de Ferias do(a):') do
+                employees_panel_links.gsub('new_justification', 'new_vacation').gsub('Registar Justificativo do(a) ', 'Solicitação de Ferias do(a) ')
+              end
+            %>
+          </li>
+        </ul>
+      </div>
+      <div class="ms-CommandButton ms-CommandBar-overflowButton ms-CommandButton--noLabel">
+        <button class="ms-CommandButton-button">
+          <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--More"></i></span>
+          <span class="ms-CommandButton-label"></span>
+        </button>
+        <ul class="ms-ContextualMenu is-opened">
+          <li class="ms-ContextualMenu-item">
+            <%=
+              context_menu_panel('Justificativo', 'Registar Justificativo do(a):') do
+                employees_panel_links
+              end
+            %>
+          </li>
+          <li class="ms-ContextualMenu-item ms-ContextualMenu-item--divider"></li>
+          <li class="ms-ContextualMenu-item">
+            <%=
+              context_menu_panel('Presença', 'Registar Presença do(a):') do
+                employees_panel_links.gsub('new_justification', 'new_presence').gsub('Registar Justificativo do(a) ', 'Registar Presença do(a) ')
+              end
+            %>
+          </li>
+          <li class="ms-ContextualMenu-item ms-ContextualMenu-item--divider"></li>
+          <li class="ms-ContextualMenu-item">
+            <%=
+              context_menu_panel('Falta', 'Registar Falta do(a):') do
+                employees_panel_links.gsub('new_justification', 'new_absence').gsub('Registar Justificativo do(a) ', 'Registar Falta do(a) ')
+              end
+            %>
+          </li>
+          <li class="ms-ContextualMenu-item">
+            <%=
+              context_menu_panel('Atraso', 'Registar Atraso do(a)') do
+                employees_panel_links.gsub('new_justification', 'new_delay').gsub('Registar Justificativo do(a) ', 'Registar Atraso do(a) ')
+              end
+            %>
+          </li>
+          <li class="ms-ContextualMenu-item">
+            <%=
+              context_menu_panel('Saída', 'Registar Saída do(a):') do
+                employees_panel_links.gsub('new_justification', 'new_exit').gsub('Registar Justificativo do(a) ', 'Registar Saída do(a) ')
+              end
+            %>
+          </li>
+          <li class="ms-ContextualMenu-item">
+            <%=
+              context_menu_panel('Férias', 'Solicitação de Ferias do(a):') do
+                employees_panel_links.gsub('new_justification', 'new_vacation').gsub('Registar Justificativo do(a) ', 'Solicitação de Ferias do(a) ')
+              end
+            %>
+          </li>
+        </ul>
+        <ul class="ms-ContextualMenu is-opened">
+          <li class="ms-ContextualMenu-item">
+            <a class="ms-ContextualMenu-link" href="<%= hr_presence_map_url(period: l(curr_date, format: '%m/%Y'), 'employee[]' => params[:employee], 'kind[]' => params[:kind], format: :pdf)%>" tabindex="1">PDF</a>
+          </li>
+          <li class="ms-ContextualMenu-item">
+            <a class="ms-ContextualMenu-link" href="<%= hr_presence_map_url(period: l(curr_date, format: '%m/%Y'), 'employee[]' => params[:employee], 'kind[]' => params[:kind], format: :xls)%>" tabindex="1">Excel</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <%=
+    div(class: 'flex-row flex-between-xs', style: 'padding: 10px 0;') do
+      divc(class: 'flex-col-xs', style: 'padding-left: 0; text-align: center;') do
+        link_to("#{l(curr_date.previous_month, format: '<i class="material-icons" style="vertical-align: middle;">arrow_backwards_ios</i> %B %Y')} ".html_safe, hr_presence_map_url(period: l(curr_date.previous_month, format: '%m/%Y'), 'employee[]' => params[:employee], 'kind[]' => params[:kind]), style: 'padding-right: 20px;') +
+        l(curr_date, format: 'Presenças de %B %Y') +
+        link_to(" #{l(curr_date.next_month, format: '%B %Y <i class="material-icons" style="vertical-align: middle;">arrow_forwards_ios</i>')}".html_safe, hr_presence_map_url(period: l(curr_date.next_month, format: '%m/%Y'), 'employee[]' => params[:employee], 'kind[]' => params[:kind]), style: 'padding-left: 20px;')
+      end
+    end +
+    content_tag(:p) do
+      content_tag(:span, "P - Presenças não Confirmadas", style: "color: #fff; background-color: ##{presence_colors['P-unconfirmed']}; padding: 2px 7px; border-radius: 12px;font-size: 11px;") +
+      " / " +
+      content_tag(:span, "P - Presenças", style: "color: #fff; background-color: ##{presence_colors[nil]}; padding: 2px 7px; border-radius: 12px;font-size: 11px;") +
+      " / " +
+      content_tag(:span, "F - Ausências", style: "color: #fff; background-color: ##{presence_colors["F"]}; padding: 2px 7px; border-radius: 12px;font-size: 11px;") +
+      " / " +
+      content_tag(:span, "A - Atrasos", style: "color: #fff; background-color: ##{presence_colors["A"]}; padding: 2px 7px; border-radius: 12px;font-size: 11px;") +
+      " / " +
+      content_tag(:span, "S - Saídas", style: "color: #fff; background-color: ##{presence_colors["S"]}; padding: 2px 7px; border-radius: 12px;font-size: 11px;") +
+      " / " +
+      content_tag(:span, "V - Férias", style: "color: #fff; background-color: ##{presence_colors["V"]}; padding: 2px 7px; border-radius: 12px;font-size: 11px;") +
+      " | " +
+      content_tag(:span, "e - Pendente", style: "color: #fff; background-color: ##{presence_colors["e"]}; padding: 2px 7px; border-radius: 12px;font-size: 11px;") +
+      " / " +
+      content_tag(:span, "b - Aprovado", style: "color: #fff; background-color: ##{presence_colors["b"]}; padding: 2px 7px; border-radius: 12px;font-size: 11px;") +
+      " / " +
+      content_tag(:span, "n - Não aprovado", style: "color: #fff; background-color: ##{presence_colors["n"]}; padding: 2px 7px; border-radius: 12px;font-size: 11px;")
+    end
+  %>
+
+  <%=
+    columns = [{title: 'Colaborador', field: 'employee_name', width: 250, frozen: true, formatter: :linkTypeFormatter}]
+    columns += curr_date.month_days.map{|date| {title: date.day, field: l(date, format: '%d/%m/%Y'), sortable: false, align: 'center', formatter: :absenceTypeFormatter, formatterParams: {data: l(date, format: '%d/%m/%Y')}} }
+    div('', id: 'presence-map', tabulate: {
+      height: "500px",
+      layout: :fitColumns,
+      ajaxURL: hr_presence_map_url(period: l(curr_date, format: '%m/%Y'), 'employee[]' => params[:employee], 'kind[]' => params[:kind], format: :json),
+      ajaxProgressiveLoad: :scroll,
+      pagination: :remote,
+      paginationSize: 14,
+      locale: true,
+      placeholder:"Sem Dados",
+      columns: columns,
+    }.to_json)
+  %>
+
+  <%= filter_modal(hr_presence_map_url, 'presences') do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+        <input type="text" class="air_datepicker form-control" placeholder="Período" value="<%= params[:period] %>" name="period" data-language='pt' data-min-view="months" data-view="months" data-date-format="mm/yyyy" />
+      </div>
+      <div class="flex-col-xs-12 flex-col-sm-3">
+        <%= select_tag 'employee[]', options_for_select(@employees_list.map { |e| ["#{e.number} - #{e.first_and_last_name}", e.id] }, params[:employee]), multiple: :multiple, class: "default-selectize", prompt: "Escolha o colaborador", label: 'Colaborador' %>
+      </div>
+      <div class="flex-col-xs-12 flex-col-sm-3">
+        <%= select_tag 'kind[]', options_for_select([['Tudo', 'all'], ['Ausências', 'absences'], ['Atrasos', 'delays'], ['Saídas', 'exits'], ['Férias', 'vacations'], ['Presenças', 'presences']], params[:kind]), multiple: :multiple, class: "default-selectize", prompt: "Escolha o Tipo", label: 'Tipo' %>
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+  <% end %>
+
+  <style media="screen">
+    .fl-container{
+      display: flex;
+      flex-flow: column nowrap;
+
+    }
+  </style>
+
+</div>

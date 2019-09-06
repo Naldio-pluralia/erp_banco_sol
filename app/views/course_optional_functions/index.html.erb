@@ -1,0 +1,36 @@
+<%= index_bar(itens: {view_t(".course_optional_functions") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_course_optional_function_path) %>
+  <%= action_btn(content: view_t('add'), href: "#course_optional_function-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-course_optional_functions-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".course") )%>
+    <%= h_cell(text: view_t(".function") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @course_optional_functions) do |e| %>
+    <%= b_row(link_to: course_optional_function_path(e)) do %>
+      <%= b_cell(element: e.course)%>
+      <%= b_cell(element: e.function)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e if can?(:show, e) %> | 
+        <%= link_to t('edit'), edit_course_optional_function_path(e) if can?(:edit, e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(course_optional_functions_url, "course_optional_functions") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', course_optional_function: @course_optional_function %>

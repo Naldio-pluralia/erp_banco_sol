@@ -1,0 +1,61 @@
+<%= index_bar(itens: {t(".subsidy_types") => nil }) do %>
+
+  <%= action_btn_dropdown(content: t('add_subsidy'), data_activates: "dropdown-status") do %>
+    <%SubsidyType.kinds.keys.each do |k|%>
+      <%= dropdown_item(item: t(".add.#{k}"), href: "##{k}-modal-form", modal_trigger: true) %>
+    <% end %>
+  <% end %>
+
+  <% action_btn(content: t('add'), href: '#subsidy_type-modal-form', modal_trigger: true) %>
+  <% action_btn(content: t('filter'), href: "#filter-subsidy_types-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: t(".name") )%>
+    <%= h_cell(text: t(".abbr_name") )%>
+    <%= h_cell(text: t(".kind") )%>
+    <%= h_cell(text: t(".code") )%>
+    <%= h_cell(text: t(".value_mode") )%>
+    <%= h_cell(text: t(".value") )%>
+    <%= h_cell(text: t(".status") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @subsidy_types) do |e| %>
+    <%= b_row(link_to: subsidy_type_path(e)) do %>
+      <%= b_cell(element: e.name)%>
+      <%= b_cell(element: e.abbr_name)%>
+      <%= b_cell(element: e.kind)%>
+      <%= b_cell(element: e.code)%>
+      <%= b_cell(element: e.enum_t(:value_mode))%>
+
+      <%if e.fixed?%>
+        <%= b_cell(element: e.kwanza_t(:value))%>
+      <%else%>
+        <%= b_cell(element: e.percentage_t(:value))%>
+      <%end%>
+
+      <%= b_cell(element: e.enum_t(:status))%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(subsidy_types_url, "subsidy_types") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%SubsidyType.kinds.values.each do |k|%>
+  <%subsidy_type = @subsidy_type.dup%>
+  <%subsidy_type.kind = k%>
+  <%= render 'form', subsidy_type: subsidy_type%>
+<% end %>

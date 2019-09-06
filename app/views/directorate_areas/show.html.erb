@@ -1,0 +1,10 @@
+<%= index_bar(itens: {view_t(".directorate_areas") => directorate_areas_url, view_t('.directorate_area') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_directorate_area_path(@directorate_area) ) if can?(:edit, @directorate_area) %>
+  <%= action_btn(content: view_t('update'), href: "#directorate_area-modal-form", modal_trigger: true) if can?(:edit, @directorate_area) %>
+<% end %>
+
+
+<%= show_item(".name", @directorate_area.name) %>
+
+
+<%= render 'form', directorate_area: @directorate_area %>

@@ -1,0 +1,80 @@
+<%= index_bar(itens: {view_t(".absence_types") => latest_time_setting_url(active_tab: :tab_absence_settings), view_t('.absence_type') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_absence_type_path(@absence_type) ) if can?(:create, @absence_type)%>
+  <%= action_btn(content: view_t('update'), href: "#absence_type-modal-form", modal_trigger: true) if can?(:create, @absence_type) %>
+  <%if @absence_type.requires_justification && (@absence_type.requires_approver_justification || @absence_type.requires_approver_supervisor_justification)%>
+    <%#= action_btn(content: view_t('add_x', x: view_t('.approver')), href: "#approver-modal-form", modal_trigger: true) if can?(:create, Approver) %>
+  <% end %>
+<% end %>
+
+<h5 style="margin-bottom:0;"><%= @absence_type.name %></h5>
+<div class="flex-row">
+  <div class="flex-col-xs-6">
+    <%= show_item(".kind", @absence_type.enum_t(:kind)) %>
+    <%#= show_item(".code", @absence_type.code) %>
+    <%= show_item(".requires_document") if @absence_type.requires_document && @absence_type.requires_justification %>
+    <%= show_item(".requires_justification") if @absence_type.requires_justification && @absence_type.requires_justification %>
+  </div>
+  <div class="flex-col-xs-6">
+    <%= show_item(".requires_supervisor_justification") if @absence_type.requires_supervisor_justification && @absence_type.requires_justification %>
+    <%= show_item(".requires_approver_justification") if @absence_type.requires_approver_justification && @absence_type.requires_justification %>
+    <%= show_item(".requires_approver_supervisor_justification") if @absence_type.requires_approver_supervisor_justification && @absence_type.requires_justification %>
+  </div>
+</div>
+<%= show_item(".description", @absence_type.description) %>
+
+<%if @absence_type.requires_justification%>
+  <div class="flex-row">
+    <%if @absence_type.requires_approver_justification%>
+      <div class="flex-col-xs-<%= @absence_type.requires_approver_supervisor_justification ? '6' : '12'%>">
+        <%= box() do%>
+          <%= box_header(view_t('.dpe_employees')) do%>
+            <%= box_action(:plus, href: '#approver-dpe_employee-modal-form', modal_trigger: true, tooltip: view_t('.register_x', x: view_t('.approver'))) if can?(:create, EmployeeAbsence)%>
+          <%end%>
+          <%= l_table do %>
+            <%= t_header do %>
+              <%= h_cell(text: view_t(".employee") )%>
+              <%= h_cell(sortable: false) %>
+            <% end %>
+
+            <%= t_body(elements: @absence_type.approvers.dpe_employee) do |e| %>
+              <%= b_row() do %>
+                <%= b_cell(element: e.employee.name_and_number)%>
+                <%= b_cell() do %>
+                  <%= link_to t('destroy'), absence_type_approver_url(@absence_type, e), method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <%end%>
+      </div>
+    <% end %>
+    <%if @absence_type.requires_approver_supervisor_justification%>
+      <div class="flex-col-xs-<%= @absence_type.requires_approver_justification  ? '6' : '12'%>">
+        <%= box() do%>
+          <%= box_header(view_t('.dpe_supervisors')) do%>
+            <%= box_action(:plus, href: '#approver-dpe_supervisor-modal-form', modal_trigger: true, tooltip: view_t('.register_x', x: view_t('.approver'))) if can?(:create, EmployeeAbsence)%>
+          <%end%>
+          <%= l_table do %>
+            <%= t_header do %>
+              <%= h_cell(text: view_t(".employee") )%>
+              <%= h_cell(sortable: false) %>
+            <% end %>
+
+            <%= t_body(elements: @absence_type.approvers.dpe_supervisor) do |e| %>
+              <%= b_row() do %>
+                <%= b_cell(element: e.employee.name_and_number)%>
+                <%= b_cell() do %>
+                  <%= link_to t('destroy'), absence_type_approver_url(@absence_type, e), method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <%end%>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<%= render 'form', absence_type: @absence_type %>
+<%= render 'approvers/form', approver: Approver.new(absence_type_id: @absence_type.id, kind: :dpe_employee), absence_type: @absence_type %>
+<%= render 'approvers/form', approver: Approver.new(absence_type_id: @absence_type.id, kind: :dpe_supervisor), absence_type: @absence_type %>

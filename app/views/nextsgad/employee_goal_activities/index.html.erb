@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Employee Goal Activities</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Employee goal</th>
+      <th>Creator</th>
+      <th>Attachment</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @employee_goal_activities.each do |employee_goal_activity| %>
+      <tr>
+        <td><%= employee_goal_activity.description %></td>
+        <td><%= employee_goal_activity.employee_goal %></td>
+        <td><%= employee_goal_activity.creator %></td>
+        <td><%= employee_goal_activity.attachment %></td>
+        <td><%= link_to 'Show', employee_goal_activity %></td>
+        <td><%= link_to 'Edit', edit_employee_goal_activity_path(employee_goal_activity) %></td>
+        <td><%= link_to 'Destroy', employee_goal_activity, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Employee Goal Activity', new_employee_goal_activity_path %>

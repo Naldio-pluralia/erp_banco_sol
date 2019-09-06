@@ -1,0 +1,24 @@
+pt:
+  date_types:
+    defaults:
+      name: 'Nome'
+      description: 'Descrição'
+      date: 'Data'
+      kind: 'Tipo'
+      recurrent: 'Repetir no Próximo ano?'
+      date_type: 'Tipo de Dia'
+      date_types: 'Tipos de Dias'
+
+    index:
+      true: 'Sim'
+      false: 'Não'
+      date_type: 'Tipo de Dia'
+      date_types: 'Tipos de Dias'
+    show:
+      date_type: 'Tipo de Dia'
+      date_types: 'Tipos de Dias'
+    edit:
+    create:
+    update:
+    form:
+      

@@ -1,0 +1,275 @@
+<%= index_bar(itens: {t('.latest_remuneration_setting') => nil}) do %>
+  <%# action_btn(content: t('update'), href: "#remuneration_setting-modal-form", modal_trigger: true) %>
+<% end %>
+
+<%= tab do%>
+  <%= tab_header do%>
+    <%= tab_header_item(:tab_salary_settings , view_t(".salary_settings")) %>
+    <%= tab_header_item(:tab_subsidy_and_tax_settings , view_t(".subsidy_and_tax_settings")) %>
+    <%= tab_header_item(:tab_paygrade_change_settings , view_t(".paygrade_change_settings")) %>
+    <%= tab_header_item(:tab_salary_categories , view_t(".salary_categories")) %>
+    <%= tab_header_item(:tab_salary_grids , view_t(".salary_grids")) %>
+    <%= tab_header_item(:tab_salary_families , view_t(".salary_families")) %>
+  <%end%>
+
+  <%= tab_body(:tab_salary_settings) do%>
+    <br>
+    <div class="flex-row" style="margin-top: 0px;">
+      <div class="flex-col-xs-12" style="padding-bottom: 15px;">
+        <%= box(size: '500px') do%>
+          <%= box_header(view_t('.latest_remuneration_setting')) do%>
+            <%= box_action(:pencil, 'data-fill': "#application_container", 'data-fill-with': edit_remuneration_setting_url(@remuneration_setting, layout_type: :partial_view_application)) if @remuneration_setting&.id&.present? && can?(:update, @remuneration_setting)%>
+            <%= box_action(:plus, 'data-fill': "#application_container", 'data-fill-with': new_remuneration_setting_url(layout_type: :partial_view_application)) if @remuneration_setting&.id.nil? && can?(:create, RemunerationSetting)%>
+          <%end%>
+          <%= show_item(".base_salary", @remuneration_setting&.kwanza_t(:base_salary) || to_kwanza(0)) %>
+
+          <%= show_item(".update_factor", @remuneration_setting&.percentage_t(:update_factor) || to_percentage(0)) %>
+
+          <%= show_item(".day_to_process_salaries", @remuneration_setting&.day_to_process_salaries || t('n/a')) %>
+          
+          <%= show_item(".month_to_process_christmas_subsidy", @remuneration_setting&.month_to_process_christmas_subsidy&.to_month || t('n/a')) %>
+        <%end%>
+      </div>
+    </div>
+  <%end%>
+
+  <%= tab_body(:tab_subsidy_and_tax_settings) do%>
+    <br>
+    <div class="flex-row" style="margin-top: 0px;">
+      <div class="flex-col-xs-6" style="padding-bottom: 15px;">
+        <%= box(size: '500px') do%>
+          <%= box_header(view_t('.tax_types')) do%>
+            <%#= box_action(:plus, href: '#tax_type-modal-form', modal_trigger: true) if can?(:create, TaxType)%>
+            <%= box_action_dropdown(:plus) do %>
+              <%TaxType.kinds.keys.each do |k|%>
+                <%= box_dropdown_item(item: view_t(".add.#{k}"), 'data-fill': "#application_container", 'data-fill-with': new_tax_type_url(kind: k, layout_type: :partial_view_application)) %>
+              <% end %>
+            <% end %>
+          <%end%>
+
+          <%= load_from(partial_view_tax_types_url(limit: 7)) %>
+        <%end%>
+      </div>
+      <div class="flex-col-xs-6" style="padding-bottom: 15px;">
+        <%= box(size: '500px') do%>
+          <%= box_header(view_t('.subsidy_types')) do%>
+            <%= box_action_dropdown(:plus) do %>
+              <%SubsidyType.kinds.keys.each do |k|%>
+                <%= box_dropdown_item(item: view_t(".add.#{k}"), 'data-fill': "#application_container", 'data-fill-with': new_subsidy_type_url(kind: k, layout_type: :partial_view_application)) %>
+              <% end %>
+            <% end %>
+          <%end%>
+
+          <%= load_from(partial_view_subsidy_types_url(limit: 7)) %>
+        <%end%>
+      </div>
+    </div>
+  <%end%>
+
+  <%= tab_body(:tab_paygrade_change_settings) do%>
+    <br>
+    <div class="flex-row" style="margin-top: 0px;">
+      <div class="flex-col-xs-12" style="padding-bottom: 15px;">
+        <%= box(size: '500px') do%>
+          <%= box_header(view_t('.paygrade_change_reasons')) do%>
+            <%= box_action(:plus, 'data-fill': "#application_container", 'data-fill-with': new_paygrade_change_reason_url(layout_type: :partial_view_application)) if can?(:create, PaygradeChangeReason)%>
+          <%end%>
+
+          <%= load_from(partial_view_paygrade_change_reasons_url(limit: 7)) %>
+        <%end%>
+      </div>
+    </div>
+  <%end%>
+
+  <%= tab_body(:tab_salary_categories) do%>
+    <br>
+    <div class="flex-row" style="margin-top: 0px;">
+      <div class="flex-col-xs-3" style="padding-bottom: 15px;">
+        <%= box(size: '320px') do%>
+          <%= box_header(view_t('.salary_categories')) do%>
+            <%= box_action(:plus, href: '#salary_category-modal-form', modal_trigger: true, tooltip: view_t('.register_x', x: view_t('.salary_category'))) if can?(:create, SalaryCategory)%>
+          <%end%>
+
+          <%= l_table do %>
+            <%= t_header do %>
+              <%= h_cell(text: view_t(".salary_category_name"), sortable: false)%>
+              <% h_cell(sortable: false) %>
+            <% end %>
+
+            <%= t_body(elements: SalaryCategory.order(created_at: :desc).first(7), class: 'auto-size') do |e| %>
+              <%= b_row() do %>
+                <%= b_cell(element: e.name)%>
+                <% b_cell(text: "") do %>
+                  <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+          
+          <%= render 'salary_categories/form', salary_category: SalaryCategory.new(cancel_url: latest_remuneration_setting_url(active_tab: :tab_salary_categories), redirect_url: latest_remuneration_setting_url(active_tab: :tab_salary_categories)) %>
+        <%end%>
+      </div>
+      <div class="flex-col-xs-3" style="padding-bottom: 15px;">
+        <%= box(size: '320px') do%>
+          <%= box_header(view_t('.salary_groups')) do%>
+            <%= box_action(:plus, href: '#salary_group-modal-form', modal_trigger: true, tooltip: view_t('.register_x', x: view_t('.salary_group'))) if can?(:create, SalaryGroup)%>
+          <%end%>
+
+          <%= l_table do %>
+            <%= t_header do %>
+              <%= h_cell(text: view_t(".salary_group_name"), sortable: false)%>
+              <% h_cell(sortable: false) %>
+            <% end %>
+
+            <%= t_body(elements: SalaryGroup.order(created_at: :desc).first(7), class: 'auto-size') do |e| %>
+              <%= b_row() do %>
+                <%= b_cell(element: e.name)%>
+                <% b_cell(text: "") do %>
+                  <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+          
+          <%= render 'salary_groups/form', salary_group: SalaryGroup.new(cancel_url: latest_remuneration_setting_url(active_tab: :tab_salary_categories), redirect_url: latest_remuneration_setting_url(active_tab: :tab_salary_categories)) %>
+        <%end%>
+      </div>
+      <div class="flex-col-xs-3" style="padding-bottom: 15px;">
+        <%= box(size: '320px') do%>
+          <%= box_header(view_t('.salary_layers')) do%>
+            <%= box_action(:plus, href: '#salary_layer-modal-form', modal_trigger: true, tooltip: view_t('.register_x', x: view_t('.salary_layer'))) if can?(:create, SalaryLayer)%>
+          <%end%>
+
+          <%= l_table do %>
+            <%= t_header do %>
+              <%= h_cell(text: view_t(".salary_layer_name"), sortable: false)%>
+              <% h_cell(sortable: false) %>
+            <% end %>
+
+            <%= t_body(elements: SalaryLayer.order(created_at: :desc).first(7), class: 'auto-size') do |e| %>
+              <%= b_row() do %>
+                <%= b_cell(element: e.name)%>
+                <% b_cell(text: "") do %>
+                  <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+          
+          <%= render 'salary_layers/form', salary_layer: SalaryLayer.new(cancel_url: latest_remuneration_setting_url(active_tab: :tab_salary_categories), redirect_url: latest_remuneration_setting_url(active_tab: :tab_salary_categories)) %>
+        <%end%>
+      </div>
+      <div class="flex-col-xs-3" style="padding-bottom: 15px;">
+        <%= box(size: '320px') do%>
+          <%= box_header(view_t('.salary_areas')) do%>
+            <%= box_action(:plus, href: '#salary_area-modal-form', modal_trigger: true, tooltip: view_t('.register_x', x: view_t('.salary_area'))) if can?(:create, SalaryArea)%>
+          <%end%>
+
+          <%= l_table do %>
+            <%= t_header do %>
+              <%= h_cell(text: view_t(".salary_area_name"), sortable: false)%>
+              <% h_cell(sortable: false) %>
+            <% end %>
+
+            <%= t_body(elements: SalaryArea.order(created_at: :desc).first(7), class: 'auto-size') do |e| %>
+              <%= b_row() do %>
+                <%= b_cell(element: e.name)%>
+                <% b_cell(text: "") do %>
+                  <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+          
+          <%= render 'salary_areas/form', salary_area: SalaryArea.new(cancel_url: latest_remuneration_setting_url(active_tab: :tab_salary_categories), redirect_url: latest_remuneration_setting_url(active_tab: :tab_salary_categories)) %>
+        <%end%>
+      </div>
+    </div>
+  <%end%>
+
+  <%= tab_body(:tab_salary_grids) do%>
+    <br>
+    <div class="flex-row" style="margin-top: 0px;">
+      <div class="flex-col-xs-12" style="padding-bottom: 15px;">
+        <%= box(size: '320px') do%>
+          <%= box_header(view_t('.salary_grids')) do%>
+            <%= box_action(:plus, href: add_salary_grid_url, method: :patch, tooltip: view_t('.add_x', x: view_t('.salary_grid'))) if can?(:add_grid, SalaryGrid)%>
+            <%= box_action(:minus, href: remove_salary_grid_url, method: :patch, tooltip: view_t('.remove_x', x: view_t('.salary_grid'))) if can?(:remove_grid, SalaryGrid)%>
+          <%end%>
+
+          <%= l_table do %>
+            <%= t_header do %>
+              <%= h_cell(text: view_t(".number"), sortable: false)%>
+              <%= h_cell(text: view_t(".value_80"), sortable: false, align: :right)%>
+              <%= h_cell(text: view_t(".value_100"), sortable: false, align: :right)%>
+              <%= h_cell(text: view_t(".value_105"), sortable: false, align: :right)%>
+              <%= h_cell(text: view_t(".value_110"), sortable: false, align: :right)%>
+              <%= h_cell(text: view_t(".value_115"), sortable: false, align: :right)%>
+              <%= h_cell(text: view_t(".value_120"), sortable: false, align: :right)%>
+              <%= h_cell(text: view_t(".value_125"), sortable: false, align: :right)%>
+            <% end %>
+
+            <%= t_body(elements: SalaryGrid.latest.order(number: :desc), class: 'auto-size') do |e| %>
+              <%= b_row do %>
+                <%= b_cell(element: e.gs, align: :left)%>
+                <%= b_cell(element: e.kwanza_t(:value_80, precision: 0), align: :right)%>
+                <%= b_cell(element: e.kwanza_t(:value_100, precision: 0), align: :right)%>
+                <%= b_cell(element: e.kwanza_t(:value_105, precision: 0), align: :right)%>
+                <%= b_cell(element: e.kwanza_t(:value_110, precision: 0), align: :right)%>
+                <%= b_cell(element: e.kwanza_t(:value_115, precision: 0), align: :right)%>
+                <%= b_cell(element: e.kwanza_t(:value_120, precision: 0), align: :right)%>
+                <%= b_cell(element: e.kwanza_t(:value_125, precision: 0), align: :right)%>
+              <% end %>
+            <% end %>
+          <% end %>
+        <%end%>
+      </div>
+    </div>
+  <%end%>
+
+  <%= tab_body(:tab_salary_families) do%>
+    <br>
+    <div class="flex-row" style="margin-top: 0px;">
+      <div class="flex-col-xs-12" style="padding-bottom: 15px;">
+        <%= box(size: '320px') do%>
+          <%= box_header(view_t('.salary_families')) do%>
+            <%= box_action(:plus, href: '#salary_family-modal-form', modal_trigger: true, tooltip: view_t('.register_x', x: view_t('.family'))) if can?(:create, SalaryFamily)%>
+          <%end%>
+          <%SalaryFamily.latest.includes(:salary_grid, :salary_category, :salary_area, :salary_layer, :salary_group).group_by{|s| s.salary_area.name }.each do |area, families|%>
+
+            <%= l_table do %>
+              <%= t_header do %>
+                <%= h_cell(text: view_t(".salary_grid"), sortable: false, align: :left )%>
+                <%= h_cell(text: view_t(".salary_category"), sortable: false, align: :left )%>
+                <%= h_cell(text: view_t(".salary_area"), sortable: false, align: :left )%>
+                <%= h_cell(text: view_t(".family"), sortable: false, align: :left )%>
+                <%= h_cell(text: view_t(".salary_layer"), sortable: false, align: :left )%>
+                <%= h_cell(text: view_t(".salary_group"), sortable: false, align: :left )%>
+                <%= h_cell(text: view_t(".core"), sortable: false, align: :left )%>
+                <%= h_cell(sortable: false) %>
+              <% end %>
+
+              <%= t_body(elements: families.sort_by{|f| f.salary_grid.number*(-1)}, class: 'auto-size') do |e| %>
+                <%= b_row() do %>
+                  <%= b_cell(element: e.salary_grid.gs, sortable: false, align: :left)%>
+                  <%= b_cell(element: e.salary_category.name, sortable: false, align: :left)%>
+                  <%= b_cell(element: e.salary_area.name, sortable: false, align: :left)%>
+                  <%= b_cell(element: e.family, sortable: false, align: :left)%>
+                  <%= b_cell(element: e.salary_layer.name, sortable: false, align: :left)%>
+                  <%= b_cell(element: e.salary_group.name, sortable: false, align: :left)%>
+                  <%= b_cell(element: e.core, sortable: false, align: :left)%>
+                  <%= b_cell(text: "") do %>
+                    <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <%= render 'salary_families/form', salary_family: SalaryFamily.new(cancel_url: latest_remuneration_setting_url(active_tab: :tab_salary_families), redirect_url: latest_remuneration_setting_url(active_tab: :tab_salary_families)) %>
+        <%end%>
+      </div>
+    </div>
+  <%end%>
+  
+<%end%>

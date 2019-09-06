@@ -1,0 +1,24 @@
+<%= simple_form_for(pelouro) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="pelouro-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= pelouro.new_record? ? view_t('.new_x', x: view_t('.pelouro')) : view_t('.edit_x', x: view_t('.pelouro')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.input :name, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :abbreviation, wrapper_html: {class: 'flex-col-xs-2'}, input_html: {class: ''} %>
+        <%= f.input :title, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :title_abbreviation, wrapper_html: {class: 'flex-col-xs-2'}, input_html: {class: ''} %>
+        <%= f.association :employee, collection: Employee.where.not(id: (Pelouro.all.map(&:employee_id) - [pelouro.employee_id])).map_for_select(), wrapper_html: {class: 'flex-col-xs-6'}, input_html: {class: 'default-selectize'} %>
+        <%= f.input :is_chairman, wrapper_html: {class: 'flex-col-xs-6', style: 'margin-top: 20px;'}, input_html: {class: ''} %>
+        <%= f.association :organic_units, wrapper_html: {class: 'flex-col-xs-12'}, label: "Unidade Orgânicas", input_html: {class: 'default-selectize'} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), pelouro.cancel_url || pelouros_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

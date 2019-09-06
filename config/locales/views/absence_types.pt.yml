@@ -1,0 +1,17 @@
+#Simple form
+pt:
+  absence_types:
+    defaults:
+      absence_types: 'Tipos de Ausências'
+      absence_type: 'Tipo de Ausência'
+      name: 'Nome da Ausência'
+      description: 'Descrição'
+      kind: 'Tipo'
+      code: 'Código'
+      requires_document: 'Requer comprovativo'
+      requires_justification: 'Requer Justificação'
+      requires_supervisor_justification: 'Precisa Aprovação do Supervisor'
+      requires_approver_justification: 'Precisa Aprovação do DPE'
+      requires_approver_supervisor_justification: 'Precisa Aprovação do chefe do DPE'
+      requires: 'Requerimentos'
+      

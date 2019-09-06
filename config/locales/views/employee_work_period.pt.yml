@@ -1,0 +1,29 @@
+pt:
+  employee_work_periods:
+    index:
+      employee_work_periods: 'Periodos de Trabalho'
+      employee_work_period: 'Periodo de Trabalho'
+      since: 'Desde'
+      until: 'Até'
+      employee: 'Colaborador'
+    show:
+      employee_work_periods: 'Periodos de Trabalho'
+      employee_work_period: 'Periodo de Trabalho'
+      since: 'Desde'
+      until: 'Até'
+      employee: 'Colaborador'
+    create:
+      success: 'Gravado'
+      unsuccess: 'Ocorreu um Erro na Gravação'
+    update:
+      success: 'Actualizado'
+      unsuccess: 'Ocorreu um Erro na Actualização'
+    edit:
+      since: 'Desde'
+      until: 'Até'
+    employee: 'Colaborador'
+    form:
+      new: 'Criar'
+      update: 'Actualizar'
+
+    

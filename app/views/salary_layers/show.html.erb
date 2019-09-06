@@ -1,0 +1,10 @@
+<%= index_bar(itens: {view_t(".salary_layers") => salary_layers_url, view_t('.salary_layer') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_salary_layer_path(@salary_layer) ) if can?(:edit, @salary_layer) %>
+  <%= action_btn(content: view_t('update'), href: "#salary_layer-modal-form", modal_trigger: true) if can?(:edit, @salary_layer) %>
+<% end %>
+
+
+<%= show_item(".name", @salary_layer.name) %>
+
+
+<%= render 'form', salary_layer: @salary_layer %>

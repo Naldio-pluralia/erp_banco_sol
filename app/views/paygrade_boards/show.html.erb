@@ -1,0 +1,118 @@
+<%= index_bar(itens: {t('.paygrade_boards') => latest_paygrade_board_url}) do %>
+
+<% end %>
+
+<%if @paygrade_board.present? %>
+<table>
+  <thead>
+    <tr>
+      <th style='width: 20px;'><%= t '.level'%></th>
+      <th><%= t '.value'%></th>
+      <th><%= t '.increment'%></th>
+      <th><%= t '.a'%></th>
+      <th><%= t '.b'%></th>
+      <th><%= t '.c'%></th>
+      <th><%= t '.d'%></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+        <td>1</td>
+        <td><%= @paygrade_board.level_1_value %></td>
+        <td><%= @paygrade_board.level_1_increment %></td>
+        <td><%= @paygrade_board.level_1_a_value %></td>
+        <td><%= @paygrade_board.level_1_b_value %></td>
+        <td><%= @paygrade_board.level_1_c_value %></td>
+        <td><%= @paygrade_board.level_1_d_value %></td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td><%= @paygrade_board.level_2_value %></td>
+        <td><%= @paygrade_board.level_2_increment %></td>
+        <td><%= @paygrade_board.level_2_a_value %></td>
+        <td><%= @paygrade_board.level_2_b_value %></td>
+        <td><%= @paygrade_board.level_2_c_value %></td>
+        <td><%= @paygrade_board.level_2_d_value %></td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td><%= @paygrade_board.level_3_value %></td>
+        <td><%= @paygrade_board.level_3_increment %></td>
+        <td><%= @paygrade_board.level_3_a_value %></td>
+        <td><%= @paygrade_board.level_3_b_value %></td>
+        <td><%= @paygrade_board.level_3_c_value %></td>
+        <td><%= @paygrade_board.level_3_d_value %></td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td><%= @paygrade_board.level_4_value %></td>
+        <td><%= @paygrade_board.level_4_increment %></td>
+        <td><%= @paygrade_board.level_4_a_value %></td>
+        <td><%= @paygrade_board.level_4_b_value %></td>
+        <td><%= @paygrade_board.level_4_c_value %></td>
+        <td><%= @paygrade_board.level_4_d_value %></td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td><%= @paygrade_board.level_5_value %></td>
+        <td><%= @paygrade_board.level_5_increment %></td>
+        <td><%= @paygrade_board.level_5_a_value %></td>
+        <td><%= @paygrade_board.level_5_b_value %></td>
+        <td><%= @paygrade_board.level_5_c_value %></td>
+        <td><%= @paygrade_board.level_5_d_value %></td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td><%= @paygrade_board.level_6_value %></td>
+        <td><%= @paygrade_board.level_6_increment %></td>
+        <td><%= @paygrade_board.level_6_a_value %></td>
+        <td><%= @paygrade_board.level_6_b_value %></td>
+        <td><%= @paygrade_board.level_6_c_value %></td>
+        <td><%= @paygrade_board.level_6_d_value %></td>
+    </tr>
+    <tr>
+        <td>7</td>
+        <td><%= @paygrade_board.level_7_value %></td>
+        <td><%= @paygrade_board.level_7_increment %></td>
+        <td><%= @paygrade_board.level_7_a_value %></td>
+        <td><%= @paygrade_board.level_7_b_value %></td>
+        <td><%= @paygrade_board.level_7_c_value %></td>
+        <td><%= @paygrade_board.level_7_d_value %></td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td><%= @paygrade_board.level_8_value %></td>
+        <td><%= @paygrade_board.level_8_increment %></td>
+        <td><%= @paygrade_board.level_8_a_value %></td>
+        <td><%= @paygrade_board.level_8_b_value %></td>
+        <td><%= @paygrade_board.level_8_c_value %></td>
+        <td><%= @paygrade_board.level_8_d_value %></td>
+    </tr>
+    <tr>
+        <td>9</td>
+        <td><%= @paygrade_board.level_9_value %></td>
+        <td><%= @paygrade_board.level_9_increment %></td>
+        <td><%= @paygrade_board.level_9_a_value %></td>
+        <td><%= @paygrade_board.level_9_b_value %></td>
+        <td><%= @paygrade_board.level_9_c_value %></td>
+        <td><%= @paygrade_board.level_9_d_value %></td>
+    </tr>
+    <tr>
+        <td>10</td>
+        <td><%= @paygrade_board.level_10_value %></td>
+        <td><%= @paygrade_board.level_10_increment %></td>
+        <td><%= @paygrade_board.level_10_a_value %></td>
+        <td><%= @paygrade_board.level_10_b_value %></td>
+        <td><%= @paygrade_board.level_10_c_value %></td>
+        <td><%= @paygrade_board.level_10_d_value %></td>
+    </tr>
+  </tbody>
+</table>
+
+<%else%>
+
+
+<%end%>
+
+<%= render 'form', paygrade_board: @paygrade_board %>

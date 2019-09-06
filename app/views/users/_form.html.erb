@@ -1,0 +1,44 @@
+<%= simple_form_for user, html: {multipart: true} do |f| %>
+    <div class="row">
+      <%= f.input :first_name, label: :first_name.ts, wrapper_html: {class: 'col m4 s12'} %>
+      <%= f.input :middle_name, label: :middle_name.ts, wrapper_html: {class: 'col m4 s12'} %>
+      <%= f.input :last_name, label: :last_name.ts, wrapper_html: {class: 'col m4 s12'} %>
+      <%= f.input :email, label: 'user.email'.ts, wrapper_html: {class: 'col m4 s12'} %>
+      <%= f.input :employee_id, label: :employee_number.ts, collection: user.availiable_employees.map {|e| ["#{e.number} - #{e.first_name} #{e.last_name}", e.id]}, wrapper_html: {class: 'col m4 s12'}, input_html: {class: 'default-selectize'} %>
+      <%= f.input :roles_mask, label: :roles_mask.ts, collection: Role.roles_masks.for_select(:pt), wrapper_html: {class: 'col m4 s12'}, input_html: {class: 'default-selectize'} %>
+      <% f.input :avatar, label: :avatar.ts, wrapper_html: {class: 'col m6 s12'} %>
+
+      <%= l_table do %>
+        <%= t_header do %>
+          <%= h_cell(text: "Autorizações")%>
+        <%end%>
+      <%end%>
+
+      <br>
+
+      <% Account.all_routes_grouped.each do |controller, routes_names| %>
+        <div class="row selet-multiple-checkbox">
+          <div class="col s12" style="font-size: 15px">
+            <p style="margin-bottom: 2px;">
+              <input type="checkbox" class="filled-in" id="filled-in-box-<%= controller.split("/").last %>" onchange="selet_by_group(this);"/>
+              <label for="filled-in-box-<%= controller.split("/").last %>"><%= route_t(:controller_name, controller) %></label>
+            </p>
+            <hr style="margin-top: 0px; margin-bottom: 0px;">
+          </div>
+
+          <%= collection_check_boxes :user, :permissions, routes_names.map {|r| [route_t(r.defaults[:controller], r.defaults[:action]), "#{r.defaults[:action]},#{r.defaults[:controller]}"]}.compact.uniq, :last, :first, wrapper_html: {class: :mmmmm}, label: false do |b| %>
+            <div class="col s4">
+              <%= b.label {b.check_box + b.text} %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="actions">
+      <%= submit(f) %>
+      <%= cancel(users_url) %>
+    </div>
+    <br>
+    <br>
+<% end %>

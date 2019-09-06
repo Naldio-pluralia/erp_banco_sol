@@ -1,0 +1,18 @@
+pt:
+  nextsgad:
+    employees:
+      defaults:
+        salary_family: 'Família Salarial'
+      assessment:
+        employee_paygrades: 'Níveis dos Empregados'
+        employee_paygrade: 'Nível do Empregado'
+        level: 'Escalão'
+        paygrade: 'Nível'
+        since: 'Desde'
+        until: 'Até'
+        employee: 'Colaborador'
+        base_salary: 'Salário Base'
+        paygrade_change_reason: 'Motivo da Mudança'
+        employee_work_periods: 'Periodos de Trabalho'
+        employee_work_period: 'Periodo de Trabalho'
+    

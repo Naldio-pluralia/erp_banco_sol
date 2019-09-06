@@ -1,0 +1,2 @@
+module EmployeeVacationResponsesHelper
+end

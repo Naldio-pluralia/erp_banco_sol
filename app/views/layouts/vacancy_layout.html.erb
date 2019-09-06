@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+  <%= favicon_link_tag 'favicon.ico' %>
+  <title><%= configuration.entity_name %> - <%= @page_name %></title>
+  <%= csrf_meta_tags %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+
+<body>
+  <% if is_internet_explorer? %>
+      <%= render "layouts/unsuported_browser_message" %>
+  <% else %>
+      <div class="">
+
+        <header>
+          <nav class="top-nav mtz-layout" style="background-color: black; padding-right: 15px;">
+            <div class="nav-wrapper">
+              <!-- <a href="#!" class="brand-logo"><%= image_tag configuration.entity_logo_url, height: "65px" %></a> -->
+              <a href="#" class="brand-logo"><%= image_tag configuration.entity_logo_url, height: "65px" %></a>
+              <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+            </div>
+          </nav>
+        </header>
+
+        <main>
+          <div class="page-content">
+            <%= toasts %>
+            <div style="padding: 0 0 0 0"><%= yield %></div>
+          </div>
+
+        </main>
+      </div>
+  <% end %>
+</body>
+
+</html>
+
+<style media="screen">
+  /*.mtz-layout .next-ml .next-ml-body>ul>li>div.collapsible-header .texto{
+    padding-top: 0;
+    padding-bottom: 0;
+  }*/
+  .page-content>div>hr{
+    margin: 9px 0;
+  }
+</style>
+
+<script type="text/javascript" charset="utf-8">
+    $('.fullscreen').remove();
+</script>

@@ -1,0 +1,138 @@
+<%= index_bar(itens: {"Configurações do Tempo" => nil}) do %>
+<% end %>
+
+<%= tab do%>
+  <%= tab_header do%>
+    <%= tab_header_item(:tab_general_settings , "Gerais") %>
+    <%= tab_header_item(:tab_holiday_settings, "Feriados") %>
+    <%= tab_header_item(:tab_absence_settings, "Ausências") %>
+    <%= tab_header_item(:tab_approver_settings, "Approvadores de Férias") %>
+  <%end%>
+
+  <%= tab_body(:tab_general_settings) do%>
+    <br>
+    <div class="flex-row" style="margin-top: 0px;">
+      <div class="flex-col-xs-12" style="padding-bottom: 15px;">
+        <%= box(size: '500px') do%>
+          <%= box_header("Configurações Gerais")%>
+          <%= next_editable(@time_setting, :number_of_months_to_enjoy_vacation, mode: :popup) %>
+        <%end%>
+      </div>
+    </div>
+  <%end%>
+
+  <%= tab_body(:tab_holiday_settings) do%>
+    <br>
+    <div class="flex-row" style="margin-top: 0px;">
+      <div class="flex-col-xs-12" style="padding-bottom: 15px;">
+        <%= box(size: '500px') do%>
+          <%= box_header("Feriados") do%>
+            <%= box_action(:plus, href: '#date_type-modal-form', modal_trigger: true) if can?(:create, DateType)%>
+          <%end%>
+
+          <%= l_table do %>
+            <%= t_header do %>
+              <%= h_cell(text: view_t(".date") )%>
+              <%= h_cell(text: view_t(".name") )%>
+              <%#= h_cell(text: view_t(".description") )%>
+              <%= h_cell(text: view_t(".kind") )%>
+              <%= h_cell(text: view_t(".recurrent") )%>
+              <%= h_cell(sortable: false) %>
+            <% end %>
+
+            <%= t_body(elements: DateType.all.group_by{|d| l(d.date, format: '%B %Y')}, class: 'auto-size') do |date, date_types| %>
+              <%= b_row() do %>
+                <%= b_cell(element: date, class: 'text-nova-bold', colspan: 4, style: 'font-size: 12px;')%>
+              <% end %>
+              <%date_types.each do |date_type|%>
+                <%= b_row(link_to: date_type_path(date_type)) do %>
+                  <%= b_cell(element: l(date_type.date, format: '%d'))%>
+                  <%= b_cell(element: date_type.name)%>
+                  <%#= b_cell(element: date_type.description)%>
+                  <%= b_cell(element: date_type.enum_t(:kind))%>
+                  <%= b_cell(element: date_type.recurrent ? 'Recorrente' : nil)%>
+                  <%= b_cell(text: "") do %>
+                    <%= link_to t('destroy'), date_type_url(date_type, redirect_url: current_url(active_tab: :tab_holiday_settings)), method: :delete, data: { confirm: t('are_you_sure') } %>
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <% date_type = DateType.new %>
+          <% date_type.cancel_and_redirect_url_to(current_url(active_tab: :tab_holiday_settings))%>
+          <%= render 'date_types/form', date_type: date_type %>
+
+        <%end%>
+      </div>
+    </div>
+  <%end%>
+
+  <%= tab_body(:tab_absence_settings) do%>
+    <br>
+    <div class="flex-row" style="margin-top: 0px;">
+      <div class="flex-col-xs-12" style="padding-bottom: 15px;">
+        <%= box(size: '500px') do%>
+          <%= box_header("Ausências") do%>
+            <%= box_action(:plus, href: '#absence_type-modal-form', modal_trigger: true) if can?(:create, AbsenceType)%>
+          <%end%>
+
+          <%= l_table do %>
+            <%= t_header do %>
+              <%= h_cell(text: view_t(".name") )%>
+              <%= h_cell(text: view_t(".kind") )%>
+              <%= h_cell(sortable: false) %>
+            <% end %>
+
+            <%= t_body(elements: AbsenceType.latests, class: 'auto-size') do |e| %>
+              <%= b_row(link_to: absence_type_path(e)) do %>
+                <%= b_cell(element: e.name)%>
+                <%= b_cell(element: e.enum_t(:kind))%>
+                <%= b_cell(text: "") do %>
+                  <%= link_to t('destroy'), absence_type_url(e, redirect_url: current_url(active_tab: :tab_absence_settings)), method: :delete, data: { confirm: t('are_you_sure') } %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <% absence_type = AbsenceType.new %>
+          <% absence_type.cancel_and_redirect_url_to(current_url(active_tab: :tab_absence_settings))%>
+          <%= render 'absence_types/form', absence_type: absence_type %>
+        <%end%>
+      </div>
+    </div>
+  <%end%>
+
+  <%= tab_body(:tab_approver_settings) do%>
+    <br>
+    <div class="flex-row" style="margin-top: 0px;">
+      <div class="flex-col-xs-12" style="padding-bottom: 15px;">
+        <%= box(size: '500px') do%>
+          <%= box_header('Aprovadores') do%>
+            <%= box_action(:plus, href: '#vacation_approver-modal-form', modal_trigger: true) if can?(:create, VacationApprover)%>
+          <%end%>
+
+          <%= l_table do %>
+            <%= t_header do %>
+              <%= h_cell(text: view_t(".employee") )%>
+              <%= h_cell(sortable: false) %>
+            <% end %>
+
+            <%= t_body(elements: VacationApprover.all, class: 'auto-size') do |e| %>
+              <%= b_row() do %>
+                <%= b_cell(element: e.employee.name)%>
+                <%= b_cell(text: "") do %>
+                  <%= link_to t('destroy'), vacation_approver_url(e, redirect_url: current_url(active_tab: :tab_approver_settings)), method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <% vacation_approver = VacationApprover.new %>
+          <% vacation_approver.cancel_and_redirect_url_to(current_url(active_tab: :tab_approver_settings))%>
+          <%= render 'vacation_approvers/form', vacation_approver: vacation_approver %>
+        <%end%>
+      </div>
+    </div>
+  <%end%>
+
+<%end%>

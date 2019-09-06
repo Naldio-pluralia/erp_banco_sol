@@ -1,0 +1,48 @@
+<%= index_bar(itens: {t(".salary_board_items") => nil }) do %>
+  <%= action_btn(content: t('add'), href: new_salary_board_item_path) %>
+  <% action_btn(content: t('add'), href: "#salary_board_item-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: t('filter'), href: "#filter-salary_board_items-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: t(".paygrade") )%>
+    <%= h_cell(text: t(".base_value") )%>
+    <%= h_cell(text: t(".increment_value") )%>
+    <%= h_cell(text: t(".a_value") )%>
+    <%= h_cell(text: t(".b_value") )%>
+    <%= h_cell(text: t(".c_value") )%>
+    <%= h_cell(text: t(".d_value") )%>
+    <%= h_cell(text: t(".salary_board") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @salary_board_items) do |e| %>
+    <%= b_row(link_to: salary_board_item_path(e)) do %>
+      <%= b_cell(element: e.paygrade)%>
+      <%= b_cell(element: e.base_value)%>
+      <%= b_cell(element: e.increment_value)%>
+      <%= b_cell(element: e.a_value)%>
+      <%= b_cell(element: e.b_value)%>
+      <%= b_cell(element: e.c_value)%>
+      <%= b_cell(element: e.d_value)%>
+      <%= b_cell(element: e.salary_board)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e %> | 
+        <%= link_to t('edit'), edit_salary_board_item_path(e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(salary_board_items_url, "salary_board_items") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%# render 'form', salary_board_item: @salary_board_item %>

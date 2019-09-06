@@ -1,0 +1,19 @@
+<p>
+  <strong><%= view_t(".employee_paygrade") %>:</strong>
+  <%= @salary.employee.name_and_number %>
+</p>
+
+<p>
+  <strong><%= view_t(".base_value") %>:</strong>
+  <%= @salary.kwanza_t(:base_value) %>
+</p>
+
+<p>
+  <strong><%= view_t(".value") %>:</strong>
+  <%= @salary.kwanza_t(:value) %>
+</p>
+
+<p>
+  <strong><%= view_t(".period") %>:</strong>
+  <%= l @salary.period, format: :period%>
+</p>

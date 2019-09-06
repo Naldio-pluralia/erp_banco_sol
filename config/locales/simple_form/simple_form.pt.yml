@@ -1,0 +1,276 @@
+#Simple form
+pt:
+  simple_form:
+    labels:
+      defaults:
+        percentage: 'Percentagem'
+        status: 'Estado'
+        name: 'Nome'
+        abbr_name: 'Nome Abreviado'
+        paygrade: 'Nível'
+        base_value: 'Valor Base'
+        period: 'Período'
+        description: 'Descrição'
+        recurrent: 'Recorrente'
+        enters_at: 'Entrada'
+        leaves_at: 'Saída'
+        number: 'Número'
+        expected_value: 'Valor esperado (%)'
+      course:
+        for_all: 'Para Todas Funções?'
+        approval_amount: 'Percentagem para Aprovação'
+        obligated_functions: 'Obrigatório para'
+        optional_functions: 'Opcional Para'
+      employee:
+        can_be_assessed: 'Deve Ser Avaliado?'
+        position_id: 'Posição'
+      attendance:
+        create: 'Registar Presença'
+        update: 'Actualizar Presença'
+        position_id: 'Escolha o colaborador'
+      assessment:
+        year:  'Ano da Avaliação'
+        state: 'Estado da avaliação'
+        skills_percentage: 'Percentagem das compentências'
+        objectives_percentage: 'Percentagem dos objectivos'
+        attendance_percentage: 'Percentagem da assiduidade'
+        four_hours_late_discount: 'Desconto para -4'
+        three_hours_late_discount: 'Desconto para -3'
+        two_hours_late_discount: 'Desconto para -2'
+        one_hour_late_discount: 'Desconto para -1'
+        presence_discount: 'Desconto para PRS'
+        absence_discount: 'Desconto para FLT'
+        justified_absence_discount: 'Desconto para FJ'
+        vacation_discount: 'Desconto para FER'
+        authorized_leave_discount: 'Desconto para AUT'
+      goal:
+        for_everyone: 'Para todos?'
+      employee_goal:
+        supervisor_supervisor_note: 'Nota do Supervisor do Supervisor'
+        supervisor_note: 'Nota do Supervisor'
+        employee_note: 'Nota do Colaborador'
+      message:
+        title: 'Assunto'
+        functions: 'Enviar Para (Funções)'
+        positions: 'Enviar Para (Posições)'
+        employees: 'Enviar Para (Colaboradores)'
+        departments: 'Enviar Para (Departamentos)'
+        send_to_all: 'Enviar para todos?'
+        signature: 'Assinatura'
+        status: 'Estado'
+        body: 'Corpo'
+      employee_work_period:
+        since: 'Desde'
+        until: 'Até'
+        employee: 'Colaborador'
+      paygrade_board:
+        status: 'Estado'
+      employee_paygrade:
+        level: 'Escalão'
+        paygrade: 'Nível'
+        since: 'Desde'
+        until: 'Até'
+        employee: 'Colaborador'
+        paygrade_change_reason: 'Motivo da Mudança'
+
+      paygrade_change_reason:
+        reason: 'Motivo de Mudança de nível'
+      tax_type:
+        name: 'Nome do Imposto'
+        code: 'Código'
+        value_mode: 'Modo'
+        value: 'Valor'
+        for_all: 'Para Todos?'
+        status: 'Estado'
+        positions: 'Posições'
+        functions: 'Funções'
+        abbr_name: 'Abreviação Ex.: IRT'
+        exempt_up_to: 'Isento até'
+        max_wage: 'Mais de'
+        max_wage_fixed_portion: 'Parcela Fixa'
+        percentage_over_max_wage_excess: 'Percentagem sobre o excesso'
+        max_wage_excess_of: 'Excesso de'
+        percentage_from_employee: 'Percentagem do Colaborador'
+        percentage_from_employer: 'Percentagem do Empregador'
+      subsidy_type:
+        name: 'Nome do Subsídio'
+        code: 'Código'
+        value_mode: 'Modo do Valor'
+        value: 'Valor'
+        for_all: 'Para todos?'
+        status: 'Estado'
+        positions: 'Posições'
+        functions: 'Funções'
+        abbr_name: 'Abreviação Ex.: STP'
+        is_taxed: 'Cobrar Imposto?'
+      salary:
+        base_value: 'Valor Base'
+        value: 'Valor Líquido'
+        period: 'Período'
+        paygrade_board: 'Tabela Salarial'
+        employee_salary_family: 'Colaborador'
+      subsidy_salary:
+        value: 'Valor'
+        salary: 'Salário'
+        subsidy_type: 'Subsídio'
+      tax_salary:
+        value: 'Valor'
+        salary: 'Salário'
+        tax_type: 'Tipo de Imposto'
+      wage_income_tax_item:
+        from: 'Desde'
+        to: 'Até'
+        fixed_portion: 'Parcela Fixa'
+        percentage_over_the_excess: 'Percentagem Sobre o Excesso'
+        excess_of: 'Excesso de'
+      wage_income_tax:
+        exempt_up_to: 'Isento até'
+        max_wage: 'Mais de'
+        max_wage_fixed_portion: 'Parcela Fixa'
+        percentage_over_max_wage_excess: 'Percentagem sobre o excesso'
+        max_wage_excess_of: 'Excesso de'
+      remuneration_setting:
+        base_salary: 'Salário Base'
+        update_factor: 'Factor de Actualização'
+        day_to_process_salaries: 'Processar o Salário no Dia'
+        month_to_process_christmas_subsidy: 'Processar o subsídio de natal no mês'
+      appliance:
+        name: 'Nome Completo'
+        email: 'Email'
+        cellphone: 'Telemóvel'
+        resume: 'Curriculum'
+        attachments: 'Outros Documentos'
+        note: 'Nota'
+      employee_request:
+        name: 'Pedido'
+        request_type: 'Tipo de Pedido'
+        note: 'Nota'
+        virtual_object_attachments: "Ficheiros"
+      report_reviewer:
+        employee: 'Colaborador'
+      report:
+        name: 'O Que Deseja Reportar?'
+        note: 'Detalhes'
+        is_anonymous: 'Anónimo?'
+      request_type:
+        name: 'Pedido'
+        note: 'Detalhes'
+        requires_supervisor_approval: 'Chefe?'
+        requires_supervisor_supervisor_approval: 'Chefe do Chefe?'
+        requires_dpe_approval: 'DPE?'
+        requires_dpe_supervisor_approval: 'Chefe do DPE?'
+      application:
+        name: 'Nome do Candidato'
+        email: 'Email'
+        cellphone: 'Telefone'
+        birthdate: 'Data de Nascimento'
+        civil_status: 'Estado Civil'
+        dependents_number: 'Nº de Dependentes'
+        note: 'Sobre Si'
+        status: 'Estado'
+        relevance: 'relevância'
+        vacancy: 'Vaga'
+        employee: 'Colaborador'
+      vacancy:
+        position: 'Vaga'
+        number: 'Número'
+        status: 'Estado'
+        target: 'Candidatos Alvos'
+        requirements: 'Aptidões necessárias'
+        contract_type: 'Tipo de Contracto'
+        offer_ends_at: 'Termina Em'
+        country: 'País'
+        city: 'Endereço'
+        province: 'Provincia'
+        job_description: 'Descrição do trabalho'
+        year_of_experience: 'Anos de Experiência'
+      salary_family:
+        salary_grid: 'Grelha'
+        salary_category: 'Categoria'
+        salary_area: 'Área'
+        family: 'Família'
+        salary_layer: 'Camada'
+        salary_group: 'Grupo'
+        core: 'Núcleo'
+      salary_category:
+        name: 'Categoria'
+      salary_area:
+        name: 'Área'
+      salary_layer:
+        name: 'Camada'
+      salary_group:
+        name: 'Grupo'
+      employee_salary_family:
+        salary_family: 'GS - Categoria - Área - Camada - Família - Grupo - Núcleo'
+        paygrade_change_reason: 'Razão de mudança'
+        level: 'Escalão'
+        paygrade: 'Nível'
+        since: 'Desde'
+        base_salary: 'Salário Base'
+      function:
+        name: 'Nome da Função'
+        description: 'Descrição'
+        experience_kind: 'Tipo de Experiência'
+        qualification_kind: 'Habilitação Literária'
+        experience_years: 'Anos de Experiência'
+        other_requirements: 'Outras Habilitações e Experiências Relevantes'
+        objectives: 'Objectivos da Função'
+        function_deslocation_regime: 'Regime de Deslocação'
+        function_areas: 'Áreas'
+        function_autonomy_levels: 'Grau de Autonomia'
+        function_subsidies: 'Subsídios e Abonos'
+        directorate: "Direcção"
+      function_skill:
+        min: 'Mínimo'
+        recomended: 'Recomendado'
+        skill: 'Competência'
+      employee_skill:
+        value: 'valor'
+      question:
+        number: 'Número'
+        description: 'Questão'
+        kind: 'Tipo de Questão'
+        value: 'Valor da Questão'
+        boolean_option: 'Verdadeira?'
+      question_option:
+        status: 'Estado'
+        option: 'Opção'
+      lesson:
+        video: 'Youtube Video ID Ex.: "njos57Ixf-0"'
+        video_kind: 'Fonte do Vídeo'
+        text: 'Conteúdo'
+      directorate:
+        name: 'Direcção'
+        directorate_area: 'Área'
+        abbreviation: 'Sigla'
+      pelouro:
+        name: 'Nome do Pelouro'
+        abbreviation: 'Abreviação'
+        employee: 'Colaborador'
+        is_chairman: 'É PCA?'
+        title: 'Título do Chefe'
+        title_abbreviation: 'Sigla do Chefe'
+        directorate_ids: 'Direcções'
+        directorates: 'Direcções'
+      function_setting:
+        max_chairman_number: 'Número máximo de PCAs'
+        maximum_objective_number: 'Número máximo de objectivos'
+      employee_vacation:
+        left_at: 'Saída'
+        returned_at: 'Regresso'
+        get_subsidy: 'Receber Subsídio'
+        left_at_and_returned_at: 'Período de Férias'
+      time_setting:
+        number_of_months_to_enjoy_vacation: 'Nº de meses para gozar as férias'
+      employee_justification:
+        absence_object_id: 'Ausência/Atraso/Saída'
+      employee_presence:
+        date: 'Data'
+    hints:
+      defaults:
+        # data_de_emissao: "Data da emissão da factura"
+    placeholders:
+      defaults:
+        # column: 'translation'
+    prompts:
+      defaults:

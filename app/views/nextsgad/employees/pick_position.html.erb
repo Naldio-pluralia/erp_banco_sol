@@ -1,0 +1,66 @@
+<% @page_name = "Confirmação dos Dados" %>
+
+<%= simple_form_for @position, url: employee_select_position_url(current.employee.id), method: :patch do |f| %>
+    <div id="set-initial-position" class="modal modal-fixed-footer">
+      <div class="modal-content">
+        <span class="h5-size"> <%= @position.id.present? ? "Confirme os Dados" : "Confirme os Dados" %> </span>
+        <hr>
+        <div class="row">
+          <%= f.input :department_id, label: t('position_department'), collection: Department.map_for_select, wrapper_html: {class: 'col s6'}, input_html: {class: 'default-selectize sele-5', multiple: false}, prompt: t('position_department'), required: true %>
+          <%= f.input :position_id, label: t('position_boss'), collection: Position.map_for_select, wrapper_html: {class: 'col s6'}, input_html: {class: 'default-selectize sele-5', multiple: false}, prompt: t('position_boss'), required: true %>
+          <%= f.input :function_id, label: 'function.description'.ts, collection: Function.map_for_select, wrapper_html: {class: 'col s6'}, input_html: {class: 'default-selectize sele-5', multiple: false}, prompt: t('function.description'), required: true %>
+          <div class="input-field col select required position_function_id s6 set_position_input">
+            <% select_tag :position_id, options_for_select([], params[:position_id]), multiple: false, class: 'default-selectize custom', required: true, placeholder:  t('position_name')%>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <%= f.button :submit, "#{@position.id.present? ? 'Actualizar' : 'Registar'}", class: "btn btn-default" %>
+      </div>
+    </div>
+<% end %>
+
+
+<script type="text/javascript" charset="utf-8">
+    var positions = <%= Position.where(efective_id: nil).order(number: :asc).map{|p| {id: p.id, department_id: p.department_id, title: p.name_and_number}}.to_json.html_safe %>;
+
+    $('.selectize.sele-5:not(.remote-selectize)').selectize({
+        maxItems: 1,
+        closeAfterSelect: true,
+        selectOnTab: true
+    });
+
+    $('#position_department_id').change(function () {
+        $('.set_position_input').html('<%= select_tag :position_id, options_for_select([], params[:position_id]), multiple: false, class: 'default-selectize custom', required: true, placeholder:  t('position_name')%>');
+        var selected_department_positions = $(positions).filter(function (i, n) {
+            return n.department_id == $('#position_department_id option:checked').attr('value');
+        });
+        $('select.selectize.custom').selectize({
+            maxItems: 1,
+            closeAfterSelect: true,
+            selectOnTab: true,
+            valueField: 'id',
+            labelField: 'title',
+            searchField: 'title',
+            options: selected_department_positions,
+            create: false
+        });
+    });
+
+    if ($('#position_department_id option:selected').length > 0 && $('#position_position_id option:selected').length > 0 && $('#position_id option:selected').length > 0 && $('#position_function_id option:selected').length > 0) {
+        $('.confirmation-buttons').removeClass('hide');
+    } else {
+        $('.confirmation-buttons').addClass('hide');
+    }
+
+    $('#position_department_id, #position_position_id, #position_id, #position_function_id').change(function () {
+        if ($('#position_department_id option:checked').length > 0 && $('#position_position_id option:checked').length > 0 && $('#position_id option:checked').length > 0 && $('#position_function_id option:checked').length > 0) {
+            $('.confirmation-buttons').removeClass('hide');
+            $('.confirmation-buttons').removeProp('disabled');
+        } else {
+            $('.confirmation-buttons').addClass('hide');
+        }
+    });
+
+</script>

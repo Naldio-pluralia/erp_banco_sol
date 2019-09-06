@@ -1,0 +1,32 @@
+<%= index_bar(itens: {t(".social_security_tax_salaries") => social_security_tax_salaries_url, t('.social_security_tax_salary') => nil}) do %>
+  <%= action_btn(content: t('update'), href: edit_social_security_tax_salary_path(@social_security_tax_salary) )%>
+  <% action_btn(content: t('update'), href: "social_security_tax_salary-modal-form", modal_trigger: true) %>
+<% end %>
+
+<p>
+  <strong><%= t(".name") %>:</strong>
+  <%= @social_security_tax_salary.name %>
+</p>
+
+<p>
+  <strong><%= t(".abbr_name") %>:</strong>
+  <%= @social_security_tax_salary.abbr_name %>
+</p>
+
+<p>
+  <strong><%= t(".value") %>:</strong>
+  <%= @social_security_tax_salary.value %>
+</p>
+
+<p>
+  <strong><%= t(".salary") %>:</strong>
+  <%= @social_security_tax_salary.salary %>
+</p>
+
+<p>
+  <strong><%= t(".social_security_tax") %>:</strong>
+  <%= @social_security_tax_salary.social_security_tax %>
+</p>
+
+
+<%# render 'form', social_security_tax_salary: @social_security_tax_salary %>

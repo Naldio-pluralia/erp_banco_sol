@@ -1,0 +1,69 @@
+<% @page_name = "assessment.description".ts %>
+
+<div class="employee-details" style="margin-bottom: calc(0vh - 5px);">
+  <%= render "header_employee", year: params[:year] || @assessment&.year %>
+  <div class="flex-row" style="margin-top: 0px;">
+    <div class="flex-col-xs right-align list-btn-employee">
+      <% button_print(icon: '<i class="material-icons">local_printshop</i>', url: employee_assessment_url(@employee, format: "pdf")) %>
+      <%= buttons_modal(text: t("employee.edit"), url: "#add-employee", class_css: "edit_button", if_can: {create: @employee}) %>
+      <%= buttons_modal(text: t("justification.new"), url: "#add-justification", if_can: {create: @justification}) if @employee.is_assessed? %>
+      <% buttons_modal(text: t('assessment.new_skill'), url: '#add-assessment-skill', if_can: {new_skill: @assessment}) if @skill.present? && @employee.is_assessed? %>
+      <%= buttons_modal(text: t('assessment.new_objective'), url: '#add-assessment-objective', if_can: {new_objective: @assessment}) if @objective.present? && @employee.is_assessed? %>
+
+    </div>
+  </div>
+</div>
+
+<%# render "form_goal", redirect_url: employee_assessment_url if @assessment.present?%>
+<%= render "form" %>
+<%= render "nextsgad/justifications/form", justification: @justification %>
+<%# render "nextsgad/assessments/skill_form", goal: @skill if @skill.assessment_id.present? || can?(:new_skill, @assessment)%>
+<%= render "nextsgad/assessments/objective_form", goal: @objective if @objective.present? && can?(:new_objective, @assessment) %>
+
+
+
+<hr style="margin-bottom: 0;">
+
+<%= tab do%>
+
+  <%= tab_header do%>
+    <%= tab_header_item(:tab_performance_assessment, view_t('.performance_assessment')) %>
+    <%= tab_header_item(:tab_remuneration, view_t('.remunerations'))%>
+  <%end%>
+
+  <%= tab_body(:tab_performance_assessment) do%>
+    <div class="employee_assessment_details">
+      <%= render "employee_assessment_details", assessment: @assessment, employee: @employee, employee_goals: @employee_goals, my_spider_data: @my_spider_data %>
+    </div>
+  <%end%>
+
+  <%= tab_body(:tab_remuneration) do%>
+    <%= render "employee_paygrades_work_periods_and_salaries" %>
+  <%end%>
+<%end%>
+
+
+
+
+
+
+
+
+
+<style media="screen">
+  .list-btn-employee {
+    position: absolute;
+    text-align: right;
+    right: 0;
+    margin-top: -15px;
+    padding-right: 25px;
+  }
+</style>
+
+<script type="text/javascript">
+
+    function enviar(employee_id) {
+        document.getElementById("edit_employee_" + employee_id).submit();
+    }
+
+</script>

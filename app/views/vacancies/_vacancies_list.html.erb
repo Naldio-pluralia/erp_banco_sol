@@ -1,0 +1,81 @@
+<div class="flex-col-xs-9 vacancies_list" style="padding-left: 0;">
+  <%if vacancies.size > 0%>
+    <% vacancies.each do |e| %>
+      <div class="job">
+
+        <div class="card">
+          <a class="job-link" href="<%= vacancy_url(e) %>">
+            <div class="card-section title-section">
+              <div class="">
+                <div class="row">
+                  <div class="col s6">
+                    <h2 class="job__title"><%= e.position%></h2>
+                    <h3><%= e.present_number %></h3>
+                  </div>
+
+                  <div class="col s6 right">
+                    <p class="card-prefix">
+                      <span class="right">
+                        <%if e.offer_ends_at.to_date > DateTime.now.to_date%>
+                          Faltam <strong><%= ((DateTime.now.to_date)..(e.offer_ends_at.to_date)).to_a.size %></strong> dias para fechar
+                        <%elsif e.offer_ends_at.to_date == DateTime.now.to_date %>
+                          Fecha hoje
+                        <%else%>
+                          Fechou à <strong><%= ((e.offer_ends_at.to_date)..(DateTime.now.to_date)).to_a.size %></strong> dias
+                        <%end%>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+            <div class="card-section">
+              <div class="row no-gutters" style="margin-bottom: 0;">
+                <div class="col-md-4">
+                  <ul class="list-unstyled job__details">
+                    <li>
+                      <p class="text-label-p"><strong>Endereço</strong></p>
+                      <h4 class="job__details__location"><%= e.country %>, <%= e.province %>, <%= e.city %> </h4>
+                    </li>
+                    <li>
+                      <p class="text-label-p"><strong><%= view_t('.contract_type')%></strong></p>
+                      <%= e.enum_t(:contract_type) %>
+                    </li>
+                    <li>
+                      <p class="text-label-p"><strong><%= view_t('.job_description')%></strong></p>
+                      <%= e.job_description %>
+                    </li>
+                    <li>
+                      <p class="text-label-p"><strong><%= view_t('.status')%></strong></p>
+                      <%= e.enum_t(:status) %>
+                    </li>
+                    <li>Término <%= l(e.offer_ends_at) %></li>
+                    <%if e.year_of_experience > 0%>
+                      <li> <%= e.year_of_experience %> anos de experiência exigido</li>
+                    <%end%>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </a>
+          <div class="card-section">
+            <ul class="tags-list">
+              <li class="inline">
+                <%= link_to 'Ver', vacancy_url(e), class: 'filter-btn' %> | 
+                <%= link_to 'Candidatar-se', create_application_url(vacancy_id: e.id), class: 'filter-btn' %>
+                <%if can?(:destroy, e)%>
+                  |
+                  <%= link_to 'Eliminar', vacancy_url(e), method: :delete, class: 'filter-btn', style: "color: #D13732" %>
+                <%end%>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    <%end%>
+  <%else%>
+    <h2 class="job__title" style="text-align: center;margin-top: 78px;">A Busca não retornou resultados</h2>
+  <%end%>
+</div>

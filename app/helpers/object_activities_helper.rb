@@ -1,0 +1,2 @@
+module ObjectActivitiesHelper
+end

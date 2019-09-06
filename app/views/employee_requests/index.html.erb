@@ -1,0 +1,48 @@
+<%= index_bar(itens: {view_t(".employee_requests") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_employee_request_path) %>
+  <% is_action?(:my_requests, :employees) do%>
+    <%= action_btn(content: view_t('add'), href: "#employee_request-modal-form", modal_trigger: true) %>
+  <%end%>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-employee_requests-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <% is_action?(:index, :employee_requests) do%>
+      <%= h_cell(text: view_t(".employee") )%>
+    <%end%>
+    <%= h_cell(text: view_t(".name") )%>
+    <%#= h_cell(text: view_t(".note") )%>
+    <%#= h_cell(text: view_t(".request_type") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @employee_requests.sort_by(&:created_at).reverse) do |e| %>
+    <%= b_row(link_to: employee_request_path(e)) do %>
+      <% is_action?(:index, :employee_requests) do%>
+        <%= b_cell(element: e.employee.name)%>
+      <%end%>
+      <%= b_cell(element: e.name)%>
+      <%#= b_cell(element: e.note)%>
+      <%#= b_cell(element: e.request_type)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e if can?(:show, e) %>
+        <% is_action?(:my_requests, :employees) do%>
+            |
+          <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+        <%end%>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(employee_requests_url, "employee_requests") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'employee_requests/form', employee_request: @employee_request %>

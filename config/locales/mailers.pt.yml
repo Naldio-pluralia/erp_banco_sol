@@ -1,0 +1,8 @@
+pt:
+  mailers:
+    defaults:
+      index: 'Listar'
+      show: 'Detalhes'
+      edit: 'Editar'
+    user_mail:
+      employee_message_notification: 'Notificação'

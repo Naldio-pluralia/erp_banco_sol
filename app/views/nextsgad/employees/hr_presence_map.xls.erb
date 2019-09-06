@@ -1,0 +1,43 @@
+<%
+  employees = Employee.employee_id(params[:employee]).includes(:user).order(:number)
+  absences = {}
+  AbsenceDay.all.includes(:employee_absence).each{|f| absences[[f.employee_absence.employee_id, f.date.day, f.date.month, f.date.year]] ||= "F" } if params[:kind].blank? || params[:kind].includes?('absences', 'all')
+  EmployeeDelay.all.each{|e| absences[[e.employee_id, e.arrived_at.day, e.arrived_at.month, e.arrived_at.year]] ||= 'A'} if (params[:kind].blank? || params[:kind].includes?('delays', 'all'))
+  EmployeeExit.all.index_by{|e| absences[[e.employee_id, e.date.day, e.date.month, e.date.year]] ||= 'S' } if (params[:kind].blank? || params[:kind].includes?('exits', 'all'))
+  VacationDay.all.includes(:employee_vacation).select{|v| v.approved? || v.pending?}.each{|e| absences[[e.employee_vacation.employee_id, e.date.day, e.date.month, e.date.year]] ||= "V" } if params[:kind].blank? || params[:kind].includes?('vacations', 'all')
+%>
+
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <%= render 'layouts/excel_styles'%>
+  <Worksheet ss:Name="<%=l(curr_date, format: 'Presenças de %B de %Y')%>">
+    <Table>
+      <Column ss:Width="200"/>
+      <%(1..days_in_month(curr_date.month, curr_date.year)).each do |n|%>
+        <Column ss:Span="1" ss:Width="20"/>
+      <%end%>
+      <Row>
+        <Cell ss:StyleID="bold"><Data ss:Type="String">Colaboradores</Data></Cell>
+        <%(1..days_in_month(curr_date.month, curr_date.year)).each do |n|%>
+          <Cell ss:StyleID="bold"><Data ss:Type="String"><%= n %></Data></Cell>
+        <%end%>
+      </Row>
+      <% employees.each_with_index do |f, index| %>
+        <Row>
+          <Cell ss:StyleID="<%=:even%>"><Data ss:Type="String"><%= f.name_and_number%></Data></Cell>
+          <% (1..days_in_month(curr_date.month, curr_date.year)).each do |n| %>
+            <%
+              c = absences[[f.id, n, curr_date.month, curr_date.year]] || ''
+              c = "P" if c.eql?("") && curr_date.change(day: n) <= Date.current
+            %>
+            <Cell ss:StyleID="absence-type-<%=c.downcase%>"><Data ss:Type="String"><%= c %></Data></Cell>
+          <% end %>
+        </Row>
+      <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

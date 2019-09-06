@@ -1,0 +1,50 @@
+<%= index_bar(itens: {t('attendances') => attendances_url}) do %>
+    <%= action_btn(content: t('add'), href: '#add-attendance', modal_trigger: true) %>
+    <% action_btn(content: t('upload.file'), href: '#upload-file', modal_trigger: true) %>
+    <%= action_btn(filter: 'attendances') %>
+<% end %>
+
+<%= l_table do %>
+    <%= t_header do %>
+        <%= h_cell(text: t('attendance.date')) %>
+        <%= h_cell(text: t('attendance.status')) %>
+        <%= h_cell(text: t('attendance.employee')) %>
+        <%= h_cell(text: t('attendance.position')) %>
+        <%= h_cell(text: t('attendance.justification')) %>
+        <th class="mdl-data-table__cell--non-numeric cell-align" style="width: 40px;"><%= t('attendance.status') %></th>
+    <% end %>
+
+    <%= t_body(elements: @attendances) do |e| %>
+        <%= b_row(link_to: attendance_url(e)) do %>
+            <%= b_cell(element: t(e.date.strftime('%d/%m/%Y'))) %>
+            <%= b_cell(element: t(e.status)) %>
+            <%= b_cell(element: e.employee.first_and_last_name) %>
+            <%= b_cell(element: e.position&.name || t('n/a')) %>
+            <%= b_cell(element: e.unjustified? ? t('n/a') : e.justification_status) %>
+            <td class="mdl-data-table__cell--non-numeric color" style="width: 40px;"><i class="material-icons" style="color: <%= attendances_status(e) %>;">lens</i></td>
+
+        <% end %>
+    <% end %>
+<% end %>
+
+<br>
+
+<%= render 'form', attendance: @attendance %>
+
+<%= render 'uploads/form', upload: @upload, type: 'attendances' %>
+<%= filter_modal(attendances_url, 'attendances') do %>
+    <div class="flex-row">
+      <div class="hide flex-col flex-col">
+        <%= text_field_tag :from_to_date, params[:from_date], class: "select browser-default optional form-control datepicker-here hide", 'data-inline' => 'true', 'data-range' => 'true', 'data-multiple-dates-separator' => ' - ', 'data-toggle-selected' => 'false', 'data-language' => "pt", prompt: "Desde" %>
+      </div>
+      <div class="flex-col-xs-12 flex-col-sm-4">
+        <%= select_tag 'employee_id[]', options_for_select(Employee.all.map {|e| [e.name_and_number, e.id]}, params[:employee_id]), multiple: :multiple, class: "default-selectize", prompt: "Faltas do Empregado" %>
+      </div>
+      <div class="flex-col-xs-12 flex-col-sm-4">
+        <%= select_tag 'position_id[]', options_for_select(Position.all.map {|e| [e.name_and_number, e.id]}, params[:position_id]), multiple: :multiple, class: "default-selectize", prompt: "Faltas da Posição" %>
+      </div>
+      <div class="flex-col-xs-12 flex-col-sm-4">
+        <%= select_tag 'justification_status[]', options_for_select(Attendance.justification_statuses.for_select(:pt), params[:justification_status]), multiple: :multiple, class: "default-selectize", prompt: "Estado de Justificação" %>
+      </div>
+    </div>
+<% end %>

@@ -1,0 +1,40 @@
+<%= index_bar(itens: {view_t(".employee_regimes") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_employee_regime_path) %>
+  <%= action_btn(content: view_t('add'), href: "#employee_regime-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-employee_regimes-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".regime") )%>
+    <%= h_cell(text: view_t(".enters_at") )%>
+    <%= h_cell(text: view_t(".leaves_at") )%>
+    <%= h_cell(text: view_t(".employee") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @employee_regimes) do |e| %>
+    <%= b_row(link_to: employee_regime_path(e)) do %>
+      <%= b_cell(element: e.regime)%>
+      <%= b_cell(element: e.enters_at)%>
+      <%= b_cell(element: e.leaves_at)%>
+      <%= b_cell(element: e.employee)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e if can?(:show, e) %> | 
+        <%= link_to t('edit'), edit_employee_regime_path(e) if can?(:edit, e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(employee_regimes_url, "employee_regimes") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', employee_regime: @employee_regime, employee: @employee %>

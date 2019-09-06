@@ -1,0 +1,36 @@
+<%= simple_form_for employee do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="add-employee" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= employee.id.present? ? 'edit_employee'.ts : 'new_employee'.ts %> </span>
+      <hr>
+
+      <div class="row">
+        <%= f.input :first_name, label: 'employee.first_name'.ts, wrapper_html: {class: 'col s4'} %>
+        <%= f.input :middle_name, label: 'employee.middle_name'.ts, wrapper_html: {class: 'col s4'} %>
+        <%= f.input :last_name, label: 'employee.last_name'.ts, wrapper_html: {class: 'col s4'} %>
+        <%= f.input :position_id, collection: Position.map_for_select, wrapper_html: {class: 'col s4'}, input_html: {class: 'default-selectize'} unless employee.new_record? %>
+        <%= f.input :tolerance, label: 'employee.tolerance'.ts, wrapper_html: {class: 'col s4'} %>
+        <%#= f.input :level, label: t('employee_paygrade'), wrapper_html: {class: 'col s4'} %>
+        <%# f.input :paygrade, label: t('employee_paygrade_level'), wrapper_html: {class: 'col s4'} %>
+        <%= f.input :number, label: t('employee_number'), wrapper_html: {class: 'col s4'} %>
+        <%= f.input :status, collection: Employee.enums_map_t(:status), label: t('status'), include_blank: false,  wrapper_html: {class: 'col s4'} %>
+        <%= f.input :can_be_assessed, as: :bootstrap_switch,  wrapper_html: {class: 'col s4'} %>
+        <% if employee.new_record? %>
+          <%#= f.input :new_position, label: :create_position?.ts, wrapper_html: {class: 'col s12'}, as: :bootstrap_switch%>
+          <%#= f.input :position_name, label: 'name'.ts, wrapper_html: {class: 'col s6', 'data-on-check': "#employee_new_position,show"}%>
+          <%#= f.input :position_function_id, label: 'function.name'.ts, collection:  Function.all.map{|p| [p.name, p.id]}, wrapper_html: {class: 'col s6', 'data-on-check': "#employee_new_position,show"}, input_html: {class: 'default-selectize'} %>
+          <%#= f.input :position_position_id, label: 'supervisor'.ts, collection:  Position.all.map{|p| [p.name, p.id]}, wrapper_html: {class: 'col s6', 'data-on-check': "#employee_new_position,show"}, input_html: {class: 'default-selectize'} %>
+          <%#= f.input :position_department_id, label: :department_name.ts, collection:  Department.all.map{|p| [p.name, p.id]}, wrapper_html: {class: 'col s6', 'data-on-check': "#employee_new_position,show"}, input_html: {class: 'default-selectize'} %>
+          <%#= f.input :position_description, label: 'description'.ts, as: :text, wrapper_html: {class: 'col s12', 'data-on-check': "#employee_new_position,show"}%>
+          <%#= f.input :new_account, label: :create_account?.ts, wrapper_html: {class: 'col s12'}, as: :bootstrap_switch%>
+          <%#= f.input :user_email, label: 'employee.email'.ts, wrapper_html: {class: 'col s6', 'data-on-check': "#employee_new_account,show"}%>
+        <% end %>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <%= f.button :submit, "#{employee.id.present? ? 'Actualizar' : 'Registar'}", class:"btn btn-default" %>
+      <%= link_to "back".ts, employee.goto_cancel_url_or(employee.new_record? ? employees_url : employee_url(employee.id)), class: "waves-effect waves-light btn btn-flat btn-cancel-form" %>
+    </div>
+  </div>
+<% end %>

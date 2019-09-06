@@ -1,0 +1,42 @@
+<%= index_bar(itens: {t(".vacation_subsidy_salaries") => vacation_subsidy_salaries_url, t('.vacation_subsidy_salary') => nil}) do %>
+  <%= action_btn(content: t('update'), href: edit_vacation_subsidy_salary_path(@vacation_subsidy_salary) )%>
+  <% action_btn(content: t('update'), href: "vacation_subsidy_salary-modal-form", modal_trigger: true) %>
+<% end %>
+
+<p>
+  <strong><%= t(".name") %>:</strong>
+  <%= @vacation_subsidy_salary.name %>
+</p>
+
+<p>
+  <strong><%= t(".abbr_name") %>:</strong>
+  <%= @vacation_subsidy_salary.abbr_name %>
+</p>
+
+<p>
+  <strong><%= t(".value") %>:</strong>
+  <%= @vacation_subsidy_salary.value %>
+</p>
+
+<p>
+  <strong><%= t(".percentage") %>:</strong>
+  <%= @vacation_subsidy_salary.percentage %>
+</p>
+
+<p>
+  <strong><%= t(".year") %>:</strong>
+  <%= @vacation_subsidy_salary.year %>
+</p>
+
+<p>
+  <strong><%= t(".salary") %>:</strong>
+  <%= @vacation_subsidy_salary.salary %>
+</p>
+
+<p>
+  <strong><%= t(".vacation_subsidy") %>:</strong>
+  <%= @vacation_subsidy_salary.vacation_subsidy %>
+</p>
+
+
+<%# render 'form', vacation_subsidy_salary: @vacation_subsidy_salary %>

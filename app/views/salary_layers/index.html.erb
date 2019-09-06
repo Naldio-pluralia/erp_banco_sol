@@ -1,0 +1,34 @@
+<%= index_bar(itens: {view_t(".salary_layers") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_salary_layer_path) %>
+  <%= action_btn(content: view_t('add'), href: "#salary_layer-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-salary_layers-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".name") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @salary_layers) do |e| %>
+    <%= b_row(link_to: salary_layer_path(e)) do %>
+      <%= b_cell(element: e.name)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e if can?(:show, e) %> | 
+        <%= link_to t('edit'), edit_salary_layer_path(e) if can?(:edit, e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(salary_layers_url, "salary_layers") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', salary_layer: @salary_layer %>

@@ -1,0 +1,44 @@
+<%= index_bar(itens: {view_t(".questions") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_question_path) %>
+  <%= action_btn(content: view_t('add'), href: "#question-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-questions-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".exam") )%>
+    <%= h_cell(text: view_t(".number") )%>
+    <%= h_cell(text: view_t(".description") )%>
+    <%= h_cell(text: view_t(".type") )%>
+    <%= h_cell(text: view_t(".value") )%>
+    <%= h_cell(text: view_t(".boolean_option") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @questions) do |e| %>
+    <%= b_row(link_to: question_path(e)) do %>
+      <%= b_cell(element: e.exam)%>
+      <%= b_cell(element: e.number)%>
+      <%= b_cell(element: e.description)%>
+      <%= b_cell(element: e.type)%>
+      <%= b_cell(element: e.value)%>
+      <%= b_cell(element: e.boolean_option)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e if can?(:show, e) %> | 
+        <%= link_to t('edit'), edit_question_path(e) if can?(:edit, e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(questions_url, "questions") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', question: @question %>

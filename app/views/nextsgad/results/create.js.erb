@@ -1,0 +1,31 @@
+
+<%if @result.new_record?%>
+  $('.add_result_form').html("<%= j render("form", result: @result)%>");
+  initPlugins($('.add_result_form'));
+<%else%>
+  <% employee_goal = @result.employee_goal%>
+  <% employee = employee_goal.employee %>
+  <% assessment = employee_goal.assessment %>
+  <% employee_goals = assessment.employee_goals.where(employee_id: employee_goal.employee_id) %>
+  <% results = employee_goal.results %>
+
+  <% employee_skills = assessment.employee_goals.includes(:goal).skill.where(employee_id: employee.id) %>
+
+  <% self_assessment = employee_skills.map {|g| [[g.goal.name.truncate(10), "self_assessment".ts], g.self_assessment]}.to_h %>
+  <% supervisor_assessment = employee_skills.map {|g| [[g.goal.name.truncate(10), "supervisor_assessment".ts], g.supervisor_assessment]}.to_h %>
+  <% final_assessment = employee_skills.map {|g| [[g.goal.name.truncate(10), "final_assessment".ts], g.final_assessment]}.to_h %>
+
+  <% all_assessment = final_assessment.merge(supervisor_assessment).merge(self_assessment) %>
+  <% my_spider_data = RadarChartDataLine.new(all_assessment.to_h).get_data %>
+
+  $('.results').html("<%= j render("nextsgad/employee_goals/results", results: results)%>");
+  $('.show_header').html("<%= j render("nextsgad/employee_goals/show_header", employee_goal: employee_goal)%>");
+  $('.employee_assessment_details').html("<%= j render("nextsgad/employees/employee_assessment_details", assessment: assessment, employee: employee, employee_goals: employee_goals, my_spider_data: my_spider_data) %>");
+  
+  $('.add_result_text').removeClass('hide');
+  $('.add_result_form').addClass('hide');
+  $('.add_result_form').html("<%= j render("form", result: Result.new(employee_goal_id: @result.employee_goal_id))%>");
+  $('.employee_goal_activities').html("<%= j render("nextsgad/employee_goals/employee_goal_activities", employee_goal_activities: @result.employee_goal.employee_goal_activities.includes(:creator).order(created_at: :desc))%>");
+  $('.activity_form').html("<%= j render("nextsgad/employee_goal_activities/form", employee_goal_activity: EmployeeGoalActivity.new(employee_goal_id: @result.employee_goal_id))%>");
+  initPlugins($('.add_result_form, .show_header, .results, .show_header, .employee_assessment_details, .employee_goal_activities, .activity_form'));
+<%end%>

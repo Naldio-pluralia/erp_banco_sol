@@ -1,0 +1,25 @@
+<% @page_name = @attendance.date.strftime('%d/%m/%Y') %>
+
+<%= index_bar(itens: {t('attendances') => attendances_url, "#{'attendance.description'.ts} #{@attendance.employee.full_name}" => nil}) do %>
+  <% if @attendance.has_justification? %>
+    <%= action_btn(content: t('update'), href: '#add-justification', modal_trigger: true, if_can: {update: @attendance.justification}) %>
+    <%= action_btn(content: t('aprove'), href: aprove_justification_url(redirect_url: attendance_url(@attendance)), method: :patch, if_can: {aprove: @attendance.justification}) %>
+    <%= action_btn(content: t('disaprove'), href: disaprove_justification_url(redirect_url: attendance_url(@attendance)), color: :red, method: :patch, if_can: {disaprove: @attendance.justification}) %>
+  <% else %>
+    <%= action_btn(content: t('justification.singular'), href: '#add-justification', modal_trigger: true, if_can: {create: @justification}) %>
+  <% end %>
+<% end %>
+
+
+<p><strong><%= t('attendance.status') %>: </strong> <span style="margin-left: 10px; position: absolute;"><i class="material-icons" style="color: <%= attendances_status(@attendance) %>;">lens</i></span> </p>
+<p><strong><%= t('attendance.date') %>: </strong><%= @attendance.date.strftime('%d/%m/%Y') %></p>
+<p><strong><%= "attendance.type".ts %>: </strong><%= @attendance.status.ts %></p>
+<p><strong><%= "attendance.employee_note".ts %>: </strong><%= @attendance.employee_note %></p>
+<p><strong><%= "attendance.manager_note".ts %>: </strong><%= @attendance.supervisor_note %></p>
+
+<% if @attendance.has_justification? %>
+    <p><strong><%= "attendance.justification".ts %>: </strong><%= t(@attendance.justification.status) %></p>
+<% end %>
+
+<%= render "nextsgad/justifications/form", justification: @justification %>
+<%= render 'form', attendance: @attendance %>

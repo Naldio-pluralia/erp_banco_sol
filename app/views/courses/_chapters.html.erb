@@ -1,0 +1,51 @@
+<div class="chapters">
+  <div class="course_box" style="height: calc(100vh - 250px); min-height: calc(100vh - 250px);">
+    <div id="test4">
+      <div class="padding-10" style="text-align: right;">
+        <%= action_btn(content: "#{view_t('add')} #{view_t('.chapter')}", href: "#chapter-modal-form", modal_trigger: true) if can?(:update, course) %>
+      </div>
+
+      <table>
+        <% chapters.each do |chapter| %>
+          <thead>
+            <tr class="on-hover tr">
+              <th class="th-next" ><strong><%= "#{chapter.number}. #{chapter.name}" %></strong></th>
+              <th class="th-next right">
+                <%=
+                  ms_ctx_container() do
+                    ms_ctx_btn(:upload, 'Adicionar') +
+                    ms_ctx_menu() do
+                      ms_ctx_item(:upload, "Adicionar #{view_t('.lesson')}", new_lesson_path(format: :text, chapter_id: chapter.id, render_view: 'new.html.erb'), remote: true, 'data-jmodal': 'Adicionar Lição', disabled_unless:  can?(:update, chapter.course)) +
+                      ms_ctx_item(nil, "Adicionar #{view_t('.exam')}", create_exam_path(chapter), method: :patch, disabled_unless:  can?(:create_exam, chapter))
+                    end  
+                  end  
+                %>
+              </th>
+            </tr>
+          </thead>
+          
+          <tbody>
+            <% chapter.lessons.sort_by(&:number).each do |lesson|%>
+              <tr class="on-hover current-item-next toc-item">
+                <td class="td-next "><%= link_to "#{lesson.name}", lesson_path(lesson, format: :js, render_view: :show_1), class: "dark-text lesson-item", remote: true %></td>
+                
+                <td class="text-bold right td-next">
+                  <%= link_to mticon(:edit, class: 'font-14').html_safe, edit_lesson_path(lesson, format: :text, render_view: 'edit.html.erb'), remote: true, data: {jmodal: 'Editar Lição'}, class: 'hover-show' if can?(:update, chapter.course) %>
+                  <%= link_to mticon(:delete, class: 'font-14').html_safe, lesson_path(lesson), method: :delete, style: "color: red;", class: 'hover-show' if can?(:update, chapter.course)%>
+                </td>
+              </tr> 
+            <% end %>
+            
+            <%if chapter.exam.present?%>
+              <tr class="on-hover current-item-next toc-item">
+                <td class="text-bold td-next dark-text" colspan="2"><%= link_to "Exame", exam_path(chapter.exam, format: :js, render_view: :show_1), class: "dark-text lesson-item", remote: true %></td>
+              </tr> 
+            <%end%>
+
+          </tbody>
+        <% end %>
+      </table>
+
+    </div>
+  </div>
+</div>

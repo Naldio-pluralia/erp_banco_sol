@@ -1,0 +1,21 @@
+<div class="mdl-grid" style="padding: 0;">
+  <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-phone">
+
+    <div class="mdl-card mdl-shadow--2dp next-card general-cards-1">
+      <div class="mdl-card__actions mdl-card--border">
+        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"><%= t('my_attendances') %></a>
+      </div>
+
+      <div class="mdl-card__supporting-text" style=" padding: 0;">
+          <%= line_chart(@my_attendances_data, height: '90px', legend: {position: "right"}, scales: {yAxes: [{ticks: {max: 31, min: 0, step_size: 8}}]}) %>
+      </div>
+
+      <div class="mdl-card__menu">
+        <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+          <i class="material-icons">people_outline</i>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

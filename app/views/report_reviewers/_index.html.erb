@@ -1,0 +1,34 @@
+<div class="report_reviewers_index">
+  <%= index_bar(itens: {view_t(".report_reviewers") => nil }) do %>
+    <%#= action_btn(content: view_t('add'), href: new_report_reviewer_path) %>
+    <%= action_btn(content: view_t('add'), href: "#report_reviewer-modal-form", modal_trigger: true) %>
+    <%#= action_btn(content: view_t('filter'), href: "#filter-report_reviewers-modal", modal_trigger: true, color: :blue) %>
+  <% end %>
+
+
+  <%= l_table do %>
+    <%= t_header do %>
+      <%= h_cell(text: view_t(".employee") )%>
+      <%= h_cell(sortable: false) %>
+    <% end %>
+
+    <%= t_body(elements: report_reviewers.sort_by{|r| r.employee.name}) do |e| %>
+      <%= b_row() do %>
+        <%= b_cell(element: e.employee.name)%>
+        <%= b_cell(text: "") do %>
+          <%= link_to t('destroy'), e, method: :delete, remote: true, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= filter_modal(report_reviewers_url, "report_reviewers") do %>
+      <div class="flex-row">
+        <div class="flex-col-xs-12 flex-col-sm-3">
+
+        </div>
+      </div>
+  <% end %>
+
+  <%= render 'form', report_reviewer: report_reviewer %>
+</div>

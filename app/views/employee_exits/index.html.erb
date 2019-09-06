@@ -1,0 +1,46 @@
+<%= index_bar(itens: {view_t(".employee_exits") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_employee_exit_path) %>
+  <%= action_btn(content: view_t('add'), href: "#employee_exit-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-employee_exits-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".employee") )%>
+    <%= h_cell(text: view_t(".absence_type") )%>
+    <%= h_cell(text: view_t(".kind") )%>
+    <%= h_cell(text: view_t(".date") )%>
+    <%= h_cell(text: view_t(".left_at") )%>
+    <%= h_cell(text: view_t(".returned_at") )%>
+    <%= h_cell(text: view_t(".number_of_hours_absent") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @employee_exits) do |e| %>
+    <%= b_row(link_to: employee_employee_exit_path(@employee, e)) do %>
+      <%= b_cell(element: e.employee)%>
+      <%= b_cell(element: e.absence_type)%>
+      <%= b_cell(element: e.kind)%>
+      <%= b_cell(element: e.date)%>
+      <%= b_cell(element: e.left_at)%>
+      <%= b_cell(element: e.returned_at)%>
+      <%= b_cell(element: e.number_of_hours_absent)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), employee_employee_exit_path(@employee, e) if can?(:show, e) %> | 
+        <%= link_to t('edit'),  edit_employee_employee_exit_path(@employee, e) if can?(:edit, e) %> | 
+        <%= link_to t('destroy'), employee_employee_exit_path(@employee, e), method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(employee_employee_exits_path(@employee), "employee_exits") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', employee_exit: @employee_exit, employee: @employee %>

@@ -1,0 +1,34 @@
+<%= index_bar(itens: {view_t(".general_goals") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_general_goal_path) %>
+  <%= action_btn(content: view_t('add'), href: "#general_goal-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-general_goals-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".assessment"))%>
+    <%= h_cell(text: view_t(".period"))%>
+    <%= h_cell(text: view_t(".mode"))%>
+    <%= h_cell(text: view_t(".target"))%>
+  <% end %>
+
+  <%= t_body(elements: @general_goals) do |e| %>
+    <%= b_row(link_to: general_goal_path(e)) do %>
+      <%= b_cell(element: "#{e&.assessment&.year}" || 'N/D')%>
+      <%= b_cell(element: e&.enum_t(:period) || 'N/D')%>
+      <%= b_cell(element: e&.enum_t(:mode) || 'N/D')%>
+      <%= b_cell(element: "#{e&.target}" || 'N/D')%>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(general_goals_url, "general_goals") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', general_goal: @general_goal %>

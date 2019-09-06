@@ -1,0 +1,59 @@
+<%= simple_form_for('salary', url: create_salary_map_url, method: :create) do |f| %>
+  <%= index_bar(itens: {view_t(".employees") => nil }) do %>
+    <%= f.button :submit, view_t('.submit') %>
+    <%= link_to t('cancel'), salaries_url, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+  <% end %>
+
+  <div class="row" style="margin-bottom:0;">
+    <%= f.input :period, as: :air_datepicker, wrapper_html: {class: 'col s2', style: 'padding-left: 0'}, input_html: {name: 'period', lass: '', 'data-date-format' => '1/mm/yyyy', 'data-language'=>'pt', 'data-min-view'=>"months", 'data-view'=>"months"} %>
+  </div>
+  <%= l_table do %>
+    <%= t_header do %>
+      <%= h_cell(text: check_box_tag('select_all', 'accepted', false), sortable: false, style: "width: 20px;")%>
+      <%= h_cell(text: view_t("employee_number"))%>
+      <%= h_cell(text: view_t(".employee"))%>
+      <%= h_cell(text: view_t(".paygrade") )%>
+      <%= h_cell(text: view_t(".level") )%>
+      <%= h_cell(text: view_t(".base_salary") )%>
+    <% end %>
+
+    <%= t_body(elements: @employee_salary_families) do |e| %>
+      <%= b_row do %>
+        <%= f.simple_fields_for '', Salary.new(employee_salary_family_id: e.id) do |p| %>
+          <%= b_cell(style: "width: 20px;") do %>
+            <%= check_box_tag('selected', 'accepted', false)%>
+            <%= p.input :employee_salary_family_id, as: :hidden %>
+            <%= p.input :period, as: :hidden %>
+          <%end%>
+        <% end %>
+        <%= b_cell(element: e.employee.number)%>
+        <%= b_cell(element: e.employee.first_and_last_name)%>
+        <%= b_cell(element: e.paygrade)%>
+        <%= b_cell(element: e.level)%>
+        <%= b_cell(element: e.kwanza_t(:base_salary))%>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<script>
+
+  $('thead tr [name="select_all"]').change(function(){
+    if( $(this).is(':checked') ){
+      $('tbody tr input[name="selected"]').prop('checked', true).siblings().find('input').removeProp('disabled');
+    }else{
+      $('tbody tr input[name="selected"]').prop('checked', false).siblings().find('input').prop('disabled', 'disabled');
+    }
+  });
+
+  $('[name="period"]').change(function(){
+    $('tbody tr input[name="salary[][period]"]').val($(this).val());
+  });
+</script>
+
+<style>
+  tbody.tbody-scroll-next{
+    height: unset;
+    min-height: unset;
+  }
+</style>

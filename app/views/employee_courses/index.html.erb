@@ -1,0 +1,42 @@
+<%= index_bar(itens: {view_t(".employee_courses") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_employee_course_path) %>
+  <%= action_btn(content: view_t('add'), href: "#employee_course-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-employee_courses-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".employee") )%>
+    <%= h_cell(text: view_t(".course") )%>
+    <%= h_cell(text: view_t(".end") )%>
+    <%= h_cell(text: view_t(".status") )%>
+    <%= h_cell(text: view_t(".attempt_number") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @employee_courses) do |e| %>
+    <%= b_row(link_to: employee_course_path(e)) do %>
+      <%= b_cell(element: e.employee)%>
+      <%= b_cell(element: e.course)%>
+      <%= b_cell(element: e.end)%>
+      <%= b_cell(element: e.status)%>
+      <%= b_cell(element: e.attempt_number)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e if can?(:show, e) %> | 
+        <%= link_to t('edit'), edit_employee_course_path(e) if can?(:edit, e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(employee_courses_url, "employee_courses") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', employee_course: @employee_course %>

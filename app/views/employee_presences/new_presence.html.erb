@@ -1,0 +1,11 @@
+<%= div(class: 'new_presence') do %>
+  <%= simple_form_for([@employee, @employee_presence], url: employee_create_presence_url, html: {remote: true, retabulate: '#presence-map'}) do |f| %>
+    <%= form_url_helpers(f)%>
+    <div class="flex-row flex-top">
+      <%= div(class: 'flex-col-xs-12', style: 'text-align: right;') do%>
+        <%= f.button :submit %>
+      <%end%>
+      <%= f.input :date, as: :flatpickr, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {'data-date-format': "Y-m-d"} %>
+    </div>
+  <% end %>
+<%end%>

@@ -1,0 +1,23 @@
+<%= simple_form_for(vacation_subsidy_salary) do |f| %>
+  <div id="vacation_subsidy_salary-modal-form" class="-modal -modal-fixed-footer">
+    <div class="-modal-content">
+      <span class="h5-size"> <%= vacation_subsidy_salary.new_record? ? t('.new') : t('.edit') %> </span>
+      <hr>
+
+      <div class="row">
+        <%= f.input :name, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+        <%= f.input :abbr_name, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+        <%= f.input :value, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+        <%= f.input :percentage, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+        <%= f.input :year, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+        <%= f.association :salary, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+        <%= f.association :vacation_subsidy, wrapper_html: {class: 'col s4'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), vacation_subsidy_salary.new_record? ? vacation_subsidy_salaries_path : vacation_subsidy_salary_path(vacation_subsidy_salary), class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

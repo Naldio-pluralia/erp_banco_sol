@@ -1,0 +1,13 @@
+<%= index_bar(itens: {t(".date_types") => latest_time_setting_url(active_tab: :tab_holiday_settings), t('.date_type') => nil}) do %>
+  <%#= action_btn(content: t('update'), href: edit_date_type_path(@date_type) )%>
+  <%= action_btn(content: t('update'), href: "#date_type-modal-form", modal_trigger: true) %>
+<% end %>
+
+
+<%= show_item(".name", @date_type.name) %>
+<%= show_item(".date", l(@date_type.date)) %>
+<%= show_item(".kind", @date_type.enum_t(:kind)) %>
+<%= show_item(".recurrent", t(@date_type.recurrent)) %>
+<%= show_item(".description", @date_type.description) %>
+
+<%= render 'form', date_type: @date_type %>

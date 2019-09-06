@@ -1,0 +1,40 @@
+<%= index_bar(itens: {t(".employee_paygrades") => employee_paygrades_url, t('.employee_paygrade') => nil}) do %>
+  <%= action_btn(content: t('update'), href: '#employee_paygrade-modal-form', modal_trigger: true) %>
+<% end %>
+
+<p>
+  <strong><%= t(".employee") %>:</strong>
+  <%= @employee_paygrade.employee.name_and_number %>
+</p>
+
+<p>
+  <strong><%= t(".level") %>:</strong>
+  <%= @employee_paygrade.level %>
+</p>
+
+<p>
+  <strong><%= t(".paygrade") %>:</strong>
+  <%= @employee_paygrade.paygrade %>
+</p>
+
+<p>
+  <strong><%= t(".since") %>:</strong>
+  <%= l @employee_paygrade.since %>
+</p>
+
+<p>
+  <strong><%= t(".until") %>:</strong>
+  <%= @employee_paygrade.present_until %>
+</p>
+
+<p>
+  <strong><%= t(".base_salary") %>:</strong>
+  <%= @employee_paygrade.kwanza_t(:base_salary) %>
+</p>
+
+<p>
+  <strong><%= t(".paygrade_change_reason") %>:</strong>
+  <%= @employee_paygrade.paygrade_change_reason.reason %>
+</p>
+
+<%= render 'form', employee_paygrade: @employee_paygrade %>

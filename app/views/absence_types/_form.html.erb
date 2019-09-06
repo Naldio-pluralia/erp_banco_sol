@@ -1,0 +1,67 @@
+<%= simple_form_for(absence_type) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="absence_type-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= absence_type.new_record? ? t('.new') : t('.edit') %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.input :name, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :kind, collection: AbsenceType.enums_map_t(:kind), include_blank: false, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :code, as: :hidden %>
+        <%= f.input :is_system_absence, as: :hidden %>
+        <%= f.input :requires_justification, as: :bootstrap_switch, wrapper_html: {class: 'flex-col-xs-4'}%>
+        <div class="flex-col-xs-12"  data-on-check="#absence_type_requires_justification,show">
+          <p><%=view_t('.requires')%></p>
+        </div>
+        <%= f.input :requires_document, as: :bootstrap_switch, wrapper_html: {class: 'flex-col-xs-3', 'data-on-check': "#absence_type_requires_justification,show"}%>
+        <%= f.input :requires_supervisor_justification, as: :bootstrap_switch, wrapper_html: {class: 'flex-col-xs-3', 'data-on-check': "#absence_type_requires_justification,show"}%>
+        <%= f.input :requires_approver_justification, as: :bootstrap_switch, wrapper_html: {class: 'flex-col-xs-3', 'data-on-check': "#absence_type_requires_justification,show"}%>
+        <%= f.input :requires_approver_supervisor_justification, as: :bootstrap_switch, wrapper_html: {class: 'flex-col-xs-3', 'data-on-check': "#absence_type_requires_justification,show"}%>
+        <%= f.input :description, as: :trix_editor, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: ''} %>
+
+        <% f.simple_fields_for :approvers do |ff| %>
+          <%= ff.association :employee, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {class: 'default-selectize'} %>
+          <%= ff.input :kind, collection: Approver.enums_map_t(:kind), include_blank: false, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {class: ''} %>
+        <% end %>
+      </div>
+      <table class='hide'>
+          <thead>
+            <tr>
+              <th style='width: 50%;'><%= view_t '.employee'%></th>
+              <th style='width: 50%;'><%= view_t '.kind'%></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <%= f.simple_fields_for :approvers do |ff| %>
+              <tr class='removable_row'>
+                <td style=''>
+                  <%= ff.association :employee, as: :hidden, collection: Employee.map_for_select, label: false, include_blank: false, input_html: {class: 'default-selectize ms-input'} %>
+                </td>
+                <td>
+                  <%= ff.input :kind, as: :hidden, label: false, collection: Approver.enums_map_t(:kind), include_blank: false, input_html: {class: 'ms-input'} %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), absence_type.cancel_url || absence_types_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>
+
+<style>
+  td .selectize-input{
+    height: 25px;
+    min-height: 1px;
+  }
+  td .selectize-input::after, td .selectize-control.single .selectize-input:after, td .selectize-control.single .selectize-input:after{
+    top: 65%;
+    right: 7px;
+  }
+</style>

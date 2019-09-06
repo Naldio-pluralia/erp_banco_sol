@@ -1,0 +1,18 @@
+<%= simple_form_for(paygrade_change_reason) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="paygrade_change_reason-modal-form" class="modal">
+    <div class="modal-content">
+      <span class="h5-size"> <%= paygrade_change_reason.new_record? ? t('.new') : t('.edit') %> </span>
+      <hr>
+
+      <div class="row">
+        <%= f.input :reason, wrapper_html: {class: 'col s12'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), paygrade_change_reason.new_record? ? latest_remuneration_setting_url(active_tab: :tab_paygrade_change_settings) : paygrade_change_reason_path(paygrade_change_reason), class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

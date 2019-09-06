@@ -1,0 +1,30 @@
+<%= index_bar(itens: {view_t(".applications") => applications_url, view_t('.application') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_application_path(@application) ) if can?(:edit, @application) %>
+  <%= action_btn(content: view_t('.mark_as_irrelevant'), href: mark_application_as_irrelevant_url, method: :patch, color: :red) if can?(:mark_as_irrelevant, @application) %>
+  <%= action_btn(content: view_t('.mark_as_relevant'), href: mark_application_as_relevant_url, method: :patch, color: :green) if can?(:mark_as_relevant, @application) %>
+  <%= action_btn(content: view_t('update'), href: "#application-modal-form", modal_trigger: true) if can?(:edit, @application) %>
+<% end %>
+
+
+<%= show_item(".name", @application.name) %>
+
+<%= show_item(".email", @application.email) %>
+
+<%= show_item(".cellphone", @application.cellphone) %>
+
+<%= show_item(".birthdate", @application.birthdate) %>
+
+<%= show_item(".civil_status", @application.enum_t(:civil_status)) %>
+
+<%= show_item(".dependents_number", @application.dependents_number) %>
+
+<%= show_item(".relevance", @application.enum_t(:relevance)) %>
+
+<%= show_item(".vacancy", @application.vacancy.position) if  @application.vacancy.present?%>
+
+<%= show_item(".employee", @application.employee&.name || 'N/D') %>
+
+<%= show_item(".note", @application.note) %>
+
+
+<%= render 'form', application: @application %>

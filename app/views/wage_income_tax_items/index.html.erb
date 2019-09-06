@@ -1,0 +1,46 @@
+<%= index_bar(itens: {t(".wage_income_tax_items") => nil }) do %>
+  <%= action_btn(content: t('add'), href: new_wage_income_tax_item_path) %>
+  <% action_btn(content: t('add'), href: "wage_income_tax_item-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: t('filter'), href: "#filter-wage_income_tax_items-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: t(".wage_income_tax") )%>
+    <%= h_cell(text: t(".from") )%>
+    <%= h_cell(text: t(".to") )%>
+    <%= h_cell(text: t(".fixed_portion") )%>
+    <%= h_cell(text: t(".percentage_over_the_excess") )%>
+    <%= h_cell(text: t(".excess_of") )%>
+    <%= h_cell(text: t(".status") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @wage_income_tax_items) do |e| %>
+    <%= b_row(link_to: wage_income_tax_item_path(e)) do %>
+      <%= b_cell(element: e.wage_income_tax)%>
+      <%= b_cell(element: e.from)%>
+      <%= b_cell(element: e.to)%>
+      <%= b_cell(element: e.fixed_portion)%>
+      <%= b_cell(element: e.percentage_over_the_excess)%>
+      <%= b_cell(element: e.excess_of)%>
+      <%= b_cell(element: e.status)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e %> | 
+        <%= link_to t('edit'), edit_wage_income_tax_item_path(e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(wage_income_tax_items_url, "wage_income_tax_items") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%# render 'form', wage_income_tax_item: @wage_income_tax_item %>

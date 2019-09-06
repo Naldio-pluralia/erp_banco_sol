@@ -1,0 +1,18 @@
+<%= index_bar(itens: {t('.employee_x_messages', x: @employee.name_and_number) => nil}) do %>
+<% end %>
+
+<%= l_table do %>
+    <%= t_header do %>
+        <%= h_cell(text: t('.title')) %>
+        <%= h_cell(text: t('.status')) %>
+        <%= h_cell(text: t('.signature')) %>
+    <% end %>
+
+    <%= t_body(elements: @employee_messages) do |e| %>
+        <%= b_row(link_to: employee_employee_message_path(@employee, e)) do %>
+            <%= b_cell(element: e.title) %>
+            <%= b_cell(element: e.enum_t(:status)) %>
+            <%= b_cell(element: e.signature) %>
+        <% end %>
+    <% end %>
+<% end %>

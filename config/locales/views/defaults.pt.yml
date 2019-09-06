@@ -1,0 +1,166 @@
+pt:
+  controllers_defaults:
+    employee: 'Colaborador'
+    recurrent: 'Recorrente?'
+    kind: 'Tipo'
+  appliances:
+    defaults:
+      appliance: 'Candidatura'
+      appliances: 'Candidaturas'
+      name: 'Nome Completo'
+      email: 'Email'
+      cellphone: 'Telemóvel'
+      resume: 'Curriculum'
+      attachments: 'Outros Documentos'
+      note: 'Nota'
+  employee_requests:
+    defaults:
+      my_requests: 'Meus Pedidos'
+      employee_request: 'Pedido'
+      employee_requests: 'Pedidos'
+      name: 'Pedido'
+      request_type: 'Tipo de Pedido'
+      note: 'Nota'
+  report_reviewers:
+    defaults:
+      report_reviewer: 'Gestor de Denúncia'
+      report_reviewers: 'Gestores de Denúncias'
+      employee: 'Colaborador'
+  reports:
+    defaults:
+      report: 'Denúncia'
+      reports: 'Denúncias'
+      my_reports: 'Minhas Denúncias'
+      name: 'Denúncia'
+      note: 'Detalhes'
+  request_types:
+    defaults:
+      request_type: 'Tipo de Pedido'
+      request_types: 'Tipos de Pedidos'
+      name: 'Pedido'
+      note: 'Detalhes'
+      requires_supervisor_approval: 'Chefe?'
+      requires_supervisor_supervisor_approval: 'Chefe do Chefe?'
+      requires_dpe_approval: 'DPE?'
+      requires_dpe_supervisor_approval: 'Chefe do DPE?'
+  vacancies:
+    defaults:
+      vacancies: 'Vagas'
+      vacancy: 'Vaga'
+      position: 'Vaga'
+      requirements: 'Aptidões necessárias'
+      number: 'Número da Vaga'
+      status: 'Estado'
+      target: 'Candidatos Alvo'
+      contract_type: 'Tipo de Contracto'
+      offer_ends_at: 'Termina Em'
+      country: 'País'
+      city: 'Endereço'
+      province: 'Provincia'
+      job_description: 'Descrição do trabalho'
+      year_of_experience: 'Anos de Experiência'
+  applications:
+    defaults:
+      applications: 'Candidaturas'
+      application: 'Candidatura'
+      name: 'Nome do Candidato'
+      email: 'Email'
+      cellphone: 'Telefone'
+      birthdate: 'Data de Nascimento'
+      civil_status: 'Estado Civil'
+      dependents_number: 'Nº de Dependentes'
+      note: 'Sobre Si'
+      status: 'Estado'
+      relevance: 'relevância'
+      vacancy: 'Vaga'
+      employee: 'Colaborador'
+      mark_as_relevant: 'Marcar Como Relevante'
+      mark_as_irrelevant: 'Marcar Como Irrelevante'
+  salary_grids:
+    defaults:
+      salary_grid: 'Grelha salarial'
+      salary_grids: 'Grelhas Salariais'
+      number: 'GS'
+      value_80: '80%'
+      value_100: '100%'
+      value_105: '105%'
+      value_110: '110%'
+      value_115: '115%'
+      value_120: '120%'
+      value_125: '125%'
+      grid_added: 'Grelha Adicionada'
+      grid_removed: 'Grelha Removida'
+      add_salary_grid: 'Adicionar Grelha'
+      remove_salary_grid: 'Remover grelha'
+
+  salary_areas:
+    defaults:
+      salary_area: 'Área Salarial'
+      salary_areas: 'Áreas'
+  salary_families:
+    defaults:
+      salary_family: 'Família Salarial'
+      salary_families: 'Famílias'
+  employee_salary_families:
+    defaults:
+      employee_salary_family: 'Nível Salarial'
+      employee_salary_families: 'Níveis salariais'
+  salary_groups:
+    defaults:
+      salary_group: 'Grupo Salarial'
+      salary_groups: 'Grupos'
+  salary_layers:
+    defaults:
+      salary_layer: 'Camada'
+      salary_layers: 'Camadas'
+  salary_categories:
+    defaults:
+      salary_category: 'Categoria'
+      salary_categories: 'Categorias'
+  questions:
+    defaults:
+      question: 'Questão'
+      questions: 'Questões'
+      exam: 'Exame'
+      number: 'Número'
+      description: 'Questão'
+      kind: 'Tipo'
+      value: 'Valor'
+      boolean_option: 'Verdadeira?'
+  question_options:
+    defaults:
+      question_option: 'Opção'
+      question_options: 'Opções'
+  exams:
+    defaults:
+      question: 'Questão'
+      questions: 'Questões'
+      exam: 'Exame'
+      number: 'Número'
+      description: 'Questão'
+      kind: 'Tipo'
+      value: 'Valor'
+      boolean_option: 'Verdadeira?'
+  courses:
+    defaults:
+      course: 'Curso'
+      courses: 'Cursos'
+  directorates:
+    defaults:
+      directorates: 'Direcções'
+      directorate: 'Direcção'
+      name: 'Direcção'
+      directorate_area: 'Área'
+      abbreviation: 'Sigla'
+  pelouros:
+    defaults:
+      pelouro: 'Pelouro'
+      pelouros: 'Pelouros'
+      name: 'Nome do Pelouro'
+      abbreviation: 'Abreviação'
+      directorate_area: 'Área'
+      title: 'Título do Chefe'
+      directorate_ids: 'Direcções'
+      directorates: 'Direcções'
+      employee: 'Colaborador'
+      is_chairman: 'É PCA?'

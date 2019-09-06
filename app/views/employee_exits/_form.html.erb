@@ -1,0 +1,27 @@
+<%= simple_form_for([employee, employee_exit]) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="employee_exit-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= employee_exit.new_record? ? view_t('.new_x', x: view_t('.employee_exit')) : view_t('.edit_x', x: view_t('.employee_exit')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%#= f.association :employee, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.association :absence_type, label: 'Tipo de Saída', collection: AbsenceType.latests.exit.map_for_select(:name), include_blank: false, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {class: ''} %>
+        <%= f.input :kind, collection: EmployeeExit.enums_map_t(:kind), include_blank: false, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {class: ''} %>
+        <%= f.input :date, as: :flatpickr, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: '', 'data-language' => 'pt'} %>
+        <%= f.input :left_at, as: :flatpickr, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: '', 'data-language' => 'pt', 'data-enable-time': true, 'data-no-calendar': true, 'data-date-format': "H:i"} %>
+        <%= f.input :returned_at, as: :flatpickr, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: '', 'data-language' => 'pt', 'data-enable-time': true, 'data-no-calendar': true, 'data-date-format': "H:i"} %>
+        <%last_regime = employee.employee_regimes.order(created_at: :asc).last%>
+        <%if last_regime.present? && !last_regime.five_two? && !last_regime.six_one?%>
+          <%= f.input :number_of_hours_absent, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%end%>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), employee_exit.cancel_url || employee_employee_exits_path(employee), class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

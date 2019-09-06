@@ -1,0 +1,3 @@
+$('.object_attachments').find('.modal').modal('close');
+$('.object_attachments').replaceWith("<%= j render("object_attachments/object_attachments", object: @object_attachment.object)%>");
+initPlugins($('.object_attachments'));

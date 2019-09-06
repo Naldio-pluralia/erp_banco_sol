@@ -1,0 +1,23 @@
+<%= simple_form_for(question) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="question-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= question.new_record? ? view_t('.new_x', x: view_t('.question')) : view_t('.edit_x', x: view_t('.question')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.input :description, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: ''} %>
+        <%= f.input :number, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :kind, collection: Question.enums_map_t(:kind), include_blank: false, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :value, wrapper_html: {class: 'flex-col-xs-4', "data-hide-on-select": "#question_kind,short_answer"}, input_html: {class: ''} %>
+        <%= f.input :boolean_option, wrapper_html: {class: 'flex-col-xs-4', "data-show-on-select": "#question_kind,boolean_question"}, input_html: {class: ''} %>
+        <%= f.input :exam_id, as: :hidden, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), question.cancel_url || questions_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

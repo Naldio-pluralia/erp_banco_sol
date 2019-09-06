@@ -1,0 +1,9 @@
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: "Minhas competências - #{@assessment&.year || DateTime.now.year}")%>
+  <%end%>
+<%end%>
+
+<div class="chart-container" style="margin-top: 5%;">
+  <%= radar_chart(@my_chart_data, height: '220px', legend: false, scale: {ticks: {display: false, begin_at_zero: true, min: 0, max: 5, step_size: 1}}) %>
+</div>

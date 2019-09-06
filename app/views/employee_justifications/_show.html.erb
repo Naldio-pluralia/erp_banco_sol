@@ -1,0 +1,118 @@
+<%if current.employee.present? && current.employee.id != employee.id && can?(:create, JustificationAnswer)%>
+  <%= index_bar(itens: {}) do %>
+    <%#= action_btn(content: view_t('update'), href: edit_employee_justification_path(employee_justification) ) if can?(:edit, employee_justification) %>
+    <%#= action_btn(content: view_t('update'), href: "#employee_justification-modal-form", modal_trigger: true) if can?(:edit, employee_justification) %>
+    <%#= action_btn(content: view_t('add_x', x: view_t('justification_answer')), href: "#justification_answer-modal-form", modal_trigger: true) if can?(:create, JustificationAnswer)%>
+    <span class="context-menu-one btn btn-neutral"><%= view_t('add_x', x: view_t('.justification_answer'))%></span>
+  <% end %>
+<% end %>
+
+
+<div class="flex-row">
+  <div class="flex-col-xs-8">
+    <%= show_item(".employee", employee_justification.employee.name_and_number) %>
+
+    <p><strong><%=view_t('attachments')%></strong>: <%= display_attachments(employee_justification.attachments) %></p>
+
+    <% if current.employee&.id == employee_justification.employee_id%>
+      <%#= editable [employee, employee_justification], :employee_note, type: :text%>
+      <%= show_item(".employee_note", employee_justification.employee_note) %>
+      <%= show_item(".supervisor_note", employee_justification.supervisor_note) %>
+
+    <%elsif current.team_members.include?(employee_justification.employee)%>
+      <%= show_item(".employee_note", employee_justification.employee_note) %>
+      <%= show_item(".supervisor_note", employee_justification.supervisor_note) %>
+      <%#= editable [employee, employee_justification], :supervisor_note, type: :text%>
+
+    <%else%>
+      <%= show_item(".supervisor_note", employee_justification.supervisor_note) %>
+      <%= show_item(".employee_note", employee_justification.employee_note) %>
+    <%end%>
+    <%answers = employee_justification.justification_answers%>
+    <p><strong>Respostas</strong>:</p>
+    <div class="flex-row">
+      <%answers.each do |answer|%>
+        <div class="flex-col-xs-12" style="padding-left: 0;">
+          <%if can?(:update, answer)%>
+            (<%= answer.enum_t(:kind)%>) (<%=answer.employee&.name || 'N/D'%>) <%= editable answer, :status, mode: :popup, type: :select, source: JustificationAnswer.editable_enums_map_t(:status)%>
+          <%else%>
+            (<%= answer.enum_t(:kind)%>) (<%=answer.employee&.name || 'N/D'%>) <%= answer.enum_t(:status)%>
+          <%end%>
+        </div>
+      <%end%>
+    </div>
+  </div>
+  <div class="flex-col-xs-4">
+    <%= l_table do %>
+      <%= t_header do %>
+        <%= h_cell(text: view_t(".absence") )%>
+      <% end %>
+      <%= t_body(elements: (employee_justification.employee_absences + employee_justification.employee_delays + employee_justification.employee_exits).sort_by{|f| f.date rescue f.arrived_at rescue f.left_at}, class: 'auto-size') do |e| %>
+        <%if e.class.name.eql?('EmployeeAbsence')%>
+          <%= b_row() do %>
+            <%= b_cell(element: e.name_and_date)%>
+          <% end %>
+        <%elsif e.class.name.eql?('EmployeeDelay')%>
+          <%= b_row() do %>
+            <%= b_cell(element: e.name_and_date)%>
+          <% end %>
+        <%elsif e.class.name.eql?('EmployeeExit')%>
+          <%= b_row() do %>
+            <%= b_cell(element: e.name_and_date)%>
+          <% end %>
+        <%end%>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<%= render 'form', employee_justification: employee_justification, employee: employee %>
+<%# justification_answer = JustificationAnswer.new(employee_id: current.employee&.id, employee_justification_id: employee_justification.id) %>
+<%#= render 'justification_answers/form', employee: employee, employee_justification: employee_justification, justification_answer: justification_answer %>
+
+
+<% missing_justifications = employee_justification.justifications_avaliable_for_employee(current) %>
+
+<% if missing_justifications.size > 0 %>
+  <% items = {} %>
+  <% missing_justifications.each do |r| %>
+    <%items[r] = {name: t(r), items: {}}%>
+    <% JustificationAnswer.statuses.keys.each do |status| %>
+      <% next if status.to_s.to_sym == :pending %>
+      <%items[r][:items]["#{r}-#{status}"] = {name: t(status), url: employee_add_answer_url(employee, employee_justification, r, status, format: :js)}%>
+    <% end %>
+  <% end %>
+  <%p items%>
+<% end %>
+
+<% missing_justifications = employee_justification.justifications_avaliable_for_employee(current) %>
+<%if missing_justifications.size > 0%>
+  <script>
+    $(function(){
+      $('.context-menu-one').on('click', function(e) {
+        e.preventDefault();
+        $('.context-menu-one').contextMenu();
+        //$('.context-menu-one').trigger("contextmenu");
+        // or $('.context-menu-one').contextMenu({x: 100, y: 100});
+      });
+
+      $.contextMenu({
+          selector: '.context-menu-one',
+          callback: function(key, options) {
+            url = "<%= employee_add_answer_url(employee, employee_justification, ':kind', ':status', format: :js) %>";
+            url = url.replace(':kind', key.split('-')[0]);
+            url = url.replace(':status', key.split('-')[1]);
+            $.ajax({
+              url: url,
+              method: 'patch'
+            });
+          },
+          items: <%=items.to_json.to_s.html_safe%>
+      });
+      $('.context-menu-item:not(.context-menu-submenu)').on('click', function(e){
+
+      });
+
+    });
+  </script>
+<%end%>

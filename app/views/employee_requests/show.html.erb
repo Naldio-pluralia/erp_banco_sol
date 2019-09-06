@@ -1,0 +1,40 @@
+<% if current.employee&.id == @employee_request.employee_id %>
+  <% items = {view_t(".my_requests") => my_requests_url, view_t('.employee_request') => nil} %>
+<%else%>
+  <% items = {view_t(".employee_requests") => employee_requests_url, view_t('.employee_request') => nil}%>
+<%end%>
+<%= index_bar(itens: items) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_employee_request_path(@employee_request) ) if can?(:edit, @employee_request) %>
+  <%= action_btn(content: view_t('update'), href: "#employee_request-modal-form", modal_trigger: true) if can?(:edit, @employee_request) %>
+<% end %>
+
+<div class="flex-row flex-top" style="margin-bottom: 5px;">
+  <div class="flex-col-xs-6" >
+    <%= show_item(".employee", @employee_request.employee.name) %>
+    <%= show_item(".name", @employee_request.name) %>
+  </div>
+  <div class="flex-col-xs-6">
+    <strong>Aprovações</strong>
+    <%= render 'object_responses/status', object: @employee_request %>
+  </div>
+</div>
+
+<div class="flex-row flex-top" style="margin-bottom: 5px;">
+  <div class="flex-col-xs-6" >
+    <%= render 'object_attachments/object_attachments', object: @employee_request %>
+
+    <%= show_item(".note", @employee_request.note) %>
+
+    <%= render 'object_activities/object_activities', object: @employee_request %>
+
+    <%= render 'form', employee_request: @employee_request %>
+  </div>
+  <div class="flex-col-xs-6">
+    <hr>
+    <strong>Requerimentos</strong>
+
+    <%= render 'object_attachments/attachments_list', object: @employee_request.request_type %>
+
+    <%= @employee_request.request_type.note.html_safe %>
+  </div>
+</div>

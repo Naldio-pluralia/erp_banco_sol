@@ -1,0 +1,20 @@
+<table class="bordered" style="width: 100%;">
+  <tbody>
+  <tr style="background-color: #fbb035; color: #fff;">
+    <%= h_cell(text: view_t(".since") )%>
+    <%= h_cell(text: view_t(".until") )%>
+    <% h_cell(sortable: false, data_type: false ) %>
+  </tr>
+
+  <% @employee_work_periods.each do |e| %>
+    <tr>
+      <%= b_cell(element: l(e.since))%>
+      <%= b_cell(element: e.present_until)%>
+      <% b_cell(text: "") do %>
+        <%= link_to t('show'), e %> |
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } %>
+      <% end %>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

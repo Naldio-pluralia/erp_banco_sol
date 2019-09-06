@@ -1,0 +1,29 @@
+<div class="mdl-grid" style="padding: 0;">
+  <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-phone">
+    <div class="mdl-card mdl-shadow--2dp next-card general-cards-1">
+
+      <div class="mdl-card__actions mdl-card--border">
+        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+          <%= "Meus objectivos" %> - <%= @assessment&.year || DateTime.now.year %>
+        </a>
+      </div>
+
+      <div class="mdl-card__supporting-text">
+        <% unless @assessment.blank? %>
+          <% @skills.last(3).each do |objective| %>
+            <span style="font-size: 11px;"> <%= objective.skill.name %></span>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= calculate_progress_bar(objective&.value.to_i) %>%;"></div>
+            </div>
+
+          <% end %>
+        <% end %>
+      </div>
+
+      <div class="mdl-card__menu">
+        <%=link_to "see_more".ts, my_data_url, class: "mdl-button btn-see-more" %>
+      </div>
+
+    </div>
+  </div>
+</div>

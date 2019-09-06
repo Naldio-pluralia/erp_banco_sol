@@ -1,0 +1,16 @@
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".reason") )%>
+    <% h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @paygrade_change_reasons, class: 'auto-size') do |e| %>
+    <%= b_row(link_to: paygrade_change_reason_path(e)) do %>
+      <%= b_cell(element: e.reason)%>
+      <% b_cell(text: "") do %>
+        <%= link_to t('show'), e %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,0 +1,20 @@
+<%= simple_form_for(employee_goal_activity, remote: true) do |f| %>
+
+  <div class="field">
+    <%= f.input :description, label: false, input_html: {style: 'min-height: 90px'} %>
+  </div>
+
+  <div class="hide field">
+    <%= f.input :employee_goal_id, as: :hidden %>
+  </div>
+
+  <%#= f.input :creator_id %>
+
+  <div class="hide field">
+    <%#= f.input :attachment %>
+  </div>
+
+  <div class="actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

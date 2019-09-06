@@ -1,0 +1,22 @@
+<%= simple_form_for(employee_course) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="employee_course-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= employee_course.new_record? ? view_t('.new_x', x: view_t('.employee_course')) : view_t('.edit_x', x: view_t('.employee_course')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.association :employee, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.association :course, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :end, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :status, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :attempt_number, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), employee_course.cancel_url || employee_courses_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

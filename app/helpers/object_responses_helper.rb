@@ -1,0 +1,2 @@
+module ObjectResponsesHelper
+end

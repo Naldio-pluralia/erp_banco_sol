@@ -1,0 +1,13 @@
+<%= index_bar(itens: {view_t(".employee_question_options") => employee_question_options_url, view_t('.employee_question_option') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_employee_question_option_path(@employee_question_option) ) if can?(:edit, @employee_question_option) %>
+  <%= action_btn(content: view_t('update'), href: "#employee_question_option-modal-form", modal_trigger: true) if can?(:edit, @employee_question_option) %>
+<% end %>
+
+
+<%= show_item(".question_option", @employee_question_option.question_option) %>
+
+
+<%= show_item(".employee_course", @employee_question_option.employee_course) %>
+
+
+<%= render 'form', employee_question_option: @employee_question_option %>

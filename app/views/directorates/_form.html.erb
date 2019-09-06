@@ -1,0 +1,21 @@
+<%= simple_form_for(directorate) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="directorate-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= directorate.new_record? ? view_t('.new_x', x: view_t('.directorate')) : view_t('.edit_x', x: view_t('.directorate')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.input :name, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.association :pelouro, collection: Pelouro.all.map_for_select(:name_and_abbr), wrapper_html: {class: 'flex-col-xs-4'}, include_blank: false, input_html: {class: 'default-selectize'} %>
+        <%= f.association :directorate_area, wrapper_html: {class: 'flex-col-xs-4'}, include_blank: false, input_html: {class: 'default-selectize'} %>
+        <%= f.input :abbreviation, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), directorate.cancel_url || directorates_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

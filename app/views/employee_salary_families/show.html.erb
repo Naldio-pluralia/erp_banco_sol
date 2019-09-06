@@ -1,0 +1,28 @@
+<%= index_bar(itens: {view_t(".employee_salary_families") => employee_salary_families_url, view_t('.employee_salary_family') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_employee_salary_family_path(@employee_salary_family) ) if can?(:edit, @employee_salary_family) %>
+  <%= action_btn(content: view_t('update'), href: "#employee_salary_family-modal-form", modal_trigger: true) if can?(:edit, @employee_salary_family) %>
+<% end %>
+
+
+<%= show_item(".employee", @employee_salary_family.employee) %>
+
+
+<%= show_item(".salary_family", @employee_salary_family.salary_family) %>
+
+
+<%= show_item(".paygrade_change_reason", @employee_salary_family.paygrade_change_reason) %>
+
+
+<%= show_item(".level", @employee_salary_family.level) %>
+
+
+<%= show_item(".paygrade", @employee_salary_family.paygrade) %>
+
+
+<%= show_item(".since", @employee_salary_family.since) %>
+
+
+<%= show_item(".base_salary", @employee_salary_family.base_salary) %>
+
+
+<%= render 'form', employee_salary_family: @employee_salary_family %>

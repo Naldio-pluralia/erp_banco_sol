@@ -1,0 +1,4 @@
+<% @page_name = @department.name %>
+<% toolbar(page_name: 'edit_department'.ts, bar_arguments: {} ) %>
+
+<%= render 'form', department: @department %>

@@ -1,0 +1,8 @@
+
+<%if @employee_goal_activity.new_record?%>
+  $('.activity_form').html("<%= j render("form", employee_goal_activity: @employee_goal_activity)%>");
+<%else%>
+  $('.employee_goal_activities').html("<%= j render("nextsgad/employee_goals/employee_goal_activities", employee_goal_activities: @employee_goal_activity.employee_goal.employee_goal_activities.includes(:creator).order(created_at: :desc))%>");
+  $('.activity_form').html("<%= j render("form", employee_goal_activity: EmployeeGoalActivity.new(employee_goal_id: @employee_goal_activity.employee_goal_id))%>");
+  initPlugins($('.add_result_form'));
+<%end%>

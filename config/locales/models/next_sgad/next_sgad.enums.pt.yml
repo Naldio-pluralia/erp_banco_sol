@@ -1,0 +1,226 @@
+pt:
+  enums:
+    defaults:
+      draft: 'Rascunho'
+      sent: 'Enviado'
+      read: 'Lida'
+      unread: 'Não Lida'
+      active: 'Activo'
+      inactive: 'Inactivo'
+      other: 'Outro'
+      pending: 'Pendente'
+      approved: 'Aprovado'
+      not_approved: 'Reprovado'
+      hr: 'Recursos Humanos'
+      supervisor: 'Supervisor'
+      t_delay: "Atraso"
+      t_exit: "Saida"
+      t_vacation: "Férias"
+      t_absence: "Ausencia"
+      t_presence: "Presença"
+    course:
+      status:
+        closed: 'Fechado'
+        opened: 'Aberto'
+    appliance:
+      relevance:
+        unset: 'N/D'
+        relevant: 'Relevante'
+        irrelevant: 'Irrelevante'
+    goal:
+      period:
+        all_year: 'Todo Ano'
+        first_quarter: 'Iº Trimestre'
+        second_quarter: 'IIº Trimestre'
+        third_quarter: 'IIIº Trimestre'
+        fourth_quarter: 'IVº Trimestre'
+        first_semester: 'Iº Semestre'
+        second_semester: 'IIº Semestre'
+    employee_assessment:
+      self_assessment_status:
+        self_pending: 'Auto Avaliação Pendente'
+        self_in_progress: 'Auto Avaliação Em Progresso'
+        self_completed: 'Auto Avaliação Completa'
+      supervisor_assessment_status:
+        supervisor_pending: 'Avaliação do Chefe Pendente'
+        supervisor_in_progress: 'Avaliação do Chefe Em Progresso'
+        supervisor_completed: 'Avaliação do Chefe Completa'
+      final_assessment_status:
+        final_pending: 'Avaliação Final Pendente'
+        final_in_progress: 'Avaliação Final Em Progresso'
+        final_completed: 'Avaliação Final Completa'
+    general_goal:
+      period:
+        all_year: 'Todo Ano'
+        first_quarter: 'Iº Trimestre'
+        second_quarter: 'IIº Trimestre'
+        third_quarter: 'IIIº Trimestre'
+        fourth_quarter: 'IVº Trimestre'
+        first_semester: 'Iº Semestre'
+        second_semester: 'IIº Semestre'
+      mode:
+        numeric: 'Quantitativo'
+        objective_base: 'Qualitativo'
+      who_belongs:
+        all_goals: 'Todos'
+        function: 'Função'
+        position: 'Posição'
+        general: 'Objectivo geral'
+    corporate_goal:
+      period:
+        all_year: 'Todo Ano'
+        first_quarter: 'Iº Trimestre'
+        second_quarter: 'IIº Trimestre'
+        third_quarter: 'IIIº Trimestre'
+        fourth_quarter: 'IVº Trimestre'
+        first_semester: 'Iº Semestre'
+        second_semester: 'IIº Semestre'
+      mode:
+        numeric: 'Quantitativo'
+        objective_base: 'Qualitativo'
+      who_belongs:
+        all_goals: 'Todos'
+        function: 'Função'
+        position: 'Posição'
+        general: 'Objectivo geral'
+    team_goal:
+      period:
+        all_year: 'Todo Ano'
+        first_quarter: 'Iº Trimestre'
+        second_quarter: 'IIº Trimestre'
+        third_quarter: 'IIIº Trimestre'
+        fourth_quarter: 'IVº Trimestre'
+        first_semester: 'Iº Semestre'
+        second_semester: 'IIº Semestre'
+      mode:
+        numeric: 'Quantitativo'
+        objective_base: 'Qualitativo'
+      who_belongs:
+        all_goals: 'Todos'
+        function: 'Função'
+        position: 'Posição'
+        general: 'Objectivo geral'
+    employee_paygrade:
+      level:
+        a: 'A'
+        b: 'B'
+        c: 'C'
+        d: 'D'
+    subsidy_type:
+      value_mode:
+        percentage: 'Percentagem'
+        fixed: 'Fixo'
+      kind:
+        other: 'Outro'
+        vacation: 'Subsídio de Férias'
+        christmas: 'Subsídio de Natal'
+    tax_type:
+      value_mode:
+        percentage: 'Percentagem'
+        fixed: 'Fixo'
+      kind:
+        social_security: 'Segurança Social'
+        wage_income: 'Imposto Sobre o Rendimento do Trabalho'
+        other: 'Outro'
+    salary:
+      status:
+        active: 'Não Pago'
+        inactive: 'Pago'
+        paid: 'Pago'
+    date_type:
+      kind:
+        holiday: 'Feriado'
+        extended_holiday: 'Tolerância'
+    absence_type:
+      kind:
+        absence: 'Ausência'
+        delay: 'Atraso'
+        exit: 'Saída'
+    approver:
+      kind:
+        dpe_employee: 'Colaborador DPE'
+        dpe_supervisor: 'Chefe do DPE'
+    employee_exit:
+      kind:
+        absent: 'Ausentou-se'
+        released: 'Dispensado(a)'
+    employee_regime:
+      regime:
+        five_two: 'R5/2'
+        twenty_eight: 'R28/28'
+        six_one: 'R6/1'
+        three_shifts: 'R3T'
+        two_shifts: 'R2T'
+    justification_answer:
+      status:
+        approved: 'Aprovado'
+        not_approved: 'Não Aprovado'
+        pending: 'Pendente'
+      kind:
+        supervisor: 'Chefe'
+        supervisor_supervisor: 'Chefe Indirecto'
+        dpe_employee: 'Colaborador do DPE'
+        dpe_supervisor: 'Chefe do DPE'
+    object_response:
+      status:
+        pending: 'Pendente'
+        approved: 'Aprovado'
+        not_approved: 'Negado'
+      kind:
+        supervisor: 'Chefe'
+        supervisor_supervisor: 'Chefe do Chefe'
+        dpe_employee: 'DPE'
+        dpe_supervisor: 'Chefe do DPE'
+    vacancy:
+      target:
+        both: 'Todos'
+        internal: 'Internos'
+        external: 'Externos'
+      contract_type:
+        to_define: 'Por Definir'
+        fixed_term: 'Tempo Determinado'
+        indefinite_duration: 'Tempo Indeterminado'
+        internship: 'Estágio'
+    application:
+      civil_status:
+        single: 'Solteiro'
+        married: 'Casado'
+      relevance:
+        unset: 'Pendente'
+        relevant: 'Relevante'
+        irrelevant: 'Irrelevante'
+    function:
+      qualification_kind:
+        base: 'Ens. Base'
+        medio: 'Ens. Médio'
+        licenciatura: 'Licenciado'
+        pos_graduado: 'Pós Graduado'
+        mestrado: 'Mestrado'
+        phd: 'Doutoramento'
+      experience_kind:
+        in_sector: 'No Sector'
+        in_function: 'Na Função'
+    question:
+      kind:
+        single_choice: 'Escolha Única'
+        multiple_choice: 'Múltipla Escolha'
+        boolean_question: 'Verdadeiro/Falso'
+        short_answer: 'Resposta Curta'
+    question_option:
+      status:
+        correct: 'Opção Certa'
+        incorrect: 'Opção Errada'
+    lesson:
+      video_kind:
+        local: 'Local'
+        youtube: 'Youtube'
+    employee_presence:
+      status:
+        confirmed: 'Confirmada'
+        unconfirmed: 'Não Confirmada'
+    employee:
+      status:
+        activo: Activo
+        demitido: Demitido
+        licenca: Licença
+        estagiario: Estagiário

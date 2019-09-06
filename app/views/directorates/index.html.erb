@@ -1,0 +1,38 @@
+<%= index_bar(itens: {view_t(".directorates") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_directorate_path) %>
+  <%= action_btn(content: view_t('add'), href: "#directorate-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-directorates-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".name") )%>
+    <%= h_cell(text: view_t(".directorate_area") )%>
+    <%= h_cell(text: view_t(".abbreviation") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+  <%source = DirectorateArea.editable_map_for_select(:name) %>
+  <%= t_body(elements: @directorates) do |e| %>
+    <%=
+      b_row() do
+        b_cell{ editable(e, :name, title: 'Direcção', mode: :popup)} +
+        b_cell{ editable(e, :directorate_area_id, title: 'Área', source: source, type: :select, mode: :popup)} +
+        b_cell{ editable(e, :abbreviation, title: 'Sigla', mode: :popup)} +
+        b_cell(text: "") do
+          link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e)
+        end
+      end
+    %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(directorates_url, "directorates") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', directorate: @directorate %>

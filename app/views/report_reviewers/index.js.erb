@@ -1,0 +1,3 @@
+$('.report_reviewers_index').find('.modal').modal('close');
+$('.report_reviewers_index').replaceWith("<%= j render 'index', report_reviewer: ReportReviewer.new, report_reviewers: ReportReviewer.includes(:employee) %>");
+initPlugins($('.report_reviewers_index'));

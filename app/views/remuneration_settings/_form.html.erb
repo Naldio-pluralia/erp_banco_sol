@@ -1,0 +1,21 @@
+<%= simple_form_for(remuneration_setting, url: remuneration_settings_path, method: :post) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="remuneration_setting-modal-form" class="modal">
+    <div class="modal-content">
+      <span class="h5-size"> <%= remuneration_setting.new_record? ? t('.new') : t('.edit') %> </span>
+      <hr>
+
+      <div class="row">
+        <%= f.input :base_salary, wrapper_html: {class: 'col s6'}, input_html: {class: ''} %>
+        <%= f.input :update_factor, wrapper_html: {class: 'col s6'}, input_html: {class: ''} %>
+        <%= f.input :day_to_process_salaries, collection: (1..31), include_blank: false, wrapper_html: {class: 'col s6'}, input_html: {class: ''} %>
+        <%= f.input :month_to_process_christmas_subsidy, collection: (1..12).map{|i| [i.to_month, i]}, include_blank: false, wrapper_html: {class: 'col s6'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), latest_remuneration_setting_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,43 @@
+<% index_bar(itens: {view_t(".courses") => courses_url, "" => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_course_path(@course) ) if can?(:edit, @course) %>
+  <%= action_btn(content: 'Editar', href: "#course-modal-form", modal_trigger: true) if can?(:edit, @course) %>
+<% end %>
+
+<div class="row">
+  <div class="col s6">
+    <p style="margin-bottom: 0;"> <%= link_to view_t(".courses"), courses_url %> / <strong style="font-size: 20px;"><%= @course.name %></strong> (<%=@course.enum_t(:status)%>)</p>
+  </div>
+  <div class="col s6" style="text-align: right;">
+    <p style="margin-bottom: 0;">
+      <%= action_btn(content: 'Editar', href: "#course-modal-form", modal_trigger: true) if can?(:update, @course) %>
+      <%= action_btn(content: 'Disponibilizar', href: open_course_url(@course), method: :patch, 'data-confirm' => 'Já não poderá editar o curso, deseja continuar?') if can?(:open, @course) %>
+      <%= action_btn(content: 'Fechar', href: close_course_url(@course), method: :patch, 'data-confirm' => 'O curso será fechado, deseja continuar?') if can?(:close, @course) %>
+      <%= action_btn(content: 'Mudar Para Rascunho', href: draft_course_url(@course), method: :patch, 'data-confirm' => 'As Formações iniciadas serão apagadas, deseja continuar?') if can?(:draft, @course) %>
+      <%= action_btn(content: 'Relatórios', href: course_statistics_url(@course)) if can?(:draft, @course) %>
+    </p>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col s8 course_current_lesson">
+    <%if params[:exam_id].present? %>
+      <%= render('chapters/chapter_exam', exam: Exam.find(params[:exam_id]))%>
+    <%else%>
+      <%= render "current_lesson", lesson: @course.lessons.sort_by{|l| l.number}.first %>
+    <%end%>
+  </div>
+
+  <div class="col s4">
+    <%= render "chapters", course: @course, chapters: @course.chapters %>
+  </div>
+</div>
+<%= render 'chapters/form', chapter: @chapter %>
+<%= render 'form', course: @course %>
+
+<style>
+  .material-icons.font-14{
+    font-size: 14px;
+  }
+</style>

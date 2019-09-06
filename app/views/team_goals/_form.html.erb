@@ -1,0 +1,29 @@
+<%= simple_form_for(team_goal) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="team_goal-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= team_goal.new_record? ? view_t('.new_x', x: view_t('.team_goal')) : view_t('.edit_x', x: view_t('.team_goal')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.input :who_belongs, include_blank: false, label: "Para ?", collection: CorporateGoal.enums_map_t(:who_belongs), wrapper_html: {class: 'flex-col-xs-4'} %>
+        <%= f.association :general_goal, optional: true, collection: GeneralGoal.all.map{|a| ["#{a.enum_t(:mode)} - #{a.target} - #{a.enum_t(:period)}", a.id]}, label: ".general_goal".ts, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+
+        <%= f.association :employees, label: t('employees'), collection: Employee.map_for_select, input_html: {class: 'selectize'}, wrapper_html: {class: 'flex-col-xs-4'} %>
+        <%= f.association :functions, label: t('functions'), collection: Function.map_for_select, input_html: {class: 'selectize'}, wrapper_html: {class: 'flex-col-xs-4'} %>
+        <%= f.association :positions, label: t('positions'), collection: Position.map_for_select, input_html: {class: 'selectize'}, wrapper_html: {class: 'flex-col-xs-4'} %>
+
+        <%= f.association :assessment, optional: true, label: "#{"year".ts} #{"goal.assessment".ts}", collection: Assessment.all.map {|a| [a.year, a.id]}, include_blank: false, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :objectives, label: ".objectives".ts, as: :trix_editor, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: ''} %>
+        <%= f.input :period, collection: CorporateGoal.enums_map_t(:period), include_blank: false, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :target, label: "goal.target".ts, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :mode, collection: GeneralGoal.enums_map_t(:mode), label: "goal.nature".ts, include_blank: false, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), team_goal.cancel_url || team_goals_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

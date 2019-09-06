@@ -1,0 +1,17 @@
+<%= div(class: 'new_absence') do %>
+  <%= simple_form_for([@employee, @employee_absence], url: employee_create_absence_url, html: {remote: true, retabulate: '#presence-map'}) do |f| %>
+    <%= form_url_helpers(f)%>
+    <div class="flex-row flex-top">
+      <%= div(class: 'flex-col-xs-12', style: 'text-align: right;') do%>
+        <%= f.button :submit %>
+      <%end%>
+      <%= f.association :absence_type, label: 'Tipo de Ausência', collection: AbsenceType.latests.not_system_absences.absence.absence.map_for_select(:name), include_blank: false, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+      <%= f.input :left_at, as: :flatpickr, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {'data-date-format': "Y-m-d"} %>
+      <%= f.input :returned_at, as: :flatpickr, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {'data-date-format': "Y-m-d"} %>
+      <%last_regime = @employee.employee_regimes.order(created_at: :asc).last%>
+      <%if last_regime.present? && !last_regime.five_two? && !last_regime.six_one?%>
+        <%= f.input :absent_days_number, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+      <%end%>
+    </div>
+  <% end %>
+<%end%>

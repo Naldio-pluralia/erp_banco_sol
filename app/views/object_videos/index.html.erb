@@ -1,0 +1,48 @@
+<%= index_bar(itens: {view_t(".object_videos") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_object_video_path) %>
+  <%= action_btn(content: view_t('add'), href: "#object_video-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-object_videos-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".local_title") )%>
+    <%= h_cell(text: view_t(".local_file") )%>
+    <%= h_cell(text: view_t(".local_file_tmp") )%>
+    <%= h_cell(text: view_t(".local_file_processing") )%>
+    <%= h_cell(text: view_t(".local_watermark_image") )%>
+    <%= h_cell(text: view_t(".youtube_video_id") )%>
+    <%= h_cell(text: view_t(".object") )%>
+    <%= h_cell(text: view_t(".kind") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @object_videos) do |e| %>
+    <%= b_row(link_to: object_video_path(e)) do %>
+      <%= b_cell(element: e.local_title)%>
+      <%= b_cell(element: e.local_file)%>
+      <%= b_cell(element: e.local_file_tmp)%>
+      <%= b_cell(element: e.local_file_processing)%>
+      <%= b_cell(element: e.local_watermark_image)%>
+      <%= b_cell(element: e.youtube_video_id)%>
+      <%= b_cell(element: e.object)%>
+      <%= b_cell(element: e.kind)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e if can?(:show, e) %> | 
+        <%= link_to t('edit'), edit_object_video_path(e) if can?(:edit, e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(object_videos_url, "object_videos") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', object_video: @object_video %>

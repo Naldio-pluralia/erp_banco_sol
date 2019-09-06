@@ -1,0 +1,35 @@
+pt:
+  nextsgad:
+    messages:
+      index:
+        messages: 'Mensagens'
+        message: 'Mensagem'
+        employee: 'Colaborador'
+        status: 'Estado'
+        title: 'Título'
+        body: 'Corpo'
+        signature: 'Assinatura'
+      show:
+        messages: 'Mensagens'
+        message: 'Mensagem'
+        employee: 'Colaborador'
+        status: 'Estado'
+        title: 'Título'
+        body: 'Corpo'
+        signature: 'Assinatura'
+      create:
+        draft:
+          success: 'Mensagem Gravada como Rascunho'
+        sent:
+          success: 'Mensagem Enviada'
+      update:
+        draft:
+          success: 'Mensagem Gravada como Rascunho'
+        sent:
+          success: 'Mensagem Enviada'
+      destroy:
+        destroyed: 'Mensagem Apagada'
+      form:
+        new_message: 'Nova Mensagem'
+        update_message: 'Actualizar Mensagem'
+

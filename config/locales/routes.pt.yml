@@ -1,0 +1,179 @@
+pt:
+  routes:
+    defaults:
+      index: "Listagem"
+      create: "Criar"
+      show: "Ver Detalhes"
+      update: "Actualizar"
+      destroy: "Apagar"
+
+    nextsgad/assessments:
+      controller_name: 'Avaliações'
+      index: 'Listar Avaliações'
+      create: 'Criar Avaliações'
+      update: 'Actualizar Avaliação'
+      create_goal: 'Criar Competências e Objectivos'
+      new_goal: 'Nova Competências ou Objectivos'
+      show: 'Ver Detalhes das Avaliações'
+      destroy: 'Apagar Avaliações'
+      create_skill: "Criar Competências"
+      new_skill: "Nova Competência"
+      new_objective: "Novo Objectivo"
+      activate: 'Activar Avaliação'
+      deactivate: 'Desactivar Avaliação'
+      close: 'Fechar Avaliação'
+      create_objective: "Criar Objectivo"
+      assessments_map: "Mapa das Avaliações"
+      draft: "Colocar Avaliação em Rascunho"
+      new_skills_from_last_year: "Copiar Avaliações do Ano Passado"
+      create_skills_from_last_year: "Copiar Avaliações do Ano Passado"
+
+    nextsgad/activities:
+      controller_name: 'Actividades'
+      index: "Listagem das Actividades"
+      create: "Criar Actividade"
+      show: "Ver Detalhes da Actividade"
+      update: "Actualizar Actividade"
+      destroy: "Apagar Actividade"
+      change_status_activity: "Alterar o estado da Actividade"
+
+    nextsgad/attendances:
+      controller_name: 'Assiduidades'
+      index: "Listagem das Assiduidade"
+      create: "Criar Assiduidade"
+      show: "Ver Detalhes da Assiduidade"
+      update: "Actualizar Assiduidade"
+      destroy: "Apagar Assiduidade"
+      my_attendances: "Minha Assiduidade"
+      my_team_attendances: "Assiduidade da Equipa"
+
+    nextsgad/departments:
+      controller_name: 'Departamentos'
+      index: "Listagem das Departamentos"
+      create: "Criar Departamento"
+      show: "Ver Detalhes do Departamento"
+      update: "Actualizar Departamento"
+      destroy: "Apagar Departamento"
+      organigram: "Organigrama das Departamentos"
+
+    users:
+      controller_name: 'Usuários'
+      index: "Listagem dos Usuários"
+      create: "Criar Usuário"
+      show: "Ver Detalhes do Usuário"
+      update: "Actualizar Usuário"
+      destroy: "Apagar Usuário"
+      reset_password: ""
+      generate_password: ""
+
+    nextsgad/employee_goals:
+      controller_name: 'Competências do Colaborador'
+      index: "Listagem das Competências do Colaborador"
+      create: "Criar Competências do Colaborador"
+      show: "Ver Detalhes das Competências do Colaborador"
+      update: "Actualizar Competências do Colaborador"
+      destroy: "Apagar Competências do Colaborador"
+
+    nextsgad/employees:
+      controller_name: 'Colaboradores'
+      index: "Listagem dos Colaboradores"
+      create: "Criar Colaborador"
+      show: "Ver Detalhes do Colaborador"
+      update: "Actualizar Colaborador"
+      destroy: "Apagar Colaborador"
+      my_team: "Minha Equipa"
+      create_objective: "Criar Objectivo"
+      my_team_assessment: "Avaliações da Equipa"
+      my_data: "Minhas Avaliações"
+      assessment: "Avaliação"
+      pick_position: 'Escolher Posição'
+      select_position: 'Escolher Posição'
+
+    nextsgad/functions:
+      controller_name: 'Funções'
+      index: "Listagem das Funções"
+      create: "Criar Função"
+      show: "Ver Detalhes da Função"
+      update: "Actualizar Função"
+      destroy: "Apagar Função"
+
+    nextsgad/goals:
+      controller_name: 'Competências e Objectivos'
+      index: "Listagem das Competências e Objectivos"
+      create: "Criar Competência ou Objectivo"
+      show: "Ver Detalhes do Competência ou Objectivo"
+      update: "Actualizar Competência e Objectivo"
+      destroy: "Apagar Competência ou Objectivo"
+      reload: 'Recarregar'
+
+    nextsgad/justifications:
+      controller_name: 'Justificações'
+      index: "Listagem das Justificações"
+      create: "Criar Justificação"
+      show: "Ver Detalhes da Justificação"
+      update: "Actualizar Justificação"
+      destroy: "Apagar Justificação"
+      aprove: "Aprovar Justificação"
+      disaprove: "Reprovar Justificação"
+
+    nextsgad/positions:
+      controller_name: 'Posições'
+      index: "Listagem das Posições"
+      create: "Criar Posição"
+      show: "Ver Detalhes da Posição"
+      update: "Actualizar Posição"
+      destroy: "Apagar Posição"
+      create_position: "Criar Posição"
+      organigram: "Ver Organigrama Geral"
+      my_orgchart: "Ver meu Organigrama"
+      my_team_orgchart: "Ver Organigrama da Equipa"
+
+    plugins:
+      controller_name: 'Módulos'
+      index: "Listagem dos Módulos"
+      create: "Criar Módulo"
+      show: "Ver Detalhes do Módulo"
+      update: "Actualizar Módulo"
+      destroy: "Apagar Módulo"
+      create: "Criar Módulo"
+
+    roles:
+      controller_name: 'Nível de Acesso'
+      index: "Listagem dos Níveis de Acesso"
+      create: "Criar Nível de Acesso"
+      show: "Ver Detalhes"
+      update: "Actualizar Nível de Acesso"
+      destroy: "Apagar Nível de Acesso"
+
+    nextsgad/results:
+      controller_name: 'Resultados'
+      index: "Listagem dos Resultados"
+      create: "Criar Resultado"
+      show: "Ver Detalhes do Resultado"
+      update: "Actualizar Resultado"
+      destroy: "Apagar Resultado"
+      change_status: "Alterar estado do Resultado"
+
+    controller_name:
+      nextsgad/assessments: 'Avaliações'
+      nextsgad/activities: 'Actividades'
+      nextsgad/attendances: 'Assiduidades'
+      nextsgad/departments: 'Departamentos'
+      users: 'Usuários'
+      nextsgad/employee_goals: 'Competências do Colaborador'
+      nextsgad/employees: 'Colaboradores'
+      nextsgad/functions: 'Funções'
+      nextsgad/goals: 'Objectivos'
+      nextsgad/justifications: 'Justificações'
+      nextsgad/messages: 'Mensagens'
+      nextsgad/positions: 'Posições'
+      plugins: 'Módulos'
+      roles: 'Níveis de Acesso'
+      nextsgad/results: 'Resultados'
+      salary_boards: 'Tabela Salarial'
+      tax_types: 'Tipos de Impostos'
+      subsidy_types: 'Tipos de Subsídios'
+      paygrade_change_reasons: 'Razões de Mudança do Nível dos Colaboradores'
+      employee_paygrades: 'Níveis dos Colaboradores'
+      salaries: 'Salários'
+      employee_work_periods: 'Periodos de Trabalho dos Colaboradores'

@@ -1,0 +1,36 @@
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: t(".name") )%>
+    <%  h_cell(text: t(".code") )%>
+    <%  h_cell(text: t(".value_mode") )%>
+    <%= h_cell(text: t(".value") )%>
+    <%= h_cell(text: t(".status"), style: 'width: 57px;' )%>
+    <%  h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @tax_types, class: 'auto-size') do |e| %>
+    <%= b_row(link_to: tax_type_path(e)) do %>
+      <%= b_cell(element: e.name)%>
+      <%  b_cell(element: e.code)%>
+      <%  b_cell(element: e.enum_t(:value_mode))%>
+
+      <%if e.social_security?%>
+        <%= b_cell(element: e.percentage_t(:percentage_from_employee))%>
+      <%elsif e.wage_income?%>
+        <%= b_cell(element: '-')%>
+      <%elsif e.other? && e.fixed?%>
+        <%= b_cell(element: e.kwanza_t(:value))%>
+      <%elsif e.other? && e.percentage?%>
+        <%= b_cell(element: e.percentage_t(:value))%>
+      <%else%>
+        <%= b_cell(element: '-')%>
+      <%end%>
+
+      <%= b_cell(element: e.enum_t(:status), style: 'width: 57px;')%>
+      <%  b_cell(text: "") do %>
+        <%= link_to t('show'), e %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

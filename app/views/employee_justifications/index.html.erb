@@ -1,0 +1,40 @@
+<%= index_bar(itens: {view_t(".employee_justifications") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_employee_justification_path) %>
+  <%= action_btn(content: view_t('add'), href: "#employee_justification-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-employee_justifications-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".employee") )%>
+    <%= h_cell(text: view_t(".attachments") )%>
+    <%= h_cell(text: view_t(".employee_note") )%>
+    <%= h_cell(text: view_t(".supervisor_note") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @employee.employee_justifications) do |e| %>
+    <%= b_row(link_to: employee_employee_justification_path(@employee, e)) do %>
+      <%= b_cell(element: e.employee.name_and_number)%>
+      <%= b_cell(element: e.attachments)%>
+      <%= b_cell(element: e.employee_note)%>
+      <%= b_cell(element: e.supervisor_note)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), employee_employee_justification_path(@employee, e) if can?(:show, e) %> | 
+        <%= link_to t('edit'), edit_employee_employee_justification_path(@employee, e) if can?(:edit, e) %> | 
+        <%= link_to t('destroy'), employee_employee_justification_path(@employee, e), method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(employee_employee_justifications_url(@employee), "employee_justifications") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', employee_justification: @employee_justification, employee: @employee %>

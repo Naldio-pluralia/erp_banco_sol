@@ -1,0 +1,25 @@
+<%= simple_form_for([employee, employee_justification], html: {multipart: true}) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="employee_justification-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= employee_justification.new_record? ? view_t('.new_x', x: view_t('.employee_justification')) : view_t('.edit_x', x: view_t('.employee_justification')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%#= f.association :employee, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :absence_object_id, collection: (employee.employee_absences.unjustified + employee.employee_delays.unjustified + employee.employee_exits.unjustified).map{|f| [f.name_and_date, f.class.name.tableize.singularize + "_id_#{f.id}"]}, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: 'default-selectize'} %>
+        <%= f.input :attachments, as: :file, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {multiple: true} %>
+        <%if current&.employee&.id == employee.id%>
+          <%= f.input :employee_note, as: :trix_editor, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: ''} %>
+        <%elsif current.team_members&.include?(employee)%>
+          <%= f.input :supervisor_note, as: :trix_editor, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: ''} %>
+        <%end%>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), employee_justification.cancel_url || employee_employee_justifications_path(employee), class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

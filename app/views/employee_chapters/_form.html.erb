@@ -1,0 +1,20 @@
+<%= simple_form_for(employee_chapter) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="employee_chapter-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= employee_chapter.new_record? ? view_t('.new_x', x: view_t('.employee_chapter')) : view_t('.edit_x', x: view_t('.employee_chapter')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.association :employee_course, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.association :chapter, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :status, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), employee_chapter.cancel_url || employee_chapters_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

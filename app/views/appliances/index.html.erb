@@ -1,0 +1,39 @@
+<%= index_bar(itens: {view_t(".appliances") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_appliance_path) %>
+  <%#= action_btn(content: view_t('add'), href: "#appliance-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-appliances-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".name") )%>
+    <%= h_cell(text: view_t(".email") )%>
+    <%= h_cell(text: view_t(".cellphone") )%>
+    <%#
+    = h_cell(text: view_t(".note") )%>
+    <%= h_cell(text: view_t(".relevance") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @appliances) do |e| %>
+    <%= b_row(link_to: appliance_path(e)) do %>
+      <%= b_cell(element: e.name)%>
+      <%= b_cell(element: e.email)%>
+      <%= b_cell(element: e.cellphone)%>
+      <%#= b_cell(element: e.note)%>
+      <%= b_cell(element: e.enum_t(:relevance))%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e if can?(:show, e) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(appliances_url, "appliances") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>

@@ -1,0 +1,37 @@
+<%= index_bar(itens: {t('assessments') => assessments_url, t('assessment.map') => assessment_url}) do %>
+    <%= action_btn(content: t('edit'),                    href: '#add-assessment', modal_trigger: true) %>
+    <%# action_btn(content: t('goal.new'),             href: '#add-assessment-goal', modal_trigger: true) %>
+    <%#= action_btn(content: t('assessment.new_skill'),             href: '#add-assessment-skill', modal_trigger: true) %>
+    <%#= action_btn(content: t('assessment.new_objective'),         href: '#add-assessment-objective', modal_trigger: true) %>
+    <%= action_btn(content: t('assessment.activate'),    href: activate_assessment_url(redirect_url: current_url),  method: :patch, color: :green, if_can: {activate: @assessment}) %>
+    <%= action_btn(content: t('assessment.close'),       href: close_assessment_url(redirect_url: current_url),  method: :patch, color: :yellow, if_can: {close: @assessment}) %>
+    <%= action_btn(content: t('assessment.deactivate'),  href: deactivate_assessment_url(redirect_url: current_url),  method: :patch, color: :yellow, if_can: {deactivate: @assessment}) %>
+    <%= action_btn(content: t('assessment.draft'),       href: draft_assessment_url(redirect_url: current_url),  method: :patch, color: :gray, if_can: {draft: @assessment}) %>
+    <%= action_btn(content: t('assessment.delete'),      href: assessment_url(@assessment, redirect_url: current_url),  method: :delete, color: :red, if_can: {destroy: @assessment}) %>
+<% end %>
+
+<table class="bordered">
+  <tbody>
+    <% @assessment.goals.includes(:assessment).sort_by{|g| g.goal_type.ts}.group_by{|f| [f.goal_type, @assessment.send("#{f.goal_type}s_percentage")]}.each do |type, goals| %>
+      <tr>
+        <th><%=type.first.ts%></th>
+        <th><%= 'goal.nature'.ts %></th>
+        <th><%= 'goal.target'.ts %></th>
+        <th></th>
+      </tr>
+      <% goals.each do |goal| %>
+        <tr data-href="<%=goal_url(goal.id)%>">
+          <td><%= goal.name %></td>
+          <td><%= goal.nature.ts %></td>
+          <td><%= goal.numeric? ? goal.target : '-'%></td>
+          <td><%= link_to :destroy.ts, goal, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<%= render "form", assessment: @assessment %>
+<%# render "goal_form", goal: @goal %>
+<%#= render "skill_form", goal: @skill %>
+<%#= render "objective_form", goal: @objective %>

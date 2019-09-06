@@ -1,0 +1,48 @@
+<div class="flex-row">
+  <div class="flex-col-xs-2">
+
+    <%= simple_form_for employee, html: {multipart: true} do |f| %>
+      <label class="input-custom-file user-avatar">
+        <input type="file" name="employee[avatar]" id="employee_avatar" onchange="enviar(<%= employee.id %>)">
+        <% if employee.avatar.blank? && employee.user&.avatar.present? %>
+            <%= image_tag employee.user.avatar_url, border: "0", alt: "", class: "responsive-img user-avatar", style: "height: 100px;" %>
+        <% else %>
+            <%= image_tag employee.avatar_url, border: "0", alt: "", class: "responsive-img user-avatar", style: "height: 100px;" %>
+        <% end %>
+      </label>
+    <% end %>
+  </div>
+
+  <div class="flex-col-xs-4">
+    <h4 class="color-title dth-name"><%= employee.full_abbr_name %> </h4>
+    <p style="font-size: 10px; margin-bottom: 0px;"><%= employee.efective_position&.name_and_number&.mb_chars&.to_s&.upcase || t('n/a') %></p>
+    <p style="font-size: 10px;margin: 0;"><%= "#{employee.number} - #{employee&.enum_t(:status).upcase}" %></p>
+    <% if assessment&.year.present? %>
+        <p style="font-size: 22px;margin: 0;color: #fbb036;font-weight: 400;"><%= assessment&.year %></p>
+    <% end %>
+  </div>
+  <div class="flex-col-xs hr-vert">
+    <div class="employee-tab-detalhes">
+      <span class="employee-tab-detalhes-span1"><%= t('employee_paygrade_level') %></span>
+      <span class="employee-tab-detalhes-span2 color-title"><%= employee.latest_paygrade&.paygrade || t('n/a') %></span>
+      <%if employee.latest_paygrade.present?%>
+        <p style="font-size: 10px; margin: 0; line-height: 10px"><strong><%= t :since%></strong>: <%= employee.latest_paygrade&.date_l(:since) %></p>
+      <%end%>
+    </div>
+  </div>
+
+  <div class="flex-col-xs hr-vert">
+    <div class="employee-tab-detalhes">
+      <span class="employee-tab-detalhes-span1"><%= t('employee_paygrade') %></span>
+      <span class="employee-tab-detalhes-span2 color-title"><%= employee.latest_paygrade&.level || t('n/a') %></span>
+    </div>
+  </div>
+  <% if employee.is_assessed? %>
+    <div class="flex-col-xs-3 dth-resultado-final">
+      <div class="employee-tab-detalhes">
+        <span class="employee-tab-detalhes-span1"><%= 'final_assessment'.ts %>: <%= employee.get_calculate_average.average_descriptioin %></span>
+        <span class="employee-tab-detalhes-span2 color-title" style="font-size: 45px;"> <%= employee.get_calculate_average || t('n/a') %> </span>
+      </div>
+    </div>
+  <% end %>
+</div>

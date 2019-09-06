@@ -1,0 +1,58 @@
+pt:
+  employee_paygrades:
+    index:
+      employee_paygrades: 'Níveis dos Empregados'
+      employee_paygrade: 'Nível do Empregado'
+      level: 'Escalão'
+      paygrade: 'Nível'
+      since: 'Desde'
+      until: 'Até'
+      employee: 'Colaborador'
+      base_salary: 'Salário Base'
+      paygrade_change_reason: 'Motivo da Mudança'
+    show:
+      employee_paygrades: 'Níveis dos Empregados'
+      employee_paygrade: 'Nível do Empregado'
+      level: 'Escalão'
+      paygrade: 'Nível'
+      since: 'Desde'
+      until: 'Até'
+      employee: 'Colaborador'
+      paygrade_change_reason: 'Motivo da Mudança'
+      base_salary: 'Salário Base'
+    edit:
+      level: 'Escalão'
+      paygrade: 'Nível'
+      since: 'Desde'
+      until: 'Até'
+      employee: 'Colaborador'
+      paygrade_change_reason: 'Motivo da Mudança'
+      base_salary: 'Salário Base'
+    create:
+      success: 'Gravado'
+      unsuccess: 'Ocorreu um Erro na Gravação'
+    update:
+      success: 'Actualizado'
+      unsuccess: 'Ocorreu um Erro na Actualização'
+    form:
+      new: 'Criar'
+      update: 'Actualizar'
+      base_salary: 'Salário Base'
+    employee_data:
+      employee_justification: 'Justificativo'
+      employee_justifications: 'Justificativos'
+      employee: 'Colaborador'
+      note: 'Nota'
+      attachments: ''
+      supervisor_note: 'Nota do Supervisor'
+      first_justifiaction_status: 'Aprovação do Supervisor'
+      second_justification_status: 'Aprovação do DPE'
+      third_justification_status: 'Aprovação do chefe do DPE'
+      absences: 'Ausências'
+      regime: 'Regime'
+      employee_regime: 'Regime do Colaborador'
+      enters_at: 'Entrada'
+      leaves_at: 'Saída'
+      skill: 'Competência'
+      skills: 'Competências'
+    

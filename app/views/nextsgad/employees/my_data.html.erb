@@ -1,0 +1,41 @@
+<% @page_name = "assessment.description".ts %>
+
+<div class="employee-details" style="margin-bottom: 0px;">
+  <%= render "header_employee", year: params[:year] || @assessment&.year %>
+
+  <div class="flex-row" style="margin-top: 0px;">
+    <div class="flex-col-xs right-align list-btn-employee">
+      <%= action_btn(content: params[:year], class: 'btn-adicinar-objectivo btn-color', 'data-show-airdatepicker' => '#year') do %>
+          <%= material_icon.date_range.md_18 %>
+          <%= form_tag my_data_url, :method => 'get', class: 'auto_submit_form' do %>
+              <input type='text' class="air_datepicker form-control string" style="top: 0; right: 0px; height: 0; width:0; padding: 0;border: none;" name="year" id='year' value="<%= params[:year] %>" data-position="bottom right" data-offset="-10" data-language="pt" data-date-format="yyyy" data-min-view="years" data-view="years" data-toggle-selected="true"/>
+          <% end %>
+      <% end %>
+      <% if can?(:create, @justification) %>
+          <%= buttons_modal(text: "justification.new".ts, url: "#add-justification") %>
+      <% else %>
+          <br>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="row" style="margin-top: 5px;">
+  <div class="col s5 no-padding">
+    <%= render "radar_employees" %>
+  </div>
+
+  <div class="col s7 no-padding">
+    <%= render "skills_objectives" %>
+  </div>
+</div>
+<%= render "nextsgad/justifications/form", justification: @justification %>
+
+
+<script type="text/javascript">
+
+    function enviar(employee_id) {
+        document.getElementById("edit_employee_" + employee_id).submit();
+    }
+
+</script>

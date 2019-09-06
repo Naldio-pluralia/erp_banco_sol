@@ -1,0 +1,12 @@
+<%= index_bar(itens: {t(".remuneration_settings") => remuneration_settings_url, t('.remuneration_setting') => nil}) do %>
+  <%= action_btn(content: t('update'), href: edit_remuneration_setting_path(@remuneration_setting) )%>
+  <% action_btn(content: t('update'), href: "#remuneration_setting-modal-form", modal_trigger: true) %>
+<% end %>
+
+<p>
+  <strong><%= t(".base_salary") %>:</strong>
+  <%= @remuneration_setting.base_salary %>
+</p>
+
+
+<%# render 'form', remuneration_setting: @remuneration_setting %>

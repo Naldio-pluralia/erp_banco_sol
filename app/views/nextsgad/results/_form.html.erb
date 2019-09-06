@@ -1,0 +1,23 @@
+<%= simple_form_for result, html: {multipart: true}, remote: true do |f| %>
+
+  <br/>
+  <div class="flex-row flex-top" style="margin-bottom: 0;">
+    <%= f.input :employee_goal_id, as: :hidden%>
+    <%= f.input :result_value, wrapper_html: {class: 'flex-col-xs-12'} %>
+
+    <%= f.input :note, prompt: :translate, wrapper_html: {class: 'flex-col-xs-9'}, input_html: {style: 'height: 200px;'}%>
+
+    <%= f.input :attachment, as: :dropify, wrapper_html: {class: 'flex-col-xs-3'}%>
+    
+
+  </div>
+
+  <%= f.button :button, t('save'), class: 'btn btn-default' %>
+  <a href="#" class="close-result-form waves-effect waves-light btn btn-flat btn-cancel-form">Cancelar</a>
+
+<% end %>
+
+<script>
+  
+
+</script>

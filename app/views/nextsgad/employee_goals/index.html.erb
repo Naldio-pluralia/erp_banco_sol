@@ -1,0 +1,27 @@
+<% @page_name = t('employee_goals') %>
+
+<% toolbar(itens_menu: {"#{'employee_goals'.ts}": employee_goals_url}, bar_arguments: { add_modal: "#add-employee_goal" } ) %>
+
+<table class="bordered">
+  <thead>
+    <tr>
+      <th><%= "self_assessment".ts %></th>
+      <th><%= "supervisor_assessment".ts %></th>
+      <th><%= "final_assessment".ts %></th>
+      <th><%= "goal.status".ts %></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @employee_goals.each do |employee_goal| %>
+    <tr data-href="<%= employee_goal_url(employee_goal)%>">
+        <td><%= employee_goal.self_assessment %></td>
+        <td><%= employee_goal.supervisor_assessment %></td>
+        <td><%= employee_goal.final_assessment %></td>
+        <td><%= employee_goal.status %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= render "form" %>

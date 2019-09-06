@@ -1,0 +1,37 @@
+<%= index_bar(itens: {view_t(".request_types") => request_types_url, view_t('.request_type') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_request_type_path(@request_type) ) if can?(:edit, @request_type) %>
+  <%= action_btn(content: view_t('update'), href: "#request_type-modal-form", modal_trigger: true) if can?(:edit, @request_type) %>
+<% end %>
+
+<div class="flex-row flex-top">
+  <div class="flex-col-xs-6">
+    <%= show_item(".name", @request_type.name) %>
+  </div>
+  <div class="flex-col-xs-6">
+    <strong>Aprovações</strong>
+    <br>
+    <%if @request_type.requires_supervisor_approval %>
+      Chefe
+    <%end%>
+    <br>
+    <%if @request_type.requires_supervisor_supervisor_approval %>
+      Chefe do Chefe
+    <%end%>
+    <br>
+    <%if @request_type.requires_dpe_approval %>
+      DPE
+    <%end%>
+    <br>
+    <%if @request_type.requires_dpe_supervisor_approval %>
+      Chefe do DPE
+    <%end%>
+  </div>
+</div>
+
+<%= render 'object_attachments/object_attachments', object: @request_type %>
+
+<%= show_item(".note", @request_type.note) %>
+
+<%= render 'form', request_type: @request_type %>
+
+<%= render 'object_approvers/approvers', object: @request_type, redirect_url: request_type_url(@request_type) %>

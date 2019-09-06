@@ -1,0 +1,37 @@
+<% simple_form_for(object_activity) do |f| %>
+  <div id="object_activity-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= object_activity.new_record? ? view_t('.new_x', x: view_t('.object_activity')) : view_t('.edit_x', x: view_t('.object_activity')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.input :description, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :object_id, as: :hidden %>
+        <%= f.input :creator_id, as: :hidden %>
+        <%= f.input :object_type, as: :hidden %>
+        <%= f.input :creator_type, as: :hidden %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), object_activity.cancel_url || object_activities_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>
+
+<div class="new_object_activity">
+  <%= simple_form_for(object_activity, remote: true) do |f| %>
+    <%= form_url_helpers(f)%>
+    <div class="field">
+      <%= f.input :description, label: false, input_html: {style: 'min-height: 90px'} %>
+      <%= f.input :object_id, as: :hidden %>
+      <%= f.input :creator_id, as: :hidden %>
+      <%= f.input :object_type, as: :hidden %>
+      <%= f.input :creator_type, as: :hidden %>
+    </div>
+    <div class="actions">
+      <%= f.button :submit %>
+    </div>
+  <% end %>
+</div>

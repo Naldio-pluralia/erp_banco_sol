@@ -1,0 +1,13 @@
+<%= index_bar(itens: {view_t(".absence_days") => absence_days_url, view_t('.absence_day') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_absence_day_path(@absence_day) ) if can?(:edit, @absence_day) %>
+  <%= action_btn(content: view_t('update'), href: "#absence_day-modal-form", modal_trigger: true) if can?(:edit, @absence_day) %>
+<% end %>
+
+
+<%= show_item(".employee_absence", @absence_day.employee_absence) %>
+
+
+<%= show_item(".date", @absence_day.date) %>
+
+
+<%= render 'form', absence_day: @absence_day %>

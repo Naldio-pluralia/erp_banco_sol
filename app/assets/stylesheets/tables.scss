@@ -1,0 +1,52 @@
+th.sortable:hover{
+  cursor: pointer;
+}
+.sortable:not(.asc):not(.desc) .fa.mc-fa::before{
+  content: "\f0dc";
+
+}
+.sortable:not(.asc).desc .fa.mc-fa::before{
+  content: "\f0dd";
+
+}
+.sortable.asc:not(.desc) .fa.mc-fa::before{
+  content: "\f0de";
+
+}
+
+.sortable:not(.sorting-asc):not(.desc):hover .fa.mc-fa::before{
+  content: "\f0dd";
+
+}
+.sortable:not(.sorting-asc).desc:hover .fa.mc-fa::before{
+  content: "\f0de";
+
+}
+.sortable.asc:not(.sorting-desc):hover .fa.mc-fa::before{
+  content: "\f0dd";
+
+}
+
+table.next-stupid-sort th:not(.sortable)>i.fa{
+  display: none!important;
+}
+
+table.next-stupid-sort th.sorting-asc:not(.sorting-desc)>.fa.mc-fa::before{
+  content: "\f0de";
+}
+
+table.next-stupid-sort th.sorting-desc:not(.sorting-asc)>.fa.mc-fa::before{
+  content: "\f0dd";
+}
+
+table.next-stupid-sort th:not(.sorting-asc):not(.sorting-desc)>.fa.mc-fa::before{
+  content: "\f0dc";
+}
+
+table.next-stupid-sort th .fa.mc-fa{
+  padding-left: 5px;
+}
+
+table.next-stupid-sort th .fa.mc-fa{
+  padding-left: 5px;
+}

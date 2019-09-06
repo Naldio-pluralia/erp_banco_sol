@@ -1,0 +1,10 @@
+<%= index_bar(itens: {view_t(".function_areas") => function_areas_url, view_t('.function_area') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_function_area_path(@function_area) ) if can?(:edit, @function_area) %>
+  <%= action_btn(content: view_t('update'), href: "#function_area-modal-form", modal_trigger: true) if can?(:edit, @function_area) %>
+<% end %>
+
+
+<%= show_item(".name", @function_area.name) %>
+
+
+<%= render 'form', function_area: @function_area %>

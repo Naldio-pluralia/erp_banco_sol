@@ -1,0 +1,48 @@
+<%= index_bar(itens: {t(".wage_income_taxes") => nil }) do %>
+  <%= action_btn(content: t('add'), href: new_wage_income_tax_path) %>
+  <% action_btn(content: t('add'), href: "wage_income_tax-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: t('filter'), href: "#filter-wage_income_taxes-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: t(".name") )%>
+    <%= h_cell(text: t(".abbr_name") )%>
+    <%= h_cell(text: t(".exempt_up_to") )%>
+    <%= h_cell(text: t(".max_wage") )%>
+    <%= h_cell(text: t(".max_wage_fixed_portion") )%>
+    <%= h_cell(text: t(".percentage_over_max_wage_excess") )%>
+    <%= h_cell(text: t(".max_wage_excess_of") )%>
+    <%= h_cell(text: t(".status") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @wage_income_taxes) do |e| %>
+    <%= b_row(link_to: wage_income_tax_path(e)) do %>
+      <%= b_cell(element: e.name)%>
+      <%= b_cell(element: e.abbr_name)%>
+      <%= b_cell(element: e.exempt_up_to)%>
+      <%= b_cell(element: e.max_wage)%>
+      <%= b_cell(element: e.max_wage_fixed_portion)%>
+      <%= b_cell(element: e.percentage_over_max_wage_excess)%>
+      <%= b_cell(element: e.max_wage_excess_of)%>
+      <%= b_cell(element: e.status)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e %> | 
+        <%= link_to t('edit'), edit_wage_income_tax_path(e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(wage_income_taxes_url, "wage_income_taxes") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%# render 'form', wage_income_tax: @wage_income_tax %>

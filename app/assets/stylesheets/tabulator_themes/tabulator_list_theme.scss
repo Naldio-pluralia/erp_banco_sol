@@ -1,0 +1,39 @@
+/*Theme the Tabulator element*/
+.tabulator.tabulator_list_theme{
+  background-color: #ccc0;
+  border: 0px solid #aaa0;
+  border-radius: 0;
+
+  /*Theme the header*/
+  .tabulator-header {
+    background-color: #fff;
+    color: #333;
+  }
+
+  /*Allow column header names to wrap lines*/
+  .tabulator-header .tabulator-col,
+  .tabulator-header .tabulator-col-row-handle {
+    white-space: normal;
+  }
+
+  .tabulator-header .tabulator-col{
+    background-color: #fff;
+    color: #333;
+  }
+
+  /*Color the table rows*/
+  .tabulator-tableHolder .tabulator-table .tabulator-row{
+    color:#333;
+    background-color: #fff0;
+  }
+
+  /*Color even rows*/
+  .tabulator-tableHolder .tabulator-table .tabulator-row:nth-child(even) {
+    background-color: #ccc1;
+  }
+
+  .tabulator-footer {
+    text-align: center;
+    background-color: #e6e6e600;
+  }
+}

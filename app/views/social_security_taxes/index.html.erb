@@ -1,0 +1,44 @@
+<%= index_bar(itens: {t(".social_security_taxes") => nil }) do %>
+  <%= action_btn(content: t('add'), href: new_social_security_tax_path) %>
+  <% action_btn(content: t('add'), href: "social_security_tax-modal-form", modal_trigger: true)  if can?(:create, SocialSecurityTax)%>
+  <%#= action_btn(content: t('filter'), href: "#filter-social_security_taxes-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: t(".name") )%>
+    <%= h_cell(text: t(".abbr_name") )%>
+    <%= h_cell(text: t(".percentage") )%>
+    <%= h_cell(text: t(".percentage_from_employee") )%>
+    <%= h_cell(text: t(".percentage_from_employer") )%>
+    <%= h_cell(text: t(".status") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @social_security_taxes) do |e| %>
+    <%= b_row(link_to: social_security_tax_path(e)) do %>
+      <%= b_cell(element: e.name)%>
+      <%= b_cell(element: e.abbr_name)%>
+      <%= b_cell(element: e.percentage)%>
+      <%= b_cell(element: e.percentage_from_employee)%>
+      <%= b_cell(element: e.percentage_from_employer)%>
+      <%= b_cell(element: e.status)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e %> | 
+        <%= link_to t('edit'), edit_social_security_tax_path(e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(social_security_taxes_url, "social_security_taxes") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%# render 'form', social_security_tax: @social_security_tax %>

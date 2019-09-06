@@ -1,0 +1,18 @@
+
+<%results.each do |result|%>
+  <div class="flex-col-xs-12">
+    <div>
+      <p style="margin: 0;">
+        
+        <strong>
+          <%=result.write_value%>
+          <% if result.attachment.present? %>
+            <%= link_to '<i class="small material-icons resul-attachment">attach_file</i>'.html_safe, result.attachment.url, :target => "_blank" %>
+          <% end%>
+        </strong>
+        <%= '-' if result.note.present?%>
+        <%=result.note%>
+      </p>
+    </div>
+  </div>
+<%end%>

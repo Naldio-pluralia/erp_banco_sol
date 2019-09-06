@@ -1,0 +1,42 @@
+<% @page_name = t('assessments') %>
+
+<%# toolbar(itens_menu: {"#{'assessments'.ts}": assessments_url}, bar_arguments: {add_modal: "#add-assessment"}) %>
+<%= index_bar(itens: {'Avaliaçẽs' => assessments_url}) do %>
+    <%= action_btn(content: t('add'), href: '#add-assessment', modal_trigger: true) %>
+
+    <%= action_btn_dropdown(content: t('export'), data_activates: "dropdown-export") do %>
+      <li><%= link_to "EXCEL 2016", old_assessments_export_url(year: 2016, format: :xls), target: '_blank', style: 'background-color: #4caf50; color: #fff; '%></li>
+      <li><%= link_to "EXCEL 2017", old_assessments_export_url(year: 2017, format: :xls), target: '_blank', style: 'background-color: #4caf50; color: #fff; '%></li>
+    <% end %>
+
+    <%= action_btn(filter: 'assessments') %>
+
+<% end %>
+
+
+<%= l_table do %>
+    <%= t_header do %>
+        <%= h_cell(text: "year".ts) %>
+        <%= h_cell(text: "status".ts) %>
+    <% end %>
+
+    <%= t_body(elements: @assessments) do |e| %>
+        <%= b_row(link_to: e.year != 2018 ? assessments_map_url(e) : skills_map_url(ano: 2018)) do %>
+            <%= b_cell(element: e.year.to_s) %>
+            <%= b_cell(element: e.status.ts) %>
+        <% end %>
+    <% end %>
+<% end %>
+
+<%= render "form", assessment: @assessment %>
+
+<%= filter_modal(assessments_url, 'assessments') do %>
+  <div class="flex-row">
+    <div class="flex-col-xs-12 flex-col-sm-3">
+      <%= select_tag 'year[]', options_for_select(Assessment.all.map(&:year), params[:year]), multiple: :multiple, class: "default-selectize", prompt: "Escolha o Ano", label: 'Ano' %>
+    </div>
+    <div class="flex-col-xs-12 flex-col-sm-3">
+      <%= select_tag 'status[]', options_for_select(Assessment.statuses.for_select(:pt), params[:status]), multiple: :multiple, class: "default-selectize", prompt: "Escolha o estado", label: 'Estado' %>
+    </div>
+  </div>
+<% end %>

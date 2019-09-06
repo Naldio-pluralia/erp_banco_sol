@@ -1,0 +1,22 @@
+<% if @lesson.new_record?%>
+	<% @lesson.name = 'Nova Lição'; @lesson.number = (@lesson.chapter&.lessons&.map(&:number)&.sort&.last.defs_to(0)).to_i + 1; @lesson.text = ''; @lesson.save(validate: false) %>
+<%end%>
+var m = jsPanel.modal.create({
+	headerTitle: 'Adicionar Lição',
+	theme: 'none',
+	panelSize: {width: '95%', height: '90%'},
+	content:     "<div class='lesson_jmodal'><%= j render('form', lesson: @lesson) %></div>",
+	position:    'center 0 0',
+	container: 'body',
+	contentOverflow: 'hidden scroll',
+	headerControls: {
+		smallify: 'disable',
+		smallifyrev: 'disable',
+		minimize: "disable"
+	},
+	dragit:         true,
+	resizeit:       true
+});
+
+$(m.content).mCustomScrollbar({scrollButtons: {enable: true}, theme: 'dark-thin'});
+initPlugins($(m.content));

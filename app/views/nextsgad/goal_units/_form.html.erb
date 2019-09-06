@@ -1,0 +1,19 @@
+<%= simple_form_for(goal_unit, url: goal_units_url, metod: :post) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="goal_unit-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= goal_unit.new_record? ? t('.new') : t('.edit') %> </span>
+      <hr>
+
+      <div class="flex-row flex-top-xs">
+        <%= f.input :plural_name, wrapper_html: {class: 'flex-col-xs-12'} %>
+        <%= f.input :singular_name, wrapper_html: {class: 'flex-col-xs-12'} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), goal_unit.goto_cancel_url_or(latest_assessment_setting_url(active_tab: :tab_goal_unit)), class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

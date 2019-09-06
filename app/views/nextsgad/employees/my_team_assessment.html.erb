@@ -1,0 +1,75 @@
+<% @page_name = t('employees') %>
+
+<% toolbar(itens_menu: {"#{'employees'.ts}": employees_url, "#{'employees'.ts}": "#"}, bar_arguments: {  } ) %>
+
+<table class="bordered" style="width: 100%;">
+  <thead>
+    <tr><th class="mdl-data-table__cell--non-numeric" style="width: 150px;">PRIMEIRO NÍVEL</th></tr>
+  </thead>
+</table>
+
+<table class="bordered" style="width: 100%;">
+  <thead>
+  <tr>
+    <th class="mdl-data-table__cell--non-numeric" style="width: 150px;"><%= t('employee_number') %></th>
+    <th class="mdl-data-table__cell--non-numeric" style="width: 200px;"><%= :name.ts %></th>
+    <th class="mdl-data-table__cell--non-numeric" style="width: 200px;"><%= "final_assessment".ts %></th>
+    <th class="mdl-data-table__cell--non-numeric"><%= "position.description".ts %></th>
+    <th class="mdl-data-table__cell--non-numeric cell-align" style="width: 40px;"><%= 'short.self_assessment'.ts %></th>
+    <th class="mdl-data-table__cell--non-numeric cell-align" style="width: 40px;"><%= 'short.supervisor_assessment'.ts %></th>
+    <th class="mdl-data-table__cell--non-numeric cell-align" style="width: 40px;"><%= 'short.final_assessment'.ts %></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @employees.each do |f| %>
+    <tr data-href="<%= team_member_data_url(f.id) %>">
+      <td class="mdl-data-table__cell--non-numeric"><%= f.number %></td>
+      <td class="mdl-data-table__cell--non-numeric"><%= f.full_name %></td>
+      <td class="mdl-data-table__cell--non-numeric"><%= @assessment&.present? ? @assessment.employee_assessment(f) : 'n/a'.ts %></td>
+      <td class="mdl-data-table__cell--non-numeric"><%= f.efective_position&.name_and_number || 'n/a'.ts%></td>
+      <td class="mdl-data-table__cell--non-numeric color"><i class="material-icons" style="color: <%= assessment_color(f, @assessment, "self")       %>;">lens</i></td>
+      <td class="mdl-data-table__cell--non-numeric color"><i class="material-icons" style="color: <%= assessment_color(f, @assessment, "supervisor") %>;">lens</i></td>
+      <td class="mdl-data-table__cell--non-numeric color"><i class="material-icons" style="color: <%= assessment_color(f, @assessment, "final")      %>;">lens</i></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<% unless @second_level_employees.blank? %>
+  <table class="bordered" style="width: 100%;">
+    <thead>
+      <tr><th class="mdl-data-table__cell--non-numeric" style="width: 150px;">SEGUNDO NÍVEL</th></tr>
+    </thead>
+  </table>
+
+  <table class="bordered" style="width: 100%;">
+    <thead>
+    <tr>
+      <th class="mdl-data-table__cell--non-numeric" style="width: 150px;"><%= t('employee_number') %></th>
+      <th class="mdl-data-table__cell--non-numeric" style="width: 200px;"><%= :name.ts %></th>
+      <th class="mdl-data-table__cell--non-numeric" style="width: 200px;"><%= "final_assessment".ts %></th>
+      <th class="mdl-data-table__cell--non-numeric"><%= "position.description".ts %></th>
+      <th class="mdl-data-table__cell--non-numeric cell-align" style="width: 40px;"><%= 'short.self_assessment'.ts %></th>
+      <th class="mdl-data-table__cell--non-numeric cell-align" style="width: 40px;"><%= 'short.supervisor_assessment'.ts %></th>
+      <th class="mdl-data-table__cell--non-numeric cell-align" style="width: 40px;"><%= 'short.final_assessment'.ts %></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @second_level_employees.each do |f| %>
+        <tr data-href="<%= team_member_data_url(f.id) %>">
+          <td class="mdl-data-table__cell--non-numeric"><%= f.number %></td>
+          <td class="mdl-data-table__cell--non-numeric"><%= f.full_name %></td>
+          <td class="mdl-data-table__cell--non-numeric"><%= @assessment&.present? ? @assessment.employee_assessment(f) : 'n/a'.ts %></td>
+          <td class="mdl-data-table__cell--non-numeric"><%= f.efective_position&.name_and_number || 'n/a'.ts%></td>
+          <td class="mdl-data-table__cell--non-numeric color"><i class="material-icons" style="color: <%= assessment_color(f, @assessment, "self")       %>;">lens</i></td>
+          <td class="mdl-data-table__cell--non-numeric color"><i class="material-icons" style="color: <%= assessment_color(f, @assessment, "supervisor") %>;">lens</i></td>
+          <td class="mdl-data-table__cell--non-numeric color"><i class="material-icons" style="color: <%= assessment_color(f, @assessment, "final")      %>;">lens</i></td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+  <!-- true -->
+<% end %>

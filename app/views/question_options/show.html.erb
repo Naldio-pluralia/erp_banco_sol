@@ -1,0 +1,13 @@
+<%= index_bar(itens: {view_t(".question_options") => question_options_url, view_t('.question_option') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_question_option_path(@question_option) ) if can?(:edit, @question_option) %>
+  <%= action_btn(content: view_t('update'), href: "#question_option-modal-form", modal_trigger: true) if can?(:edit, @question_option) %>
+<% end %>
+
+
+<%= show_item(".question", @question_option.question) %>
+
+
+<%= show_item(".status", @question_option.status) %>
+
+
+<%= render 'form', question_option: @question_option %>

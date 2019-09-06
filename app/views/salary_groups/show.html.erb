@@ -1,0 +1,10 @@
+<%= index_bar(itens: {view_t(".salary_groups") => salary_groups_url, view_t('.salary_group') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_salary_group_path(@salary_group) ) if can?(:edit, @salary_group) %>
+  <%= action_btn(content: view_t('update'), href: "#salary_group-modal-form", modal_trigger: true) if can?(:edit, @salary_group) %>
+<% end %>
+
+
+<%= show_item(".name", @salary_group.name) %>
+
+
+<%= render 'form', salary_group: @salary_group %>

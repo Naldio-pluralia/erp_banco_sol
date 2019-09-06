@@ -1,0 +1,12 @@
+<%= index_bar(itens: {t(".salary_boards") => salary_boards_url, t('.salary_board') => nil}) do %>
+  <%= action_btn(content: t('update'), href: edit_salary_board_path(@salary_board) )%>
+  <% action_btn(content: t('update'), href: "#salary_board-modal-form", modal_trigger: true) %>
+<% end %>
+
+<p>
+  <strong><%= t(".status") %>:</strong>
+  <%= @salary_board.status %>
+</p>
+
+
+<%# render 'form', salary_board: @salary_board %>

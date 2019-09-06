@@ -1,0 +1,20 @@
+
+<% @page_name = t('.sign_in') %>
+<%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <div class="login_box login_header">
+    <%= image_tag(configuration.entity_logo_url, class: "img-responsive settings-logo") %>
+  </div>
+
+  <div class="flex-container-fluid " style="margin-top: 5%;">
+    <div class="flex-row flex-center-xs">
+      <div class="flex-col-xs-12 flex-col-sm-4 flex-col-md-3" style="min-width: 415px; max-width: 415px; width: 415px;">
+        <%= f.input :login, autofocus: true, :input_html => {class:'form-control no-margin'}, placeholder: 'email', label: false  %>
+        <%= f.input :password, :input_html => {class:'form-control no-margin'}, autocomplete: 'off',placeholder: '********', label: false  %>
+        <%= f.submit t('.sign_in'), class: "waves-effect waves-light btn login_button btn-block" %>
+
+        <br>
+        <%= render "admins/shared/links" %>
+      </div>
+    </div>
+  </div>
+<% end %>

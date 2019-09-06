@@ -1,0 +1,35 @@
+<%= index_bar(itens: {t(".employee_work_periods") => nil }) do %>
+  <%= action_btn(content: t('add'), href: '#employee_work_period-modal-form', modal_trigger: true) %>
+  <% action_btn(content: t('filter'), href: "#filter-employee_work_periods-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: t(".employee") )%>
+    <%= h_cell(text: t(".since") )%>
+    <%= h_cell(text: t(".until") )%>
+    <%= h_cell(sortable: false, data_type: false ) %>
+  <% end %>
+
+  <%= t_body(elements: @employee_work_periods) do |e| %>
+    <%= b_row(link_to: employee_work_period_path(e)) do %>
+      <%= b_cell(element: e.employee.name_and_number)%>
+      <%= b_cell(element: l(e.since))%>
+      <%= b_cell(element: e.present_until)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(employee_work_periods_url, "employee_work_periods") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', employee_work_period: @employee_work_period %>

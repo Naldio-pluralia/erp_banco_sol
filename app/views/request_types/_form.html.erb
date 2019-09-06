@@ -1,0 +1,25 @@
+<%= simple_form_for(request_type) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="request_type-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= request_type.new_record? ? view_t('.new_x', x: view_t('.request_type')) : view_t('.edit_x', x: view_t('.request_type')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.input :name, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: ''} %>
+        <%= f.input :note, as: :trix_editor, wrapper_html: {class: 'flex-col-xs-12'}, input_html: {class: ''} %>
+        <%= f.input :virtual_object_attachments, as: :file, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {class: '', multiple: true} if f.object.new_record? %>
+        <div class="flex-col-xs-12">Aprovações Necessárias</div>
+        <%= f.input :requires_supervisor_approval, wrapper_html: {class: 'flex-col-xs-3'}, input_html: {class: ''} %>
+        <%= f.input :requires_supervisor_supervisor_approval, wrapper_html: {class: 'flex-col-xs-3'}, input_html: {class: ''} %>
+        <%= f.input :requires_dpe_approval, wrapper_html: {class: 'flex-col-xs-3'}, input_html: {class: ''} %>
+        <%= f.input :requires_dpe_supervisor_approval, wrapper_html: {class: 'flex-col-xs-3'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), request_type.cancel_url || request_types_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

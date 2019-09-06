@@ -1,0 +1,4 @@
+<%= f.simple_fields_for :object_approvers do |ff| %>
+  <%= ff.input :employee_id, as: :hidden %>
+  <%= ff.input :kind, as: :hidden %>
+<% end %>

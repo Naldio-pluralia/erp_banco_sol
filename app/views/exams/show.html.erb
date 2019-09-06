@@ -1,0 +1,13 @@
+<%= index_bar(itens: {view_t(".exams") => exams_url, view_t('.exam') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_exam_path(@exam) ) if can?(:edit, @exam) %>
+  <%= action_btn(content: view_t('update'), href: "#exam-modal-form", modal_trigger: true) if can?(:edit, @exam) %>
+<% end %>
+
+
+<%= show_item(".chapter", @exam.chapter) %>
+
+
+<%= show_item(".expected_value", @exam.expected_value) %>
+
+
+<%= render 'form', exam: @exam %>

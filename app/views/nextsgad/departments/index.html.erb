@@ -1,0 +1,35 @@
+<% @page_name = t('departments') %>
+
+<%# toolbar(itens_menu: {"#{'departments'.ts}": departments_url}, bar_arguments: {add_modal: "#add-department", filter: "filter-departments"} ) %>
+<!--<a href="#upload-file" class="mdl-button mdl-js-button mdl-button&#45;&#45;raised modal-trigger" style="background-color: #fab033; color: #fff; margin-left: 5px;"><%=t('upload.new')%></a>-->
+<%= index_bar(itens: {t('departments') => departments_url}) do %>
+  <%= action_btn(content: t('add'),         href: '#add-department', modal_trigger: true) %>
+  <%= action_btn(content: t('upload.new'),  href: '#upload-file', modal_trigger: true) %>
+  <%= action_btn(filter: :departments) %>
+  <%= action_btn(export: :pdf) %>
+  <%= action_btn(export: :xls) %>
+<% end %>
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: "department_name".ts)%>
+    <%= h_cell(text: "department_manager".ts)%>
+  <%end%>
+
+  <%= t_body(elements: @departments) do |e|%>
+    <%= b_row(link_to: department_url(e)) do %>
+    <%= b_cell(element: e.name)%>
+    <%= b_cell(element: e.department&.name || t('n/a') )%>
+    <%end%>
+  <%end%>
+<%end%>
+
+<%= render "form" %>
+<%= render 'uploads/form', upload: @upload, type: 'departments' %>
+<%= filter_modal(departments_url, 'departments') do %>
+  <div class="flex-row">
+    <div class="flex-col-xs-12 flex-col-sm-3">
+      <%= select_tag 'department_id[]', options_for_select(Department.all.map{|d| [d.name_and_number, d.id]}, params[:department_id]), multiple: :multiple, class: "default-selectize", prompt: "Departamento Supervisor" %>
+    </div>
+  </div>
+<% end %>

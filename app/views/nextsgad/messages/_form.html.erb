@@ -1,0 +1,27 @@
+<%= simple_form_for message do |f| %>
+    <div id="add-message" class="modal modal-fullscreen modal-fixed-footer">
+      <div class="modal-content">
+        <span class="h5-size"> <%= message.new_record? ? t('.new_message') : t('.update_message') %> </span>
+        <hr>
+        <div class="row" style="margin-bottom: 0">
+          <%= f.input :title, wrapper_html: {class: 'col s6'} %>
+          <%= f.input :send_to_all, as: :bootstrap_switch, wrapper_html: {class: 'col s6'} %>
+        </div>
+        <div class="row" style="margin-bottom: 0">
+          <%= f.association :functions, collection: Function.map_for_select, input_html: {class: 'selectize'}, wrapper_html: {class: 'col s3', 'data-on-check' => '#message_send_to_all,hide'} %>
+          <%= f.association :positions, collection: Position.where.not(efective_id: nil).map_for_select, input_html: {class: 'selectize'}, wrapper_html: {class: 'col s3', 'data-on-check' => '#message_send_to_all,hide'} %>
+          <%= f.association :employees, collection: Employee.map_for_select, input_html: {class: 'selectize'}, wrapper_html: {class: 'col s3', 'data-on-check' => '#message_send_to_all,hide'} %>
+          <%= f.association :organic_units, collection: OrganicUnit.all.map{|o| [o.name, o.id]}, label: 'Enviar Para (Unidade Orgânica)', input_html: {class: 'selectize'}, wrapper_html: {class: 'col s3', 'data-on-check' => '#message_send_to_all,hide'} %>
+        </div>
+        <div class="row" style="margin-bottom: 0">
+          <%= f.input :body, wrapper_html: {class: 'col s12'} %>
+          <%= f.input :signature, wrapper_html: {class: 'col s4'} %>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <%= f.button :submit, value: t(:save_and_send) %>
+        <%= f.button :submit, value: t(:draft) %>
+        <%= cancel messages_url %>
+      </div>
+    </div>
+<% end %>

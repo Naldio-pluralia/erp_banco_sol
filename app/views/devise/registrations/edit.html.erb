@@ -1,0 +1,73 @@
+<% @page_name = "#{resource.first_name} #{resource.last_name}" %>
+
+
+<%= form_for(resource, as: resource_name, url: user_registration_url, html: { method: :put, multipart: true }) do |f| %>
+  <%= devise_error_messages! %>
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--4-col">
+      <%= image_tag current_account.avatar_url, border:"0", alt:"" %>
+    </div>
+    <div class="mdl-cell mdl-cell--8-col">
+      <div class="mdl-grid mdl-grid--nesting">
+        <div class="mdl-cell mdl-cell--3-col">
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <label class="mdl-textfield__label" for="sample3"><%= t('first_name') %>...</label>
+            <%= f.text_field :first_name, class:"mdl-textfield__input", type:"text", id:"sample3" %>
+          </div>
+        </div>
+        <div class="mdl-cell mdl-cell--3-col">
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <label class="mdl-textfield__label" for="sample3"><%= t('last_name') %>...</label>
+            <%= f.text_field :last_name, class:"mdl-textfield__input", type:"text", id:"sample3" %>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--4-col">
+  </div>
+  <div class="mdl-cell mdl-cell--4-col">
+  </div>
+  <div class="mdl-cell mdl-cell--4-col">
+  </div>
+</div>
+
+
+
+
+
+
+
+    <label class="input-custom-file waves-effect waves-light btn btn-flat btn-cancel-form mdl-js-ripple-effect mdl-button--colored">
+        Editar Fotografia<input type="file" name="user[avatar]" id="user_avatar">
+    </label>
+  <br>
+  <br>
+
+
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <label class="mdl-textfield__label" for="sample3"><%= t('email') %></label>
+    <%= f.email_field :email, class:"mdl-textfield__input", type:"email", id:"sample3" %>
+  </div>
+
+  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <p>
+      <%= t('.currently_waiting_confirmation_for_email', email: resource.unconfirmed_email) %>
+    </p>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :password %> <i>(<%= t('.leave_blank_if_you_don_t_want_to_change_it') %>)</i><br />
+    <%= f.password_field :password, autocomplete: "off" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation %>
+  </div>
+  <div><%= f.submit t('.update'), class: "waves-effect waves-light btn btn-flat btn-cancel-form mdl-js-ripple-effect mdl-button--accent" %> <%= link_to t('.back'), :back, class: "waves-effect waves-light btn btn-flat btn-cancel-form"%></div>
+
+<% end %>
+

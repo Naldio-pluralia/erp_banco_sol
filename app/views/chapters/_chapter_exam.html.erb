@@ -1,0 +1,55 @@
+<%course = exam.course%>
+<%can_edit = course.draft? %>
+<div class="chapter_exam">
+  <div class="row" style="padding-top: 20px;">
+    <div class="col s6 no-padding
+    ">
+      <strong style="font-size: 15px;">Exame do Cap. <%= exam.chapter.number %></strong>
+    </div>
+    <div class="col s6" style="text-align: right;">
+      <%= action_btn(content: "Adicionar Questão", href: "#question-modal-form", modal_trigger: true) %>
+    </div>
+  </div>
+  <%exam.questions.order(:number).each do |question|%>
+    <thead>
+      <tr>
+        <th> <%= can_edit ? editable(question, :number, mode: :popup) : question.number %>.<%= can_edit ? editable(question, :description, mode: :popup) : question.description  %></th>
+        (<small><%= question.enum_t(:kind) %></small>)
+        <th class="right">
+          <% unless question.short_answer? %>
+            <%= can_edit ? editable(question, :value, mode: :popup) : question.value %> <%= question.value == 1 ? 'Valor' : 'Valores' %>
+          <% end %>
+          <%=
+            cat_btn(:l, mticon(:more_vert, class: 'font-14')) do
+              cat_item('Adicionar Opções', href: "#question_option-#{question.id}-modal-form", class: 'modal-trigger', disabled_unless: (course.draft? && ((question.single_choice? || question.multiple_choice?) && question.question_options.size < 10))) +
+              cat_item(t('destroy'), icon: :delete, href: question_url(question, redirect_url: course_url(course, exam_id: exam.id)), method: :delete, data: { confirm: t('are_you_sure') }, disabled_unless: can?(:destroy, question))
+            end
+          %>
+        </th>
+      </tr>
+      <hr>
+      <%question.question_options.each do |option|%>
+        <div style="padding-left: 30px">
+            <tr>
+              <th> <%= can_edit && !question.boolean_question? ? editable(option, :option, mode: :popup) : option.option %></th>
+              <th class="right">
+                (<%= option.enum_t(:status) %>)
+                <%= link_to mticon(:delete, class: 'font-14'), question_option_url(option, redirect_url: course_url(course, exam_id: exam.id)), method: :delete, data: { confirm: t('are_you_sure') }, style: "color: red" if course.draft? && !question.boolean_question?%>
+              </th>
+            </tr>
+            <br>
+        </div>
+      <%end%>
+      <br>
+    </thead>
+    <%= render 'question_options/form', question_option: QuestionOption.new(question_id: question.id, cancel_url: course_url(course, exam_id: exam.id), redirect_url: course_url(course, exam_id: exam.id)) %>
+  <%end%>
+  <%= render 'questions/form', question: Question.new(exam_id: exam.id, cancel_url: course_url(course, exam_id: exam.id), redirect_url: course_url(course, exam_id: exam.id)) %>
+</div>
+
+<style>
+
+.editable.editable-click {
+    font-size: 14px;
+}
+</style>

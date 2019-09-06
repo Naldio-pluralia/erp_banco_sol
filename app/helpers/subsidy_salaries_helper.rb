@@ -1,0 +1,2 @@
+module SubsidySalariesHelper
+end

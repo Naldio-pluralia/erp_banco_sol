@@ -1,0 +1,9 @@
+<% if f&.object&.new_record? %>
+  <%= f.button :button, class: 'btn btn-default' do %>
+      <%= t('save') %>
+  <% end %>
+<% else %>
+  <%= f.button :button, class: 'btn btn-default' do %>
+      <%= t('update') %>
+  <% end %>
+<% end %>

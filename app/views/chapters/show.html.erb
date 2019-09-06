@@ -1,0 +1,16 @@
+<%= index_bar(itens: {view_t(".chapters") => chapters_url, view_t('.chapter') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_chapter_path(@chapter) ) if can?(:edit, @chapter) %>
+  <%= action_btn(content: view_t('update'), href: "#chapter-modal-form", modal_trigger: true) if can?(:edit, @chapter) %>
+<% end %>
+
+
+<%= show_item(".number", @chapter.number) %>
+
+
+<%= show_item(".name", @chapter.name) %>
+
+
+<%= show_item(".course", @chapter.course) %>
+
+
+<%= render 'form', chapter: @chapter %>

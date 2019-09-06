@@ -1,0 +1,10 @@
+<%= index_bar(itens: {view_t(".report_reviewers") => report_reviewers_url, view_t('.report_reviewer') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_report_reviewer_path(@report_reviewer) ) if can?(:edit, @report_reviewer) %>
+  <%= action_btn(content: view_t('update'), href: "#report_reviewer-modal-form", modal_trigger: true) if can?(:edit, @report_reviewer) %>
+<% end %>
+
+
+<%= show_item(".employee", @report_reviewer.employee) %>
+
+
+<%= render 'form', report_reviewer: @report_reviewer %>

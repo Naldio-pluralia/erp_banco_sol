@@ -1,0 +1,48 @@
+<%= index_bar(itens: {view_t(".absence_types") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_absence_type_path) %>
+  <%= action_btn(content: view_t('add'), href: "#absence_type-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-absence_types-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".name") )%>
+    <%#= h_cell(text: t(".description") )%>
+    <%= h_cell(text: view_t(".kind") )%>
+    <%#= h_cell(text: t(".code") )%>
+    <%#= h_cell(text: t(".requires_document") )%>
+    <%#= h_cell(text: view_t(".requires_justification") )%>
+    <%#= h_cell(text: t(".requires_supervisor_justification") )%>
+    <%#= h_cell(text: t(".requires_approver_justification") )%>
+    <%#= h_cell(text: t(".requires_approver_supervisor_justification") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @absence_types) do |e| %>
+    <%= b_row(link_to: absence_type_path(e)) do %>
+      <%= b_cell(element: e.name)%>
+      <%#= b_cell(element: e.description)%>
+      <%= b_cell(element: e.enum_t(:kind))%>
+      <%#= b_cell(element: e.code)%>
+      <%#= b_cell(element: e.requires_document)%>
+      <%#= b_cell(element: t(e.requires_justification))%>
+      <%#= b_cell(element: e.requires_supervisor_justification)%>
+      <%#= b_cell(element: e.requires_approver_justification)%>
+      <%#= b_cell(element: e.requires_approver_supervisor_justification)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(absence_types_url, "absence_types") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', absence_type: @absence_type %>

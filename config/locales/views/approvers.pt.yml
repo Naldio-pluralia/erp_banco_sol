@@ -1,0 +1,9 @@
+#Simple form
+pt:
+  approvers:
+    defaults:
+      approver: 'Membro do DPE'
+      approvers: 'Membros do DPE'
+      employee: 'Colaborador'
+      kind: 'Tipo'
+      absence_type: 'Tipo de Ausência'

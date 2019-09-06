@@ -1,0 +1,101 @@
+<% @page_name = @employee.full_name %>
+
+<div class="employee-details">
+  <div class="flex-row">
+    <div class="flex-col-xs-2">
+      <% if true %>
+        <img class="responsive" width="150" src="/assets/user-default.png">
+      <% end %>
+    </div>
+
+    <div class="flex-col-xs">
+      <h4 class="color-title dth-name"> <%= @employee.full_name %> </h4>
+      <p> <%= @employee.efective_position&.name.to_s.upcase.mb_chars || 'n/a'.ts %> - <%= @employee.number %> </p>
+    </div>
+
+    <div class="flex-col-xs hr-vert dth-paygrade" style="margin-left: calc(0% - 70px);">
+      <div class="employee-tab-detalhes">
+        <span class="employee-tab-detalhes-span1"><%= t('employee_paygrade_level') %></span>
+        <span class="employee-tab-detalhes-span2 color-title"><%= @employee.paygrade %></span>
+      </div>
+    </div>
+
+    <div class="flex-col-xs hr-vert">
+      <div class="employee-tab-detalhes">
+        <span class="employee-tab-detalhes-span1"><%= t('employee_paygrade') %></span>
+        <span class="employee-tab-detalhes-span2 color-title"><%= @employee.level %></span>
+      </div>
+    </div>
+
+    <div class="flex-col-xs dth-resultado-final">
+      <div class="employee-tab-detalhes">
+        <span class="employee-tab-detalhes-span1"> <%= 'final_assessment'.ts %> </span>
+        <span class="employee-tab-detalhes-span2 color-title"> <%=@assessment.present? ? @assessment.employee_assessment(@employee) : 'n/a'.ts%> </span>
+      </div>
+      <a class="waves-effect waves-light btn btn-flat btn-cancel-form btn modal-trigger btn-adicinar-objectivo btn-color" href="#adicionar-objectivo"><%= :add.ts %></a>
+    </div>
+  </div>
+</div>
+
+<%if @assessment.present?%>
+  <table class="bordered" style="width: 100%;">
+    <tbody>
+      <% @employee_goals.group_by{|g| g.goal_type}.each do |goal_type, employee_goal| %>
+          <tr style="background-color: #fbb035">
+            <td class="mdl-data-table__cell--non-numeric"><%= goal_type.ts%></td>
+            <td class="mdl-data-table__cell--non-numeric"><%= 'short.self_assessment'.ts %></td>
+            <td class="mdl-data-table__cell--non-numeric"><%= 'short.supervisor_assessment'.ts %></td>
+            <td class="mdl-data-table__cell--non-numeric"><%= 'short.final_assessment'.ts %></td>
+          </tr>
+        <% employee_goal.each do |f| %>
+          <tr data-href="<%=edit_employee_goal_url(f.id)%>">
+            <td class="mdl-data-table__cell--non-numeric"><%= f.name %></td>
+            <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= f.self_assessment %></td>
+            <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= f.supervisor_assessment %></td>
+            <td class="mdl-data-table__cell--non-numeric" style="width: 30px;"><%= f.final_assessment %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+<%else%>
+
+<%end%>
+
+<table class="striped hide">
+  <thead class="color-thead">
+    <tr>
+      <th><%= "assessment.objectives".ts %></th>
+      <th class="center"><%= :self_assessment.ts %></th>
+      <th class="center"><%= :supervisor_assessment.ts %></th>
+      <th class="center"><%= :final_assessment.ts %></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% 10.times.each do |details| %>
+      <tr data-href="#">
+        <td class=""></td>
+        <td class="center"><%= details %></td>
+        <td class="center"><%= details %></td>
+        <td class="center"><%= details %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div id="adicionar-objectivo" class="modal modal-fixed-footer model-details">
+  <div class="modal-content"><h5>Novo Objectivo - <%=  %></h5></div>
+  <div class="modal-footer">
+    <%= link_to "Actualizar", "#",class:"waves-effect waves-light btn btn-flat btn-cancel-form btn modal-trigger btn-adicinar-objectivo btn-color" %>
+    <%= link_to "Cancelar", "#",class:"waves-effect waves-light btn btn-flat btn-cancel-form btn modal-trigger btn-adicinar-objectivo color-btn-cancelar" %>
+  </div>
+</div>
+
+<%= render "form" %>
+
+
+<script type="text/javascript">
+
+
+</script>

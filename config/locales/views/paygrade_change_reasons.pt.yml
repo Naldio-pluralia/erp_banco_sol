@@ -1,0 +1,21 @@
+pt:
+  paygrade_change_reasons:
+    index:
+      paygrade_change_reasons: 'Motivos de Mudança de Nível'
+      paygrade_change_reason: 'Motivo de Mudança de Nível'
+      reason: 'Motivo'
+    show:
+      paygrade_change_reasons: 'Motivos de Mudança de Nível'
+      paygrade_change_reason: 'Motivo de Mudança de Nível'
+      reason: 'Motivo'
+    edit:
+    create:
+      success: 'Gravado'
+      unsuccess: 'Ocorreu um Erro na Gravação'
+    update:
+      success: 'Actualizado'
+      unsuccess: 'Ocorreu um Erro na Actualização'
+    form:
+      new: 'Criar'
+      update: 'Actualizar'
+    

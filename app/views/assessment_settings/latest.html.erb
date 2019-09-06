@@ -1,0 +1,39 @@
+<%= index_bar(itens: {view_t('.latest_assessment_setting') => nil}) do %>
+  <%# action_btn(content: t('update'), href: "#assessment_setting-modal-form", modal_trigger: true) %>
+<% end %>
+
+<%= tab do%>
+  <%= tab_header do%>
+    <%= tab_header_item(:tab_goal_settings , view_t(".goal_settings")) %>
+  <%end%>
+
+  <% tab_body(:tab_goal_settings) do%>
+    <br>
+    <div class="flex-row" style="margin-top: 0px;">
+      <div class="flex-col-xs-12" style="padding-bottom: 15px;">
+        <%= box(size: '500px') do%>
+          <%= box_header(view_t('.goal_units')) do%>
+            <%= box_action(:plus, href: '#goal_unit-modal-form', modal_trigger: true) if can?(:create, GoalUnit)%>
+          <%end%>
+
+          <% l_table do %>
+            <%= t_header do %>
+              <%= h_cell(text: view_t(".name") )%>
+              <%= h_cell(sortable: false )%>
+            <% end %>
+
+            <%= t_body(elements: GoalUnit.all, class: 'auto-size') do |e| %>
+              <%= b_row() do %>
+                <%= b_cell(element: e.plural_name)%>
+                <%= b_cell(align: :right) do%>
+                  <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <%= render 'nextsgad/goal_units/form', goal_unit: GoalUnit.new%>
+        <%end%>
+      </div>
+    </div>
+  <%end%>
+<%end%>

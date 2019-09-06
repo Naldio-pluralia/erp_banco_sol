@@ -1,0 +1,23 @@
+<% simple_form_for(salary_grid) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="salary_grid-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= salary_grid.new_record? ? view_t('.new_x', x: view_t('.salary_grid')) : view_t('.edit_x', x: view_t('.salary_grid')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.input :number, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :code, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :value_80, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :value_100, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :value_110, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :value_125, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), salary_grid.cancel_url || salary_grids_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

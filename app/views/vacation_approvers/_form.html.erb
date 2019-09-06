@@ -1,0 +1,23 @@
+<%= simple_form_for(vacation_approver) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="vacation_approver-modal-form" class="modal">
+    <div class="modal-content">
+      <span class="h5-size"> <%= vacation_approver.new_record? ? view_t('.new_x', x: view_t('.vacation_approver')) : view_t('.edit_x', x: view_t('.vacation_approver')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.association :employee, label: view_t(".employees"), collection: Employee.where.not(id: VacationApprover.all.map(&:employee_id)).order(:first_name).map_for_select, include_blank: false, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: 'default-selectize'} %>
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), vacation_approver.cancel_url || vacation_approvers_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

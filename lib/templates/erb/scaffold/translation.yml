@@ -1,0 +1,86 @@
+<%= @language %>:
+  resources:
+    <%= index_helper %>:
+      defaults:
+        # Caminho [<%= index_helper %>.actions.action1.key1, <%= index_helper %>.actions.defaults.key1, <%= index_helper %>.defaults.key1, defaults.actions.action1.key1, defaults.actions.defaults.key1]
+        <%= index_helper %>: '<%= index_helper %>'
+        <%= singular_table_name %>: '<%= singular_table_name %>'
+<%- attributes.reject(&:password_digest?).each do |attribute| -%>
+        <%= attribute.name %>: '<%= attribute.name %>'
+<%- end -%>
+      views:
+<%- [:index, :show, :new, :edit, :update, :create, :destroy, :form].each do |view| -%>
+        # <%=view%>:
+  <%- attributes.reject(&:password_digest?).each do |attribute| -%>
+          # <%= attribute.name %>: '<%= attribute.name %>'
+  <%- end -%>
+<%- end -%>
+      actions:
+<%- [:index, :show, :new, :edit, :update, :create, :destroy].each do |action| -%>
+        # <%=action%>:
+  <%- attributes.reject(&:password_digest?).each do |attribute| -%>
+          # <%= attribute.name %>: '<%= attribute.name %>'
+  <%- end -%>
+<%- end -%>
+      page_titles:
+<%- [:index, :show, :new, :edit, :update, :create, :destroy].each do |view| -%>
+        # <%=view%>: '<%=view%>'
+<%- end -%>
+      model:
+<%- attributes.reject(&:password_digest?).each do |attribute| -%>
+        # <%= attribute.name %>: '<%= attribute.name %>'
+<%- end -%>
+      enums:
+<%- enums = attributes.select{|attribute| attribute.type == :enum} -%>
+<%- if  enums.any? -%>
+  <%- enums.each do |attribute| -%>
+        <%= attribute.name %>:
+          # key1: 'translation'
+          # key2: 'translation'
+  <%- end -%>
+<%- else -%>
+        # column:
+        #   key1: 'translation'
+        #   key2: 'translation'
+<%- end -%>
+      mailers:
+        #
+  simple_form:
+    labels:
+      <%= singular_table_name %>:
+<% attributes.reject(&:password_digest?).each do |attribute| -%>
+        <%= attribute.name %>: '<%= attribute.name %>'
+<% end -%>
+<% [:hints, :placeholders, :prompts].each do |f| -%>
+    <%= f %>:
+      <%= singular_table_name %>:
+  <% attributes.reject(&:password_digest?).each do |attribute| -%>
+        # <%= attribute.name %>: '<%= attribute.name %>'
+  <% end -%>
+<% end -%>
+  submit:
+    create:
+      # <%= singular_table_name %>: "Registar"
+    update:
+      # <%= singular_table_name %>: "Registar"
+  activerecord:
+    errors:
+      models:
+        <%= singular_table_name %>:
+          attributes:
+<% attributes.reject(&:password_digest?).each do |attribute| -%>
+            # <%= attribute.name %>:
+              # blank: ""
+              # invalid: ""
+              # taken: ""
+<% end -%>
+  unauthorized:
+<% [:index, :show, :new, :edit, :update, :create, :destroy].each do |action| -%>
+    # <%=action%>:
+      # <%= singular_table_name %>: "cant_access_resource"
+<% end -%>
+  helpers:
+    submit:
+      <%= singular_table_name %>:
+        # create: "Registar"
+        # update: "Actualizar"

@@ -1,0 +1,10 @@
+<%= index_bar(itens: {view_t(".function_subsidies") => function_subsidies_url, view_t('.function_subsidy') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_function_subsidy_path(@function_subsidy) ) if can?(:edit, @function_subsidy) %>
+  <%= action_btn(content: view_t('update'), href: "#function_subsidy-modal-form", modal_trigger: true) if can?(:edit, @function_subsidy) %>
+<% end %>
+
+
+<%= show_item(".name", @function_subsidy.name) %>
+
+
+<%= render 'form', function_subsidy: @function_subsidy %>

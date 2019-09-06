@@ -1,0 +1,26 @@
+<%= simple_form_for([absence_type, approver]) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="approver-<%= approver.kind%>-modal-form" class="modal">
+    <div class="modal-content">
+      <span class="h5-size"> <%= approver.new_record? ? view_t('.new_x', x: view_t('.approver')) : view_t('.edit_x', x: view_t('.approver')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.association :employee, collection: Employee.where.not(id: absence_type.approvers.map(&:employee_id)).order(:first_name).map_for_select, include_blank: false, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {class: 'default-selectize'} %>
+        <%= f.input :kind, as: :hidden %>
+        <%# f.association :absence_type, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), approver.cancel_url || absence_type_path(@absence_type), class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

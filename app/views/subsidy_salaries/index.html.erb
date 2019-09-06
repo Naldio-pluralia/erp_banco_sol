@@ -1,0 +1,36 @@
+<%= index_bar(itens: {t(".subsidy_salaries") => nil }) do %>
+  <%= action_btn(content: t('add'), href: '#subsidy_salary-modal-form', modal_trigger: true) %>
+  <% action_btn(content: t('filter'), href: "#filter-subsidy_salaries-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: t(".value") )%>
+    <%= h_cell(text: t(".salary") )%>
+    <%= h_cell(text: t(".subsidy_type") )%>
+    <%= h_cell(text: '' ) %>
+  <% end %>
+
+  <%= t_body(elements: @subsidy_salaries) do |e| %>
+    <%= b_row(link_to: subsidy_salary_path(e)) do %>
+      <%= b_cell(element: e.value)%>
+      <%= b_cell(element: e.salary)%>
+      <%= b_cell(element: e.subsidy_type)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(subsidy_salaries_url, "subsidy_salaries") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', subsidy_salary: @subsidy_salary %>

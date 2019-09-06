@@ -1,0 +1,19 @@
+<p>
+  <strong><%= t(".name") %>:</strong>
+  <%= tax_type.name %>
+</p>
+
+<p>
+  <strong><%= t(".code") %>:</strong>
+  <%= tax_type.code %>
+</p>
+
+<p>
+  <strong><%= t(".value") %>:</strong>
+  <%= tax_type.fixed? ? to_kwanza(tax_type.value) : to_percentage(tax_type.value)%>
+</p>
+
+<p>
+  <strong><%= t(".status") %>:</strong>
+  <%= tax_type.enum_t(:status) %>
+</p>

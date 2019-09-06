@@ -1,0 +1,87 @@
+<% @page_name = "assessment.map".ts %>
+
+<%# toolbar(itens_menu: {"#{'assessments'.ts}": assessments_url, "#{'assessment.map'.ts}": @assessment }, bar_arguments: { edit_modal: "#add-assessment", delete: @assessment } ) %>
+
+
+<%= index_bar(itens: {t('assessments') => skills_map_url, t('assessment.map') => nil}) do %>
+  <%= action_btn_dropdown(content: t('export'), data_activates: "dropdown-export") do %>
+      <%= dropdown_item(export: :pdf, color: :yellow) %>
+      <%= dropdown_item(export: :xls, color: :green) %>
+  <% end %>
+
+  <%#= action_btn_dropdown(content: t('add_to_assessment'), data_activates: "dropdown-add") do %>
+    <%#= dropdown_item(item: t('assessment.new_objective'), 'data-fill': "#application_container", 'data-fill-with': new_goal_url(goal: {assessment_id: @assessment.id, goal_type: :objective, redirect_url: current_url, cancel_url: current_url}, layout_type: :partial_view_application)) %>
+    <%#= dropdown_item(item: t('assessment.new_skill'), 'data-fill': "#application_container", 'data-fill-with': new_goal_url(goal: {assessment_id: @assessment.id, goal_type: :skill, redirect_url: current_url, cancel_url: current_url}, layout_type: :partial_view_application)) %>
+  <%# end %>
+
+  <%#= action_btn(content: t('edit'), href: '#add-assessment', modal_trigger: true) %>
+  <%#= action_btn(content: t('assessment.delete'), href: assessment_url(@assessment), method: :delete, color: :red, if_can: {destroy: @assessment}) %>
+  <%#= action_btn(content: t('assessment.copy_skills_from_year', year: @assessment.year - 1), href: new_skills_from_last_year_url, remote: :true, color: :blue, if_can: {new_skills_from_last_year: @assessment}) %>
+  <%= action_btn(filter: :employees) %>
+
+  <%#= action_btn_dropdown(content: t('change_status'), data_activates: "dropdown-status") do %>
+      <%#= dropdown_item(item: t('assessment.activate'), href: activate_assessment_url(redirect_url: current_url), method: :patch, color: :green, if_can: {activate: @assessment}) %>
+      <%#= dropdown_item(item: t('assessment.close'), href: close_assessment_url(redirect_url: current_url), method: :patch, color: :yellow, if_can: {close: @assessment}) %>
+      <%#= dropdown_item(item: t('assessment.deactivate'), href: deactivate_assessment_url(redirect_url: current_url), method: :patch, color: :yellow, if_can: {deactivate: @assessment}) %>
+      <%#= dropdown_item(item: t('assessment.draft'), href: draft_assessment_url(redirect_url: current_url), method: :patch, color: :gray, if_can: {draft: @assessment}) %>
+  <%# end %>
+<% end %>
+
+<%= l_table do %>
+  <%= t_header do %>
+    <th class="mdl-data-table__cell--non-numeric cell-align" style="width: 120px;"><%= t('employee_number') %></th>
+    <%= h_cell(text: t('employee_name')) %>
+    <th class="mdl-data-table__cell--non-numeric cell-align" style="width: 100px;"><%= t('employee_paygrade') %></th>
+    <%= h_cell(text: 'Posição - Unidade Orgânica') %>
+    <th class="mdl-data-table__cell--non-numeric cell-align" style="width: 40px;"><%= t('short.self_assessment') %></th>
+    <th class="mdl-data-table__cell--non-numeric cell-align" style="width: 40px;"><%= t('short.supervisor_assessment') %></th>
+    <th class="mdl-data-table__cell--non-numeric cell-align" style="width: 40px;"><%= t('short.final_assessment') %></th>
+  <% end %>
+
+  <%= t_body(elements: @employee_skills, check_params: [:organic_unit_id, :function_id, :position_id, :paygrade, :level, :employee_id], params_empty_message: t(:use_the_blue_button_to_filter)) do |e| %>
+    <%= b_row(link_to: '#') do %>
+      <td class="mdl-data-table__cell--non-numeric color" style="width: 120px;"> <%= e[0][:number] %> </td>
+      <%= b_cell(element: e[0][:first_and_last_name]) %>
+      <td class="mdl-data-table__cell--non-numeric color" style="width: 100px;"> <%= e[0][:paygrade] %> </td>
+      <%= b_cell(element: e[0][:establishment]) %>
+
+      <td class="mdl-data-table__cell--non-numeric color" style="width: 40px;"> <%= e[0][:self_assessment] %> </td>
+      <td class="mdl-data-table__cell--non-numeric color" style="width: 40px;"> <%= e[0][:supervisor_assessment] %> </td>
+      <td class="mdl-data-table__cell--non-numeric color" style="width: 40px;"> <%= e[0][:final_assessment] %> </td>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%#= render "form", assessment: @assessment %>
+<%#= render "skill_form", goal: @skill %>
+<%#= render "objective_form", goal: @objective %>
+
+<%= filter_modal(skills_map_url, 'employees') do %>
+  <div class="flex-row">
+    <div class="flex-col-xs-12 flex-col-sm-3">
+      <%= select_tag 'employee_id[]', options_for_select(Employee.where(can_be_assessed: true).map_for_filter, params[:employee_id]), multiple: :multiple, class: "default-selectize", prompt: "Nome" %>
+    </div>
+    <div class="flex-col-xs-12 flex-col-sm-3">
+      <%= select_tag 'organic_unit_id[]', options_for_select(OrganicUnit.all.map {|p| ["#{p.abbreviation} - #{p.name}", p.id]}, params[:organic_unit_id]), multiple: :multiple, class: "default-selectize", prompt: "Unidade Orgânica" %>
+    </div>
+    <div class="flex-col-xs-12 flex-col-sm-3">
+      <%= select_tag 'function_id[]', options_for_select(Function.map_for_filter, params[:function_id]), multiple: :multiple, class: "default-selectize", prompt: "Função" %>
+    </div>
+    <div class="flex-col-xs-12 flex-col-sm-3">
+      <%= select_tag 'position_id[]', options_for_select(Position.map_for_filter, params[:position_id]), multiple: :multiple, class: "default-selectize", prompt: "Posição" %>
+    </div>
+    <div class="flex-col-xs-12 flex-col-sm-3">
+      <%= select_tag 'paygrade[]', options_for_select(Employee.map_paygrade_for_filter, params[:paygrade]), multiple: :multiple, class: "default-selectize", prompt: "Escalão" %>
+    </div>
+    <div class="flex-col-xs-12 flex-col-sm-3">
+      <%= select_tag 'level[]', options_for_select(Employee.map_level_for_filter, params[:level]), multiple: :multiple, class: "default-selectize", prompt: "Nível" %>
+    </div>
+  </div>
+<% end %>
+
+
+<style>
+
+
+
+</style>

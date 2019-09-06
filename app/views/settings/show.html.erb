@@ -1,0 +1,20 @@
+<% @page_name = "settings.description".ts %>
+
+<% toolbar(itens_menu: {"#{'settings.description'.ts}": "#"}, bar_arguments: { } ) %>
+
+<p><b><%= 'settings.entity'.ts %></b>: <%= configuration.entity_name %></p>
+<p><b><%= 'settings.framework_version'.ts %>: </b> <%= @config.framework_version %></p>
+<p><b><%= 'settings.ruby_version'.ts %>:</b> <%= @config.ruby_version %></p>
+<p><b><%= 'settings.rails_version'.ts %>:</b> <%= @config.rails_version %></p>
+<p><b><%= 'settings.plugins'.ts %>:</b></p>
+<ul>
+  <% modules.each do |parent|  %>
+    <li><%= "#{parent.description} (#{parent.version})" %>
+      <ul style="list-style-type: square;">
+        <% parent.children.each do |children| %>
+          <li style="list-style-type: square;"><%= "#{children.description} (#{children.version})" %></li>
+        <% end %>
+      </ul>
+    </li>
+  <% end %>
+</ul>

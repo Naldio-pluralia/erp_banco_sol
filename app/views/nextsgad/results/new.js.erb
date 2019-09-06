@@ -1,0 +1,6 @@
+$("#new-result-<%= params[:employee_goal_id] %>").hide().after('<%= j render("form")%>');
+$('.back-result').click(function() {
+  $("#result_note").val("");
+  $('#new_result').remove();
+  $("#new-result-<%= params[:employee_goal_id] %>").show();
+});

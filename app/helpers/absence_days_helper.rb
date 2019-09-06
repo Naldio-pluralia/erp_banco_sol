@@ -1,0 +1,2 @@
+module AbsenceDaysHelper
+end

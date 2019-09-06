@@ -1,0 +1,16 @@
+<%= index_bar(itens: {view_t(".employee_presences") => employee_presences_url, view_t('.employee_presence') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_employee_presence_path(@employee_presence) ) if can?(:edit, @employee_presence) %>
+  <%= action_btn(content: view_t('update'), href: "#employee_presence-modal-form", modal_trigger: true) if can?(:edit, @employee_presence) %>
+<% end %>
+
+
+<%= show_item(".employee", @employee_presence.employee) %>
+
+
+<%= show_item(".date", @employee_presence.date) %>
+
+
+<%= show_item(".status", @employee_presence.status) %>
+
+
+<%= render 'form', employee_presence: @employee_presence %>

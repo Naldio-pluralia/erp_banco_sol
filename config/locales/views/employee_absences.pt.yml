@@ -1,0 +1,11 @@
+#Simple form
+pt:
+  employee_absences:
+    defaults:
+      employee_absences: 'Ausências'
+      employee_absence: 'Ausência'
+      employee: 'Colaborador'
+      absence_type: 'Tipo de Ausência'
+      from: '1º dia de Ausência (Saída)'
+      to: '1º dia de Presença (Regresso)'
+      days: 'Nº de dias Úteis de Ausência'

@@ -1,0 +1,14 @@
+<%= index_bar(itens: {view_t(".appliances") => appliances_url, view_t('.appliance') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_appliance_path(@appliance) ) if can?(:edit, @appliance) %>
+  <%#= action_btn(content: view_t('update'), href: "#appliance-modal-form", modal_trigger: true) if can?(:edit, @appliance) %>
+<% end %>
+
+
+<%= show_item(".name", @appliance.name) %>
+
+<%= show_item(".email", @appliance.email) %>
+
+<%= show_item(".cellphone", @appliance.cellphone) %>
+
+<p style="margin: 0 2px;"><strong>Relevância</strong>: <%= editable @appliance, :relevance, title: @appliance.simple_form_label_t(:relevance), mode: :popup, type: :select, source: Appliance.editable_enums_map_t(:relevance)%></p>
+<%= show_item(".note", @appliance.note) %>

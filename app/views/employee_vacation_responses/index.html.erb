@@ -1,0 +1,40 @@
+<%= index_bar(itens: {view_t(".employee_vacation_responses") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_employee_vacation_response_path) %>
+  <%= action_btn(content: view_t('add'), href: "#employee_vacation_response-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-employee_vacation_responses-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".employee_vacation") )%>
+    <%= h_cell(text: view_t(".employee") )%>
+    <%= h_cell(text: view_t(".status") )%>
+    <%= h_cell(text: view_t(".kind") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @employee_vacation_responses) do |e| %>
+    <%= b_row(link_to: employee_vacation_response_path(e)) do %>
+      <%= b_cell(element: e.employee_vacation)%>
+      <%= b_cell(element: e.employee)%>
+      <%= b_cell(element: e.status)%>
+      <%= b_cell(element: e.kind)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e if can?(:show, e) %> | 
+        <%= link_to t('edit'), edit_employee_vacation_response_path(e) if can?(:edit, e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(employee_vacation_responses_url, "employee_vacation_responses") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', employee_vacation_response: @employee_vacation_response %>

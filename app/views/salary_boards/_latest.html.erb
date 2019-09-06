@@ -1,0 +1,34 @@
+
+<%if salary_board&.id&.present? %>
+  <table>
+    <thead>
+      <tr>
+        <th style='width: 20px;'><%= t '.paygrade'%></th>
+        <th><%= t '.value'%></th>
+        <th><%= t '.increment'%></th>
+        <th><%= t '.a' %></th>
+        <th><%= t '.b' %></th>
+        <th><%= t '.c' %></th>
+        <th><%= t '.d' %></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%salary_board.salary_board_items.each do |paygrade| %>
+        <tr>
+          <td data-paygrade="<%=paygrade.paygrade%>"><%= paygrade.paygrade%></td>
+          <td data-paygrade="<%=paygrade.paygrade%>"><%= paygrade.kwanza_t(:base_value)%></td>
+          <td data-paygrade="<%=paygrade.paygrade%>"><%= paygrade.kwanza_t(:increment_value)%></td>
+          <td data-paygrade="<%=paygrade.paygrade%>" data-level="a"><%= paygrade.kwanza_t(:a_value)%></td>
+          <td data-paygrade="<%=paygrade.paygrade%>" data-level="b"><%= paygrade.kwanza_t(:b_value)%></td>
+          <td data-paygrade="<%=paygrade.paygrade%>" data-level="c"><%= paygrade.kwanza_t(:c_value)%></td>
+          <td data-paygrade="<%=paygrade.paygrade%>" data-level="d"><%= paygrade.kwanza_t(:d_value)%></td>
+        </tr>
+      <%end%>
+    </tbody>
+  </table>
+
+<%else%>
+
+
+<%end%>

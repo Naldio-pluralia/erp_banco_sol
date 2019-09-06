@@ -1,0 +1,20 @@
+<%= simple_form_for(employee_work_period) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="employee_work_period-modal-form" class="modal">
+    <div class="modal-content">
+      <span class="h5-size"> <%= employee_work_period.new_record? ? t('.new') : t('.edit') %> </span>
+      <hr>
+
+      <div class="row">
+        <%= f.input :since, as: :air_datepicker, input_html: {'data-language' => 'pt', 'data-to-disable' => employee_work_period.unallowed_dates.join(',')}, wrapper_html: {class: 'col s3'} %>
+        <%= f.input :until, as: :air_datepicker, input_html: {'data-language' => 'pt', 'data-to-disable' => employee_work_period.unallowed_dates.join(',')}, wrapper_html: {class: 'col s3'} %>
+        <%= f.association :employee, collection: Employee.map_for_select(), include_blank: false, input_html: {class: 'default-selectize'}, as: :hidden %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), employee_work_period.cancel_url || employee_url(@employee, active_tab: :tab_remuneration), class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,189 @@
+pt:
+  activerecord:
+    errors:
+      messages:
+        extension_whitelist_error: 'Ficheiro não suportado'
+        not_a_number: "insira um número maior ou igual a 0"
+        blank: "Obrigatório"
+        invalid: 'Inválido'
+        taken: 'Este Já está em uso'
+        required: 'Obrigatório'
+        greater_than_or_equal_to: 'Deve ser maior ou igual a %{count}'
+        less_than: 'Deve ser menor que %{count}'
+        greater_than: 'Deve ser maior que %{count}'
+        less_than_or_equal_to: 'Deve ser menor ou igual a %{count}'
+        less_than_or_equal_to_x: 'Deve ser menor ou igual a %{x}'
+        more_than_or_equal_to_x: 'Deve ser maior ou igual a %{x}'
+        less_than_x: 'Deve ser menor que %{x}'
+        more_than_x: 'Deve ser maior que %{x}'
+        before_todays_date: 'Deve ser anterior a hoje'
+        before_or_todays_date: 'Deve ser até hoje'
+        after_todays_date: 'Deve ser posterior a hoje'
+        after_or_todays_date: 'Deve ser de hoje em diante'
+        before_or_x_date: 'Deve ser anterior ou igual a %{x}'
+        after_or_x_date: 'Deve ser posterior ou igual a %{x}'
+        before_x_date: 'Deve ser anterior a %{x}'
+        after_x_date: 'Deve ser posterior a %{x}'
+        already_has_period_x: 'Já tem um período para %{x}'
+        divergent_dates: 'Conflito de Datas'
+        configure_employee_x_regime_first: 'Configurar o Regime Primeiro'
+        check_the_time_employee_works_from_x_to_y: 'Verifique a Hora, O Colaborador Trabalha entre %{x} - %{y}'
+        allowed_file_content_types: 'Tipo não permitido'
+      models:
+        user:
+          attributes:
+            current_password:
+              blank: "Falta confirmar com a sua senha..."
+            email:
+              blank: 'Deve ter email ou Nº Mecanográfico'
+              invalid: 'deve ter o formato teu_email@bancosol.ao'
+            employee_id:
+              taken: 'O colaborador já está a tem conta'
+            employee_number:
+              taken: 'O número de empregado está em uso'
+            password:
+              blank: 'Não pode estar em branco'
+            cellphone:
+              invalid: 'Deve ter 9 números'
+        admin:
+          attributes:
+            current_password:
+              blank: "Falta confirmar com a sua senha..."
+            employee_id:
+              taken: 'O colaborador já está a tem conta'
+            employee_number:
+              taken: 'O número de empregado está em uso'
+            password:
+              blank: 'Não pode estar em branco'
+            cellphone:
+              invalid: 'Deve ter 9 números'
+        assessment:
+          attributes:
+            skills_percentage:
+              less_than_or_equal_to: 'deve estar entre 0 e 100%'
+            objectives_percentage:
+              not_a_number: "insira um número maior ou igual a 0"
+              less_than_or_equal_to: 'deve estar entre 0 e 100%'
+            attendance_percentage:
+              less_than_or_equal_to: 'deve estar entre 0 e 100%'
+              not_a_number: 'Insira um número'
+            four_hours_late_discount:
+              less_than_or_equal_to: 'deve estar entre 0 e 5'
+              not_a_number: 'Insira um número'
+            three_hours_late_discount:
+              less_than_or_equal_to: 'deve estar entre 0 e 5'
+              not_a_number: 'Insira um número'
+            two_hours_late_discount:
+              less_than_or_equal_to: 'deve estar entre 0 e 5'
+              not_a_number: 'Insira um número'
+            one_hour_late_discount:
+              less_than_or_equal_to: 'deve estar entre 0 e 5'
+              not_a_number: 'Insira um número'
+            presence_discount:
+              less_than_or_equal_to: 'deve estar entre 0 e 5'
+              not_a_number: 'Insira um número'
+            absence_discount:
+              less_than_or_equal_to: 'deve estar entre 0 e 5'
+              not_a_number: 'Insira um número'
+            vacation_discount:
+              less_than_or_equal_to: 'deve estar entre 0 e 5'
+              not_a_number: 'Insira um número'
+            authorized_leave_discount:
+              less_than_or_equal_to: 'deve estar entre 0 e 5'
+              not_a_number: 'Insira um número'
+            state:
+              blank: 'Não deve estar em branco'
+            objectives_percentage:
+              greater_than_or_equal_to: 'Insira um Número enter 0 e 100'
+              less_than_or_equal_to: 'Insira um Número enter 0 e 100'
+              not_a_number: 'Insira um número'
+            attendances_percentage:
+              greater_than_or_equal_to: 'Insira um Número enter 0 e 100'
+              less_than_or_equal_to: 'Insira um Número enter 0 e 100'
+              not_a_number: 'Insira um número'
+            skills_percentage:
+              greater_than_or_equal_to: 'Insira um Número enter 0 e 100'
+              less_than_or_equal_to: 'Insira um Número enter 0 e 100'
+              not_a_number: 'Insira um número'
+        # Attendences
+        attendance:
+          attributes:
+            assessment:
+              required: 'não tem avalição para este ano'
+
+        department:
+          attributes:
+            name:
+              taken: 'Já existe uma Departamento com este nome'
+
+        justification:
+          attributes:
+            position:
+              required: 'Obrigatório'
+            attendance_ids:
+              blank: 'Obrigatório'
+
+        employee:
+          attributes:
+            first_name:
+              blank: 'Não pode estar em branco'
+            last_name:
+              blank: 'Não pode estar em branco'
+            number:
+              taken: 'Já existe'
+        function:
+          attributes:
+            name:
+              taken: 'Esta função já foi registada'
+        positions:
+          attributes:
+            efective_id:
+              taken: 'Este colaborador já tem uma posição'
+        goal:
+          attributes:
+            name:
+              blank: 'Obrigatório'
+        message:
+          attributes:
+            positions:
+              blank: 'selecione pelo menos um destinatário'
+            functions:
+              blank: 'selecione pelo menos um destinatário'
+            departments:
+              blank: 'selecione pelo menos um destinatário'
+            employees:
+              blank: 'selecione pelo menos um destinatário'
+        employee_goal:
+          attributes:
+            self_assessment:
+              less_than_or_equal_to: 'Insira um número entre 0 e 5'
+              greater_than_or_equal_to: 'Insira um número entre 0 e 5'
+            supervisor_assessment:
+              less_than_or_equal_to: 'Insira um número entre 0 e 5'
+              greater_than_or_equal_to: 'Insira um número entre 0 e 5'
+            final_assessment:
+              less_than_or_equal_to: 'Insira um número entre 0 e 5'
+              greater_than_or_equal_to: 'Insira um número entre 0 e 5'
+        employee_paygrade:
+          attributes:
+            until:
+              close_the_open_period_first: 'Existe um registo incompleto que deve ser fechado antes'
+            paygrade:
+              pick_an_avaliable_one: 'Não existe este nível na última tabela salarial'
+        employee_absence:
+          attributes:
+            left_at:
+              configure_employee_x_regime_first: 'Configure o Regime do Colaborador "%{x}" Antes'
+        employee_delay:
+          attributes:
+            arrived_at:
+              check_the_time_employee_works_from_x_to_y: 'Verifique a Hora, O Colaborador Trabalha entre %{x} - %{y}'
+
+        employee_work_period:
+          attributes:
+            until:
+              close_the_open_period_first: 'Existe um registo incompleto que deve ser fechado antes'
+        social_security_tax:
+          attributes:
+            percentage:
+              the_sum_of_employee_percentage_end_employer_percentage_must_be_x: 'A soma da percentagem do empregado e empregador deve ser igual a %{x}'

@@ -1,0 +1,38 @@
+<%= index_bar(itens: {view_t(".approvers") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_approver_path) if can?(:create, Approver) %>
+  <%= action_btn(content: view_t('add'), href: "#approver-modal-form", modal_trigger: true) if can?(:create, Approver) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-approvers-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".employee") )%>
+    <%= h_cell(text: view_t(".kind") )%>
+    <%= h_cell(text: view_t(".absence_type") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @approvers) do |e| %>
+    <%= b_row(link_to: approver_path(e)) do %>
+      <%= b_cell(element: e.employee)%>
+      <%= b_cell(element: e.enum_t(:kind))%>
+      <%= b_cell(element: e.absence_type.name)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e if can?(:show, e) %> | 
+        <%= link_to t('edit'), edit_approver_path(e) if can?(:edit, e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(approvers_url, "approvers") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', approver: @approver, absence_type: @absence_type %>

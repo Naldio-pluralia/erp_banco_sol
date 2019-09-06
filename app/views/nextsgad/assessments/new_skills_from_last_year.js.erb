@@ -1,0 +1,103 @@
+jQuery(document).ready(function ($) {
+    $('body').css('overflow', 'unset');
+    $('.modal').modal('close');
+    $('.page-content').html('<%=j render "form_new_skills_from_last_year", skills: @skills, assessment: @assessment%>');
+    $('.remove_parent').each(function () {
+        $(this).mouseover(function () {
+            $(this).parent().addClass('hoverable');
+        });
+
+        $(this).mouseout(function () {
+            $(this).parent().removeClass('hoverable');
+        });
+
+        $(this).click(function () {
+            $(this).parent().remove();
+        });
+    });
+
+    $('[data-show-on-bigger-than]').each(function () {
+        var elemento = $(this);
+        var input_id = elemento.data('show-on-bigger-than').split(',')[0];
+        var selected_value = elemento.data('show-on-bigger-than').split(',')[1];
+        show_on_bigger_than(elemento, input_id, selected_value);
+        $(input_id).keyup(function () {
+            show_on_bigger_than(elemento, input_id, selected_value);
+        });
+        $(input_id).change(function () {
+            show_on_bigger_than(elemento, input_id, selected_value);
+        });
+    });
+
+    $('[data-show-on-select]').each(function () {
+        var elemento = $(this);
+        var input_id = elemento.data('show-on-select').split(',')[0];
+        var selected_value = elemento.data('show-on-select').split(',')[1];
+        show_on_select(elemento, input_id, selected_value);
+        $(input_id).change(function () {
+            show_on_select(elemento, input_id, selected_value);
+        });
+    });
+
+    $('[data-hide-on-select]').each(function () {
+        var elemento = $(this);
+        var input_id = elemento.data('hide-on-select').split(',')[0];
+        var selected_value = elemento.data('hide-on-select').split(',')[1];
+        hide_on_select($(this), input_id, selected_value);
+        $(input_id).change(function () {
+            hide_on_select(elemento, input_id, selected_value);
+        });
+    });
+
+    $('[data-on-check]').each(function () {
+        var elemento = $(this);
+        var input_id = elemento.data('on-check').split(',')[0];
+        var value = elemento.data('on-check').split(',')[1];
+        on_check($(this), input_id, value);
+        $(input_id).change(function () {
+            on_check(elemento, input_id, value);
+        });
+    });
+
+    function hide_on_select(elemento, input_id, selected_value) {
+        if ($(input_id + " option:selected").val() == selected_value) {
+            elemento.addClass('hide');
+        } else {
+            elemento.removeClass('hide');
+        }
+    }
+
+    // Mostra o 'elemento' se o 'input_id' estiver com e 'selected_value' seleccionado
+    function show_on_select(elemento, input_id, selected_value) {
+        if ($(input_id + " option:selected").val() == selected_value) {
+            elemento.removeClass('hide');
+        } else {
+            elemento.addClass('hide');
+        }
+    }
+
+    // Mostra o 'elemento' se o 'input_id' estiver com e 'selected_value' seleccionado
+    function show_on_bigger_than(elemento, input_id, selected_value) {
+        if (parseFloat($(input_id).val()) > parseFloat(selected_value)) {
+            elemento.removeClass('hide');
+        } else {
+            elemento.addClass('hide');
+        }
+    }
+
+    function on_check(elemento, input_id, value) {
+        if ($(input_id).is(':checked')) {
+            if (value == 'show') {
+                elemento.removeClass('hide');
+            } else if (value == 'hide') {
+                elemento.addClass('hide');
+            }
+        } else {
+            if (value == 'show') {
+                elemento.addClass('hide');
+            } else if (value == 'hide') {
+                elemento.removeClass('hide');
+            }
+        }
+    }
+});

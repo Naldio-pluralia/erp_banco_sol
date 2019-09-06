@@ -1,0 +1,2 @@
+module ChristmasSubsidySalariesHelper
+end

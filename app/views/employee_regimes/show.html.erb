@@ -1,0 +1,19 @@
+<%= index_bar(itens: {view_t(".employee_regimes") => employee_regimes_url, view_t('.employee_regime') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_employee_regime_path(@employee_regime) ) if can?(:edit, @employee_regime) %>
+  <%= action_btn(content: view_t('update'), href: "#employee_regime-modal-form", modal_trigger: true) if can?(:edit, @employee_regime) %>
+<% end %>
+
+
+<%= show_item(".regime", @employee_regime.regime) %>
+
+
+<%= show_item(".enters_at", @employee_regime.enters_at) %>
+
+
+<%= show_item(".leaves_at", @employee_regime.leaves_at) %>
+
+
+<%= show_item(".employee", @employee_regime.employee) %>
+
+
+<%= render 'form', employee_regime: @employee_regime, employee: @employee %>

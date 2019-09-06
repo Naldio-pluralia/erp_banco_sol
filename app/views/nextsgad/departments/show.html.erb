@@ -1,0 +1,10 @@
+<% @page_name = @department.name %>
+
+<% toolbar(itens_menu: {"#{'departments'.ts}": departments_url, "#{@department.name}": @department}, bar_arguments: {edit_modal: "#add-department", delete: @department} ) %>
+
+<p><strong><%= t('department_name') %>:</strong><%= @department.name %></p>
+<p><strong><%= view_t('.department_lider') %>:</strong><%= @department.employee.first_and_last_name if @department.employee_id.present?%></p>
+<p><strong><%= t('department_description') %>:</strong><%= @department.description %></p>
+<p><strong><%= t('department_number') %>:</strong><%= @department.number %></p>
+
+<%= render "form" %>

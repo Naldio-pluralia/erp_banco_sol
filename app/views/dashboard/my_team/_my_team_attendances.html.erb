@@ -1,0 +1,9 @@
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: "#{:my_team_attendances.ts} - #{@assessment&.year || DateTime.now.year}")%>
+  <%end%>
+<%end%>
+
+<div class="" style="margin-top: 5%;">
+  <%= line_chart(@department_attendances_data, height: '220px', legend: {position: "right"}, scales: {yAxes: [{ticks: {max: 31, min: 0, step_size: 8}}]}) %>
+</div>

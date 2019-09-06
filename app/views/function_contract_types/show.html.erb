@@ -1,0 +1,10 @@
+<%= index_bar(itens: {view_t(".function_contract_types") => function_contract_types_url, view_t('.function_contract_type') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_function_contract_type_path(@function_contract_type) ) if can?(:edit, @function_contract_type) %>
+  <%= action_btn(content: view_t('update'), href: "#function_contract_type-modal-form", modal_trigger: true) if can?(:edit, @function_contract_type) %>
+<% end %>
+
+
+<%= show_item(".name", @function_contract_type.name) %>
+
+
+<%= render 'form', function_contract_type: @function_contract_type %>

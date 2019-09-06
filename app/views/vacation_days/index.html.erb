@@ -1,0 +1,38 @@
+<%= index_bar(itens: {view_t(".vacation_days") => nil }) do %>
+  <%#= action_btn(content: view_t('add'), href: new_vacation_day_path) %>
+  <%= action_btn(content: view_t('add'), href: "#vacation_day-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: view_t('filter'), href: "#filter-vacation_days-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".employee_vacation") )%>
+    <%= h_cell(text: view_t(".employee_avaliable_vacation") )%>
+    <%= h_cell(text: view_t(".date") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @vacation_days) do |e| %>
+    <%= b_row(link_to: vacation_day_path(e)) do %>
+      <%= b_cell(element: e.employee_vacation)%>
+      <%= b_cell(element: e.employee_avaliable_vacation)%>
+      <%= b_cell(element: e.date)%>
+      <%= b_cell(text: "") do %>
+        <%= link_to t('show'), e if can?(:show, e) %> | 
+        <%= link_to t('edit'), edit_vacation_day_path(e) if can?(:edit, e) %> | 
+        <%= link_to t('destroy'), e, method: :delete, data: { confirm: t('are_you_sure') } if can?(:destroy, e) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= filter_modal(vacation_days_url, "vacation_days") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', vacation_day: @vacation_day %>

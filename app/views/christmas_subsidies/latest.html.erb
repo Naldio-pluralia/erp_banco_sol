@@ -1,0 +1,32 @@
+<%= index_bar(itens: {t(".latest_christmas_subsidy") =>  nil}) do %>
+  <%= action_btn(content: @christmas_subsidy.new_record? ? t('add') : t('update'), href: "#christmas_subsidy-modal-form", modal_trigger: true)  if can?(:create, ChristmasSubsidy) %>
+<% end %>
+
+<%if @christmas_subsidy.new_record?%>
+
+
+<%else%>
+  <p>
+    <strong><%= t(".name") %>:</strong>
+    <%= @christmas_subsidy.name %>
+  </p>
+
+  <p>
+    <strong><%= t(".abbr_name") %>:</strong>
+    <%= @christmas_subsidy.abbr_name %>
+  </p>
+
+  <p>
+    <strong><%= t(".percentage") %>:</strong>
+    <%= @christmas_subsidy.percentage_t(:percentage) %>
+  </p>
+
+  <p>
+    <strong><%= t(".status") %>:</strong>
+    <%= @christmas_subsidy.enum_t(:status) %>
+  </p>
+
+
+<%end%>
+
+<%= render 'form', christmas_subsidy: @christmas_subsidy || ChristmasSubsidy.new %>

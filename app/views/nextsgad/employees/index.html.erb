@@ -1,0 +1,55 @@
+<% @page_name = t('employees') %>
+
+<%= index_bar(itens: {t('employees') => employees_url}) do %>
+    <%= action_btn(content: t('add'), href: '#add-employee', modal_trigger: true) %>
+    <%= action_btn(content: t('upload.new'), href: '#upload-file', modal_trigger: true) %>
+    <%= action_btn(filter: :employees) %>
+    <%= action_btn(export: :pdf) %>
+    <%= action_btn(export: :xls) %>
+<% end %>
+
+<%= l_table(class: :employees_table) do %>
+  <%= t_header do %>
+    <%= h_cell(text: "employee_name".ts)%>
+    <%= h_cell(text: "employee_number".ts)%>
+    <%= h_cell(text: "status".ts)%>
+    <%= h_cell(text: "employee_paygrade_level".ts)%>
+    <%= h_cell(text: "employee_paygrade".ts)%>
+  <%end%>
+
+    <%= t_body(elements: @employees) do |e| %>
+      <%= b_row(link_to: employee_url(e)) do %>
+        <%= b_cell(element: "#{e.first_name} #{e.last_name}") %>
+        <%= b_cell(element: e.number) %>
+        <%= b_cell(element: e.enum_t(:status).upcase) %>
+        <%= b_cell(element: e.latest_paygrade&.paygrade ) %>
+        <%= b_cell(element: e.latest_paygrade&.level ) %>
+      <% end %>
+    <% end %>
+<% end %>
+
+<%= render "form", employee: @employee %>
+<%= render 'uploads/form', upload: @upload, type: 'employees' %>
+
+<%= filter_modal(employees_url, 'employees') do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+        <%= select_tag 'employee_id[]', options_for_select(Employee.all.order(:first_name).map_for_select, params[:employee_id]), multiple: :multiple, class: "default-selectize", prompt: "Nome" %>
+      </div>
+      <div class="flex-col-xs-12 flex-col-sm-3">
+        <%= select_tag 'organic_unit_id[]', options_for_select(OrganicUnit.all.map {|p| ["#{p.abbreviation} - #{p.name}", p.id]}, params[:organic_unit_id]), multiple: :multiple, class: "default-selectize", prompt: "Unidade Orgânica" %>
+      </div>
+      <div class="flex-col-xs-12 flex-col-sm-3">
+        <%= select_tag 'function_id[]', options_for_select(Function.all.map {|p| ["#{p.number} - #{p.name}", p.id]}, params[:function_id]), multiple: :multiple, class: "default-selectize", prompt: "Função" %>
+      </div>
+      <div class="flex-col-xs-12 flex-col-sm-3">
+        <%= select_tag 'position_id[]', options_for_select(Position.all.map {|p| ["#{p.number} - #{p.name}", p.id]}, params[:position_id]), multiple: :multiple, class: "default-selectize", prompt: "Posição" %>
+      </div>
+      <div class="hide flex-col-xs-12 flex-col-sm-3">
+        <%= select_tag 'paygrade[]', options_for_select(Employee.all.map {|p| p.paygrade}.uniq.compact.sort, params[:paygrade]), multiple: :multiple, class: "default-selectize", prompt: "Nível" %>
+      </div>
+      <div class="hide flex-col-xs-12 flex-col-sm-3">
+        <%= select_tag 'level[]', options_for_select(Employee.all.map {|p| p.level}.uniq.compact.sort, params[:level]), multiple: :multiple, class: "default-selectize", prompt: "Escalão" %>
+      </div>
+    </div>
+<% end %>

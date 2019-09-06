@@ -1,0 +1,108 @@
+<% @page_name = "#{resource.first_name} #{resource.last_name}" %>
+
+
+<%= simple_form_for(resource, as: resource_name, url: admin_registration_url, html: {method: :put, multipart: true}) do |f| %>
+  <div class="row">
+    <div class="col s3">
+      <label class="input-custom-file user-avatar">
+        <input type="file" name="user[avatar]" id="user_avatar">
+        <%= image_tag resource.avatar_url, border: "0", alt: "", class: "responsive-img user-avatar" %>
+      </label>
+    </div>
+
+    <div class="col s3">
+      <h5> <%= resource.first_name %> <%= resource.last_name %></h5>
+    </div>
+
+    <div class="col s3">
+
+    </div>
+
+    <div class="col s3">
+
+    </div>
+  </div>
+
+  <hr style="margin-bottom: 0;">
+
+  <div class="flex-row">
+    <div class="flex-col-xs">
+
+      <div class="row">
+        <div class="col s12">
+          <ul class="tabs">
+            <li class="tab col s3"><a class="active" href="#user_data_title"><%= "user.user_data_title".ts %></a></li>
+            <li class="tab col s3"><a href="#user_security_title"><%= "user.user_security_title".ts %></a></li>
+          </ul>
+        </div>
+
+        <div id="user_data_title" class="col s12">
+          <div class="is-active" id="data-panel">
+            <br>
+            <div class="row">
+              <%= f.input :first_name, label: "#{'user.first_name'.ts}", wrapper_html: {class: 'col s12 m4'} %>
+              <%= f.input :middle_name, label: "#{'user.middle_name'.ts}", wrapper_html: {class: 'col s12 m4'} %>
+              <%= f.input :last_name, label: "#{'user.last_name'.ts}", wrapper_html: {class: 'col s12 m4'} %>
+            </div>
+            <div class="row">
+              <%= f.input :cellphone, label: "#{'user.cellphone'.ts}", wrapper_html: {class: 'col s12 m4'} %>
+              <%= f.input :email, type: "email", label: "#{'user.email'.ts}", wrapper_html: {class: 'col s12 m4'} %>
+            </div>
+            <div class="row">
+            </div>
+          </div>
+        </div>
+
+        <div id="user_security_title" class="col s12">
+          <div class="mdl-tabs__panel" id="security-panel">
+            <br>
+            <div class="row">
+              <%= f.input :password, label: "#{'user.new_password'.ts} (#{'user.leave_blank_if_you_don_t_want_to_change_it'.ts})", autocomplete: "off", wrapper_html: {class: 'col s12 m4'} %>
+            </div>
+            <div class="row">
+              <%= f.input :password_confirmation, autocomplete: "off", label: "#{'user.password_confirmation'.ts}", wrapper_html: {class: 'col s12 m4'} %>
+            </div>
+            <div class="row">
+              <%= f.input :current_password, autocomplete: "off", label: "#{'user.current_password'.ts}", wrapper_html: {class: 'col s12 m4'} %>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+<!-- =======================  Rodape (Acções) =============================  -->
+
+  <div class="fixed-paginate-botton">
+    <div class="mdl-grid">
+      <div class="col s12">
+        <%= f.submit t('update'), class: "waves-effect waves-light btn btn-default" %>
+        <%= link_to t('back'), :back, class: "waves-effect waves-light btn btn-flat btn-cancel-form" %>
+      </div>
+    </div>
+  </div>
+
+  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <p><%= t('.currently_waiting_confirmation_for_email', email: resource.unconfirmed_email) %></p>
+  <% end %>
+
+
+<% end %>
+
+
+
+<style media="screen">
+  .no-padding{
+    padding: 0!important;
+  }
+  input>.optional{
+    margin: 0;
+  }
+  div>.input-field{
+    width: 100%;
+    margin: 0;
+
+  }
+</style>

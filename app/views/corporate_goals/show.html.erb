@@ -1,0 +1,35 @@
+<%= index_bar(itens: {view_t(".corporate_goals") => corporate_goals_url, view_t('.corporate_goal') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_corporate_goal_path(@corporate_goal) ) if can?(:edit, @corporate_goal) %>
+  <%= action_btn(content: view_t('update'), href: "#corporate_goal-modal-form", modal_trigger: true) if can?(:edit, @corporate_goal) %>
+<% end %>
+<div class="flex-row">
+  <div class="flex-col-xs-12 flex-col-sm-3 no-padding-left">
+    <%= show_item(view_t(".general_goal"), "#{@corporate_goal&.general_goal&.enum_t(:mode) || 'N/D'} - #{@corporate_goal&.general_goal&.target || 'N/D'} - #{@corporate_goal&.general_goal&.enum_t(:period) || 'N/D'}") %>
+    <%= show_item(view_t(".assessment"), "#{@corporate_goal&.assessment&.year}" || 'N/D') %>
+    <%= show_item(view_t(".period"), @corporate_goal&.enum_t(:period)  || 'N/D')%>
+    <%= show_item(view_t(".target"), @corporate_goal&.target  || 'N/D')%>
+    <%= show_item(view_t(".mode"), @corporate_goal&.enum_t(:mode)  || 'N/D')%>
+  </div>
+  <div class="flex-col-xs-12 flex-col-sm-3">
+    <h6><strong><%= view_t(".employees")%></strong></h6>
+    <% @corporate_goal.employees.each do |e|%>
+      <%= show_item(view_t(".name"), e.first_and_last_name || 'N/D') %>
+    <% end %>
+  </div>
+  <div class="flex-col-xs-12 flex-col-sm-3">
+    <h6><strong><%= view_t(".functions")%></strong></h6>
+    <% @corporate_goal.functions.each do |e|%>
+      <%= show_item(view_t(".name"), "#{e.name_and_number}") %>
+    <% end %>
+  </div>
+  <div class="flex-col-xs-12 flex-col-sm-3">
+    <h6><strong><%= view_t(".positions")%></strong></h6>
+    <% @corporate_goal.positions.each do |e|%>
+      <%= show_item(view_t(".name"), "#{e.name_and_number}") %>
+    <% end %>
+  </div>
+</div>
+<br>
+<%= show_item(".objectives", @corporate_goal&.objectives) %>
+
+<%= render 'form', corporate_goal: @corporate_goal %>

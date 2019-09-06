@@ -1,0 +1,25 @@
+<div class="object_responses_statuses">
+  <%object.object_responses.reload.sort_by{|r| ObjectResponse.kinds[r.kind] }.each do |response| %>
+    <%= response.enum_t(:kind) %> (<%=  response.employee&.name || 'N/D' %>) <span class="object_response status <%= response.status %>"><%= response.enum_t(:status) %></span>
+    <%= link_to 'Aprovar', approve_object_response_url(response), method: :patch, remote: true if can?(:approve, response) %>
+    <%= link_to 'Recusar', disaprove_object_response_url(response), method: :patch, remote: true if can?(:disaprove, response) %>
+    <%= link_to 'Remover Escolha', remove_object_response_url(response), method: :patch, remote: true if can?(:remove, response) %>
+    <br>
+  <%end%>
+
+  <style>
+    .object_response.status.pending{
+      color: #333;
+
+    }
+    .object_response.status.approved{
+      color: #33fa33;
+
+    }
+    .object_response.status.not_approved{
+      color: #fa3333;
+
+    }
+
+  </style>
+</div>

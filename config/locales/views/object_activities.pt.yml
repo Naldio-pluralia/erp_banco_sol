@@ -1,0 +1,9 @@
+#Simple form
+pt:
+  object_activities:
+    defaults:
+      object_activities: 'Actividades'
+      object_activity: 'Actividade'
+      description: 'Descrição'
+      object: 'Objecto'
+      creator: 'Criador'

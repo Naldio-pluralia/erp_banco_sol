@@ -1,0 +1,19 @@
+<%= index_bar(itens: {view_t(".function_skills") => function_skills_url, view_t('.function_skill') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_function_skill_path(@function_skill) ) if can?(:edit, @function_skill) %>
+  <%= action_btn(content: view_t('update'), href: "#function_skill-modal-form", modal_trigger: true) if can?(:edit, @function_skill) %>
+<% end %>
+
+
+<%= show_item(".min", @function_skill.min) %>
+
+
+<%= show_item(".recomended", @function_skill.recomended) %>
+
+
+<%= show_item(".skill", @function_skill.skill&.name) %>
+
+
+<%= show_item("function_skill.function", @function_skill.function&.name) %>
+
+
+<%= render 'form', function_skill: @function_skill %>

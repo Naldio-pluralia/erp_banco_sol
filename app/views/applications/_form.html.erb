@@ -1,0 +1,28 @@
+<%= simple_form_for(application) do |f| %>
+  <%= form_url_helpers(f)%>
+  <div id="application-modal-form" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <span class="h5-size"> <%= application.new_record? ? view_t('.new_x', x: view_t('.application')) : view_t('.edit_x', x: view_t('.application')) %> </span>
+      <hr>
+
+      <div class="flex-row flex-top">
+        <%= f.input :name, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :email, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :cellphone, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :birthdate, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :civil_status, collection: Application.enums_map_t(:civil_status), include_blank: false, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :dependents_number, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :note, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%#= f.input :status, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%= f.input :relevance, collection: Application.enums_map_t(:relevance), include_blank: false, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%#= f.association :vacancy, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        <%#= f.association :employee, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), application.cancel_url || applications_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>

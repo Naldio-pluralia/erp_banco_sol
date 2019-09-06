@@ -1,0 +1,37 @@
+<br>
+<br>
+<%= simple_form_for 'goal', url: create_skills_from_last_year_url do |f| %>
+    <div id="skills-list">
+      <% skills.each do |skill| %>
+          <%= f.simple_fields_for '', skill do |p| %>
+              <div class="cont">
+                <div class="row relative">
+
+                  <%= p.input :name, label: "goal.skill".ts, wrapper_html: {class: 'col s12'} %>
+
+                  <%= p.input :for_everyone, wrapper_html: {class: 'col s6', style: 'padding-top: 18px;padding-bottom: 28px;'}, as: :bootstrap_switch %>
+
+                  <%= p.association :functions, label: t("goal.function"), collection: Function.all.map {|a| [a.name, a.id]}, input_html: {class: 'default-selectize'}, optional: false, wrapper_html: {class: 'col s6', "data-on-check": "#goal_for_everyone,hide"} %>
+
+                  <%= p.input :nature, label: t("goal.nature"), collection: Goal.natures.for_select(:ts), wrapper_html: {class: 'col s6'}, input_html: {class: 'default-selectize'} %>
+
+                  <%= p.input :target, label: t("goal.target"), wrapper_html: {class: 'col s6', "data-show-on-select": "#goal_nature,numeric"} %>
+
+                  <%= p.input :unit, label: t("goal.unit"), collection: Goal.units.for_select(:ts), wrapper_html: {class: 'col s6', "data-show-on-select": "#goal_nature,numeric"}, input_html: {class: 'default-selectize'} %>
+
+                  <a class="btn btn-flat remove_parent"><%= icon mtl: :delete %></a>
+                </div>
+              </div>
+
+
+          <% end %>
+          <hr style="border-top: 1px solid #ffeb3b;">
+      <% end %>
+    </div>
+    <% if skills.size > 0 %>
+        <%= f.button :submit, t('save') %>
+        <%= cancel(assessment_url) %>
+        <a class="btn btn-flat hide" data-add-to="#skills-list"><%= icon mtl: :add %></a>
+        <hr style="border-top: 1px solid #ffeb3b;">
+    <% end %>
+<% end %>

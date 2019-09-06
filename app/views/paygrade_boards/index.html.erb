@@ -1,0 +1,145 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Paygrade Boards</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Level 1 value</th>
+      <th>Level 1 increment</th>
+      <th>Level 1 a value</th>
+      <th>Level 1 b value</th>
+      <th>Level 1 c value</th>
+      <th>Level 1 d value</th>
+      <th>Level 2 value</th>
+      <th>Level 2 increment</th>
+      <th>Level 2 a value</th>
+      <th>Level 2 b value</th>
+      <th>Level 2 c value</th>
+      <th>Level 2 d value</th>
+      <th>Level 3 value</th>
+      <th>Level 3 increment</th>
+      <th>Level 3 a value</th>
+      <th>Level 3 b value</th>
+      <th>Level 3 c value</th>
+      <th>Level 3 d value</th>
+      <th>Level 4 value</th>
+      <th>Level 4 increment</th>
+      <th>Level 4 a value</th>
+      <th>Level 4 b value</th>
+      <th>Level 4 c value</th>
+      <th>Level 4 d value</th>
+      <th>Level 5 value</th>
+      <th>Level 5 increment</th>
+      <th>Level 5 a value</th>
+      <th>Level 5 b value</th>
+      <th>Level 5 c value</th>
+      <th>Level 5 d value</th>
+      <th>Level 6 value</th>
+      <th>Level 6 increment</th>
+      <th>Level 6 a value</th>
+      <th>Level 6 b value</th>
+      <th>Level 6 c value</th>
+      <th>Level 6 d value</th>
+      <th>Level 7 value</th>
+      <th>Level 7 increment</th>
+      <th>Level 7 a value</th>
+      <th>Level 7 b value</th>
+      <th>Level 7 c value</th>
+      <th>Level 7 d value</th>
+      <th>Level 8 value</th>
+      <th>Level 8 increment</th>
+      <th>Level 8 a value</th>
+      <th>Level 8 b value</th>
+      <th>Level 8 c value</th>
+      <th>Level 8 d value</th>
+      <th>Level 9 value</th>
+      <th>Level 9 increment</th>
+      <th>Level 9 a value</th>
+      <th>Level 9 b value</th>
+      <th>Level 9 c value</th>
+      <th>Level 9 d value</th>
+      <th>Level 10 value</th>
+      <th>Level 10 increment</th>
+      <th>Level 10 a value</th>
+      <th>Level 10 b value</th>
+      <th>Level 10 c value</th>
+      <th>Level 10 d value</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @paygrade_boards.each do |paygrade_board| %>
+      <tr>
+        <td><%= paygrade_board.level_1_value %></td>
+        <td><%= paygrade_board.level_1_increment %></td>
+        <td><%= paygrade_board.level_1_a_value %></td>
+        <td><%= paygrade_board.level_1_b_value %></td>
+        <td><%= paygrade_board.level_1_c_value %></td>
+        <td><%= paygrade_board.level_1_d_value %></td>
+        <td><%= paygrade_board.level_2_value %></td>
+        <td><%= paygrade_board.level_2_increment %></td>
+        <td><%= paygrade_board.level_2_a_value %></td>
+        <td><%= paygrade_board.level_2_b_value %></td>
+        <td><%= paygrade_board.level_2_c_value %></td>
+        <td><%= paygrade_board.level_2_d_value %></td>
+        <td><%= paygrade_board.level_3_value %></td>
+        <td><%= paygrade_board.level_3_increment %></td>
+        <td><%= paygrade_board.level_3_a_value %></td>
+        <td><%= paygrade_board.level_3_b_value %></td>
+        <td><%= paygrade_board.level_3_c_value %></td>
+        <td><%= paygrade_board.level_3_d_value %></td>
+        <td><%= paygrade_board.level_4_value %></td>
+        <td><%= paygrade_board.level_4_increment %></td>
+        <td><%= paygrade_board.level_4_a_value %></td>
+        <td><%= paygrade_board.level_4_b_value %></td>
+        <td><%= paygrade_board.level_4_c_value %></td>
+        <td><%= paygrade_board.level_4_d_value %></td>
+        <td><%= paygrade_board.level_5_value %></td>
+        <td><%= paygrade_board.level_5_increment %></td>
+        <td><%= paygrade_board.level_5_a_value %></td>
+        <td><%= paygrade_board.level_5_b_value %></td>
+        <td><%= paygrade_board.level_5_c_value %></td>
+        <td><%= paygrade_board.level_5_d_value %></td>
+        <td><%= paygrade_board.level_6_value %></td>
+        <td><%= paygrade_board.level_6_increment %></td>
+        <td><%= paygrade_board.level_6_a_value %></td>
+        <td><%= paygrade_board.level_6_b_value %></td>
+        <td><%= paygrade_board.level_6_c_value %></td>
+        <td><%= paygrade_board.level_6_d_value %></td>
+        <td><%= paygrade_board.level_7_value %></td>
+        <td><%= paygrade_board.level_7_increment %></td>
+        <td><%= paygrade_board.level_7_a_value %></td>
+        <td><%= paygrade_board.level_7_b_value %></td>
+        <td><%= paygrade_board.level_7_c_value %></td>
+        <td><%= paygrade_board.level_7_d_value %></td>
+        <td><%= paygrade_board.level_8_value %></td>
+        <td><%= paygrade_board.level_8_increment %></td>
+        <td><%= paygrade_board.level_8_a_value %></td>
+        <td><%= paygrade_board.level_8_b_value %></td>
+        <td><%= paygrade_board.level_8_c_value %></td>
+        <td><%= paygrade_board.level_8_d_value %></td>
+        <td><%= paygrade_board.level_9_value %></td>
+        <td><%= paygrade_board.level_9_increment %></td>
+        <td><%= paygrade_board.level_9_a_value %></td>
+        <td><%= paygrade_board.level_9_b_value %></td>
+        <td><%= paygrade_board.level_9_c_value %></td>
+        <td><%= paygrade_board.level_9_d_value %></td>
+        <td><%= paygrade_board.level_10_value %></td>
+        <td><%= paygrade_board.level_10_increment %></td>
+        <td><%= paygrade_board.level_10_a_value %></td>
+        <td><%= paygrade_board.level_10_b_value %></td>
+        <td><%= paygrade_board.level_10_c_value %></td>
+        <td><%= paygrade_board.level_10_d_value %></td>
+        <td><%= link_to 'Show', e %></td>
+        <td><%= link_to 'Edit', edit_paygrade_board_path(paygrade_board) %></td>
+        <td><%= link_to 'Destroy', paygrade_board, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Paygrade Board', new_paygrade_board_path %>

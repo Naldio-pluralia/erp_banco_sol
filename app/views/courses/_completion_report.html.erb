@@ -1,0 +1,85 @@
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: "Relatório de Conclusão", align: :center, sortable: false )%>
+  <% end %>
+<% end %>
+
+<div class="row">
+
+
+  <div class="col s6 chart-container" style="position: relative;">
+    <%= chart_export_btn('#chartjs-course-1', 'Relatório de Conclusão') %>
+    <%=
+
+      data = {
+        labels: ["Janeiro", "Fevereiro", 'Março'],
+        datasets: [
+          {
+            label: "Não Iniciado",
+            backgroundColor: 'rgba(200, 12, 12, 0.5)',
+            data: [20, 30, 40]
+          },
+          {
+            label: "Em Curso",
+            backgroundColor: 'rgba(250, 176, 51, 0.6)',
+            data: [50, 60, 70]
+          },
+          {
+            label: "Concluido",
+            backgroundColor: 'rgba(99, 200, 99, 0.7)',
+            data: [40, 30, 10]
+          }
+        ]
+      }
+      options = {
+        id: 'chartjs-course-1',
+        height: '180',
+        title: {
+          display: true,
+          text: 'Relatório de Conclusão'
+        },
+        scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true,
+                fontSize: 8,
+                max: 100,
+                min: 0,
+                stepSize: 25
+              }
+            }
+          ]
+        }
+      }
+      bar_chart data, options
+      %>
+  </div>
+
+  <div class="col s6 chart-container" style="position: relative;">
+    <%= chart_export_btn('#chartjs-courses-2', 'Sucesso') %>
+    <%=
+      data = {
+        labels: ["Aprovado", "Falhado"],
+        datasets: [
+          {
+            label: "Participantes",
+            backgroundColor: ["#92d992", "#e48686"],
+            data: [30, 60]
+          }
+        ]
+      }
+      options = {
+        id: 'chartjs-courses-2',
+        height: '180',
+        title: {
+          display: true,
+          text: 'Sucesso'
+        }
+      }
+      doughnut_chart data, options
+    %>
+  </div>
+
+
+
+</div>

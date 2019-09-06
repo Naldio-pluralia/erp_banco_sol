@@ -1,0 +1,16 @@
+<%= index_bar(itens: {view_t(".employee_skills") => employee_skills_url, view_t('.employee_skill') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_employee_skill_path(@employee_skill) ) if can?(:edit, @employee_skill) %>
+  <%= action_btn(content: view_t('update'), href: "#employee_skill-modal-form", modal_trigger: true) if can?(:edit, @employee_skill) %>
+<% end %>
+
+
+<%= show_item(".skill", @employee_skill.skill) %>
+
+
+<%= show_item(".employee", @employee_skill.employee) %>
+
+
+<%= show_item(".value", @employee_skill.value) %>
+
+
+<%= render 'form', employee_skill: @employee_skill %>

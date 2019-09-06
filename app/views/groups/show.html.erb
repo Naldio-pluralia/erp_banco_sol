@@ -1,0 +1,70 @@
+<%= index_bar(itens: {view_t(".groups") => groups_url, view_t('.group') => nil}) do %>
+  <%#= action_btn(content: view_t('update'), href: edit_group_path(@group) ) if can?(:edit, @group) %>
+  <%= action_btn(content: view_t('update'), href: "#group-modal-form", modal_trigger: true) if can?(:edit, @group) %>
+<% end %>
+
+
+<%= show_item(".group_type", view_t(@group.group_type)) %>
+<%= show_item(".status", view_t(@group.status)) %>
+
+<br>
+<% if @employees.present? %>
+  <%= l_table(class: :employees_table) do %>
+    <%= t_header do %>
+      <%= h_cell(text: "employee_name".ts)%>
+      <%= h_cell(text: "employee_number".ts)%>
+      <%= h_cell(text: "employee_paygrade_level".ts)%>
+      <%= h_cell(text: "employee_paygrade".ts)%>
+    <%end%>
+
+      <%= t_body(elements: @employees) do |e| %>
+        <%= b_row(link_to: employee_url(e)) do %>
+          <%= b_cell(element: "#{e.first_name} #{e.last_name}") %>
+          <%= b_cell(element: e.number) %>
+          <%= b_cell(element: e.latest_paygrade&.paygrade ) %>
+          <%= b_cell(element: e.latest_paygrade&.level ) %>
+        <% end %>
+      <% end %>
+    <% end %>
+<% end %>
+<br>
+
+<% if @functions.present? %>
+  <%= l_table do %>
+    <%= t_header do %>
+      <%= h_cell(text: "name".ts)%>
+      <%= h_cell(text: "Unidade Orgânica")%>
+    <%end%>
+
+    <%= t_body(elements: @functions) do |e|%>
+      <%= b_row(link_to: function_url(e)) do %>
+        <%= b_cell(element: e.name)%>
+        <%= b_cell(element: e.organic_unit&.name)%>
+      <%end%>
+    <%end%>
+  <%end%>
+<% end %>
+<br>
+
+<% if @positions.present? %>
+  <%= l_table do %>
+    <%= t_header do %>
+      <%= h_cell(text: "position_name".ts)%>
+      <%= h_cell(text: "position_holder".ts)%>
+      <%= h_cell(text: "Unidade Orgânica")%>
+      <%= h_cell(text: "supervisor".ts)%>
+    <%end%>
+
+    <%= t_body(elements: @positions) do |e|%>
+      <%= b_row(link_to: position_url(e)) do %>
+        <%= b_cell(element: e.name_and_number)%>
+        <%= b_cell(element: "#{e.efective&.number} - #{e.efective&.first_and_last_name || 'D'}")%>
+        <%= b_cell(element: e.organic_unit&.name || 'N/D')%>
+        <%= b_cell(element: e.position&.new_name_and_number || 'N/D')%>
+      <%end%>
+    <%end%>
+  <%end%>
+<% end %>
+
+
+<%= render 'form', group: @group %>

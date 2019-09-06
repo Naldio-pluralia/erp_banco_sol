@@ -1,0 +1,63 @@
+<%= index_bar(itens: {t(".date_types") => nil }) do %>
+  <%#= action_btn(content: t('add'), href: new_date_type_path) %>
+  <%= action_btn(content: t('add'), href: "#date_type-modal-form", modal_trigger: true) %>
+  <%#= action_btn(content: t('filter'), href: "#filter-date_types-modal", modal_trigger: true, color: :blue) %>
+<% end %>
+
+
+<%= l_table do %>
+  <%= t_header do %>
+    <%= h_cell(text: view_t(".date") )%>
+    <%= h_cell(text: view_t(".name") )%>
+    <%#= h_cell(text: view_t(".description") )%>
+    <%= h_cell(text: view_t(".kind") )%>
+    <%= h_cell(text: view_t(".recurrent") )%>
+    <%= h_cell(sortable: false) %>
+  <% end %>
+
+  <%= t_body(elements: @date_types.group_by{|d| l(d.date, format: '%B %Y')}) do |date, date_types| %>
+    <%= b_row() do %>
+      <%= b_cell(element: date, class: 'text-nova-bold', colspan: 4, style: 'font-size: 12px;')%>
+    <% end %>
+    <%date_types.each do |date_type|%>
+      <%= b_row(link_to: date_type_path(date_type)) do %>
+        <%= b_cell(element: l(date_type.date, format: '%d'))%>
+        <%= b_cell(element: date_type.name)%>
+        <%#= b_cell(element: date_type.description)%>
+        <%= b_cell(element: date_type.enum_t(:kind))%>
+        <%= b_cell(element: date_type.recurrent ? 'Recorrente' : nil)%>
+        <%= b_cell(text: "") do %>
+          <%= link_to t('destroy'), date_type, method: :delete, data: { confirm: t('are_you_sure') } %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+<%if false%>
+  <div id="calendar"></div>
+
+  <style>
+    table > thead{
+      color: #000;
+    }
+    .fc tbody .fc-row {
+      height: 190px!important;
+    }
+  </style>
+  <script>
+    $('#calendar').fullCalendar({
+      defaultView: 'month'
+    });
+  </script>
+<%end%>
+
+
+<%= filter_modal(date_types_url, "date_types") do %>
+    <div class="flex-row">
+      <div class="flex-col-xs-12 flex-col-sm-3">
+
+      </div>
+    </div>
+<% end %>
+
+<%= render 'form', date_type: @date_type %>

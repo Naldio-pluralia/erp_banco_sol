@@ -1,0 +1,123 @@
+<%= simple_form_for(salary_board, url: salary_boards_path, method: :post) do |f| %>
+  <div id="salary_board-modal-form" class="-modal -modal-fixed-footer">
+    <div class="-modal-content">
+      <span class="h5-size"> <%= salary_board.new_record? ? t('.new') : t('.edit') %> </span>
+      <hr>
+      <%= link_to t('add'), '#', id: :add %> | 
+      <%= link_to t('destroy'), '#', id: :remove,  class: 'red-text' %>
+      <table>
+        <thead>
+          <tr>
+            <th style='width: 20px;'><%= t '.paygrade'%></th>
+            <th style='width: 80px; text-align: right;'><%= t '.base_value'%></th>
+            <th style='width: 100px;'><%= t '.increment'%></th>
+            <th style='width: 100px; text-align: right;'><%= t '.a' %></th>
+            <th style='width: 100px; text-align: right;'><%= t '.b' %></th>
+            <th style='width: 100px; text-align: right;'><%= t '.c' %></th>
+            <th style='width: 100px; text-align: right;'><%= t '.d' %></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <%= f.simple_fields_for :salary_board_items do |ff| %>
+            <tr>
+              <td class="paygrade_number" style='width: 100px;'><%= ff.object.paygrade%></td>
+              <td class="paygrade_base_value" style='text-align: right;'><%= ff.object.kwanza_t(:base_value)%></td>
+              <td>
+                <%= ff.input :increment_value, label: false, input_html: {class: 'ms-input', style: ''}, wrapper_html: {style: 'margin-bottom: 0;'} %>
+              </td>
+              <td class="paygrade_a_value" style='text-align: right;'><%= ff.object.kwanza_t(:a_value)%></td>
+              <td class="paygrade_b_value" style='text-align: right;'><%= ff.object.kwanza_t(:b_value)%></td>
+              <td class="paygrade_c_value" style='text-align: right;'><%= ff.object.kwanza_t(:c_value)%></td>
+              <td class="paygrade_d_value" style='text-align: right;'><%= ff.object.kwanza_t(:d_value)%></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="row">
+        <%= f.input :status, collection: SalaryBoard.enums_map_t(:status), include_blank: false, wrapper_html: {class: 'col s2'}, input_html: {class: ''} %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.button :submit %>
+      <%= link_to t('cancel'), latest_salary_board_path, class: 'waves-effect waves-light btn btn-flat btn-cancel-form' %>
+    </div>
+  </div>
+<% end %>
+
+<script>
+
+  var base_salary = parseFloat("<%= RemunerationSetting.last&.base_salary || 0%>");
+
+  var moneyFormat = wNumb({
+    mark: ',',
+    thousand: '.',
+    prefix: '',
+    suffix: ' AKZ'
+  });
+
+  update_buttons();
+  set_values();
+
+  $('body').on('keyup change', '[id$=_increment_value]', function(){
+    set_values();
+  });
+
+  function set_values(){
+    var curr_value = base_salary;
+    var curr_paygrade = 0;
+    $('tbody tr').each(function(){
+      var row = $(this);
+      var increment = parseFloat(row.find('[id$=_increment_value]').last().val());
+      //base
+      curr_paygrade = curr_paygrade + 1;
+      row.find('.paygrade_number').html(curr_paygrade);
+      row.find('.paygrade_base_value').html(moneyFormat.to(curr_value));
+      curr_value = Math.round(curr_value + increment);
+      row.find('.paygrade_a_value').html(moneyFormat.to(curr_value));
+      curr_value = Math.round(curr_value + increment);
+      row.find('.paygrade_b_value').html(moneyFormat.to(curr_value));
+      curr_value = Math.round(curr_value + increment);
+      row.find('.paygrade_c_value').html(moneyFormat.to(curr_value));
+      curr_value = Math.round(curr_value + increment);
+      row.find('.paygrade_d_value').html(moneyFormat.to(curr_value));
+      curr_value = Math.round(curr_value + increment);
+    });
+  }
+
+  var paygrade_line = '<tr>' +
+                        '<td class="paygrade_number" style="width: 100px;">10</td>' +
+                        '<td class="paygrade_base_value" style="text-align: right;">0,00 AKZ</td>' +
+                        '<td>' +
+                          '<div style="margin-bottom: 0;" class="form-group decimal optional salary_board_salary_board_items_increment_value"><input class="form-control numeric decimal optional ms-input" style="" type="number" step="any" value="0.0" name="salary_board[salary_board_items_attributes][replace_with_number][increment_value]" id="salary_board_salary_board_items_attributes_replace_with_number_increment_value"></div>' +
+                        '</td>' +
+                        '<td class="paygrade_a_value" style="text-align: right;">0,00 AKZ</td>' +
+                        '<td class="paygrade_b_value" style="text-align: right;">0,00 AKZ</td>' +
+                        '<td class="paygrade_c_value" style="text-align: right;">0,00 AKZ</td>' +
+                        '<td class="paygrade_d_value" style="text-align: right;">0,00 AKZ</td>' +
+                      '</tr>' +
+
+  $('#add').click(function(){
+    $('tbody').append(paygrade_line.replace(/replace_with_number/g, $('tbody tr').length + 1));
+    if($('tbody tr').length > 1){
+      $('#remove').css({display: 'inline'});
+    }
+    update_buttons();
+    set_values();
+  });
+  
+  $('#remove').click(function(){
+    $('tbody tr').last().remove();
+    if($('tbody tr').length == 1){
+      $(this).css({display: 'none'});
+    }
+    update_buttons();
+  });
+
+  function update_buttons(){
+    $('#add').html('Adicionar nível ' + ($('tbody tr').length + 1));
+    $('#remove').html('Remover nível ' + $('tbody tr').length);
+  }
+
+</script>

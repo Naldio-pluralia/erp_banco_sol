@@ -1,0 +1,19 @@
+<div class="exam_form">
+  <%= simple_form_for(exam) do |f| %>
+    <%= form_url_helpers(f)%>
+    <div id="exam-modal-form" class="-modal modal-fixed-footer">
+      <div class="-modal-content">
+        <hr>
+
+        <div class="flex-row flex-top">
+          <div class="flex-col-xs-12" style="text-align: right;">
+            <%= f.button :submit %>
+          </div>
+          <%= f.input :chapter_id, as: :hidden, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+          <%= f.input :expected_value, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+</div>

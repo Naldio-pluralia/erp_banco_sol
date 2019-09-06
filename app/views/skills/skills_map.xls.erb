@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+
+  <%= render 'layouts/excel_styles'%>
+  <Worksheet ss:Name="<%=t('departments')%>">
+    <Table>
+      <Column ss:Width="200"/>
+      <Column ss:Span="1" ss:Width="200"/>
+
+      <Row ss:StyleID="bold">
+        <Cell><Data ss:Type="String"><%=t('assessment.map')%></Data></Cell>
+        <Cell><Data ss:Type="String"></Data></Cell>
+        <Cell><Data ss:Type="String"></Data></Cell>
+      </Row>
+
+      <Row ss:StyleID="bold">
+        <Cell ss:StyleID="my_header"><Data ss:Type="String"><%=t('employee_number')%></Data></Cell>
+        <Cell ss:StyleID="my_header"><Data ss:Type="String"><%=t('employee_name')%></Data></Cell>
+        <Cell ss:StyleID="my_header"><Data ss:Type="String"><%=t('employee_paygrade')%></Data></Cell>
+        <Cell ss:StyleID="my_header"><Data ss:Type="String"><%= 'Posição - Unidade Orgânica' %></Data></Cell>
+
+        <Cell ss:StyleID="my_header"><Data ss:Type="String"><%=t('short.self_assessment')%></Data></Cell>
+        <Cell ss:StyleID="my_header"><Data ss:Type="String"><%=t('short.supervisor_assessment')%></Data></Cell>
+        <Cell ss:StyleID="my_header"><Data ss:Type="String"><%=t('short.final_assessment')%></Data></Cell>
+      </Row>
+      <% @employee_skills.each do |e| %>
+        <Row>
+
+          <Cell ss:StyleID="<%= :even %>"><Data ss:Type="String"><%= e[0][:number] %></Data></Cell>
+          <Cell ss:StyleID="<%= :even %>"><Data ss:Type="String"><%= e[0][:first_and_last_name] %></Data></Cell>
+          <Cell ss:StyleID="<%= :even %>"><Data ss:Type="String"><%= e[0][:paygrade]%></Data></Cell>
+          <Cell ss:StyleID="<%= :even %>"><Data ss:Type="String"><%= e[0][:establishment]%></Data></Cell>
+
+          <Cell ss:StyleID="<%= :even %>"><Data ss:Type="String"><%= e[0][:self_assessment]%></Data></Cell>
+          <Cell ss:StyleID="<%= :even %>"><Data ss:Type="String"><%= e[0][:supervisor_assessment]%></Data></Cell>
+          <Cell ss:StyleID="<%= :even %>"><Data ss:Type="String"><%= e[0][:final_assessment]%></Data></Cell>
+
+        </Row>
+      <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

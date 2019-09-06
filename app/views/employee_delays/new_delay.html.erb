@@ -1,0 +1,16 @@
+<%= div(class: 'new_delay') do %>
+  <%= simple_form_for([@employee, @employee_delay], url: employee_create_delay_url, html: {remote: true, retabulate: '#presence-map'}) do |f| %>
+    <%= form_url_helpers(f)%>
+    <div class="flex-row flex-top">
+      <%= div(class: 'flex-col-xs-12', style: 'text-align: right;') do%>
+        <%= f.button :submit %>
+      <%end%>
+      <%= f.association :absence_type, label: 'Tipo de Atrasos', collection: AbsenceType.latests.map_for_select(:name), include_blank: false, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {class: ''} %>
+      <%= f.input :arrived_at, as: :flatpickr, wrapper_html: {class: 'flex-col-xs-6'}, input_html: {class: "flatpickr_datetime", 'data-enable-time': 'true', 'data-date-format': "Y-m-d H:i"} %>
+      <%last_regime = @employee.employee_regimes.order(created_at: :asc).last%>
+      <%if last_regime.present? && !last_regime.five_two? && !last_regime.six_one?%>
+        <%= f.input :number_of_hours_late, wrapper_html: {class: 'flex-col-xs-4'}, input_html: {class: ''} %>
+      <%end%>
+    </div>
+  <% end %>
+<%end%>

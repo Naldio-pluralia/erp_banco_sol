@@ -1,0 +1,61 @@
+<div class="show_header">
+  <%= render 'show_header', employee_goal: @employee_goal %>
+</div>
+
+<% if @employee_goal.numeric? %>
+  <hr>
+  <div class="results_area">
+    <span style="color: #838c91;"><%= t('employee_goal_results') %> </span>
+
+    <div class="flex-row results no-margin">
+      <%= render "results", results: @employee_goal.results%>
+    </div>
+
+    <%if current.employee&.id.eql?(@employee_goal.employee_id)%>
+      <div class="add-results">
+        <br>
+        <div class='add_result_text btn'><%= view_t('.add_results') %>...</div>
+        <div class='add_result_form hide' style="margin-top: 29px;"><%= render "nextsgad/results/form", result: @result%></div>
+      </div>
+    <% end %>
+  </div>
+  
+<% end %>
+<hr>
+<div class="activities_area">
+  <span style="color: #838c91;"><%= view_t('.add_x', x: 'comentarios') %> </span>
+
+  <div class="activity_form">
+    <%= render "nextsgad/employee_goal_activities/form", employee_goal_activity: EmployeeGoalActivity.new(employee_goal_id: @employee_goal.id)%>
+  </div>
+  <br>
+  <span style="color: #838c91;"><%= view_t('.activities') %> </span>
+  <div class="flex-row employee_goal_activities no-margin">
+    <%= render "employee_goal_activities", employee_goal_activities: @employee_goal.employee_goal_activities.includes(:creator).order(created_at: :desc)%>
+  </div>
+</div>
+
+<style>
+  
+
+  #application_modal{
+    top: 3%!important;
+    min-height: 94vh!important;
+    width: 60%!important;
+  }
+
+  .results>div>div:hover{
+    /*background: #d6dadc;*/
+    /*color: #4d4d4d;*/
+    /*border-radius: 3px;*/
+  }
+  .results>div>div{
+    border-bottom: 1px solid #e2e4e6;
+    padding-top: 8px;
+  }
+
+</style>
+<script>
+  
+
+</script>

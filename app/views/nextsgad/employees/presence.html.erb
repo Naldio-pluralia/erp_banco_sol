@@ -1,0 +1,165 @@
+<% data = Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i) %>
+
+<% absence = @employee.employee_absences.select{|f| f.left_at <= data && f.returned_at > data }.last %>
+<% delay = @employee.employee_delays.select{|f| f.arrived_at.to_date == data}.last %>
+<% employee_exit = @employee.employee_exits.select{|f| f.date.to_date == data}.last %>
+<% vacation = @employee.employee_vacations.select{|f| f.left_at <= data && f.returned_at > data }.last %>
+<% presence = @employee.employee_presences.find_by(date: data) %>
+<% justification = absence&.employee_justification || delay&.employee_justification || employee_exit&.employee_justification %>
+<div class="presence" employee="<%= @employee.id%>" day="<%= data.day%>" month="<%= data.month%>" year="<%= data.year %>">
+  <%= content_tag(:h6, @employee.name) %>
+  <%
+    previous_day = curr_date - 1.day
+    next_day = curr_date + 1.day
+    div(style: 'padding-left: 0; text-align: center;') do
+      link_to("#{l(previous_day, format: '<i class="material-icons" style="vertical-align: middle;">arrow_backwards_ios</i> %d de %B %Y')} ".html_safe, employee_attendance_url(day: previous_day.day, month: previous_day.month, year: previous_day.year, format: :js), remote: true, style: 'padding-right: 20px;') +
+      l(curr_date, format: "Presença de %d de %B %Y") +
+      link_to(" #{l(next_day, format: '%d de %B %Y <i class="material-icons" style="vertical-align: middle;">arrow_forwards_ios</i>')}".html_safe, employee_attendance_url(day: next_day.day, month: next_day.month, year: next_day.year, format: :js), remote: true, style: 'padding-left: 20px;')
+    end
+  %>
+  <hr>
+  <div class="flex-row">
+    <div class="flex-col-xs-12">
+      <% if absence.present? %>
+        <% f = absence %>
+        <%= content_tag(:h6, f.absence_type.name) %>
+        <%= show_item("Saiu aos", l(f.left_at, format: :long)) %>
+        <%= show_item("Regressou aos", l(f.returned_at, format: :long)) %>
+        <%= show_item("Nº de dias ausente", f.absent_days_number) %>
+        <%= link_to("Remover Falta", employee_mark_employee_presence_url(f.employee_id, f.id, render_view: 'nextsgad/employees/presence', day: params[:day], month: params[:month], year: params[:year], layout_type: :no_layout, format: :html), method: :patch, remote: true, class: 'btn reload-panel', retabulate: '#presence-map') if can?(:mark_employee_presence, f)%>
+        <hr>
+
+      <%elsif delay.present? %>
+        <% f = delay %>
+        <%= content_tag(:h6, f.absence_type.name) %>
+        <%= show_item("Chegou às", l(f.arrived_at, format: "%H:%M no dia %d de %B de %Y")) %>
+        <%= show_item("Nº de horas ausente", f.number_of_hours_late) %>
+        <hr>
+
+      <%elsif employee_exit.present? %>
+        <% f = employee_exit %>
+        <%= content_tag(:h6, "#{f.absence_type.name} (#{f.enum_t(:kind)})") %>
+        <%= show_item("Saiu entre", "#{l(f.left_at, format: "%H:%M")} às #{l(f.returned_at, format: "%H:%M")} de #{l(f.date, format: :long)}") %>
+        <%= show_item("Nº de horas ausente", f.number_of_hours_absent) %>
+        <hr>
+
+      <%elsif vacation.present? %>
+        <% f = vacation %>
+        <%= content_tag(:h6, "Férias") %>
+        <%= show_item("Saída", l(f.left_at, format: :long)) %>
+        <%= show_item("Regresso", l(f.returned_at, format: :long)) %>
+        <%= show_item("Nº de dias ausente", f.number_of_days) %>
+        <p><strong>Respostas</strong>:</p>
+        <div class="flex-row">
+          <%f.employee_vacation_responses.order(kind: :asc).each do |response|%>
+            <div class="flex-col-xs-12" style="padding-left: 0;">
+              <%if can?(:update, response)%>
+                (<%= response.enum_t(:kind)%>) (<%=response.employee&.name || 'N/D'%>) <%= editable response, :status, mode: :popup, type: :select, source: EmployeeVacationResponse.editable_enums_map_t(:status)%>
+              <%else%>
+                (<%= response.enum_t(:kind)%>) (<%=response.employee&.name || 'N/D'%>) <%= response.enum_t(:status)%>
+              <%end%>
+            </div>
+          <%end%>
+        </div>
+        <hr>
+
+
+      <%elsif presence.present? %>
+        <% f = presence %>
+        <%= content_tag(:h6, "Presença #{f.enum_t(:status)}") %>
+        <%= link_to("Confirmar Presença", employee_confirm_employee_presence_url(f.employee_id, f.id, render_view: 'nextsgad/employees/presence', day: params[:day], month: params[:month], year: params[:year], layout_type: :no_layout, format: :html), method: :patch, remote: true, class: 'btn reload-panel', retabulate: '#presence-map') if can?(:confirm_employee_presence, f)%>
+        <hr>
+      <%end%>
+    </div>
+    <div class="flex-col-xs-12">
+      <% if justification.present? %>
+        <%= content_tag(:h6, "Justificativo") %>
+        <p><strong><%=view_t('attachments')%></strong>: <%= display_attachments(justification.attachments) %></p>
+
+        <% if current.employee&.id == justification.employee_id%>
+          <%#= editable [employee, j], :employee_note, type: :text%>
+          <%= show_item(".employee_note", justification.employee_note) %>
+          <%= show_item(".supervisor_note", justification.supervisor_note) %>
+
+        <%elsif current.team_members.include?(justification.employee)%>
+          <%= show_item(".employee_note", justification.employee_note) %>
+          <%= show_item(".supervisor_note", justification.supervisor_note) %>
+          <%#= editable [employee, j], :supervisor_note, type: :text%>
+
+        <%else%>
+          <%= show_item(".supervisor_note", justification.supervisor_note) %>
+          <%= show_item(".employee_note", justification.employee_note) %>
+        <%end%>
+        <%answers = justification.justification_answers%>
+        <p><strong>Respostas</strong>:</p>
+        <div class="flex-row">
+          <%answers.each do |answer|%>
+            <div class="flex-col-xs-12" style="padding-left: 0;">
+              <%if can?(:update, answer)%>
+                (<%= answer.enum_t(:kind)%>) (<%=answer.employee&.name || 'N/D'%>) <%= editable answer, :status, mode: :popup, type: :select, source: JustificationAnswer.editable_enums_map_t(:status)%>
+              <%else%>
+                (<%= answer.enum_t(:kind)%>) (<%=answer.employee&.name || 'N/D'%>) <%= answer.enum_t(:status)%>
+              <%end%>
+            </div>
+          <%end%>
+        </div>
+
+        <%= render 'form', employee_justification: justification, employee: @employee %>
+        <%# justification_answer = JustificationAnswer.new(employee_id: current.employee&.id, employee_justification_id: f.id) %>
+        <%#= render 'justification_answers/form', employee: @employee, employee_justification: f, justification_answer: justification_answer %>
+
+
+        <% missing_justifications = justification.justifications_avaliable_for_employee(current) %>
+
+        <% if missing_justifications.size > 0 %>
+          <% items = {} %>
+          <% missing_justifications.each do |r| %>
+            <%items[r] = {name: t(r), items: {}}%>
+            <% JustificationAnswer.statuses.keys.each do |status| %>
+              <% next if status.to_s.to_sym == :pending %>
+              <%items[r][:items]["#{r}-#{status}"] = {name: t(status), url: employee_add_answer_url(@employee, justification, r, status, format: :js)}%>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <% missing_justifications = justification.justifications_avaliable_for_employee(current) %>
+        <%if missing_justifications.size > 0%>
+          <script>
+            $(function(){
+              $('.context-menu-one').on('click', function(e) {
+                e.preventDefault();
+                $('.context-menu-one').contextMenu();
+                //$('.context-menu-one').trigger("contextmenu");
+                // or $('.context-menu-one').contextMenu({x: 100, y: 100});
+              });
+
+              $.contextMenu({
+                  selector: '.context-menu-one',
+                  callback: function(key, options) {
+                    url = "<%= employee_add_answer_url(@employee, justification, ':kind', ':status', format: :js) %>";
+                    url = url.replace(':kind', key.split('-')[0]);
+                    url = url.replace(':status', key.split('-')[1]);
+                    $.ajax({
+                      url: url,
+                      method: 'patch'
+                    });
+                  },
+                  items: <%=items.to_json.to_s.html_safe%>
+              });
+              $('.context-menu-item:not(.context-menu-submenu)').on('click', function(e){
+
+              });
+
+            });
+          </script>
+        <%end%>
+        <hr>
+      <%end%>
+    </div>
+  </div>
+  <div class="row">
+    <%= render 'object_activities/object_activities', object: f %>
+    <div class="">
+    </div>
+  </div>
+</div>

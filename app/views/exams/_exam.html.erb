@@ -1,0 +1,46 @@
+<%course = exam.course%>
+<%can_edit = course.draft? %>
+
+<div class="course_box" style="min-height: 444px; padding: 20px; position: relative;">
+  <div class="chapter_exam">
+    <div class="row" style="padding-top: 20px;">
+      <div class="col s6 no-padding">
+        <strong style="font-size: 15px;">Exame do Cap. <%= exam.chapter.number %></strong>
+      </div>
+      <div class="col s6" style="text-align: right;">
+      </div>
+    </div>
+    <%exam.questions.order(:number).each do |question|%>
+      <thead>
+        <tr>
+          <th> <%= question.number %>.<%= question.description  %></th>
+          (<small><%= question.enum_t(:kind) %></small>)
+          <th class="right">
+            <% unless question.short_answer? %>
+              <%= question.value %> <%= question.value == 1 ? 'Valor' : 'Valores' %>
+            <% end %>
+          </th>
+        </tr>
+        <hr>
+
+        <%question.question_options.each do |option|%>
+          <div style="padding-left: 30px">
+            <tr>
+              <th> <%= option.option %></th>
+              <th class="right"></th>
+            </tr>
+            <br>
+          </div>
+        <%end%>
+        <br>
+      </thead>
+    <%end%>
+  </div>
+</div>
+
+<style>
+
+.editable.editable-click {
+    font-size: 14px;
+}
+</style>

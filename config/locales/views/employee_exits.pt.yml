@@ -1,0 +1,13 @@
+#Simple form
+pt:
+  employee_exits:
+    defaults:
+      employee_exit: 'Saída'
+      employee_exit: 'Saídas'
+      employee: 'Colaborador'
+      absence_type: 'Tipos de Ausência'
+      kind: 'Tipo Saída'
+      date: 'Data'
+      from: 'Hora de Saída'
+      to: 'Hora de Regresso'
+      hours: 'Nº de Horas de Ausência'

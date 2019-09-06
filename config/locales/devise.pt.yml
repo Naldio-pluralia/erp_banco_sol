@@ -1,0 +1,22 @@
+pt:
+  devise:
+    registrations:
+      edit:
+        update: "Actualizar"
+        back: "Cancelar"
+    sessions:
+      forgot_your_password: "Esqueceu a senha?"
+    failure:
+      admin:
+        not_found_in_database: 'Usuário não Encontrado'
+        invalid: 'Inválido'
+      user:
+        not_found_in_database: 'Usuário não Encontrado'
+        invalid: 'Inválido'
+
+  hi: 'Olá %{resource}!'
+  someone_requested_a_link_to_change_password: 'Alguém requisitou a restauração da senha pode fazer isso atraves do link em baixo'
+  chang_password: 'Mudar senha'
+  ignore_this_email_if_you_did_not_request_this: 'Por favor ignore este email se não pediu isso'
+  your_password_wont_change_until_you_clik_on_the_link: 'A senha não mudará até que cliques no link'
+  password_reset: 'Nova Senha'
