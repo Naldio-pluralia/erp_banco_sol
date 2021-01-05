@@ -5,7 +5,7 @@
     "@icon/micon": "^2.2.3",
     "@rails/webpacker": "3.5",
     "add": "^2.0.6",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "filepond": "^1.2.11",
     "flatpickr": "^4.5.0",
     "font-proxima-nova": "^1.0.1",
